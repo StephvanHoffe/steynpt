@@ -11,7 +11,9 @@ const sections = [
     title: "Welke gegevens verwerken we?",
     body: [
       "Contactaanvragen: je naam, e-mailadres, (optioneel) telefoonnummer, je interesse en je bericht.",
-      "Account: je naam, e-mailadres, telefoonnummer, doel, gekozen pakket, puntensaldo en uitnodigingen.",
+      "Account: je naam, e-mailadres, telefoonnummer, doel, gekozen pakket en wie je hebt uitgenodigd (vriendenactie).",
+      "Afspraken: type, datum, tijd, locatie en je eventuele opmerking. Steyn zet deze afspraken via een beveiligde, geheime link in zijn eigen agenda (bijvoorbeeld Google of Apple Agenda).",
+      "Metingen: gewicht, vetpercentage, spiermassa en omtrekmaten die Steyn met je bijhoudt. Dit zijn gezondheidsgegevens; je ziet ze zelf in Mijn omgeving.",
       "Check-ins: je wekelijkse scores voor energie, slaap en voeding, aantal trainingen, eventueel je gewicht en opmerkingen. Dit zijn gezondheidsgegevens; we verwerken ze alleen met jouw uitdrukkelijke toestemming en uitsluitend voor je coaching.",
       "Intake: je doel, geslacht, geboortejaar, lengte, gewicht, activiteit, trainingservaring en -wensen, blessures, eetstijl, allergieën en eventuele medische aandachtspunten. Ook dit zijn gezondheidsgegevens; we gebruiken ze alleen met jouw uitdrukkelijke toestemming en alleen om je trainings- en voedingsschema te maken.",
     ],
@@ -27,7 +29,7 @@ const sections = [
   {
     title: "Waarom?",
     body: [
-      "Om contact met je op te nemen, je coaching te verzorgen, je voortgang te volgen en het Rewards-programma uit te voeren. Nieuwsbrieven en acties ontvang je alleen als je daar zelf voor kiest.",
+      "Om contact met je op te nemen, afspraken te plannen, je coaching te verzorgen, je voortgang te volgen en de vriendenactie uit te voeren. Nieuwsbrieven en acties ontvang je alleen als je daar zelf voor kiest.",
     ],
   },
   {

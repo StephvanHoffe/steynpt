@@ -82,7 +82,7 @@ function AddButton({ onClick, children }: { onClick: () => void; children: React
 
 function RemoveButton({ onClick, label }: { onClick: () => void; label: string }) {
   return (
-    <button type="button" onClick={onClick} aria-label={label} title={label} className="grid size-10 shrink-0 place-items-center rounded-lg text-muted transition-colors hover:bg-blush hover:text-rose">
+    <button type="button" onClick={onClick} aria-label={label} title={label} className="grid size-10 shrink-0 place-items-center rounded-lg text-muted transition-colors hover:bg-accent-tint hover:text-accent">
       <Trash2 className="size-4" aria-hidden="true" />
     </button>
   );
@@ -100,7 +100,7 @@ function TrainingFields({ plan, set }: { plan: TrainingPlan; set: (p: TrainingPl
 
       {plan.days.map((day, i) => (
         <fieldset key={i} className="rounded-xl border border-line bg-white p-4 sm:p-5">
-          <legend className="px-1 text-sm font-semibold text-rose">Trainingsdag {i + 1}</legend>
+          <legend className="px-1 text-sm font-semibold text-accent">Trainingsdag {i + 1}</legend>
           <div className="grid gap-4">
             <div className="flex items-end gap-2">
               <div className="grid flex-1 gap-4 sm:grid-cols-2">
@@ -156,7 +156,7 @@ function NutritionFields({ plan, set }: { plan: NutritionPlan; set: (p: Nutritio
       <Area label="Toelichting voor de klant" value={plan.summary} onChange={(summary) => set({ ...plan, summary })} rows={4} />
 
       <fieldset className="rounded-xl border border-line bg-white p-4 sm:p-5">
-        <legend className="px-1 text-sm font-semibold text-rose">Richtwaarden per dag</legend>
+        <legend className="px-1 text-sm font-semibold text-accent">Richtwaarden per dag</legend>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
           <NumberInput label="Energie" suffix="kcal" value={t.calories} onChange={(calories) => setTargets({ calories })} />
           <NumberInput label="Eiwit" suffix="g" value={t.protein} onChange={(protein) => setTargets({ protein })} />
@@ -173,7 +173,7 @@ function NutritionFields({ plan, set }: { plan: NutritionPlan; set: (p: Nutritio
 
       {plan.meals.map((meal, i) => (
         <fieldset key={i} className="rounded-xl border border-line bg-white p-4 sm:p-5">
-          <legend className="px-1 text-sm font-semibold text-rose">Eetmoment {i + 1}</legend>
+          <legend className="px-1 text-sm font-semibold text-accent">Eetmoment {i + 1}</legend>
           <div className="grid gap-4">
             <div className="flex items-end gap-2">
               <div className="grid flex-1 gap-4 sm:grid-cols-2">
@@ -272,7 +272,7 @@ export function PlanEditor({
         </div>
       )}
 
-      <div className="flex gap-1 rounded-full bg-sand p-1 text-sm font-semibold" role="tablist" aria-label="Weergave">
+      <div className="flex gap-1 rounded-full bg-surface p-1 text-sm font-semibold" role="tablist" aria-label="Weergave">
         {(
           [
             ["bewerken", "Bewerken", Pencil],
@@ -299,7 +299,7 @@ export function PlanEditor({
           <NutritionFields plan={plan} set={setPlan} />
         )
       ) : (
-        <div className="rounded-[1.25rem] border border-line bg-paper p-5 sm:p-8">
+        <div className="rounded-xl border border-line bg-paper p-5 sm:p-8">
           {"days" in plan ? <TrainingPlanView plan={plan} /> : <NutritionPlanView plan={plan} />}
         </div>
       )}

@@ -15,6 +15,13 @@
       "when": 1790839033738,
       "tag": "0001_schemas",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1790842891909,
+      "tag": "0002_agenda_voortgang_vriendenactie",
+      "breakpoints": true
     }
   ]
 }

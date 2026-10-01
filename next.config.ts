@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       { source: "/over-steynpt", destination: "/over-steyn", permanent: true },
       { source: "/vraag-een-gratis-kennismaking-aan", destination: "/contact", permanent: true },
       { source: "/kennismaking", destination: "/contact", permanent: true },
+      { source: "/rewards", destination: "/vriend-uitnodigen", permanent: true },
       { source: "/feed", destination: "/", permanent: true },
     ];
   },

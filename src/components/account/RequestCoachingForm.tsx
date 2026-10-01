@@ -16,7 +16,7 @@ export function RequestCoachingForm({ currentPlan }: { currentPlan?: string | nu
         {ONLINE_PLANS.map((plan) => (
           <label
             key={plan.id}
-            className="flex cursor-pointer flex-col rounded-xl border-[1.5px] border-line bg-white p-4 transition-colors has-[:checked]:border-ink has-[:checked]:bg-blush"
+            className="flex cursor-pointer flex-col rounded-xl border-[1.5px] border-line bg-white p-4 transition-colors has-[:checked]:border-ink has-[:checked]:bg-surface"
           >
             <input type="radio" name="plan" value={plan.id} defaultChecked={(currentPlan ?? "online-pro") === plan.id} className="sr-only" />
             <span className="font-semibold">{plan.name}</span>

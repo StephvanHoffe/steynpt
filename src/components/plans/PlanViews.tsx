@@ -9,17 +9,17 @@ export function TrainingPlanView({ plan }: { plan: TrainingPlan }) {
       <header>
         <h2 className="display text-3xl sm:text-4xl">{plan.title}</h2>
         <p className="mt-2 flex flex-wrap gap-2 text-sm">
-          <span className="rounded-full bg-blush px-3 py-1 font-semibold">{plan.days.length}× per week</span>
-          <span className="rounded-full bg-blush px-3 py-1 font-semibold">{plan.durationWeeks} weken</span>
+          <span className="rounded-full bg-accent-tint px-3 py-1 font-semibold">{plan.days.length}× per week</span>
+          <span className="rounded-full bg-accent-tint px-3 py-1 font-semibold">{plan.durationWeeks} weken</span>
         </p>
         {plan.summary && <p className="mt-4 whitespace-pre-line leading-relaxed text-ink/85">{plan.summary}</p>}
       </header>
 
       {plan.days.map((day, i) => (
         <section key={i} className="card break-inside-avoid overflow-hidden">
-          <div className="border-b border-line bg-blush/60 px-5 py-4">
+          <div className="border-b border-line bg-surface px-5 py-4">
             <h3 className="flex items-center gap-2 text-lg font-semibold">
-              <Dumbbell className="size-5 text-rose" aria-hidden="true" /> {day.name}
+              <Dumbbell className="size-5 text-accent" aria-hidden="true" /> {day.name}
             </h3>
             {day.focus && <p className="mt-0.5 text-sm text-muted">{day.focus}</p>}
           </div>
@@ -29,7 +29,7 @@ export function TrainingPlanView({ plan }: { plan: TrainingPlan }) {
                 <strong>Warming-up:</strong> {day.warmup}
               </p>
             )}
-            <div className="overflow-x-auto">
+            <div className="relative overflow-x-auto">
               <table className="w-full min-w-[520px] text-left text-sm">
                 <thead className="text-xs uppercase tracking-wider text-muted">
                   <tr className="border-b border-line">
@@ -65,7 +65,7 @@ export function TrainingPlanView({ plan }: { plan: TrainingPlan }) {
       {plan.progression && (
         <section className="card break-inside-avoid p-5">
           <h3 className="flex items-center gap-2 font-semibold">
-            <TrendingUp className="size-5 text-rose" aria-hidden="true" /> Progressie
+            <TrendingUp className="size-5 text-accent" aria-hidden="true" /> Progressie
           </h3>
           <p className="mt-2 whitespace-pre-line text-sm leading-relaxed">{plan.progression}</p>
         </section>
@@ -92,7 +92,7 @@ export function NutritionPlanView({ plan }: { plan: NutritionPlan }) {
 
       <dl className="grid grid-cols-2 gap-3 sm:grid-cols-5">
         {targets.map((t) => (
-          <div key={t.label} className="rounded-xl bg-blush p-4">
+          <div key={t.label} className="rounded-xl bg-accent-tint p-4">
             <dt className="text-xs text-muted">{t.label} per dag</dt>
             <dd className="mt-1 font-semibold">{t.value}</dd>
           </div>
@@ -100,8 +100,8 @@ export function NutritionPlanView({ plan }: { plan: NutritionPlan }) {
       </dl>
 
       {plan.avoid.length > 0 && (
-        <section className="flex gap-3 rounded-xl border border-rose/30 bg-white p-5 break-inside-avoid">
-          <Ban className="size-5 shrink-0 text-rose" aria-hidden="true" />
+        <section className="flex gap-3 rounded-xl border border-accent/30 bg-white p-5 break-inside-avoid">
+          <Ban className="size-5 shrink-0 text-accent" aria-hidden="true" />
           <div>
             <h3 className="font-semibold">Vermijden</h3>
             <ul className="mt-1 list-disc pl-5 text-sm">
@@ -115,9 +115,9 @@ export function NutritionPlanView({ plan }: { plan: NutritionPlan }) {
 
       {plan.meals.map((meal, i) => (
         <section key={i} className="card break-inside-avoid overflow-hidden">
-          <div className="flex items-center justify-between gap-3 border-b border-line bg-blush/60 px-5 py-4">
+          <div className="flex items-center justify-between gap-3 border-b border-line bg-surface px-5 py-4">
             <h3 className="flex items-center gap-2 text-lg font-semibold">
-              <Utensils className="size-5 text-rose" aria-hidden="true" /> {meal.name}
+              <Utensils className="size-5 text-accent" aria-hidden="true" /> {meal.name}
             </h3>
             {meal.time && (
               <span className="flex items-center gap-1.5 text-sm text-muted">
@@ -130,7 +130,7 @@ export function NutritionPlanView({ plan }: { plan: NutritionPlan }) {
               <li key={j} className="flex flex-col gap-1 px-5 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
                 <div>
                   <p className="font-semibold">
-                    {meal.options.length > 1 && <span className="mr-2 text-xs font-bold uppercase tracking-wider text-rose">Optie {j + 1}</span>}
+                    {meal.options.length > 1 && <span className="mr-2 text-xs font-bold uppercase tracking-wider text-accent">Optie {j + 1}</span>}
                     {option.title}
                   </p>
                   <p className="mt-1 text-sm text-muted">{option.ingredients}</p>
@@ -153,7 +153,7 @@ function TipList({ tips }: { tips: string[] }) {
   return (
     <section className="card break-inside-avoid p-5">
       <h3 className="flex items-center gap-2 font-semibold">
-        <Lightbulb className="size-5 text-rose" aria-hidden="true" /> Tips
+        <Lightbulb className="size-5 text-accent" aria-hidden="true" /> Tips
       </h3>
       <ul className="mt-2 list-disc space-y-1 pl-5 text-sm">
         {tips.map((tip, i) => (

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { NAV } from "@/lib/site";
 import { Logo } from "./Logo";
 
-export function SiteHeader({ announcement }: { announcement?: string }) {
+export function SiteHeader({ announcement }: { announcement: { text: string; href: string } | null }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -26,15 +26,15 @@ export function SiteHeader({ announcement }: { announcement?: string }) {
     <header className="sticky top-0 z-50 print:hidden">
       {announcement && (
         <Link
-          href="/online-coaching"
-          className="group block bg-petal px-4 py-2 text-center text-[13px] font-semibold text-ink"
+          href={announcement.href}
+          className="group block bg-ink px-4 py-2 text-center text-[13px] font-medium text-white"
         >
-          <span className="mr-2 rounded-full bg-rose px-2 py-0.5 text-[11px] uppercase tracking-wider text-white">Nieuw</span>
-          {announcement}
+          <span className="mr-2 rounded bg-accent px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-white">Nieuw</span>
+          {announcement.text}
           <ArrowRight className="ml-1 inline size-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
         </Link>
       )}
-      <div className="border-b border-line bg-paper/95 text-ink backdrop-blur">
+      <div className="border-b border-line bg-white text-ink">
         <div className="container-site flex h-[72px] items-center justify-between gap-6">
           <Link href="/" className="shrink-0" aria-label="SteynPT home">
             <Logo className="h-11 w-auto" priority />
@@ -54,8 +54,8 @@ export function SiteHeader({ announcement }: { announcement?: string }) {
                       }`}
                     >
                       {item.label}
-                      {item.highlight && <span className="absolute right-1 top-1.5 size-1.5 rounded-full bg-rose" />}
-                      {active && <span className="absolute inset-x-3 -bottom-0.5 h-0.5 rounded bg-rose" />}
+                      {item.highlight && <span className="absolute right-1 top-1.5 size-1.5 rounded-full bg-ink" />}
+                      {active && <span className="absolute inset-x-3 -bottom-0.5 h-0.5 rounded bg-ink" />}
                     </Link>
                   </li>
                 );
@@ -116,9 +116,9 @@ export function SiteHeader({ announcement }: { announcement?: string }) {
               {[...NAV, { href: "/contact", label: "Contact" }].map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="flex items-center justify-between py-4">
-                    <span className="display text-3xl">{item.label}</span>
+                    <span className="display text-2xl">{item.label}</span>
                     {item.highlight ? (
-                      <span className="rounded-full bg-petal px-2 py-0.5 text-xs font-semibold text-ink">Nieuw</span>
+                      <span className="rounded bg-accent px-1.5 py-0.5 text-xs font-semibold text-white">Nieuw</span>
                     ) : (
                       <ArrowRight className="size-5 text-ink/40" aria-hidden="true" />
                     )}

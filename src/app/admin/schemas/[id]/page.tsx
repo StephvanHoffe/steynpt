@@ -52,7 +52,7 @@ export default async function PlanReviewPage({ params }: PageProps<"/admin/schem
       <div className="mt-3 flex flex-wrap items-center gap-3">
         <h1 className="display display-md">{PLAN_TYPE_LABEL[plan.type]}</h1>
         <span className={`rounded-full px-3 py-1 text-xs font-semibold ${status.tone}`}>{status.label}</span>
-        {edited && <span className="rounded-full bg-sand px-3 py-1 text-xs font-semibold">Aangepast door Steyn</span>}
+        {edited && <span className="rounded-full bg-surface px-3 py-1 text-xs font-semibold">Aangepast door Steyn</span>}
       </div>
       <p className="mt-2 text-sm text-muted">
         Versie #{plan.id} · {plan.source === "ai" ? `AI-concept (${plan.model ?? "AI"})` : "handmatig"} · gemaakt {dateFmt.format(plan.createdAt)}
@@ -63,15 +63,15 @@ export default async function PlanReviewPage({ params }: PageProps<"/admin/schem
       <div className="mt-8 grid gap-8 xl:grid-cols-[1fr_24rem]">
         <div className="grid content-start gap-6">
           {intakeChanged && (
-            <p className="flex gap-2 rounded-xl border border-rose/30 bg-blush p-4 text-sm">
-              <AlertTriangle className="size-5 shrink-0 text-rose" aria-hidden="true" />
+            <p className="flex gap-2 rounded-xl border border-accent/30 bg-accent-tint p-4 text-sm">
+              <AlertTriangle className="size-5 shrink-0 text-accent" aria-hidden="true" />
               De klant heeft de intake gewijzigd nadat dit concept is gemaakt. Controleer extra goed of laat een nieuw concept maken.
             </p>
           )}
 
           {plan.status === "genereren" && !stuck && (
             <div className="card flex items-center gap-4 p-8">
-              <LoaderCircle className="size-8 animate-spin text-rose" aria-hidden="true" />
+              <LoaderCircle className="size-8 animate-spin text-accent" aria-hidden="true" />
               <div>
                 <p className="font-semibold">De AI maakt het concept…</p>
                 <p className="text-sm text-muted">Dit duurt meestal één à twee minuten. De pagina ververst vanzelf.</p>
@@ -93,7 +93,7 @@ export default async function PlanReviewPage({ params }: PageProps<"/admin/schem
 
           {plan.status === "vervangen" && content && (
             <>
-              <p className="rounded-xl bg-sand p-4 text-sm">
+              <p className="rounded-xl bg-surface p-4 text-sm">
                 Dit is een oudere versie en is niet meer bewerkbaar.{" "}
                 <Link href={`/admin/leden/${member.id}`} className="font-semibold underline">
                   Bekijk de actuele versies

@@ -27,7 +27,7 @@ export default function VoedingscoachingPage() {
         eyebrow="Alles over voedingscoaching"
         title={
           <>
-            Voeding die <span className="text-rose">werkt</span> voor jou
+            Voeding die <span className="text-accent">werkt</span> voor jou
           </>
         }
         intro="Aan de hand van jouw doelen maak ik een gericht voedingsplan voor je. Stap voor stap verbeteren we je voeding en je gezondheid. Orthomoleculaire, leefstijl- en vitaliteitscoaching."
@@ -60,7 +60,7 @@ export default function VoedingscoachingPage() {
         </div>
       </section>
 
-      <section className="bg-blush">
+      <section className="bg-surface">
         <div className="grid lg:grid-cols-2">
           <Image
             src="/images/meting-huidplooi.jpg"

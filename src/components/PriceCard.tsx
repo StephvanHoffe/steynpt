@@ -6,16 +6,16 @@ export function PriceCard({ card, cta = "Plan een afspraak", href = "/contact" }
   const featured = card.featured;
   return (
     <article
-      className={`relative flex flex-col rounded-[1.25rem] border p-7 transition-transform duration-300 hover:-translate-y-1 ${
-        featured ? "border-rose bg-blush" : "border-line bg-white"
+      className={`relative flex flex-col rounded-xl border p-7 transition-transform duration-300 hover:-translate-y-1 ${
+        featured ? "border-ink bg-white ring-1 ring-ink shadow-lg shadow-ink/5" : "border-line bg-white"
       }`}
     >
       {featured && (
-        <span className="absolute -top-3 left-7 rounded-full bg-rose px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
+        <span className="absolute -top-3 left-7 rounded bg-ink px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">
           Meest gekozen
         </span>
       )}
-      <p className={`text-xs font-semibold uppercase tracking-[0.14em] ${featured ? "text-rose" : "text-muted"}`}>{card.label}</p>
+      <p className={`text-xs font-semibold uppercase tracking-[0.14em] ${featured ? "text-accent" : "text-muted"}`}>{card.label}</p>
       <h3 className="display mt-2 text-2xl hyphens-auto">{card.name}</h3>
       <p className="mt-6 flex items-baseline gap-1">
         <span className="text-lg font-semibold">€</span>
@@ -26,7 +26,7 @@ export function PriceCard({ card, cta = "Plan een afspraak", href = "/contact" }
       <ul className="mt-6 flex-1 space-y-2.5 text-sm">
         {card.features.map((f) => (
           <li key={f} className="flex gap-2.5">
-            <Check className="mt-0.5 size-4 shrink-0 text-rose" strokeWidth={2.5} aria-hidden="true" />
+            <Check className="mt-0.5 size-4 shrink-0 text-accent" strokeWidth={2.5} aria-hidden="true" />
             <span className="text-ink/85">{f}</span>
           </li>
         ))}

@@ -17,8 +17,7 @@ import {
 } from "../auth";
 import { REFERRAL_COOKIE } from "../constants";
 import { db, users } from "../db";
-import { makeReferralCode, normalizeReferralCode, POINT_TYPES, POINTS, welcomePoints } from "../loyalty";
-import { awardPoints } from "../points";
+import { makeReferralCode, normalizeReferralCode } from "../referral-program";
 import { getOnlinePlan, GOALS } from "../site";
 import { fieldErrorsFrom, formValues, type FormState } from "./types";
 
@@ -54,7 +53,7 @@ export async function registerAction(_prev: FormState, formData: FormData): Prom
   const referrer = code
     ? (
         await db
-          .select({ id: users.id, firstName: users.firstName })
+          .select({ id: users.id })
           .from(users)
           .where(eq(users.referralCode, code))
           .limit(1)
@@ -96,21 +95,6 @@ export async function registerAction(_prev: FormState, formData: FormData): Prom
     }
   }
   if (!inserted) return { error: "Er ging iets mis bij het aanmaken van je account. Probeer het opnieuw.", values };
-
-  await awardPoints(id, welcomePoints(), POINT_TYPES.welcome, "Welkom bij SteynPT Rewards", "welkom");
-  if (phone) {
-    await awardPoints(id, POINTS.profileComplete, POINT_TYPES.profileComplete, "Profiel compleet", "profiel");
-  }
-  if (referrer) {
-    await awardPoints(id, POINTS.invitedBonus, POINT_TYPES.invitedBonus, `Uitgenodigd door ${referrer.firstName}`, "uitgenodigd");
-    await awardPoints(
-      referrer.id,
-      POINTS.friendSignup,
-      POINT_TYPES.friendSignup,
-      `${data.firstName} heeft een account aangemaakt`,
-      id,
-    );
-  }
 
   (await cookies()).delete(REFERRAL_COOKIE);
   await createSession(id);

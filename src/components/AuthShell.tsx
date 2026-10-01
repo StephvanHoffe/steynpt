@@ -6,9 +6,9 @@ export function AuthShell({ title, intro, aside, children }: { title: string; in
   return (
     <section className="bg-paper">
       <div className="container-site grid gap-10 py-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16 lg:py-20">
-        <aside className="relative order-2 overflow-hidden rounded-[1.5rem] bg-blush p-8 text-ink lg:order-1 lg:p-12">
+        <aside className="relative order-2 overflow-hidden rounded-xl bg-accent-tint p-8 text-ink lg:order-1 lg:p-12">
           <LogoMark className="pointer-events-none absolute -bottom-16 -right-8 h-80 w-auto opacity-[0.06]" />
-          <p className="eyebrow text-rose">SteynPT account</p>
+          <p className="eyebrow text-accent">SteynPT account</p>
           <h2 className="display display-md mt-4">{aside.title}</h2>
           <div className="mt-8">
             <CheckList items={aside.items} />

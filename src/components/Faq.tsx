@@ -2,7 +2,7 @@ import { ChevronDown } from "lucide-react";
 
 export function Faq({ items }: { items: { q: string; a: string }[] }) {
   return (
-    <div className="divide-y divide-line rounded-[1.25rem] border border-line bg-white">
+    <div className="divide-y divide-line rounded-xl border border-line bg-white">
       {items.map((item) => (
         <details key={item.q} className="group px-6 py-5 [&_summary::-webkit-details-marker]:hidden">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold">

@@ -3,7 +3,6 @@
 import { useActionState } from "react";
 import { checkInAction } from "@/lib/actions/account";
 import type { FormState } from "@/lib/actions/types";
-import { POINTS } from "@/lib/loyalty";
 import { FormAlert, SubmitButton } from "../forms/fields";
 
 const scales = [
@@ -30,7 +29,7 @@ export function CheckInForm({ done }: { done: boolean }) {
             {[1, 2, 3, 4, 5].map((n) => (
               <label
                 key={n}
-                className="grid h-11 cursor-pointer place-items-center rounded-lg border-[1.5px] border-line bg-white text-sm font-semibold transition-colors hover:border-rose-soft has-[:checked]:border-rose has-[:checked]:bg-rose has-[:checked]:text-white has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-rose"
+                className="grid h-11 cursor-pointer place-items-center rounded-lg border-[1.5px] border-line bg-white text-sm font-semibold transition-colors hover:border-ink/40 has-[:checked]:border-ink has-[:checked]:bg-ink has-[:checked]:text-white has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent"
               >
                 <input type="radio" name={scale.name} value={n} defaultChecked={v[scale.name] === String(n)} className="sr-only" />
                 {n}
@@ -66,7 +65,7 @@ export function CheckInForm({ done }: { done: boolean }) {
         </label>
         <textarea id="ci-note" name="note" className="input min-h-24" defaultValue={v.note} placeholder="Wat ging goed, waar liep je tegenaan?" />
       </div>
-      <SubmitButton pendingText="Opslaan…">Check in · +{POINTS.weeklyCheckIn} punten</SubmitButton>
+      <SubmitButton pendingText="Opslaan…">Check-in versturen</SubmitButton>
     </form>
   );
 }

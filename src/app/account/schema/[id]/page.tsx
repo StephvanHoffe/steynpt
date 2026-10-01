@@ -46,7 +46,7 @@ export default async function PlanPage({ params }: PageProps<"/account/schema/[i
         {training?.success && <TrainingPlanView plan={training.data} />}
         {nutrition?.success && <NutritionPlanView plan={nutrition.data} />}
       </div>
-      <p className="mt-10 rounded-xl bg-blush p-5 text-sm print:hidden">
+      <p className="mt-10 rounded-xl bg-accent-tint p-5 text-sm print:hidden">
         Vragen over je schema of loopt iets niet lekker? Laat het weten in je wekelijkse check-in, dan stuurt Steyn bij.
       </p>
     </div>

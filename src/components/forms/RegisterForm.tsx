@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useActionState } from "react";
 import { registerAction } from "@/lib/actions/auth";
 import type { FormState } from "@/lib/actions/types";
-import { POINTS } from "@/lib/loyalty";
+import { REFERRAL } from "@/lib/referral-program";
 import { GOALS, ONLINE_PLANS } from "@/lib/site";
 import { Field, FormAlert, SelectField, SubmitButton } from "./fields";
 
@@ -22,12 +22,12 @@ export function RegisterForm({ plan, referralCode, inviterName }: { plan?: strin
       <fieldset>
         <legend className="label">Kies je online coaching pakket</legend>
         <div className="grid gap-2.5 sm:grid-cols-2">
-          {[...ONLINE_PLANS.map((p) => ({ id: p.id, title: p.name, sub: `€ ${p.price} per maand` })), { id: "", title: "Nog niet", sub: "Eerst rondkijken & punten sparen" }].map((option) => (
+          {[...ONLINE_PLANS.map((p) => ({ id: p.id, title: p.name, sub: `€ ${p.price} per maand` })), { id: "", title: "Nog niet", sub: "Eerst rondkijken" }].map((option) => (
             <label
               key={option.id || "geen"}
-              className="flex cursor-pointer items-center gap-3 rounded-xl border-[1.5px] border-line bg-white p-4 transition-colors has-[:checked]:border-ink has-[:checked]:bg-blush has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-rose"
+              className="flex cursor-pointer items-center gap-3 rounded-xl border-[1.5px] border-line bg-white p-4 transition-colors has-[:checked]:border-ink has-[:checked]:bg-surface has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent"
             >
-              <input type="radio" name="plan" value={option.id} defaultChecked={selectedPlan === option.id} className="size-4 accent-rose" />
+              <input type="radio" name="plan" value={option.id} defaultChecked={selectedPlan === option.id} className="size-4 accent-ink" />
               <span>
                 <span className="block font-semibold">{option.title}</span>
                 <span className="block text-sm text-muted">{option.sub}</span>
@@ -50,7 +50,7 @@ export function RegisterForm({ plan, referralCode, inviterName }: { plan?: strin
           autoComplete="tel"
           defaultValue={v.phone}
           error={e.phone}
-          hint={`Optioneel · +${POINTS.profileComplete} punten`}
+          hint="Optioneel, handig voor het plannen van je intake"
         />
         <SelectField label="Je belangrijkste doel" name="goal" options={GOALS} placeholder="Kies je doel" defaultValue={v.goal ?? ""} error={e.goal} required />
       </div>
@@ -71,12 +71,12 @@ export function RegisterForm({ plan, referralCode, inviterName }: { plan?: strin
         error={e.referralCode}
         placeholder="Bijv. LISA-7K2Q"
         autoCapitalize="characters"
-        hint={inviterName ? `Uitgenodigd door ${inviterName}: je krijgt ${POINTS.invitedBonus} extra punten` : "Optioneel, van een vriend die al traint bij SteynPT"}
+        hint={inviterName ? `Uitgenodigd door ${inviterName}: je krijgt ${REFERRAL.friendReward}` : "Optioneel, van een vriend die al traint bij SteynPT"}
       />
 
-      <div className="space-y-3 rounded-xl bg-sand/70 p-4 text-sm">
+      <div className="space-y-3 rounded-xl bg-surface p-4 text-sm">
         <label className="flex gap-3">
-          <input type="checkbox" name="terms" defaultChecked={v.terms === "on"} className="mt-0.5 size-4 shrink-0 accent-rose" required />
+          <input type="checkbox" name="terms" defaultChecked={v.terms === "on"} className="mt-0.5 size-4 shrink-0 accent-ink" required />
           <span>
             Ik ga akkoord met de{" "}
             <Link href="/privacy" target="_blank" className="font-semibold underline">
@@ -87,7 +87,7 @@ export function RegisterForm({ plan, referralCode, inviterName }: { plan?: strin
         </label>
         {e.terms && <p className="field-error">{e.terms}</p>}
         <label className="flex gap-3">
-          <input type="checkbox" name="marketing" defaultChecked={v.marketing === "on"} className="mt-0.5 size-4 shrink-0 accent-rose" />
+          <input type="checkbox" name="marketing" defaultChecked={v.marketing === "on"} className="mt-0.5 size-4 shrink-0 accent-ink" />
           <span>Houd me op de hoogte van acties, tips en nieuwe sessies (optioneel).</span>
         </label>
       </div>

@@ -8,6 +8,11 @@ export const SITE = {
     "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam. 1-op-1 begeleiding voor een gezondere leefstijl, specifieke doelen en topsporters.",
   instagram: { url: "https://www.instagram.com/bigtimesteyn/", handle: "@bigtimesteyn" },
   responseTime: "Ik streef ernaar om binnen 24 uur contact met je op te nemen.",
+  // Balk bovenaan de site; zet op null om hem te verbergen.
+  announcement: { text: "Nieuw: online coaching. Nodig een vriend uit en krijg samen 50% korting", href: "/vriend-uitnodigen" } as {
+    text: string;
+    href: string;
+  } | null,
 };
 
 // `desktop: false` = alleen in het mobiele menu en de footer.
@@ -18,7 +23,7 @@ export const NAV = [
   { href: "/voedingscoaching", label: "Voeding" },
   { href: "/small-group-training", label: "Small group", desktop: false },
   { href: "/tarieven", label: "Tarieven" },
-  { href: "/rewards", label: "Rewards" },
+  { href: "/account/agenda", label: "Afspraak maken" },
   { href: "/over-steyn", label: "Over Steyn" },
 ];
 
@@ -143,7 +148,7 @@ export const ONLINE_PLANS: OnlinePlan[] = [
       "Voedingsrichtlijnen op basis van je doel",
       "Maandelijkse evaluatie en schema-update",
       "Wekelijkse check-in in je dashboard",
-      "Punten sparen met SteynPT Rewards",
+      "Je voortgang en metingen in je dashboard",
     ],
   },
   {

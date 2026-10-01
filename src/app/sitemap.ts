@@ -9,7 +9,7 @@ const pages = [
   "/voedingscoaching",
   "/small-group-training",
   "/tarieven",
-  "/rewards",
+  "/vriend-uitnodigen",
   "/over-steyn",
   "/contact",
   "/registreren",

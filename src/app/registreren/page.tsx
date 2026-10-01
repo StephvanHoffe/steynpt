@@ -3,13 +3,13 @@ import { redirect } from "next/navigation";
 import { AuthShell } from "@/components/AuthShell";
 import { RegisterForm } from "@/components/forms/RegisterForm";
 import { getCurrentUser } from "@/lib/auth";
-import { POINTS, welcomePoints } from "@/lib/loyalty";
 import { resolveInvitation } from "@/lib/referral";
+import { REFERRAL } from "@/lib/referral-program";
 import { getOnlinePlan } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Account aanmaken",
-  description: "Maak je gratis SteynPT-account aan voor online coaching en SteynPT Rewards.",
+  description: "Maak je gratis SteynPT-account aan voor online coaching, je schema's, voortgang en afspraken.",
 };
 
 export default async function RegisterPage({ searchParams }: PageProps<"/registreren">) {
@@ -23,22 +23,21 @@ export default async function RegisterPage({ searchParams }: PageProps<"/registr
       title="Maak je account aan"
       intro={
         <p>
-          Gratis en in twee minuten geregeld. Je ontvangt direct <strong className="text-ink">{welcomePoints()} welkomstpunten</strong>
-          {invitation ? (
+          Gratis en in twee minuten geregeld.
+          {invitation && (
             <>
               {" "}
-              plus <strong className="text-ink">{POINTS.invitedBonus} extra</strong> omdat {invitation.firstName} je uitnodigde
+              Omdat {invitation.firstName} je uitnodigde, krijg je <strong className="text-ink">{REFERRAL.friendReward}</strong>.
             </>
-          ) : null}
-          .
+          )}
         </p>
       }
       aside={{
         title: "Alles voor jouw doel op één plek",
         items: [
           "Je online coaching, schema en feedback van Steyn",
-          "Wekelijkse check-ins en je voortgang in één overzicht",
-          "Punten sparen en inwisselen voor beloningen",
+          "Je metingen en voortgang in één overzicht",
+          "Zelf afspraken inplannen in de agenda van Steyn",
           "Je persoonlijke link om vrienden uit te nodigen",
           "Steyn neemt binnen 24 uur contact op voor je intake",
         ],

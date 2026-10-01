@@ -5,14 +5,15 @@ import { CtaBand } from "@/components/CtaBand";
 import { DashboardPreview } from "@/components/DashboardPreview";
 import { Faq } from "@/components/Faq";
 import { OnlinePlans } from "@/components/OnlinePlans";
-import { ButtonLink, CheckList, SectionHeading } from "@/components/ui";
-import { POINTS, welcomePoints } from "@/lib/loyalty";
+import { ReferralSteps } from "@/components/ReferralSteps";
+import { ButtonLink, SectionHeading } from "@/components/ui";
+import { REFERRAL } from "@/lib/referral-program";
 import { resolveInvitation } from "@/lib/referral";
 
 export const metadata: Metadata = {
   title: "Online coaching",
   description:
-    "Online coaching door Steyn van Leeuwen: trainingsschema en voedingsplan op maat, wekelijkse check-ins in je eigen dashboard en persoonlijke bijsturing. Spaar punten en nodig vrienden uit.",
+    "Online coaching door Steyn van Leeuwen: trainingsschema en voedingsplan op maat, wekelijkse check-ins in je eigen dashboard en persoonlijke bijsturing. Nodig een vriend uit en krijg samen korting.",
 };
 
 const audiences = [
@@ -26,7 +27,7 @@ const steps = [
   { title: "Account aanmaken", text: "Kies je pakket en maak in twee minuten je gratis account aan." },
   { title: "Intake", text: "Steyn neemt binnen 24 uur contact op voor een intake via videocall of in de studio." },
   { title: "Jouw plan", text: "Je ontvangt je trainingsschema en voedingsplan, afgestemd op jouw doel en agenda." },
-  { title: "Check-in & bijsturen", text: "Elke week check je in via je dashboard. Steyn stuurt bij en jij spaart punten." },
+  { title: "Check-in & bijsturen", text: "Elke week check je in via je dashboard. Steyn stuurt bij en houdt je metingen bij." },
 ];
 
 const faq = [
@@ -47,8 +48,8 @@ const faq = [
     a: "Dat stemmen we af op jouw doel. Voor blijvend resultaat adviseert Steyn om minimaal drie maanden te rekenen.",
   },
   {
-    q: "Hoe werkt het sparen van punten?",
-    a: `Je verdient punten voor je account (${POINTS.welcome}, tijdens acties meer), elke wekelijkse check-in (${POINTS.weeklyCheckIn}), streaks en voor vrienden die je uitnodigt. Punten wissel je in je dashboard in voor korting, sessies en meer.`,
+    q: "Hoe werkt de vriendenactie?",
+    a: `Iedere klant heeft een persoonlijke uitnodigingslink. Een vriend die zich via die link aanmeldt krijgt ${REFERRAL.friendReward}. Start je vriend, dan krijg jij ${REFERRAL.referrerReward}.`,
   },
 ];
 
@@ -63,16 +64,16 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
         <div className="container-site grid items-center gap-14 py-16 lg:grid-cols-[1.2fr_1fr] lg:py-24">
           <div className="animate-rise">
             {invitation && (
-              <p className="mb-6 inline-flex items-center gap-2 rounded-full bg-petal px-4 py-2 text-sm font-semibold text-ink">
+              <p className="mb-6 inline-flex items-center gap-2 rounded-full bg-accent-tint px-4 py-2 text-sm font-semibold text-ink">
                 <Gift className="size-4" aria-hidden="true" />
-                {invitation.firstName} nodigt je uit: +{POINTS.invitedBonus} extra punten bij je aanmelding
+                {invitation.firstName} nodigt je uit: je krijgt {REFERRAL.friendReward}
               </p>
             )}
-            <p className="eyebrow text-rose">Nieuw · Online coaching</p>
+            <p className="eyebrow text-accent">Nieuw · Online coaching</p>
             <h1 className="display display-xl mt-5">
               Jouw coach.
               <br />
-              <span className="text-rose">Altijd</span> en overal.
+              <span className="text-accent">Altijd</span> en overal.
             </h1>
             <p className="lead mt-6 max-w-xl text-ink/75">
               De persoonlijke aanpak van SteynPT, nu ook online. Een plan op maat, wekelijkse check-ins in je eigen
@@ -87,7 +88,7 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
               </ButtonLink>
             </div>
             <p className="mt-5 text-sm text-muted">
-              Nu {welcomePoints()} welkomstpunten bij aanmelding · Intake binnen 24 uur · Je betaalt pas na de intake
+              Intake binnen 24 uur · Je betaalt pas na de intake
             </p>
           </div>
           <DashboardPreview />
@@ -103,7 +104,7 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {audiences.map(({ icon: Icon, title, text }) => (
             <div key={title} className="card p-6">
-              <span className="grid size-11 place-items-center rounded-xl bg-blush text-rose">
+              <span className="grid size-11 place-items-center rounded-xl bg-accent-tint text-accent">
                 <Icon className="size-5" aria-hidden="true" />
               </span>
               <h3 className="mt-5 text-lg font-semibold">{title}</h3>
@@ -113,13 +114,13 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
         </div>
       </section>
 
-      <section className="bg-sand py-20 lg:py-28">
+      <section className="bg-surface py-20 lg:py-28">
         <div className="container-site">
           <SectionHeading eyebrow="Zo werkt het" title="In vier stappen van start" />
           <ol className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, i) => (
-              <li key={step.title} className="relative rounded-[1.25rem] bg-paper p-7">
-                <span className="display grid size-12 place-items-center rounded-full bg-rose text-2xl text-white">{i + 1}</span>
+              <li key={step.title} className="relative rounded-xl bg-paper p-7">
+                <span className="display grid size-12 place-items-center rounded-full bg-ink text-2xl text-white">{i + 1}</span>
                 <h3 className="display mt-6 text-2xl">{step.title}</h3>
                 <p className="mt-3 text-[15px] leading-relaxed text-muted">{step.text}</p>
               </li>
@@ -128,50 +129,39 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
         </div>
       </section>
 
-      <section id="pakketten" className="scroll-mt-28 bg-blush py-20 lg:py-28">
+      <section id="pakketten" className="scroll-mt-28 bg-surface py-20 lg:py-28">
         <div className="container-site">
           <SectionHeading
            
             align="center"
             eyebrow="Pakketten"
             title="Kies wat bij jou past"
-            intro="Alle pakketten inclusief persoonlijk dashboard, wekelijkse check-ins en SteynPT Rewards."
+            intro="Alle pakketten inclusief persoonlijk dashboard, wekelijkse check-ins en je metingen in één overzicht."
           />
           <div className="mt-14">
             <OnlinePlans referral={ref} />
           </div>
           <p className="mt-8 text-center text-sm text-muted">
             Liever eerst kennismaken?{" "}
-            <Link href="/contact" className="font-semibold text-ink underline decoration-rose underline-offset-4">
+            <Link href="/contact" className="font-semibold text-ink underline decoration-accent underline-offset-4">
               Plan een gratis kennismaking
             </Link>
           </p>
         </div>
       </section>
 
-      <section className="container-site grid gap-14 py-20 lg:grid-cols-2 lg:py-28">
+      <section className="container-site grid gap-14 py-20 lg:grid-cols-2 lg:items-center lg:py-28">
         <div>
           <SectionHeading
-            eyebrow="SteynPT Rewards"
-            title="Hoe consistenter je bent, hoe meer je verdient"
-            intro="Bij online coaching hoort je eigen Rewards-account. Je wordt beloond voor de dingen die écht resultaat geven."
+            eyebrow="Vriendenactie"
+            title={REFERRAL.headline}
+            intro="Samen trainen is leuker en houdt je allebei scherp. Nodig een vriend uit via je persoonlijke link in Mijn omgeving."
           />
-          <ButtonLink href="/rewards" variant="outline" className="mt-8">
-            Bekijk alle beloningen
+          <ButtonLink href="/vriend-uitnodigen" variant="outline" className="mt-8">
+            Voorwaarden en uitleg
           </ButtonLink>
         </div>
-        <div className="card p-8">
-          <CheckList
-            items={[
-              `${welcomePoints()} welkomstpunten bij het aanmaken van je account`,
-              `${POINTS.weeklyCheckIn} punten voor elke wekelijkse check-in`,
-              `${POINTS.streakBonus} bonuspunten bij elke ${POINTS.streakLength} weken op rij`,
-              `${POINTS.friendSignup} punten per vriend die een account aanmaakt`,
-              `${POINTS.friendStarts} punten per vriend die start met een traject`,
-              "Wissel punten in voor korting, ademcoaching of een gratis PT-sessie",
-            ]}
-          />
-        </div>
+        <ReferralSteps />
       </section>
 
       <section className="container-site pb-8">
@@ -183,7 +173,7 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
 
       <CtaBand
         title="Start vandaag nog"
-        text="Maak je gratis account aan, kies je pakket en ontvang direct je welkomstpunten."
+        text="Maak je gratis account aan, kies je pakket en Steyn neemt binnen 24 uur contact met je op."
         primary={{ href: `/registreren${ref ? `?ref=${ref}` : ""}`, label: "Account aanmaken" }}
       />
     </>

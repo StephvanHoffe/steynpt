@@ -19,7 +19,7 @@ export default function OverSteynPage() {
         eyebrow="Kom alles te weten"
         title={
           <>
-            Over <span className="text-rose">Steyn</span>
+            Over <span className="text-accent">Steyn</span>
           </>
         }
         intro="Full-time personal trainer en voedingscoach. Geboren in Hoevelaken, werkzaam in Amsterdam, en elke dag nog aan het doorleren."
@@ -61,13 +61,13 @@ export default function OverSteynPage() {
             alt="Steyn coacht een sporter bij de deadlift"
             width={500}
             height={500}
-            className="aspect-square w-full rounded-[1.5rem] object-cover"
+            className="aspect-square w-full rounded-xl object-cover"
           />
           <div className="card p-7">
             <h3 className="display text-2xl">Expertises</h3>
             <ul className="mt-5 flex flex-wrap gap-2">
               {EXPERTISE.map((e) => (
-                <li key={e} className="rounded-full bg-sand px-3.5 py-1.5 text-sm">
+                <li key={e} className="rounded-full bg-surface px-3.5 py-1.5 text-sm">
                   {e}
                 </li>
               ))}
@@ -76,7 +76,7 @@ export default function OverSteynPage() {
         </div>
       </section>
 
-      <section className="bg-blush py-20 lg:py-28">
+      <section className="bg-surface py-20 lg:py-28">
         <div className="container-site">
           <SectionHeading
            
@@ -87,7 +87,7 @@ export default function OverSteynPage() {
           <ol className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {METHOD_STEPS.map((step, i) => (
               <li key={step.title} className="card-soft p-7">
-                <span className="display text-5xl text-rose">0{i + 1}</span>
+                <span className="display text-5xl text-accent">0{i + 1}</span>
                 <h3 className="display mt-5 text-2xl">{step.title}</h3>
                 <p className="mt-3 text-[15px] leading-relaxed text-muted">{step.text}</p>
               </li>

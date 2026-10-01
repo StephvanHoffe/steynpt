@@ -62,8 +62,8 @@ export async function requireUser(next = "/account") {
   return user;
 }
 
-export async function requireAdmin() {
-  const user = await requireUser("/admin");
+export async function requireAdmin(next = "/admin") {
+  const user = await requireUser(next);
   if (user.role !== "admin") redirect("/account");
   return user;
 }

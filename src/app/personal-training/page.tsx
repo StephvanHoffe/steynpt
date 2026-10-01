@@ -30,7 +30,7 @@ export default function PersonalTrainingPage() {
         eyebrow="Alles over personal training"
         title={
           <>
-            1-op-1. <span className="text-rose">100%</span> voor jouw doel.
+            1-op-1. <span className="text-accent">100%</span> voor jouw doel.
           </>
         }
         intro="Ongeacht jouw doel of sport: SteynPT gaat er 100% voor. Met een persoonlijk trainingsplan werken we zo efficiënt mogelijk naar jouw doel toe, met veel energie, aandacht voor de juiste uitvoering en een fijne sfeer."
@@ -77,7 +77,7 @@ export default function PersonalTrainingPage() {
         </div>
       </section>
 
-      <section id="topsport" className="scroll-mt-28 bg-blush py-20 lg:py-28">
+      <section id="topsport" className="scroll-mt-28 bg-surface py-20 lg:py-28">
         <div className="container-site">
           <div className="grid items-end gap-10 lg:grid-cols-[1.3fr_1fr]">
             <SectionHeading
@@ -85,7 +85,7 @@ export default function PersonalTrainingPage() {
               eyebrow="Specifieke doelen & topsport"
               title={
                 <>
-                  Begeleiding voor sporters die <span className="text-rose">meer</span> willen
+                  Begeleiding voor sporters die <span className="text-accent">meer</span> willen
                 </>
               }
               intro="Werk je naar een wedstrijd, wil je terugkomen na een blessure of zoek je die laatste procenten? Steyn is gespecialiseerd in het 1-op-1 begeleiden van specifieke doelen en (top)sporters."
@@ -96,13 +96,13 @@ export default function PersonalTrainingPage() {
               width={1400}
               height={1014}
               sizes="(min-width: 1024px) 30vw, 100vw"
-              className="hidden aspect-[4/3] w-full max-w-md justify-self-end rounded-[1.5rem] object-cover lg:block"
+              className="hidden aspect-[4/3] w-full max-w-md justify-self-end rounded-xl object-cover lg:block"
             />
           </div>
           <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {topsport.map(({ icon: Icon, title, text }) => (
               <div key={title} className="card-soft p-7">
-                <Icon className="size-7 text-rose" aria-hidden="true" />
+                <Icon className="size-7 text-accent" aria-hidden="true" />
                 <h3 className="mt-5 text-lg font-semibold">{title}</h3>
                 <p className="mt-2 text-[15px] leading-relaxed text-muted">{text}</p>
               </div>
@@ -130,7 +130,7 @@ export default function PersonalTrainingPage() {
         </div>
       </section>
 
-      <section className="bg-sand py-20 lg:py-28">
+      <section className="bg-surface py-20 lg:py-28">
         <div className="container-site">
           <SectionHeading eyebrow="Reviews" title="Resultaat dat blijft" />
           <div className="mt-12">

@@ -2,7 +2,6 @@ import { ClipboardList, Dumbbell, Hourglass, Utensils } from "lucide-react";
 import Link from "next/link";
 import type { CoachingStatus, Plan, PlanType } from "@/lib/db";
 import type { IntakeData } from "@/lib/intake";
-import { POINTS } from "@/lib/loyalty";
 
 const TYPES: { type: PlanType; label: string; icon: typeof Dumbbell }[] = [
   { type: "training", label: "Trainingsschema", icon: Dumbbell },
@@ -27,18 +26,18 @@ export function MyPlansCard({
           <ClipboardList className="size-7" aria-hidden="true" /> Mijn schema&apos;s
         </h2>
         {intake && (
-          <Link href="/account/intake" className="text-sm font-semibold underline decoration-rose underline-offset-4">
+          <Link href="/account/intake" className="text-sm font-semibold underline decoration-accent underline-offset-4">
             Intake bijwerken
           </Link>
         )}
       </div>
 
       {!intake ? (
-        <div className="mt-5 rounded-xl bg-blush p-5">
+        <div className="mt-5 rounded-xl bg-accent-tint p-5">
           <p className="font-semibold">Vul je intake in voor je persoonlijke schema</p>
           <p className="mt-1 text-sm text-ink/80">
             Vertel over je doel, hoe vaak je traint en wat je wel en niet eet (zoals allergieën). Daarmee maken we je trainings-
-            en voedingsschema op maat, gecontroleerd door Steyn. Goed voor {POINTS.intake} punten.
+            en voedingsschema op maat, gecontroleerd door Steyn.
           </p>
           <Link href="/account/intake" className="btn btn-primary btn-sm mt-4">
             Intake invullen
@@ -58,9 +57,9 @@ export function MyPlansCard({
             else status = "Steyn maakt je schema binnenkort.";
 
             return (
-              <li key={type} className={`flex flex-col rounded-xl border p-4 ${published ? "border-rose bg-blush/50" : "border-line"}`}>
+              <li key={type} className={`flex flex-col rounded-xl border p-4 ${published ? "border-ink" : "border-line"}`}>
                 <p className="flex items-center gap-2 font-semibold">
-                  <Icon className="size-4 text-rose" aria-hidden="true" /> {label}
+                  <Icon className="size-4 text-accent" aria-hidden="true" /> {label}
                 </p>
                 <p className="mt-1 flex-1 text-sm text-muted">
                   {!published && pending && <Hourglass className="mr-1 inline size-3.5" aria-hidden="true" />}
@@ -72,7 +71,7 @@ export function MyPlansCard({
                   </Link>
                 )}
                 {!published && !wanted && (
-                  <Link href="/account/intake" className="mt-3 text-sm font-semibold underline decoration-rose underline-offset-4">
+                  <Link href="/account/intake" className="mt-3 text-sm font-semibold underline decoration-accent underline-offset-4">
                     Toevoegen
                   </Link>
                 )}

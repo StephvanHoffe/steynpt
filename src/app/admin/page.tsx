@@ -1,12 +1,14 @@
-import { desc, eq, inArray, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gt, inArray, isNotNull, isNull } from "drizzle-orm";
 import { alias } from "drizzle-orm/sqlite-core";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
-import { adjustPointsAction, handleRedemptionAction, toggleContactHandledAction, updateMemberAction } from "@/lib/actions/admin";
+import { CalendarDays } from "lucide-react";
+import { markReferralRewardAction, toggleContactHandledAction, updateMemberAction } from "@/lib/actions/admin";
 import { PLAN_STATUS, PLAN_TYPE_LABEL, isStuck } from "@/components/plans/labels";
-import { COACHING_STATUSES, contactRequests, db, plans, pointTransactions, redemptions, users } from "@/lib/db";
-import { getReward } from "@/lib/loyalty";
+import { formatDayLong, formatTime, getAppointmentType } from "@/lib/agenda";
+import { appointments, COACHING_STATUSES, contactRequests, db, plans, users } from "@/lib/db";
+import { REFERRAL } from "@/lib/referral-program";
 import { getOnlinePlan, GOALS, INTERESTS } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Beheer", robots: { index: false } };
@@ -17,7 +19,8 @@ export default async function AdminPage() {
   await requireAdmin();
   const referrer = alias(users, "referrer");
 
-  const [members, openRedemptions, contacts, openPlans] = await Promise.all([
+  const now = new Date();
+  const [members, rewardsDue, contacts, openPlans, nextAppointments] = await Promise.all([
     db
       .select({
         id: users.id,
@@ -31,17 +34,16 @@ export default async function AdminPage() {
         coachNote: users.coachNote,
         createdAt: users.createdAt,
         referrerName: referrer.firstName,
-        points: sql<number>`coalesce((select sum(${pointTransactions.amount}) from ${pointTransactions} where ${pointTransactions.userId} = ${users.id}), 0)`,
       })
       .from(users)
       .leftJoin(referrer, eq(users.referredById, referrer.id))
       .orderBy(desc(users.createdAt)),
+    // Vriendenactie: vrienden die gestart zijn en waarvan de korting voor de uitnodiger nog open staat.
     db
-      .select({ id: redemptions.id, rewardId: redemptions.rewardId, cost: redemptions.cost, createdAt: redemptions.createdAt, firstName: users.firstName, lastName: users.lastName, email: users.email })
-      .from(redemptions)
-      .innerJoin(users, eq(redemptions.userId, users.id))
-      .where(eq(redemptions.status, "aangevraagd"))
-      .orderBy(desc(redemptions.createdAt)),
+      .select({ id: users.id, firstName: users.firstName, lastName: users.lastName, referrerFirst: referrer.firstName, referrerLast: referrer.lastName, referrerEmail: referrer.email })
+      .from(users)
+      .innerJoin(referrer, eq(users.referredById, referrer.id))
+      .where(and(eq(users.coachingStatus, "actief"), isNotNull(users.referredById), isNull(users.referralRewardAt))),
     db.select().from(contactRequests).orderBy(contactRequests.handled, desc(contactRequests.createdAt)).limit(100),
     db
       .select({ id: plans.id, type: plans.type, status: plans.status, createdAt: plans.createdAt, updatedAt: plans.updatedAt, firstName: users.firstName, lastName: users.lastName })
@@ -49,14 +51,21 @@ export default async function AdminPage() {
       .innerJoin(users, eq(plans.userId, users.id))
       .where(inArray(plans.status, ["genereren", "concept", "fout"]))
       .orderBy(plans.createdAt),
+    db
+      .select({ a: appointments, firstName: users.firstName, lastName: users.lastName })
+      .from(appointments)
+      .innerJoin(users, eq(appointments.userId, users.id))
+      .where(and(eq(appointments.status, "gepland"), gt(appointments.endsAt, now)))
+      .orderBy(asc(appointments.startsAt))
+      .limit(5),
   ]);
 
   const stats = [
     { label: "Schema's te controleren", value: openPlans.filter((p) => p.status === "concept").length },
+    { label: "Komende afspraken", value: nextAppointments.length === 5 ? "5+" : nextAppointments.length },
     { label: "Leden", value: members.length },
     { label: "Coaching aangevraagd", value: members.filter((m) => m.coachingStatus === "aangevraagd").length },
     { label: "Coaching actief", value: members.filter((m) => m.coachingStatus === "actief").length },
-    { label: "Via vrienden", value: members.filter((m) => m.referrerName).length },
     { label: "Open aanvragen", value: contacts.filter((c) => !c.handled).length },
   ];
 
@@ -65,18 +74,79 @@ export default async function AdminPage() {
       <Link href="/account" className="text-sm font-semibold text-muted hover:text-ink">
         ← Naar mijn dashboard
       </Link>
-      <h1 className="display display-lg mt-3">Beheer</h1>
+      <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
+        <h1 className="display display-lg">Beheer</h1>
+        <Link href="/admin/agenda" className="btn btn-primary">
+          <CalendarDays className="size-4" aria-hidden="true" /> Agenda &amp; beschikbaarheid
+        </Link>
+      </div>
       <dl className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
         {stats.map((s) => (
           <div key={s.label} className="card p-5">
             <dt className="text-sm text-muted">{s.label}</dt>
-            <dd className="display mt-1 text-4xl">{s.value}</dd>
+            <dd className="mt-1 text-3xl font-semibold tabular-nums">{s.value}</dd>
           </div>
         ))}
       </dl>
 
+      <section className="mt-12" aria-labelledby="eerstvolgend">
+        <div className="flex items-center justify-between gap-3">
+          <h2 id="eerstvolgend" className="display display-sm">
+            Eerstvolgende afspraken
+          </h2>
+          <Link href="/admin/agenda" className="text-sm font-semibold underline decoration-accent underline-offset-4">
+            Hele agenda
+          </Link>
+        </div>
+        {nextAppointments.length === 0 ? (
+          <p className="mt-4 text-muted">Geen geplande afspraken.</p>
+        ) : (
+          <ul className="mt-4 divide-y divide-line rounded-lg border border-line bg-white text-sm">
+            {nextAppointments.map(({ a, firstName, lastName }) => (
+              <li key={a.id} className="flex flex-wrap justify-between gap-2 px-4 py-3">
+                <span className="font-medium first-letter:uppercase">
+                  {formatDayLong(a.startsAt)}, {formatTime(a.startsAt)}
+                </span>
+                <span className="text-muted">
+                  {getAppointmentType(a.type)?.label} · {firstName} {lastName}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      {rewardsDue.length > 0 && (
+        <section className="mt-12" aria-labelledby="vriendenkorting">
+          <h2 id="vriendenkorting" className="display display-sm">
+            Vriendenkorting te verrekenen
+          </h2>
+          <p className="mt-1 text-sm text-muted">Deze vrienden zijn gestart. De uitnodiger krijgt {REFERRAL.referrerReward}.</p>
+          <ul className="mt-4 grid gap-3 md:grid-cols-2">
+            {rewardsDue.map((r) => (
+              <li key={r.id} className="card flex flex-wrap items-center justify-between gap-3 p-4 text-sm">
+                <span>
+                  <span className="block font-semibold">
+                    {r.referrerFirst} {r.referrerLast}
+                  </span>
+                  <span className="block text-muted">
+                    bracht {r.firstName} {r.lastName} aan · {r.referrerEmail}
+                  </span>
+                </span>
+                <form action={markReferralRewardAction}>
+                  <input type="hidden" name="friendId" value={r.id} />
+                  <button type="submit" className="btn btn-sm btn-outline">
+                    Verrekend
+                  </button>
+                </form>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       <section className="mt-12" aria-labelledby="schemas">
-        <h2 id="schemas" className="display text-3xl">
+        <h2 id="schemas" className="display display-sm">
           Schema&apos;s ter controle
         </h2>
         {openPlans.length === 0 ? (
@@ -87,7 +157,7 @@ export default async function AdminPage() {
               const status = isStuck(p.status, p.updatedAt) ? { label: "Vastgelopen", tone: "bg-danger/10 text-danger" } : PLAN_STATUS[p.status];
               return (
                 <li key={p.id}>
-                  <Link href={`/admin/schemas/${p.id}`} className="card flex items-center justify-between gap-3 p-5 transition-colors hover:border-rose-soft">
+                  <Link href={`/admin/schemas/${p.id}`} className="card flex items-center justify-between gap-3 p-5 transition-colors hover:border-ink/40">
                     <span>
                       <span className="block font-semibold">
                         {p.firstName} {p.lastName}
@@ -106,7 +176,7 @@ export default async function AdminPage() {
       </section>
 
       <section className="mt-12" aria-labelledby="aanvragen">
-        <h2 id="aanvragen" className="display text-3xl">
+        <h2 id="aanvragen" className="display display-sm">
           Contactaanvragen
         </h2>
         {contacts.length === 0 ? (
@@ -132,7 +202,7 @@ export default async function AdminPage() {
                       )}
                     </p>
                   </div>
-                  <span className="rounded-full bg-sand px-3 py-1 text-xs font-semibold">{INTERESTS.find((i) => i.id === c.interest)?.label ?? c.interest}</span>
+                  <span className="rounded-full bg-surface px-3 py-1 text-xs font-semibold">{INTERESTS.find((i) => i.id === c.interest)?.label ?? c.interest}</span>
                 </div>
                 {c.message && <p className="mt-3 whitespace-pre-line text-sm">{c.message}</p>}
                 <div className="mt-4 flex items-center justify-between text-xs text-muted">
@@ -150,52 +220,12 @@ export default async function AdminPage() {
         )}
       </section>
 
-      <section className="mt-12" aria-labelledby="inwisselingen">
-        <h2 id="inwisselingen" className="display text-3xl">
-          Open inwisselingen
-        </h2>
-        {openRedemptions.length === 0 ? (
-          <p className="mt-4 text-muted">Geen openstaande beloningen.</p>
-        ) : (
-          <ul className="mt-5 grid gap-3">
-            {openRedemptions.map((r) => (
-              <li key={r.id} className="card flex flex-wrap items-center justify-between gap-4 p-5">
-                <div>
-                  <p className="font-semibold">
-                    {getReward(r.rewardId)?.title ?? r.rewardId} · {r.cost} punten
-                  </p>
-                  <p className="text-sm text-muted">
-                    {r.firstName} {r.lastName} ({r.email}) · {dateFmt.format(r.createdAt)}
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <form action={handleRedemptionAction}>
-                    <input type="hidden" name="id" value={r.id} />
-                    <input type="hidden" name="status" value="geleverd" />
-                    <button type="submit" className="btn btn-sm btn-ink">
-                      Geleverd
-                    </button>
-                  </form>
-                  <form action={handleRedemptionAction}>
-                    <input type="hidden" name="id" value={r.id} />
-                    <input type="hidden" name="status" value="geannuleerd" />
-                    <button type="submit" className="btn btn-sm btn-outline">
-                      Annuleren &amp; terugboeken
-                    </button>
-                  </form>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-
       <section className="mt-12" aria-labelledby="leden">
-        <h2 id="leden" className="display text-3xl">
+        <h2 id="leden" className="display display-sm">
           Leden
         </h2>
         <p className="mt-2 text-sm text-muted">
-          Zet de status op <strong>actief</strong> zodra iemand betaald start; de uitnodiger krijgt dan automatisch de punten.
+          Zet de status op <strong>actief</strong> zodra iemand betaald start. Kwam het lid via een vriend, dan verschijnt de vriendenkorting bovenaan om te verrekenen.
         </p>
         {members.length === 0 ? (
           <p className="mt-4 text-muted">Nog geen leden.</p>
@@ -215,18 +245,17 @@ export default async function AdminPage() {
                       </span>
                     </span>
                     <span className="flex flex-wrap items-center gap-2 text-xs">
-                      {m.plan && <span className="rounded-full bg-sand px-3 py-1 font-semibold">{getOnlinePlan(m.plan)?.name}</span>}
-                      <span className={`rounded-full px-3 py-1 font-semibold ${m.coachingStatus === "aangevraagd" ? "bg-petal" : m.coachingStatus === "actief" ? "bg-rose text-white" : "bg-sand"}`}>
+                      {m.plan && <span className="rounded-full bg-surface px-3 py-1 font-semibold">{getOnlinePlan(m.plan)?.name}</span>}
+                      <span className={`rounded-full px-3 py-1 font-semibold ${m.coachingStatus === "aangevraagd" ? "bg-accent-tint" : m.coachingStatus === "actief" ? "bg-ink text-white" : "bg-surface"}`}>
                         {m.coachingStatus}
                       </span>
-                      <span className="rounded-full border border-line px-3 py-1 font-semibold">{m.points} pt</span>
-                    </span>
+                                          </span>
                   </summary>
                   <div className="mt-5 grid gap-6 border-t border-line pt-5 lg:grid-cols-[1.4fr_1fr]">
                     <form action={updateMemberAction} className="grid gap-3">
                       <input type="hidden" name="userId" value={m.id} />
                       <p className="text-sm text-muted">
-                        <Link href={`/admin/leden/${m.id}`} className="font-semibold text-ink underline decoration-rose underline-offset-4">
+                        <Link href={`/admin/leden/${m.id}`} className="font-semibold text-ink underline decoration-accent underline-offset-4">
                           Intake &amp; schema&apos;s
                         </Link>{" "}
                         · Doel: {GOALS.find((g) => g.id === m.goal)?.label ?? "–"} · Lid sinds {dateFmt.format(m.createdAt)}
@@ -250,15 +279,12 @@ export default async function AdminPage() {
                         Opslaan
                       </button>
                     </form>
-                    <form action={adjustPointsAction} className="grid content-start gap-3">
-                      <input type="hidden" name="userId" value={m.id} />
-                      <p className="label">Punten corrigeren</p>
-                      <input name="amount" type="number" required placeholder="Bijv. 100 of -50" className="input" aria-label="Aantal punten" />
-                      <input name="description" required minLength={2} placeholder="Omschrijving" className="input" aria-label="Omschrijving" />
-                      <button type="submit" className="btn btn-sm btn-outline justify-self-start">
-                        Boeken
-                      </button>
-                    </form>
+                    <div className="grid content-start gap-3 text-sm">
+                      <p className="label">Snel naar</p>
+                      <Link href={`/admin/leden/${m.id}`} className="btn btn-sm btn-outline justify-self-start">
+                        Intake, schema&apos;s en metingen
+                      </Link>
+                    </div>
                   </div>
                 </details>
               </li>

@@ -17,9 +17,10 @@ import { CtaBand } from "@/components/CtaBand";
 import { DashboardPreview } from "@/components/DashboardPreview";
 import { Locations } from "@/components/Locations";
 import { LogoMark } from "@/components/Logo";
+import { ReferralSteps } from "@/components/ReferralSteps";
 import { Reviews } from "@/components/Reviews";
 import { ButtonLink, SectionHeading } from "@/components/ui";
-import { POINTS, TIERS, welcomePoints } from "@/lib/loyalty";
+import { REFERRAL } from "@/lib/referral-program";
 import { EXPERTISE, METHOD_STEPS, ONLINE_PLANS } from "@/lib/site";
 
 const services = [
@@ -65,7 +66,7 @@ const services = [
 const onlineFeatures = [
   { icon: ClipboardList, title: "Schema op maat", text: "Afgestemd op je doel, niveau en agenda." },
   { icon: Apple, title: "Voedingsplan", text: "De juiste balans in macro- en micronutriënten." },
-  { icon: CalendarCheck, title: "Wekelijkse check-in", text: "Houd je voortgang bij en verdien punten." },
+  { icon: CalendarCheck, title: "Check-ins & metingen", text: "Je voortgang overzichtelijk in je dashboard." },
   { icon: MessageCircle, title: "Direct contact", text: "Steyn stuurt bij waar nodig." },
 ];
 
@@ -80,11 +81,11 @@ export default function HomePage() {
         <LogoMark className="pointer-events-none absolute -right-20 top-10 hidden h-[640px] w-auto opacity-[0.035] lg:block" />
         <div className="container-site grid items-center gap-12 pb-16 pt-12 lg:grid-cols-[1.3fr_1fr] lg:pb-24 lg:pt-20">
           <div className="animate-rise">
-            <p className="eyebrow text-rose">Personal training · Amsterdam &amp; online</p>
+            <p className="eyebrow text-accent">Personal training · Amsterdam &amp; online</p>
             <h1 className="display display-xl mt-6">
               Sterker lichaam.
               <br />
-              <span className="text-rose">Gezonder</span> leven.
+              <span className="text-accent">Gezonder</span> leven.
             </h1>
             <p className="lead mt-7 max-w-xl text-ink/75">
               Ik ben Steyn van Leeuwen, personal trainer en orthomoleculair voedingscoach. Ik help je aan een gezondere
@@ -118,7 +119,7 @@ export default function HomePage() {
           </div>
 
           <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-            <div className="absolute -inset-3 rotate-2 rounded-[1.75rem] border border-rose/40" aria-hidden="true" />
+            <div className="absolute -inset-3 rounded-2xl border border-line" aria-hidden="true" />
             <Image
               src="/images/steyn-glimlach.jpg"
               alt="Steyn van Leeuwen lacht tijdens een intakegesprek"
@@ -126,11 +127,11 @@ export default function HomePage() {
               height={1350}
               priority
               sizes="(min-width: 1024px) 38vw, 90vw"
-              className="relative aspect-[4/5] w-full rounded-[1.5rem] object-cover"
+              className="relative aspect-[4/5] w-full rounded-xl object-cover"
             />
             <Link
               href="/online-coaching"
-              className="absolute -bottom-6 left-4 right-4 flex items-center justify-between gap-4 rounded-2xl bg-petal p-4 text-ink shadow-xl transition-transform hover:-translate-y-0.5 sm:left-auto sm:right-[-1rem] sm:w-72"
+              className="absolute -bottom-6 left-4 right-4 flex items-center justify-between gap-4 rounded-2xl bg-accent-tint p-4 text-ink shadow-xl transition-transform hover:-translate-y-0.5 sm:left-auto sm:right-[-1rem] sm:w-72"
             >
               <span>
                 <span className="block text-[11px] font-bold uppercase tracking-wider">Nieuw</span>
@@ -142,16 +143,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Marquee */}
-      <div className="overflow-hidden border-y border-line bg-petal py-3 text-ink" aria-hidden="true">
-        <div className="animate-marquee flex w-max gap-8 whitespace-nowrap">
-          {[...marquee, ...marquee, ...marquee, ...marquee].map((item, i) => (
-            <span key={i} className="display flex items-center gap-8 text-2xl">
+      {/* Diensten */}
+      <div className="border-b border-line bg-white">
+        <ul className="container-site flex flex-wrap items-center justify-center gap-x-8 gap-y-2 py-5 text-sm font-medium text-muted">
+          {marquee.map((item) => (
+            <li key={item} className="flex items-center gap-2">
+              <span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
               {item}
-              <span className="inline-block size-2 rotate-45 bg-rose" />
-            </span>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
 
       {/* Online coaching spotlight */}
@@ -170,7 +171,7 @@ export default function HomePage() {
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
               {onlineFeatures.map(({ icon: Icon, title, text }) => (
                 <div key={title} className="card flex gap-4 p-5">
-                  <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-blush text-rose">
+                  <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-accent-tint text-accent">
                     <Icon className="size-5" aria-hidden="true" />
                   </span>
                   <span>
@@ -188,16 +189,13 @@ export default function HomePage() {
                 Gratis account aanmaken
               </ButtonLink>
             </div>
-            <p className="mt-4 text-sm text-muted">
-              Nu tijdelijk <strong className="text-ink">{welcomePoints()} welkomstpunten</strong> bij het aanmaken van je account.
-            </p>
           </div>
           <DashboardPreview />
         </div>
       </section>
 
       {/* Aanbod */}
-      <section className="bg-sand py-20 lg:py-28">
+      <section className="bg-surface py-20 lg:py-28">
         <div className="container-site">
           <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
             <SectionHeading
@@ -214,16 +212,16 @@ export default function HomePage() {
               <Link
                 key={title}
                 href={href}
-                className={`group relative flex min-h-64 flex-col rounded-[1.25rem] border p-7 transition-all duration-300 hover:-translate-y-1 ${
-                  highlight ? "border-rose bg-blush" : "border-line bg-paper hover:border-rose-soft"
+                className={`group relative flex min-h-64 flex-col rounded-xl border p-7 transition-all duration-300 hover:-translate-y-1 ${
+                  highlight ? "border-ink bg-white ring-1 ring-ink" : "border-line bg-paper hover:border-ink/40"
                 }`}
               >
                 <div className="flex items-start justify-between">
-                  <span className={`grid size-12 place-items-center rounded-xl ${highlight ? "bg-rose text-white" : "bg-blush text-rose"}`}>
+                  <span className={`grid size-12 place-items-center rounded-xl ${highlight ? "bg-ink text-white" : "bg-accent-tint text-accent"}`}>
                     <Icon className="size-6" aria-hidden="true" />
                   </span>
                   {highlight && (
-                    <span className="rounded-full bg-petal px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-ink">Nieuw</span>
+                    <span className="rounded-full bg-accent-tint px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-ink">Nieuw</span>
                   )}
                 </div>
                 <h3 className="display mt-8 text-3xl">{title}</h3>
@@ -239,7 +237,7 @@ export default function HomePage() {
       </section>
 
       {/* Over Steyn */}
-      <section className="bg-blush py-20 lg:py-28">
+      <section className="bg-surface py-20 lg:py-28">
         <div className="container-site grid items-center gap-14 lg:grid-cols-2">
           <div className="relative">
             <Image
@@ -248,7 +246,7 @@ export default function HomePage() {
               width={900}
               height={1350}
               sizes="(min-width: 1024px) 45vw, 100vw"
-              className="aspect-[4/5] w-full rounded-[1.5rem] object-cover lg:max-w-lg"
+              className="aspect-[4/5] w-full rounded-xl object-cover lg:max-w-lg"
             />
             <div className="absolute -bottom-6 right-0 max-w-[16rem] rounded-2xl bg-paper p-5 text-ink shadow-xl sm:right-6 lg:right-0">
               <p className="display text-4xl">15 jaar</p>
@@ -283,10 +281,10 @@ export default function HomePage() {
           title="Van intake tot resultaat"
           intro="Of je nu in de gym traint of online: iedere samenwerking volgt dezelfde bewezen aanpak."
         />
-        <ol className="mt-14 grid gap-px overflow-hidden rounded-[1.25rem] border border-line bg-line md:grid-cols-2 lg:grid-cols-4">
+        <ol className="mt-14 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-2 lg:grid-cols-4">
           {METHOD_STEPS.map((step, i) => (
             <li key={step.title} className="bg-paper p-7">
-              <span className="display text-6xl text-rose">0{i + 1}</span>
+              <span className="display text-6xl text-accent">0{i + 1}</span>
               <h3 className="display mt-6 text-2xl">{step.title}</h3>
               <p className="mt-3 text-[15px] leading-relaxed text-muted">{step.text}</p>
             </li>
@@ -294,60 +292,29 @@ export default function HomePage() {
         </ol>
       </section>
 
-      {/* Rewards & vrienden */}
-      <section className="relative overflow-hidden bg-blush py-20 lg:py-28">
+      {/* Vriendenactie */}
+      <section className="bg-surface py-20 lg:py-28">
         <div className="container-site grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:items-center">
           <div>
             <SectionHeading
-             
-              eyebrow="SteynPT Rewards"
+              eyebrow="Vriendenactie"
               title={
                 <>
-                  Samen sterker. <span className="text-rose">Nodig vrienden uit</span>
+                  Breng een vriend mee. <span className="text-accent">{REFERRAL.headline}</span>
                 </>
               }
-              intro="Met je account spaar je automatisch punten: voor elke check-in, voor je streak en voor iedere vriend die je meeneemt. Wissel ze in voor korting, ademcoaching of een gratis PT-sessie."
+              intro={`Nodig een vriend uit voor online coaching. Je vriend krijgt ${REFERRAL.friendReward}; jij krijgt ${REFERRAL.referrerReward} zodra je vriend start.`}
             />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="/registreren">
                 Maak gratis account <ArrowRight className="size-4" aria-hidden="true" />
               </ButtonLink>
-              <ButtonLink href="/rewards" variant="outline">
-                Hoe het werkt
+              <ButtonLink href="/vriend-uitnodigen" variant="outline">
+                Zo werkt het
               </ButtonLink>
             </div>
           </div>
-          <div className="grid gap-4">
-            {[
-              { step: "1", title: "Deel je persoonlijke link", text: "Via WhatsApp, e-mail of social media, direct vanuit je dashboard." },
-              {
-                step: "2",
-                title: "Je vriend maakt een account",
-                text: `Jij krijgt ${POINTS.friendSignup} punten, je vriend ${POINTS.invitedBonus} extra welkomstpunten.`,
-              },
-              {
-                step: "3",
-                title: "Je vriend start een traject",
-                text: `Nog eens ${POINTS.friendStarts} punten voor jou. Bij ${POINTS.friendsMilestoneCount} gestarte vrienden volgt een bonus van ${POINTS.friendsMilestone}.`,
-              },
-            ].map((item) => (
-              <div key={item.step} className="card-soft flex gap-5 p-6">
-                <span className="display grid size-12 shrink-0 place-items-center rounded-full bg-petal text-2xl text-ink">{item.step}</span>
-                <span>
-                  <span className="block text-lg font-semibold">{item.title}</span>
-                  <span className="mt-1 block text-muted">{item.text}</span>
-                </span>
-              </div>
-            ))}
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted">
-              Niveaus:
-              {TIERS.map((t) => (
-                <span key={t.id} className="rounded-full border border-ink/15 px-3 py-1 text-ink/85">
-                  {t.name}
-                </span>
-              ))}
-            </div>
-          </div>
+          <ReferralSteps />
         </div>
       </section>
 
@@ -360,7 +327,7 @@ export default function HomePage() {
       </section>
 
       {/* Locaties */}
-      <section className="bg-sand py-20 lg:py-28">
+      <section className="bg-surface py-20 lg:py-28">
         <div className="container-site">
           <SectionHeading
             eyebrow="Bezoek ons"

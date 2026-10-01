@@ -1,132 +1,156 @@
-import { and, desc, eq, ne } from "drizzle-orm";
-import { CalendarCheck, CircleCheck, Circle, Flame, Gift, MessageSquareQuote, PartyPopper, Users } from "lucide-react";
+import { and, asc, desc, eq, gt, ne } from "drizzle-orm";
+import { ArrowRight, CalendarCheck, CalendarDays, Circle, CircleCheck, Flame, LineChart, MessageSquareQuote, PartyPopper, Users } from "lucide-react";
 import Link from "next/link";
+import { AppointmentList } from "@/components/agenda/AppointmentList";
 import { CheckInForm } from "@/components/account/CheckInForm";
 import { MyPlansCard } from "@/components/account/MyPlansCard";
-import { RedeemButton } from "@/components/account/RedeemButton";
 import { ReferralShare } from "@/components/account/ReferralShare";
 import { RequestCoachingForm } from "@/components/account/RequestCoachingForm";
+import { ProgressOverview } from "@/components/progress/ProgressOverview";
+import { formatDayLong, formatTime, getAgendaLocation, getAppointmentType } from "@/lib/agenda";
 import { requireUser } from "@/lib/auth";
-import { checkIns, db, intakes, plans, redemptions, users, type CoachingStatus } from "@/lib/db";
+import { appointments, checkIns, db, intakes, measurements, plans, users, type CoachingStatus } from "@/lib/db";
 import { intakeSchema } from "@/lib/intake";
-import { checkInStreak, getReward, getTierProgress, isoWeekKey, POINTS, REWARDS } from "@/lib/loyalty";
-import { getPointsHistory, getPointsSummary } from "@/lib/points";
+import { REFERRAL } from "@/lib/referral-program";
 import { getOnlinePlan, GOALS, SITE } from "@/lib/site";
+import { checkInStreak, isoWeekKey } from "@/lib/weeks";
 
 const STATUS: Record<CoachingStatus, { label: string; tone: string }> = {
-  geen: { label: "Nog niet gestart", tone: "bg-sand text-ink" },
-  aangevraagd: { label: "Aanvraag ontvangen", tone: "bg-petal text-ink" },
-  actief: { label: "Actief", tone: "bg-rose text-white" },
-  gepauzeerd: { label: "Gepauzeerd", tone: "bg-sand text-ink" },
-  gestopt: { label: "Gestopt", tone: "bg-sand text-muted" },
+  geen: { label: "Nog niet gestart", tone: "bg-surface text-ink" },
+  aangevraagd: { label: "Aanvraag ontvangen", tone: "bg-accent-tint text-accent" },
+  actief: { label: "Actief", tone: "bg-ink text-white" },
+  gepauzeerd: { label: "Gepauzeerd", tone: "bg-surface text-ink" },
+  gestopt: { label: "Gestopt", tone: "bg-surface text-muted" },
 };
-
-const dateFmt = new Intl.DateTimeFormat("nl-NL", { day: "numeric", month: "short" });
 
 export default async function DashboardPage({ searchParams }: PageProps<"/account">) {
   const user = await requireUser();
   const { welkom, intake: intakeParam } = await searchParams;
+  const now = new Date();
 
-  const [points, history, myCheckIns, friends, myRedemptions, intakeRows, myPlans] = await Promise.all([
-    getPointsSummary(user.id),
-    getPointsHistory(user.id, 12),
+  const [myCheckIns, friends, intakeRows, myPlans, upcoming, myMeasurements] = await Promise.all([
     db.select().from(checkIns).where(eq(checkIns.userId, user.id)).orderBy(desc(checkIns.week)).limit(52),
     db
-      .select({ firstName: users.firstName, coachingStatus: users.coachingStatus, createdAt: users.createdAt })
+      .select({ firstName: users.firstName, coachingStatus: users.coachingStatus, referralRewardAt: users.referralRewardAt })
       .from(users)
       .where(eq(users.referredById, user.id))
       .orderBy(desc(users.createdAt)),
-    db.select().from(redemptions).where(eq(redemptions.userId, user.id)).orderBy(desc(redemptions.createdAt)).limit(10),
     db.select().from(intakes).where(eq(intakes.userId, user.id)),
     db
       .select({ id: plans.id, type: plans.type, status: plans.status, publishedAt: plans.publishedAt })
       .from(plans)
       .where(and(eq(plans.userId, user.id), ne(plans.status, "vervangen")))
       .orderBy(desc(plans.createdAt)),
+    db
+      .select()
+      .from(appointments)
+      .where(and(eq(appointments.userId, user.id), eq(appointments.status, "gepland"), gt(appointments.endsAt, now)))
+      .orderBy(asc(appointments.startsAt)),
+    db.select().from(measurements).where(eq(measurements.userId, user.id)).orderBy(asc(measurements.measuredAt)),
   ]);
-  const intake = intakeSchema.safeParse(intakeRows[0]?.data);
 
-  const tier = getTierProgress(points.lifetime);
-  const week = isoWeekKey(new Date());
+  const intake = intakeSchema.safeParse(intakeRows[0]?.data);
+  const week = isoWeekKey(now);
   const checkedInThisWeek = myCheckIns.some((c) => c.week === week);
   const streak = checkInStreak(myCheckIns.map((c) => c.week));
-  const toNextStreakBonus = POINTS.streakLength - (streak % POINTS.streakLength);
   const plan = getOnlinePlan(user.plan);
   const goal = GOALS.find((g) => g.id === user.goal)?.label;
   const referralUrl = `${SITE.url}/r/${user.referralCode}`;
-  const friendsStarted = friends.filter((f) => f.coachingStatus === "actief").length;
   const status = STATUS[user.coachingStatus];
+  const next = upcoming[0];
 
   return (
     <>
       <section className="hero-soft">
-        <div className="container-site py-10 lg:py-14">
-          {welkom && (
-            <div className="mb-8 flex items-start gap-3 rounded-2xl bg-petal p-4 text-ink sm:items-center">
-              <PartyPopper className="size-6 shrink-0" aria-hidden="true" />
-              <p className="font-medium">
-                Welkom bij SteynPT, {user.firstName}! Je welkomstpunten staan klaar.
-                {user.coachingStatus === "aangevraagd" && " Steyn neemt binnen 24 uur contact met je op voor je intake."}
-              </p>
-            </div>
-          )}
-          {intakeParam && (
-            <div role="status" className="mb-8 flex items-start gap-3 rounded-2xl bg-petal p-4 text-ink sm:items-center">
-              <PartyPopper className="size-6 shrink-0" aria-hidden="true" />
-              <p className="font-medium">
-                Je intake is opgeslagen.{" "}
-                {intakeParam === "gestart"
-                  ? "We maken nu een eerste opzet van je schema. Steyn controleert het en laat het je weten zodra het klaarstaat."
-                  : "Steyn gebruikt je gegevens voor je schema."}
+        <div className="container-site py-10 lg:py-12">
+          {(welkom || intakeParam) && (
+            <div role="status" className="mb-8 flex items-start gap-3 rounded-lg border border-accent/30 bg-accent-tint p-4 sm:items-center">
+              <PartyPopper className="size-5 shrink-0 text-accent" aria-hidden="true" />
+              <p className="text-sm font-medium">
+                {welkom && `Welkom bij SteynPT, ${user.firstName}!`}
+                {welkom && user.coachingStatus === "aangevraagd" && " Steyn neemt binnen 24 uur contact met je op voor je intake."}
+                {intakeParam &&
+                  (intakeParam === "gestart"
+                    ? "Je intake is opgeslagen. We maken nu een eerste opzet van je schema; Steyn controleert het en laat het je weten zodra het klaarstaat."
+                    : "Je intake is opgeslagen. Steyn gebruikt je gegevens voor je schema.")}
               </p>
             </div>
           )}
           <div className="grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-end">
             <div>
-              <p className="eyebrow text-rose">Mijn SteynPT</p>
-              <h1 className="display display-lg mt-3">Hoi {user.firstName}!</h1>
+              <p className="eyebrow text-accent">Mijn omgeving</p>
+              <h1 className="display display-lg mt-3">Hoi {user.firstName}</h1>
               <p className="mt-3 text-muted">
-                {goal ? `Doel: ${goal}` : "Stel je doel in via je profiel"}
+                {goal ? `Doel: ${goal}` : "Stel je doel in via je intake"}
                 {plan ? ` · Online coaching ${plan.name}` : ""}
               </p>
             </div>
-            <div className="card-soft p-6">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-sm text-muted">Je punten</p>
-                  <p className="display mt-1 text-6xl text-rose">{points.balance}</p>
-                </div>
-                <span className="rounded-full bg-petal px-3 py-1 text-xs font-bold uppercase tracking-wider text-ink">{tier.current.name}</span>
-              </div>
-              <div
-                className="mt-5 h-2 overflow-hidden rounded-full bg-sand"
-                role="progressbar"
-                aria-label={tier.next ? `Voortgang naar ${tier.next.name}` : "Hoogste niveau bereikt"}
-                aria-valuenow={Math.round(tier.progress * 100)}
-                aria-valuemin={0}
-                aria-valuemax={100}
-              >
-                <div className="h-full rounded-full bg-petal" style={{ width: `${Math.max(4, tier.progress * 100)}%` }} />
-              </div>
-              <p className="mt-2 text-xs text-muted">
-                {tier.next ? `Nog ${tier.pointsToNext} punten tot ${tier.next.name}` : "Je hebt het hoogste niveau bereikt!"} · {points.lifetime} punten verdiend in totaal
+            <div className="card p-5">
+              <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted">
+                <CalendarDays className="size-4" aria-hidden="true" /> Volgende afspraak
               </p>
+              {next ? (
+                <>
+                  <p className="mt-2 text-lg font-semibold first-letter:uppercase">
+                    {formatDayLong(next.startsAt)}, {formatTime(next.startsAt)}
+                  </p>
+                  <p className="text-sm text-muted">
+                    {getAppointmentType(next.type)?.label} · {getAgendaLocation(next.location)?.label}
+                  </p>
+                  <Link href="/account/agenda" className="mt-3 inline-flex items-center gap-1 text-sm font-semibold underline decoration-accent underline-offset-4">
+                    Alle afspraken
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <p className="mt-2 text-sm text-muted">Je hebt nog geen afspraak gepland.</p>
+                  <Link href="/account/agenda" className="btn btn-primary btn-sm mt-3">
+                    Afspraak maken
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
       </section>
 
-      <div className="container-site grid gap-6 py-10 lg:grid-cols-[1.6fr_1fr] lg:py-14">
-        <div className="grid content-start gap-6">
+      <div className="container-site grid gap-6 py-10 lg:grid-cols-[1.6fr_1fr] lg:py-12">
+        <div className="grid min-w-0 content-start gap-6">
           <MyPlansCard intake={intake.success ? intake.data : null} plans={myPlans} coachingStatus={user.coachingStatus} />
+
+          {/* Voortgang */}
+          <section className="card p-6 sm:p-8" aria-labelledby="progress-title">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <h2 id="progress-title" className="display flex items-center gap-2 text-2xl">
+                <LineChart className="size-6" aria-hidden="true" /> Mijn voortgang
+              </h2>
+              {myMeasurements.length > 0 && (
+                <Link href="/account/voortgang" className="text-sm font-semibold underline decoration-accent underline-offset-4">
+                  Alle metingen
+                </Link>
+              )}
+            </div>
+            {myMeasurements.length === 0 ? (
+              <div className="mt-4 rounded-lg bg-surface p-5 text-sm">
+                <p>Steyn houdt hier je metingen bij, zoals gewicht, vetpercentage en omvang. Na je eerste meting zie je hier je voortgang.</p>
+                <Link href="/account/agenda?type=meting" className="mt-3 inline-flex items-center gap-1 font-semibold underline decoration-accent underline-offset-4">
+                  Plan een meting <ArrowRight className="size-4" aria-hidden="true" />
+                </Link>
+              </div>
+            ) : (
+              <div className="mt-5">
+                <ProgressOverview rows={myMeasurements} charts="main" />
+              </div>
+            )}
+          </section>
 
           {/* Coaching */}
           <section className="card p-6 sm:p-8" aria-labelledby="coaching-title">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <h2 id="coaching-title" className="display text-3xl">
+              <h2 id="coaching-title" className="display text-2xl">
                 Online coaching
               </h2>
-              <span className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider ${status.tone}`}>{status.label}</span>
+              <span className={`rounded px-2.5 py-1 text-xs font-semibold uppercase tracking-wider ${status.tone}`}>{status.label}</span>
             </div>
 
             {(user.coachingStatus === "geen" || user.coachingStatus === "gestopt") && (
@@ -139,7 +163,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
                 <div className="mt-5">
                   <RequestCoachingForm currentPlan={user.plan} />
                 </div>
-                <Link href="/online-coaching#pakketten" className="mt-3 inline-block text-sm font-semibold underline decoration-rose underline-offset-4">
+                <Link href="/online-coaching#pakketten" className="mt-3 inline-block text-sm font-semibold underline decoration-accent underline-offset-4">
                   Vergelijk de pakketten
                 </Link>
               </div>
@@ -154,8 +178,9 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
                   {[
                     { done: true, text: "Account aangemaakt" },
                     { done: true, text: "Pakket gekozen" },
-                    { done: false, text: "Intake met Steyn (je hoort binnen 24 uur van ons)" },
-                    { done: false, text: "Je persoonlijke plan staat klaar" },
+                    { done: intake.success, text: "Intake ingevuld" },
+                    { done: false, text: "Intakegesprek met Steyn (je hoort binnen 24 uur van ons)" },
+                    { done: myPlans.some((p) => p.status === "gepubliceerd"), text: "Je persoonlijke schema staat klaar" },
                   ].map((s) => (
                     <li key={s.text} className="flex items-center gap-3">
                       {s.done ? <CircleCheck className="size-5 text-success" aria-hidden="true" /> : <Circle className="size-5 text-line" aria-hidden="true" />}
@@ -183,8 +208,8 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
             )}
 
             {user.coachNote && (
-              <div className="mt-6 flex gap-3 rounded-xl border border-rose/40 bg-blush p-4">
-                <MessageSquareQuote className="size-5 shrink-0" aria-hidden="true" />
+              <div className="mt-6 flex gap-3 rounded-lg border border-accent/30 bg-accent-tint p-4">
+                <MessageSquareQuote className="size-5 shrink-0 text-accent" aria-hidden="true" />
                 <div>
                   <p className="text-sm font-semibold">Bericht van Steyn</p>
                   <p className="mt-1 whitespace-pre-line text-sm leading-relaxed">{user.coachNote}</p>
@@ -196,25 +221,25 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
           {/* Check-in */}
           <section className="card p-6 sm:p-8" aria-labelledby="checkin-title">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <h2 id="checkin-title" className="display flex items-center gap-2 text-3xl">
-                <CalendarCheck className="size-7" aria-hidden="true" /> Wekelijkse check-in
+              <h2 id="checkin-title" className="display flex items-center gap-2 text-2xl">
+                <CalendarCheck className="size-6" aria-hidden="true" /> Wekelijkse check-in
               </h2>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-sand px-3 py-1 text-sm font-semibold">
-                <Flame className="size-4" aria-hidden="true" /> {streak} {streak === 1 ? "week" : "weken"} streak
-              </span>
+              {streak > 0 && (
+                <span className="inline-flex items-center gap-1.5 rounded bg-surface px-2.5 py-1 text-sm font-medium">
+                  <Flame className="size-4 text-accent" aria-hidden="true" /> {streak} {streak === 1 ? "week" : "weken"} op rij
+                </span>
+              )}
             </div>
             <p className="mt-2 text-sm text-muted">
               Week {week.split("-W")[1]} ·{" "}
-              {checkedInThisWeek
-                ? "Je hebt deze week al ingecheckt. Top!"
-                : `Check in en verdien ${POINTS.weeklyCheckIn} punten. Nog ${toNextStreakBonus} ${toNextStreakBonus === 1 ? "week" : "weken"} tot je streakbonus van ${POINTS.streakBonus}.`}
+              {checkedInThisWeek ? "Je hebt deze week al ingecheckt. Top!" : "Laat Steyn weten hoe je week ging, dan kan hij je plan bijsturen."}
             </p>
             <div className="mt-6 empty:hidden">
               <CheckInForm done={checkedInThisWeek} />
             </div>
 
             {myCheckIns.length > 0 && (
-              <div className="mt-8 overflow-x-auto">
+              <div className="mt-8 relative overflow-x-auto">
                 <table className="w-full min-w-[480px] text-left text-sm">
                   <caption className="sr-only">Je laatste check-ins</caption>
                   <thead className="text-xs uppercase tracking-wider text-muted">
@@ -243,127 +268,50 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
               </div>
             )}
           </section>
-
-          {/* Beloningen */}
-          <section className="card p-6 sm:p-8" aria-labelledby="rewards-title">
-            <h2 id="rewards-title" className="display flex items-center gap-2 text-3xl">
-              <Gift className="size-7" aria-hidden="true" /> Beloningen
-            </h2>
-            <p className="mt-2 text-sm text-muted">
-              Je hebt <strong className="text-ink">{points.balance} punten</strong> te besteden.
-            </p>
-            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-              {REWARDS.map((r) => {
-                const affordable = points.balance >= r.cost;
-                return (
-                  <li key={r.id} className={`flex flex-col rounded-xl border p-4 ${affordable ? "border-ink" : "border-line"}`}>
-                    <div className="flex items-start justify-between gap-3">
-                      <p className="font-semibold">{r.title}</p>
-                      <p className="display shrink-0 text-xl">{r.cost}</p>
-                    </div>
-                    <p className="mt-1 flex-1 text-sm text-muted">{r.description}</p>
-                    {!affordable && (
-                      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-sand" aria-hidden="true">
-                        <div className="h-full rounded-full bg-rose" style={{ width: `${Math.min(100, (points.balance / r.cost) * 100)}%` }} />
-                      </div>
-                    )}
-                    <div className="mt-3">
-                      <RedeemButton rewardId={r.id} title={r.title} cost={r.cost} affordable={affordable} />
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-            {myRedemptions.length > 0 && (
-              <div className="mt-6 border-t border-line pt-5">
-                <h3 className="text-sm font-semibold">Mijn inwisselingen</h3>
-                <ul className="mt-3 space-y-2 text-sm">
-                  {myRedemptions.map((r) => (
-                    <li key={r.id} className="flex justify-between gap-3">
-                      <span>
-                        {getReward(r.rewardId)?.title ?? r.rewardId} · {dateFmt.format(r.createdAt)}
-                      </span>
-                      <span className="text-muted">{r.status}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </section>
         </div>
 
-        <div className="grid content-start gap-6">
+        <div className="grid min-w-0 content-start gap-6">
+          {/* Agenda */}
+          <section className="card p-6" aria-labelledby="agenda-title">
+            <div className="flex items-center justify-between gap-3">
+              <h2 id="agenda-title" className="display flex items-center gap-2 text-2xl">
+                <CalendarDays className="size-6" aria-hidden="true" /> Agenda
+              </h2>
+              <Link href="/account/agenda" className="btn btn-primary btn-sm">
+                Afspraak maken
+              </Link>
+            </div>
+            <div className="mt-4">
+              <AppointmentList items={upcoming.slice(0, 3)} now={now} compact />
+            </div>
+          </section>
+
           {/* Vrienden */}
-          <section className="rounded-[1.25rem] bg-petal p-6 text-ink sm:p-8" aria-labelledby="friends-title">
-            <h2 id="friends-title" className="display flex items-center gap-2 text-3xl">
-              <Users className="size-7" aria-hidden="true" /> Nodig vrienden uit
+          <section className="card p-6" aria-labelledby="friends-title">
+            <h2 id="friends-title" className="display flex items-center gap-2 text-2xl">
+              <Users className="size-6" aria-hidden="true" /> Vriend uitnodigen
             </h2>
-            <p className="mt-2 text-sm text-ink/80">
-              +{POINTS.friendSignup} punten als je vriend een account maakt, +{POINTS.friendStarts} als je vriend start. Je vriend krijgt {POINTS.invitedBonus} extra welkomstpunten.
+            <p className="mt-2 text-sm text-muted">
+              {REFERRAL.headline}: je vriend krijgt {REFERRAL.friendReward}, jij {REFERRAL.referrerReward} zodra je vriend start.
             </p>
             <div className="mt-5">
               <ReferralShare url={referralUrl} code={user.referralCode} firstName={user.firstName} />
             </div>
-            <dl className="mt-6 grid grid-cols-2 gap-3">
-              <div className="rounded-xl bg-ink/5 p-3">
-                <dt className="text-xs text-ink/70">Aangemeld</dt>
-                <dd className="display text-3xl">{friends.length}</dd>
-              </div>
-              <div className="rounded-xl bg-ink/5 p-3">
-                <dt className="text-xs text-ink/70">Gestart</dt>
-                <dd className="display text-3xl">{friendsStarted}</dd>
-              </div>
-            </dl>
             {friends.length > 0 && (
-              <ul className="mt-4 space-y-1.5 text-sm">
+              <ul className="mt-5 divide-y divide-line border-t border-line text-sm">
                 {friends.map((f, i) => (
-                  <li key={i} className="flex justify-between">
+                  <li key={i} className="flex justify-between gap-3 py-2.5">
                     <span>{f.firstName}</span>
-                    <span className="text-ink/70">{f.coachingStatus === "actief" ? "Gestart" : "Aangemeld"}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-
-          {/* Punten historie */}
-          <section className="card p-6 sm:p-8" aria-labelledby="history-title">
-            <h2 id="history-title" className="display text-3xl">
-              Puntenhistorie
-            </h2>
-            {history.length === 0 ? (
-              <p className="mt-3 text-sm text-muted">Nog geen punten.</p>
-            ) : (
-              <ul className="mt-5 divide-y divide-line text-sm">
-                {history.map((t) => (
-                  <li key={t.id} className="flex items-center justify-between gap-3 py-2.5">
-                    <span>
-                      <span className="block">{t.description}</span>
-                      <span className="block text-xs text-muted">{dateFmt.format(t.createdAt)}</span>
-                    </span>
-                    <span className={`shrink-0 font-semibold ${t.amount > 0 ? "text-success" : "text-muted"}`}>
-                      {t.amount > 0 ? "+" : ""}
-                      {t.amount}
+                    <span className="text-muted">
+                      {f.referralRewardAt ? "Korting verrekend" : f.coachingStatus === "actief" ? "Gestart · korting volgt" : "Aangemeld"}
                     </span>
                   </li>
                 ))}
               </ul>
             )}
-            <Link href="/rewards" className="mt-5 inline-block text-sm font-semibold underline decoration-rose underline-offset-4">
-              Hoe verdien ik punten?
+            <Link href="/vriend-uitnodigen#voorwaarden" className="mt-4 inline-block text-xs text-muted underline">
+              Voorwaarden
             </Link>
-          </section>
-
-          <section className="card p-6 sm:p-8">
-            <h2 className="display text-2xl">Niveau {tier.current.name}</h2>
-            <ul className="mt-4 space-y-2 text-sm text-muted">
-              {tier.current.perks.map((p) => (
-                <li key={p} className="flex gap-2">
-                  <span className="mt-2 size-1.5 shrink-0 rotate-45 bg-rose" />
-                  {p}
-                </li>
-              ))}
-            </ul>
           </section>
         </div>
       </div>

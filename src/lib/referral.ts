@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { REFERRAL_COOKIE } from "./constants";
 import { db, users } from "./db";
-import { normalizeReferralCode } from "./loyalty";
+import { normalizeReferralCode } from "./referral-program";
 
 /** Zoekt de uitnodiger op basis van een code (uit de URL of de uitnodigingscookie). */
 export async function resolveInvitation(codeFromUrl?: string | string[]) {

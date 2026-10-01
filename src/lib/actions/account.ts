@@ -1,14 +1,13 @@
 "use server";
 
-import { eq, sum } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { hashPassword, requireUser, SESSION_COOKIE_NAME, verifyPassword } from "../auth";
-import { checkIns, db, intakes, plans, pointTransactions, redemptions, sessions, users } from "../db";
-import { checkInStreak, getReward, isoWeekKey, POINT_TYPES, POINTS } from "../loyalty";
-import { awardPoints } from "../points";
+import { appointments, checkIns, db, intakes, measurements, plans, sessions, users } from "../db";
+import { checkInStreak, isoWeekKey } from "../weeks";
 import { getOnlinePlan, GOALS } from "../site";
 import { fieldErrorsFrom, formValues, type FormState } from "./types";
 
@@ -45,56 +44,11 @@ export async function checkInAction(_prev: FormState, formData: FormData): Promi
     .onConflictDoNothing();
   if (result.rowsAffected === 0) return { error: "Je hebt deze week al ingecheckt. Tot volgende week!" };
 
-  await awardPoints(user.id, POINTS.weeklyCheckIn, POINT_TYPES.checkIn, `Wekelijkse check-in ${week}`, week);
-
   const weeks = await db.select({ week: checkIns.week }).from(checkIns).where(eq(checkIns.userId, user.id));
   const streak = checkInStreak(weeks.map((w) => w.week));
-  let message = `Check-in opgeslagen: +${POINTS.weeklyCheckIn} punten.`;
-  if (streak > 0 && streak % POINTS.streakLength === 0) {
-    await awardPoints(user.id, POINTS.streakBonus, POINT_TYPES.streak, `${streak} weken op rij ingecheckt`, `streak-${week}`);
-    message += ` Streak van ${streak} weken: +${POINTS.streakBonus} bonuspunten!`;
-  }
 
   revalidatePath("/account");
-  return { success: message };
-}
-
-export async function redeemRewardAction(_prev: FormState, formData: FormData): Promise<FormState> {
-  const user = await requireUser();
-  const reward = getReward(String(formData.get("rewardId") ?? ""));
-  if (!reward) return { error: "Deze beloning bestaat niet (meer)." };
-
-  const outcome = await db.transaction(async (tx) => {
-    const { balance } = await getPointsSummaryTx(tx, user.id);
-    if (balance < reward.cost) return "insufficient" as const;
-    const [redemption] = await tx
-      .insert(redemptions)
-      .values({ userId: user.id, rewardId: reward.id, cost: reward.cost })
-      .returning({ id: redemptions.id });
-    await awardPoints(
-      user.id,
-      -reward.cost,
-      POINT_TYPES.redemption,
-      `Ingewisseld: ${reward.title}`,
-      `inwisseling-${redemption.id}`,
-      tx,
-    );
-    return "ok" as const;
-  });
-
-  if (outcome === "insufficient") return { error: "Je hebt nog niet genoeg punten voor deze beloning." };
-  revalidatePath("/account");
-  return { success: `Gelukt! Steyn neemt contact met je op over je beloning: ${reward.title}.` };
-}
-
-type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
-
-async function getPointsSummaryTx(tx: Tx, userId: string) {
-  const [row] = await tx
-    .select({ balance: sum(pointTransactions.amount) })
-    .from(pointTransactions)
-    .where(eq(pointTransactions.userId, userId));
-  return { balance: Number(row?.balance ?? 0) };
+  return { success: streak > 1 ? `Check-in opgeslagen. ${streak} weken op rij, goed bezig!` : "Check-in opgeslagen. Steyn kijkt ernaar." };
 }
 
 const profileSchema = z.object({
@@ -123,12 +77,8 @@ export async function updateProfileAction(_prev: FormState, formData: FormData):
     })
     .where(eq(users.id, user.id));
 
-  let success = "Je profiel is bijgewerkt.";
-  if (data.phone && (await awardPoints(user.id, POINTS.profileComplete, POINT_TYPES.profileComplete, "Profiel compleet", "profiel"))) {
-    success += ` +${POINTS.profileComplete} punten voor een compleet profiel!`;
-  }
   revalidatePath("/account", "layout");
-  return { success };
+  return { success: "Je profiel is bijgewerkt." };
 }
 
 const passwordSchema = z
@@ -176,9 +126,9 @@ export async function deleteAccountAction(_prev: FormState, formData: FormData):
   // Expliciet verwijderen, ook als foreign keys op de database uit staan.
   await db.transaction(async (tx) => {
     await tx.delete(sessions).where(eq(sessions.userId, user.id));
-    await tx.delete(pointTransactions).where(eq(pointTransactions.userId, user.id));
     await tx.delete(checkIns).where(eq(checkIns.userId, user.id));
-    await tx.delete(redemptions).where(eq(redemptions.userId, user.id));
+    await tx.delete(appointments).where(eq(appointments.userId, user.id));
+    await tx.delete(measurements).where(eq(measurements.userId, user.id));
     await tx.delete(plans).where(eq(plans.userId, user.id));
     await tx.delete(intakes).where(eq(intakes.userId, user.id));
     await tx.update(users).set({ referredById: null }).where(eq(users.referredById, user.id));

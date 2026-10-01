@@ -45,14 +45,14 @@ function Choices({
         {options.map((o) => (
           <label
             key={o.id}
-            className="flex cursor-pointer items-start gap-2.5 rounded-xl border-[1.5px] border-line bg-white px-3.5 py-3 text-sm transition-colors hover:border-rose-soft has-[:checked]:border-rose has-[:checked]:bg-blush has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-rose"
+            className="flex cursor-pointer items-start gap-2.5 rounded-xl border-[1.5px] border-line bg-white px-3.5 py-3 text-sm transition-colors hover:border-ink/40 has-[:checked]:border-ink has-[:checked]:bg-surface has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent"
           >
             <input
               type={multiple ? "checkbox" : "radio"}
               name={name}
               value={o.id}
               defaultChecked={selected.includes(o.id)}
-              className="mt-0.5 size-4 shrink-0 accent-rose"
+              className="mt-0.5 size-4 shrink-0 accent-ink"
             />
             <span>
               <span className="block font-medium">{o.label}</span>
@@ -82,7 +82,7 @@ function TextArea({ name, label, hint, defaultValue, error, placeholder }: { nam
 function Section({ step, title, intro, children }: { step: number; title: string; intro?: string; children: ReactNode }) {
   return (
     <section className="card p-6 sm:p-8">
-      <p className="text-xs font-bold uppercase tracking-[0.14em] text-rose">Stap {step}</p>
+      <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent">Stap {step}</p>
       <h2 className="display mt-1 text-2xl">{title}</h2>
       {intro && <p className="mt-1 text-sm text-muted">{intro}</p>}
       <div className="mt-6 grid gap-6">{children}</div>
@@ -150,9 +150,9 @@ export function IntakeForm({ initial, defaultGoal }: { initial?: IntakeData; def
         <Choices name="mealsPerDay" legend="Hoeveel eetmomenten per dag passen bij jou?" options={asOptions([2, 3, 4, 5, 6])} selected={one("mealsPerDay")} error={e.mealsPerDay} columns="grid-cols-5" />
       </Section>
 
-      <div className="rounded-[1.25rem] bg-blush p-6">
+      <div className="rounded-xl bg-accent-tint p-6">
         <label className="flex gap-3 text-sm">
-          <input type="checkbox" name="consent" className="mt-0.5 size-4 shrink-0 accent-rose" defaultChecked={v?.consent === "on"} />
+          <input type="checkbox" name="consent" className="mt-0.5 size-4 shrink-0 accent-ink" defaultChecked={v?.consent === "on"} />
           <span>
             Ik geef toestemming om deze gegevens, waaronder gezondheidsgegevens, te gebruiken voor mijn schema. Een eerste
             opzet wordt gemaakt met behulp van AI, zonder mijn naam of contactgegevens; Steyn controleert en past het schema aan

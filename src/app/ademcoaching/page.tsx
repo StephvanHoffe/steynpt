@@ -50,7 +50,7 @@ export default function AdemcoachingPage() {
         eyebrow="Ademcoaching in groepsverband"
         title={
           <>
-            Adem in. <span className="text-rose">Kom tot rust.</span> Presteer beter.
+            Adem in. <span className="text-accent">Kom tot rust.</span> Presteer beter.
           </>
         }
         intro="Je ademhaling is het krachtigste gereedschap dat je altijd bij je hebt. In een begeleide groepssessie leer je hoe je met je adem stress verlaagt, je focus vergroot en sneller herstelt."
@@ -71,7 +71,7 @@ export default function AdemcoachingPage() {
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {benefits.map(({ icon: Icon, title, text }) => (
             <div key={title} className="card p-6">
-              <span className="grid size-11 place-items-center rounded-xl bg-blush text-rose">
+              <span className="grid size-11 place-items-center rounded-xl bg-accent-tint text-accent">
                 <Icon className="size-5" aria-hidden="true" />
               </span>
               <h3 className="mt-5 text-lg font-semibold">{title}</h3>
@@ -81,7 +81,7 @@ export default function AdemcoachingPage() {
         </div>
       </section>
 
-      <section className="bg-blush py-20 lg:py-28">
+      <section className="bg-surface py-20 lg:py-28">
         <div className="container-site grid gap-14 lg:grid-cols-2">
           <div>
             <SectionHeading eyebrow="Een sessie" title="Zo ziet een groepssessie eruit" />
@@ -93,7 +93,7 @@ export default function AdemcoachingPage() {
                 ["Meenemen", "Je gaat naar huis met concrete oefeningen voor je dagelijks leven of sport."],
               ].map(([title, text], i) => (
                 <li key={title} className="flex gap-5">
-                  <span className="display grid size-11 shrink-0 place-items-center rounded-full border border-rose/50 text-xl text-rose">
+                  <span className="display grid size-11 shrink-0 place-items-center rounded-full border border-accent/50 text-xl text-accent">
                     {i + 1}
                   </span>
                   <span>
@@ -107,18 +107,17 @@ export default function AdemcoachingPage() {
           <div className="grid content-start gap-4">
             {groups.map(({ icon: Icon, title, text }) => (
               <div key={title} className="card-soft flex gap-5 p-6">
-                <Icon className="size-7 shrink-0 text-rose" aria-hidden="true" />
+                <Icon className="size-7 shrink-0 text-accent" aria-hidden="true" />
                 <span>
                   <span className="block text-lg font-semibold">{title}</span>
                   <span className="mt-1 block text-muted">{text}</span>
                 </span>
               </div>
             ))}
-            <div className="flex items-center gap-4 rounded-[1.25rem] bg-petal p-6 text-ink">
+            <div className="flex items-center gap-4 rounded-xl bg-accent-tint p-6 text-ink">
               <Wind className="size-8 shrink-0" aria-hidden="true" />
               <p className="font-semibold">
-                Tarief op aanvraag, afhankelijk van groepsgrootte en locatie. Rewards-leden kunnen punten inwisselen voor een
-                gratis plek.
+                Tarief op aanvraag, afhankelijk van groepsgrootte en locatie.
               </p>
             </div>
           </div>

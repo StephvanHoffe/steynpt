@@ -6,9 +6,7 @@ import { after } from "next/server";
 import { requireUser } from "../auth";
 import { db, intakes, users } from "../db";
 import { intakeFromFormData, intakeSchema } from "../intake";
-import { POINT_TYPES, POINTS } from "../loyalty";
 import { createPlanJob, generatePlan, mayAutoGenerate } from "../plans/generate";
-import { awardPoints } from "../points";
 import { fieldErrorsFrom, formValues, type FormState } from "./types";
 
 export async function saveIntakeAction(_prev: FormState, formData: FormData): Promise<FormState> {
@@ -32,7 +30,6 @@ export async function saveIntakeAction(_prev: FormState, formData: FormData): Pr
     .values({ userId: user.id, data })
     .onConflictDoUpdate({ target: intakes.userId, set: { data, updatedAt: new Date() } });
   await db.update(users).set({ goal: data.goal }).where(eq(users.id, user.id));
-  await awardPoints(user.id, POINTS.intake, POINT_TYPES.intake, "Intake ingevuld", "intake");
 
   let generating = false;
   if (await mayAutoGenerate(user)) {

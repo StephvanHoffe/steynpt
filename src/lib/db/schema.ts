@@ -26,6 +26,8 @@ export const users = sqliteTable(
     referredById: text("referred_by_id"),
     role: text("role", { enum: ["member", "admin"] }).notNull().default("member"),
     marketingOptIn: integer("marketing_opt_in", { mode: "boolean" }).notNull().default(false),
+    // Vriendenactie: moment waarop Steyn de korting voor de uitnodiger heeft verrekend.
+    referralRewardAt: integer("referral_reward_at", { mode: "timestamp" }),
     createdAt: createdAt(),
   },
   (t) => [
@@ -49,26 +51,6 @@ export const sessions = sqliteTable(
   (t) => [index("sessions_user_idx").on(t.userId)],
 );
 
-export const pointTransactions = sqliteTable(
-  "point_transactions",
-  {
-    id: integer("id").primaryKey({ autoIncrement: true }),
-    userId: text("user_id")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    amount: integer("amount").notNull(),
-    type: text("type").notNull(),
-    description: text("description").notNull(),
-    // Maakt toekenningen idempotent: dezelfde (user, type, ref) kan maar één keer.
-    refId: text("ref_id"),
-    createdAt: createdAt(),
-  },
-  (t) => [
-    index("points_user_idx").on(t.userId),
-    uniqueIndex("points_unique_award_idx").on(t.userId, t.type, t.refId),
-  ],
-);
-
 export const checkIns = sqliteTable(
   "check_ins",
   {
@@ -88,24 +70,6 @@ export const checkIns = sqliteTable(
   (t) => [uniqueIndex("check_ins_user_week_idx").on(t.userId, t.week)],
 );
 
-export const REDEMPTION_STATUSES = ["aangevraagd", "geleverd", "geannuleerd"] as const;
-
-export const redemptions = sqliteTable(
-  "redemptions",
-  {
-    id: integer("id").primaryKey({ autoIncrement: true }),
-    userId: text("user_id")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    rewardId: text("reward_id").notNull(),
-    cost: integer("cost").notNull(),
-    status: text("status", { enum: REDEMPTION_STATUSES }).notNull().default("aangevraagd"),
-    createdAt: createdAt(),
-    handledAt: integer("handled_at", { mode: "timestamp" }),
-  },
-  (t) => [index("redemptions_user_idx").on(t.userId)],
-);
-
 export const contactRequests = sqliteTable("contact_requests", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
@@ -119,7 +83,6 @@ export const contactRequests = sqliteTable("contact_requests", {
 
 export type User = typeof users.$inferSelect;
 export type CheckIn = typeof checkIns.$inferSelect;
-export type Redemption = typeof redemptions.$inferSelect;
 export type ContactRequest = typeof contactRequests.$inferSelect;
 
 // Intake van de klant: één per lid, de inhoud is gevalideerd met intakeSchema (src/lib/intake.ts).
@@ -168,3 +131,76 @@ export const plans = sqliteTable(
 
 export type Intake = typeof intakes.$inferSelect;
 export type Plan = typeof plans.$inferSelect;
+
+// Metingen die Steyn invoert; de klant ziet ze als voortgang in Mijn omgeving.
+export const measurements = sqliteTable(
+  "measurements",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    measuredAt: integer("measured_at", { mode: "timestamp" }).notNull(),
+    weight: real("weight"),
+    bodyFat: real("body_fat"),
+    muscleMass: real("muscle_mass"),
+    waist: real("waist"),
+    hip: real("hip"),
+    chest: real("chest"),
+    arm: real("arm"),
+    thigh: real("thigh"),
+    note: text("note"),
+    createdAt: createdAt(),
+  },
+  (t) => [index("measurements_user_idx").on(t.userId, t.measuredAt)],
+);
+
+// Agenda: wekelijkse beschikbaarheid van Steyn per locatie (tijden in Europe/Amsterdam).
+export const availability = sqliteTable("availability", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  weekday: integer("weekday").notNull(), // 1 = maandag ... 7 = zondag
+  startTime: text("start_time").notNull(), // "07:00"
+  endTime: text("end_time").notNull(), // "12:00"
+  location: text("location").notNull(),
+});
+
+// Periodes waarin niet geboekt kan worden (vakantie, ziekte, privé).
+export const blockedPeriods = sqliteTable("blocked_periods", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  startsAt: integer("starts_at", { mode: "timestamp" }).notNull(),
+  endsAt: integer("ends_at", { mode: "timestamp" }).notNull(),
+  reason: text("reason"),
+});
+
+export const APPOINTMENT_STATUSES = ["gepland", "geannuleerd"] as const;
+
+export const appointments = sqliteTable(
+  "appointments",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    type: text("type").notNull(),
+    location: text("location").notNull(),
+    startsAt: integer("starts_at", { mode: "timestamp" }).notNull(),
+    endsAt: integer("ends_at", { mode: "timestamp" }).notNull(),
+    status: text("status", { enum: APPOINTMENT_STATUSES }).notNull().default("gepland"),
+    note: text("note"),
+    cancelledBy: text("cancelled_by", { enum: ["klant", "steyn"] }),
+    cancelledAt: integer("cancelled_at", { mode: "timestamp" }),
+    createdAt: createdAt(),
+  },
+  (t) => [index("appointments_start_idx").on(t.startsAt), index("appointments_user_idx").on(t.userId)],
+);
+
+// Eenvoudige sleutel/waarde-instellingen, zoals het geheime token van de iCal-feed.
+export const settings = sqliteTable("settings", {
+  key: text("key").primaryKey(),
+  value: text("value").notNull(),
+});
+
+export type Measurement = typeof measurements.$inferSelect;
+export type Appointment = typeof appointments.$inferSelect;
+export type AvailabilityWindow = typeof availability.$inferSelect;
+export type BlockedPeriod = typeof blockedPeriods.$inferSelect;

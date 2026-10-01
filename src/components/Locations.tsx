@@ -10,7 +10,7 @@ export function Locations() {
           href={loc.maps}
           target="_blank"
           rel="noopener noreferrer"
-          className="card group flex flex-col p-6 transition-colors hover:border-rose-soft"
+          className="card group flex flex-col p-6 transition-colors hover:border-ink/40"
         >
           <MapPin className="size-6" aria-hidden="true" />
           <h3 className="display mt-6 text-2xl">{loc.name}</h3>
@@ -29,8 +29,8 @@ export function Locations() {
         <h3 className="display mt-6 text-2xl">Op locatie</h3>
         <p className="mt-2 text-sm text-muted">{ON_LOCATION}</p>
       </div>
-      <div className="flex flex-col rounded-[1.25rem] bg-blush p-6">
-        <Smartphone className="size-6 text-rose" aria-hidden="true" />
+      <div className="flex flex-col rounded-xl bg-accent-tint p-6">
+        <Smartphone className="size-6 text-accent" aria-hidden="true" />
         <h3 className="display mt-6 text-2xl">Online</h3>
         <p className="mt-2 text-sm text-muted">Met online coaching train je waar en wanneer jij wilt, met Steyn altijd binnen handbereik.</p>
       </div>

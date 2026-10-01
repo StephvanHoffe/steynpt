@@ -18,14 +18,14 @@ export function IntakePanel({ intake, updatedAt }: { intake: IntakeData; updated
       {updatedAt && <p className="text-xs text-muted">Laatst bijgewerkt {updatedAt.toLocaleString("nl-NL", { dateStyle: "medium", timeStyle: "short" })}</p>}
       {SECTIONS.map(([id, title]) => (
         <section key={id}>
-          <h3 className="text-xs font-bold uppercase tracking-[0.14em] text-rose">{title}</h3>
+          <h3 className="text-xs font-bold uppercase tracking-[0.14em] text-accent">{title}</h3>
           <dl className="mt-2 divide-y divide-line text-sm">
             {rows
               .filter((r) => r.section === id)
               .map((r) => (
-                <div key={r.label} className={`grid grid-cols-[9rem_1fr] gap-3 py-2 ${IMPORTANT.has(r.label) ? "rounded-md bg-blush px-2" : ""}`}>
+                <div key={r.label} className={`grid grid-cols-[9rem_1fr] gap-3 py-2 ${IMPORTANT.has(r.label) ? "rounded-md bg-accent-tint px-2" : ""}`}>
                   <dt className="text-muted">
-                    {IMPORTANT.has(r.label) && <AlertTriangle className="mr-1 inline size-3.5 text-rose" aria-hidden="true" />}
+                    {IMPORTANT.has(r.label) && <AlertTriangle className="mr-1 inline size-3.5 text-accent" aria-hidden="true" />}
                     {r.label}
                   </dt>
                   <dd className="whitespace-pre-line font-medium">{r.value}</dd>
@@ -34,7 +34,7 @@ export function IntakePanel({ intake, updatedAt }: { intake: IntakeData; updated
           </dl>
         </section>
       ))}
-      <section className="rounded-xl bg-sand p-4 text-sm">
+      <section className="rounded-xl bg-surface p-4 text-sm">
         <h3 className="font-semibold">Berekende richtwaarden</h3>
         <p className="mt-1 text-muted">
           Rust {t.bmr} kcal · onderhoud {t.maintenance} kcal · doel {t.calories} kcal · eiwit {t.protein} g · koolhydraten {t.carbs} g · vet {t.fat} g

@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { REFERRAL_COOKIE } from "@/lib/constants";
-import { normalizeReferralCode } from "@/lib/loyalty";
+import { normalizeReferralCode } from "@/lib/referral-program";
 
 // Persoonlijke uitnodigingslink: /r/LISA-7K2Q
 export async function GET(_request: NextRequest, ctx: RouteContext<"/r/[code]">) {

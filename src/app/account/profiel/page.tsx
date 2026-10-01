@@ -34,7 +34,7 @@ export default async function ProfilePage() {
           <PasswordForm />
         </div>
       </section>
-      <section className="mt-6 rounded-[1.25rem] border border-danger/30 p-6 sm:p-8" aria-labelledby="verwijderen">
+      <section className="mt-6 rounded-xl border border-danger/30 p-6 sm:p-8" aria-labelledby="verwijderen">
         <h2 id="verwijderen" className="display text-2xl">
           Account verwijderen
         </h2>
