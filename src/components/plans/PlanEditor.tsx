@@ -304,7 +304,7 @@ export function PlanEditor({
         </div>
       )}
 
-      <div className="sticky bottom-0 z-10 -mx-4 border-t border-line bg-paper/95 px-4 py-4 backdrop-blur sm:mx-0 sm:rounded-2xl sm:border sm:px-5">
+      <div className="sticky bottom-0 z-10 -mx-4 border-t border-line bg-paper/95 px-4 py-4 backdrop-blur sm:mx-0 sm:rounded-xl sm:border sm:px-5">
         <FormAlert error={state.error} success={dirty ? undefined : state.success} />
         <div className="mt-3 flex flex-wrap items-center gap-3 first:mt-0">
           <button type="submit" name="intent" value="opslaan" className="btn btn-outline bg-white" disabled={!dirty}>
