@@ -36,7 +36,7 @@ export function ProfileForm({ profile }: { profile: Profile }) {
           type="checkbox"
           name="marketing"
           defaultChecked={v ? v.marketing === "on" : profile.marketingOptIn}
-          className="mt-0.5 size-4 shrink-0 accent-ink"
+          className="mt-0.5 size-4 shrink-0 accent-rose"
         />
         Houd me op de hoogte van acties, tips en nieuwe sessies.
       </label>

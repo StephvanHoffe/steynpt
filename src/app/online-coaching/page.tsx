@@ -59,22 +59,22 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
 
   return (
     <>
-      <section className="grain relative overflow-hidden bg-ink text-paper">
+      <section className="hero-soft relative overflow-hidden">
         <div className="container-site grid items-center gap-14 py-16 lg:grid-cols-[1.2fr_1fr] lg:py-24">
           <div className="animate-rise">
             {invitation && (
-              <p className="mb-6 inline-flex items-center gap-2 rounded-full bg-volt px-4 py-2 text-sm font-semibold text-ink">
+              <p className="mb-6 inline-flex items-center gap-2 rounded-full bg-petal px-4 py-2 text-sm font-semibold text-ink">
                 <Gift className="size-4" aria-hidden="true" />
                 {invitation.firstName} nodigt je uit: +{POINTS.invitedBonus} extra punten bij je aanmelding
               </p>
             )}
-            <p className="eyebrow text-volt">Nieuw · Online coaching</p>
+            <p className="eyebrow text-rose">Nieuw · Online coaching</p>
             <h1 className="display display-xl mt-5">
               Jouw coach.
               <br />
-              <span className="text-volt">Altijd</span> en overal.
+              <span className="text-rose">Altijd</span> en overal.
             </h1>
-            <p className="lead mt-6 max-w-xl text-paper/75">
+            <p className="lead mt-6 max-w-xl text-ink/75">
               De persoonlijke aanpak van SteynPT, nu ook online. Een plan op maat, wekelijkse check-ins in je eigen
               dashboard en een coach die met je meedenkt, waar je ook traint.
             </p>
@@ -82,11 +82,11 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
               <ButtonLink href="#pakketten">
                 Kies je pakket <ArrowRight className="size-4" aria-hidden="true" />
               </ButtonLink>
-              <ButtonLink href={`/registreren${ref ? `?ref=${ref}` : ""}`} variant="outline-light">
+              <ButtonLink href={`/registreren${ref ? `?ref=${ref}` : ""}`} variant="outline">
                 Gratis account aanmaken
               </ButtonLink>
             </div>
-            <p className="mt-5 text-sm text-mist">
+            <p className="mt-5 text-sm text-muted">
               Nu {welcomePoints()} welkomstpunten bij aanmelding · Intake binnen 24 uur · Je betaalt pas na de intake
             </p>
           </div>
@@ -103,7 +103,7 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {audiences.map(({ icon: Icon, title, text }) => (
             <div key={title} className="card p-6">
-              <span className="grid size-11 place-items-center rounded-xl bg-ink text-volt">
+              <span className="grid size-11 place-items-center rounded-xl bg-blush text-rose">
                 <Icon className="size-5" aria-hidden="true" />
               </span>
               <h3 className="mt-5 text-lg font-semibold">{title}</h3>
@@ -119,7 +119,7 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
           <ol className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, i) => (
               <li key={step.title} className="relative rounded-[1.25rem] bg-paper p-7">
-                <span className="display grid size-12 place-items-center rounded-full bg-ink text-2xl text-volt">{i + 1}</span>
+                <span className="display grid size-12 place-items-center rounded-full bg-rose text-2xl text-white">{i + 1}</span>
                 <h3 className="display mt-6 text-2xl">{step.title}</h3>
                 <p className="mt-3 text-[15px] leading-relaxed text-muted">{step.text}</p>
               </li>
@@ -128,10 +128,10 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
         </div>
       </section>
 
-      <section id="pakketten" className="scroll-mt-28 bg-ink py-20 text-paper lg:py-28">
+      <section id="pakketten" className="scroll-mt-28 bg-blush py-20 lg:py-28">
         <div className="container-site">
           <SectionHeading
-            tone="dark"
+           
             align="center"
             eyebrow="Pakketten"
             title="Kies wat bij jou past"
@@ -140,9 +140,9 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
           <div className="mt-14">
             <OnlinePlans referral={ref} />
           </div>
-          <p className="mt-8 text-center text-sm text-mist">
+          <p className="mt-8 text-center text-sm text-muted">
             Liever eerst kennismaken?{" "}
-            <Link href="/contact" className="font-semibold text-paper underline decoration-volt underline-offset-4">
+            <Link href="/contact" className="font-semibold text-ink underline decoration-rose underline-offset-4">
               Plan een gratis kennismaking
             </Link>
           </p>

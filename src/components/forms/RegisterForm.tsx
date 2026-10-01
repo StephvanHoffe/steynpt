@@ -25,9 +25,9 @@ export function RegisterForm({ plan, referralCode, inviterName }: { plan?: strin
           {[...ONLINE_PLANS.map((p) => ({ id: p.id, title: p.name, sub: `€ ${p.price} per maand` })), { id: "", title: "Nog niet", sub: "Eerst rondkijken & punten sparen" }].map((option) => (
             <label
               key={option.id || "geen"}
-              className="flex cursor-pointer items-center gap-3 rounded-xl border-[1.5px] border-line bg-white p-4 transition-colors has-[:checked]:border-ink has-[:checked]:bg-volt/25 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-volt-deep"
+              className="flex cursor-pointer items-center gap-3 rounded-xl border-[1.5px] border-line bg-white p-4 transition-colors has-[:checked]:border-ink has-[:checked]:bg-blush has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-rose"
             >
-              <input type="radio" name="plan" value={option.id} defaultChecked={selectedPlan === option.id} className="size-4 accent-ink" />
+              <input type="radio" name="plan" value={option.id} defaultChecked={selectedPlan === option.id} className="size-4 accent-rose" />
               <span>
                 <span className="block font-semibold">{option.title}</span>
                 <span className="block text-sm text-muted">{option.sub}</span>
@@ -76,7 +76,7 @@ export function RegisterForm({ plan, referralCode, inviterName }: { plan?: strin
 
       <div className="space-y-3 rounded-xl bg-sand/70 p-4 text-sm">
         <label className="flex gap-3">
-          <input type="checkbox" name="terms" defaultChecked={v.terms === "on"} className="mt-0.5 size-4 shrink-0 accent-ink" required />
+          <input type="checkbox" name="terms" defaultChecked={v.terms === "on"} className="mt-0.5 size-4 shrink-0 accent-rose" required />
           <span>
             Ik ga akkoord met de{" "}
             <Link href="/privacy" target="_blank" className="font-semibold underline">
@@ -87,7 +87,7 @@ export function RegisterForm({ plan, referralCode, inviterName }: { plan?: strin
         </label>
         {e.terms && <p className="field-error">{e.terms}</p>}
         <label className="flex gap-3">
-          <input type="checkbox" name="marketing" defaultChecked={v.marketing === "on"} className="mt-0.5 size-4 shrink-0 accent-ink" />
+          <input type="checkbox" name="marketing" defaultChecked={v.marketing === "on"} className="mt-0.5 size-4 shrink-0 accent-rose" />
           <span>Houd me op de hoogte van acties, tips en nieuwe sessies (optioneel).</span>
         </label>
       </div>

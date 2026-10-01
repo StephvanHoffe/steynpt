@@ -1,16 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #0d0e0c;
-  --color-ink-2: #161814;
-  --color-ink-3: #262921;
-  --color-paper: #f4f2ec;
-  --color-sand: #e9e5da;
-  --color-line: #d8d3c6;
-  --color-muted: #5b5a52;
-  --color-mist: #a3a297;
-  --color-volt: #d4f34a;
-  --color-volt-deep: #b9d82c;
+  --color-ink: #3d2e29;
+  --color-paper: #fdf9f5;
+  --color-sand: #f4ebe1;
+  --color-blush: #f9e6e1;
+  --color-petal: #f3cfc7;
+  --color-rose: #9e5149;
+  --color-rose-soft: #e2a79d;
+  --color-line: #eadfd5;
+  --color-muted: #735f57;
   --color-danger: #b42318;
   --color-success: #1f7a3a;
 
@@ -36,12 +35,12 @@
   }
 
   ::selection {
-    background: var(--color-volt);
+    background: var(--color-petal);
     color: var(--color-ink);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-volt-deep);
+    outline: 2px solid var(--color-rose);
     outline-offset: 3px;
   }
 
@@ -78,8 +77,8 @@
 
   .display {
     font-family: var(--font-display);
-    font-stretch: 72%;
-    font-weight: 800;
+    font-stretch: 76%;
+    font-weight: 700;
     text-transform: uppercase;
     line-height: 0.92;
     letter-spacing: -0.005em;
@@ -163,37 +162,28 @@
     cursor: not-allowed;
     transform: none;
   }
-  .btn-volt {
-    background: var(--color-volt);
-    color: var(--color-ink);
-    box-shadow: 0 0 0 0 rgb(212 243 74 / 0);
+  .btn-primary {
+    background: var(--color-rose);
+    color: #fff;
   }
-  .btn-volt:hover {
-    background: #def760;
-    box-shadow: 0 10px 30px -10px rgb(212 243 74 / 0.6);
+  .btn-primary:hover {
+    background: #8c463f;
+    box-shadow: 0 10px 28px -12px rgb(158 81 73 / 0.55);
   }
   .btn-ink {
     background: var(--color-ink);
     color: var(--color-paper);
   }
   .btn-ink:hover {
-    background: #262921;
+    background: #2e221e;
   }
   .btn-outline {
-    border: 1.5px solid currentColor;
+    border: 1.5px solid rgb(61 46 41 / 0.35);
+    color: var(--color-ink);
   }
   .btn-outline:hover {
-    background: var(--color-ink);
-    color: var(--color-paper);
     border-color: var(--color-ink);
-  }
-  .btn-outline-light {
-    border: 1.5px solid rgb(244 242 236 / 0.4);
-    color: var(--color-paper);
-  }
-  .btn-outline-light:hover {
-    border-color: var(--color-paper);
-    background: rgb(244 242 236 / 0.08);
+    background: rgb(255 255 255 / 0.6);
   }
   .btn-sm {
     min-height: 2.5rem;
@@ -206,10 +196,18 @@
     border: 1px solid var(--color-line);
     border-radius: 1.25rem;
   }
-  .card-dark {
-    background: var(--color-ink-2);
-    border: 1px solid var(--color-ink-3);
+  .card-soft {
+    background: rgb(255 255 255 / 0.65);
+    border: 1px solid rgb(255 255 255 / 0.9);
     border-radius: 1.25rem;
+    box-shadow: 0 1px 2px rgb(61 46 41 / 0.04);
+  }
+
+  .hero-soft {
+    background:
+      radial-gradient(1100px 560px at 88% -10%, #f6d7cf 0%, transparent 62%),
+      radial-gradient(900px 520px at -10% 110%, #f2e6da 0%, transparent 60%),
+      var(--color-paper);
   }
 
   .label {
@@ -234,7 +232,7 @@
   .input:focus {
     outline: none;
     border-color: var(--color-ink);
-    box-shadow: 0 0 0 4px rgb(212 243 74 / 0.55);
+    box-shadow: 0 0 0 4px rgb(243 207 199 / 0.7);
   }
   .input[aria-invalid="true"] {
     border-color: var(--color-danger);
@@ -245,7 +243,7 @@
   }
   select.input {
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath stroke='%230d0e0c' stroke-width='1.6' d='m1 1.5 5 5 5-5'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath stroke='%233d2e29' stroke-width='1.6' d='m1 1.5 5 5 5-5'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 1rem center;
     padding-right: 2.5rem;
@@ -257,27 +255,12 @@
   }
 
   .marker {
-    background: linear-gradient(transparent 58%, var(--color-volt) 58%, var(--color-volt) 92%, transparent 92%);
+    background: linear-gradient(transparent 58%, var(--color-petal) 58%, var(--color-petal) 92%, transparent 92%);
     padding-inline: 0.08em;
   }
 
-  .grain {
-    position: relative;
-    isolation: isolate;
-  }
-  .grain::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.5;
-    background-image: radial-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px);
-    background-size: 4px 4px;
-  }
-
   .zigzag {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='14' viewBox='0 0 40 14'%3E%3Cpath d='M0 12 20 2l20 10' fill='none' stroke='%23d4f34a' stroke-width='2.5'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='14' viewBox='0 0 40 14'%3E%3Cpath d='M0 12 20 2l20 10' fill='none' stroke='%23e2a79d' stroke-width='2.5'/%3E%3C/svg%3E");
     background-repeat: repeat-x;
     background-size: 26px 10px;
     height: 10px;

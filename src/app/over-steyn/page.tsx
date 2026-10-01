@@ -19,7 +19,7 @@ export default function OverSteynPage() {
         eyebrow="Kom alles te weten"
         title={
           <>
-            Over <span className="text-volt">Steyn</span>
+            Over <span className="text-rose">Steyn</span>
           </>
         }
         intro="Full-time personal trainer en voedingscoach. Geboren in Hoevelaken, werkzaam in Amsterdam, en elke dag nog aan het doorleren."
@@ -76,20 +76,20 @@ export default function OverSteynPage() {
         </div>
       </section>
 
-      <section className="bg-ink py-20 text-paper lg:py-28">
+      <section className="bg-blush py-20 lg:py-28">
         <div className="container-site">
           <SectionHeading
-            tone="dark"
+           
             eyebrow="Werkwijze"
             title="Zo werken we samen"
             intro="Ik coach je niet alleen tijdens de trainingen. Ook daarbuiten hebben we contactmomenten om je gezondheid naar een hoger level te tillen."
           />
           <ol className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {METHOD_STEPS.map((step, i) => (
-              <li key={step.title} className="card-dark p-7">
-                <span className="display text-5xl text-volt">0{i + 1}</span>
+              <li key={step.title} className="card-soft p-7">
+                <span className="display text-5xl text-rose">0{i + 1}</span>
                 <h3 className="display mt-5 text-2xl">{step.title}</h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-mist">{step.text}</p>
+                <p className="mt-3 text-[15px] leading-relaxed text-muted">{step.text}</p>
               </li>
             ))}
           </ol>

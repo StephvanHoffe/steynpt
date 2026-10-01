@@ -27,7 +27,7 @@ export default function VoedingscoachingPage() {
         eyebrow="Alles over voedingscoaching"
         title={
           <>
-            Voeding die <span className="text-volt">werkt</span> voor jou
+            Voeding die <span className="text-rose">werkt</span> voor jou
           </>
         }
         intro="Aan de hand van jouw doelen maak ik een gericht voedingsplan voor je. Stap voor stap verbeteren we je voeding en je gezondheid. Orthomoleculaire, leefstijl- en vitaliteitscoaching."
@@ -60,7 +60,7 @@ export default function VoedingscoachingPage() {
         </div>
       </section>
 
-      <section className="bg-ink text-paper">
+      <section className="bg-blush">
         <div className="grid lg:grid-cols-2">
           <Image
             src="/images/meting-huidplooi.jpg"
@@ -72,13 +72,13 @@ export default function VoedingscoachingPage() {
           />
           <div className="px-4 py-16 sm:px-10 lg:px-16 lg:py-24">
             <SectionHeading
-              tone="dark"
+             
               eyebrow="Meten is weten"
               title="Resultaat dat je kunt zien"
               intro="We starten met een nulmeting en meten tussentijds je voortgang, zodat we precies weten wat werkt."
             />
             <div className="mt-8">
-              <CheckList tone="dark" items={["Intake en analyse van je eetpatroon", "Voedingsplan op maat", "Tussentijdse metingen en bijsturing", "Onderdeel van elk PT- en online pakket"]} />
+              <CheckList items={["Intake en analyse van je eetpatroon", "Voedingsplan op maat", "Tussentijdse metingen en bijsturing", "Onderdeel van elk PT- en online pakket"]} />
             </div>
           </div>
         </div>

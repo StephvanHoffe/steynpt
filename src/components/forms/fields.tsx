@@ -7,7 +7,7 @@ import { useFormStatus } from "react-dom";
 export function SubmitButton({
   children,
   pendingText = "Bezig…",
-  className = "btn btn-ink w-full",
+  className = "btn btn-primary w-full",
   ...props
 }: ComponentProps<"button"> & { pendingText?: string }) {
   const { pending } = useFormStatus();

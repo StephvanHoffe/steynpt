@@ -21,12 +21,12 @@ export const metadata: Metadata = {
     type: "website",
     locale: "nl_NL",
     siteName: "SteynPT",
-    images: [{ url: "/images/steyn-portret-neon.jpg", width: 900, height: 1350, alt: "Steyn van Leeuwen" }],
+    images: [{ url: "/images/steyn-glimlach.jpg", width: 900, height: 1350, alt: "Steyn van Leeuwen" }],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0d0e0c",
+  themeColor: "#fdf9f5",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="nl" data-scroll-behavior="smooth">
       <body className="flex min-h-dvh flex-col">
-        <a href="#inhoud" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-volt focus:px-4 focus:py-2 focus:text-ink">
+        <a href="#inhoud" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-petal focus:px-4 focus:py-2 focus:text-ink">
           Naar de inhoud
         </a>
         <SiteHeader

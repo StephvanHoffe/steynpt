@@ -178,7 +178,7 @@ export default async function AdminPage() {
                     </span>
                     <span className="flex flex-wrap items-center gap-2 text-xs">
                       {m.plan && <span className="rounded-full bg-sand px-3 py-1 font-semibold">{getOnlinePlan(m.plan)?.name}</span>}
-                      <span className={`rounded-full px-3 py-1 font-semibold ${m.coachingStatus === "aangevraagd" ? "bg-volt" : m.coachingStatus === "actief" ? "bg-ink text-volt" : "bg-sand"}`}>
+                      <span className={`rounded-full px-3 py-1 font-semibold ${m.coachingStatus === "aangevraagd" ? "bg-petal" : m.coachingStatus === "actief" ? "bg-rose text-white" : "bg-sand"}`}>
                         {m.coachingStatus}
                       </span>
                       <span className="rounded-full border border-line px-3 py-1 font-semibold">{m.points} pt</span>

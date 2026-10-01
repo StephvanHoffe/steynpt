@@ -38,12 +38,12 @@ const columns = [
 
 export function SiteFooter() {
   return (
-    <footer className="bg-ink text-paper">
+    <footer className="bg-sand text-ink">
       <div className="zigzag opacity-70" aria-hidden="true" />
       <div className="container-site grid gap-12 py-16 lg:grid-cols-[1fr_2.3fr] lg:py-20">
         <div>
           <Logo className="h-24 w-auto" />
-          <p className="mt-6 max-w-sm text-sm leading-relaxed text-mist">
+          <p className="mt-6 max-w-sm text-sm leading-relaxed text-muted">
             Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam. Samen werken we aan een
             sterkere, gezondere jij.
           </p>
@@ -51,7 +51,7 @@ export function SiteFooter() {
             href={SITE.instagram.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-sm font-medium transition-colors hover:border-volt hover:text-volt"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-ink/15 px-4 py-2 text-sm font-medium transition-colors hover:border-rose hover:text-rose"
           >
             <InstagramIcon className="size-4" /> Volg {SITE.instagram.handle}
           </a>
@@ -60,11 +60,11 @@ export function SiteFooter() {
         <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-4">
           {columns.map((col) => (
             <div key={col.title}>
-              <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-mist">{col.title}</h2>
+              <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">{col.title}</h2>
               <ul className="mt-4 space-y-2.5 text-sm">
                 {col.links.map((link) => (
                   <li key={link.label}>
-                    <Link href={link.href} className="text-paper/85 transition-colors hover:text-volt">
+                    <Link href={link.href} className="text-ink/85 transition-colors hover:text-rose">
                       {link.label}
                     </Link>
                   </li>
@@ -73,17 +73,17 @@ export function SiteFooter() {
             </div>
           ))}
           <div>
-            <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-mist">Locaties</h2>
+            <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Locaties</h2>
             <ul className="mt-4 space-y-4 text-sm">
               {LOCATIONS.map((loc) => (
                 <li key={loc.name}>
                   <a href={loc.maps} target="_blank" rel="noopener noreferrer" className="group block">
-                    <span className="flex items-center gap-1.5 font-semibold text-paper">
-                      <MapPin className="size-3.5 text-volt" aria-hidden="true" />
+                    <span className="flex items-center gap-1.5 font-semibold text-ink">
+                      <MapPin className="size-3.5 text-rose" aria-hidden="true" />
                       {loc.name}
                       <ArrowUpRight className="size-3.5 opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true" />
                     </span>
-                    <span className="mt-1 block text-paper/70">
+                    <span className="mt-1 block text-ink/70">
                       {loc.street}
                       <br />
                       {loc.city}
@@ -91,19 +91,19 @@ export function SiteFooter() {
                   </a>
                 </li>
               ))}
-              <li className="text-paper/70">Op locatie &amp; online</li>
+              <li className="text-ink/70">Op locatie &amp; online</li>
             </ul>
           </div>
         </div>
       </div>
-      <div className="border-t border-white/10">
-        <div className="container-site flex flex-col gap-3 py-6 text-xs text-mist sm:flex-row sm:items-center sm:justify-between">
+      <div className="border-t border-ink/10">
+        <div className="container-site flex flex-col gap-3 py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} SteynPT · Personal Training Amsterdam</p>
           <div className="flex gap-5">
-            <Link href="/privacy" className="hover:text-paper">
+            <Link href="/privacy" className="hover:text-ink">
               Privacyverklaring
             </Link>
-            <Link href="/rewards#voorwaarden" className="hover:text-paper">
+            <Link href="/rewards#voorwaarden" className="hover:text-ink">
               Voorwaarden Rewards
             </Link>
           </div>

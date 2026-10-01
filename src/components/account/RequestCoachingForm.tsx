@@ -16,7 +16,7 @@ export function RequestCoachingForm({ currentPlan }: { currentPlan?: string | nu
         {ONLINE_PLANS.map((plan) => (
           <label
             key={plan.id}
-            className="flex cursor-pointer flex-col rounded-xl border-[1.5px] border-line bg-white p-4 transition-colors has-[:checked]:border-ink has-[:checked]:bg-volt/25"
+            className="flex cursor-pointer flex-col rounded-xl border-[1.5px] border-line bg-white p-4 transition-colors has-[:checked]:border-ink has-[:checked]:bg-blush"
           >
             <input type="radio" name="plan" value={plan.id} defaultChecked={(currentPlan ?? "online-pro") === plan.id} className="sr-only" />
             <span className="font-semibold">{plan.name}</span>
@@ -24,7 +24,7 @@ export function RequestCoachingForm({ currentPlan }: { currentPlan?: string | nu
           </label>
         ))}
       </div>
-      <SubmitButton className="btn btn-volt w-full sm:w-auto" pendingText="Aanvragen…">
+      <SubmitButton className="btn btn-primary w-full sm:w-auto" pendingText="Aanvragen…">
         Start online coaching
       </SubmitButton>
     </form>

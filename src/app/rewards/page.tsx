@@ -34,7 +34,7 @@ export default function RewardsPage() {
         eyebrow="Loyaliteitsprogramma"
         title={
           <>
-            SteynPT <span className="text-volt">Rewards</span>
+            SteynPT <span className="text-rose">Rewards</span>
           </>
         }
         intro="Train, check in en neem je vrienden mee. Bij SteynPT word je beloond voor de gewoontes die écht resultaat geven. Iedere sporter met een account spaart automatisch mee."
@@ -42,21 +42,21 @@ export default function RewardsPage() {
         <ButtonLink href="/registreren">
           Maak gratis account <ArrowRight className="size-4" aria-hidden="true" />
         </ButtonLink>
-        <ButtonLink href="/account" variant="outline-light">
+        <ButtonLink href="/account" variant="outline">
           Naar mijn punten
         </ButtonLink>
       </PageHero>
 
       {promotions.length > 0 && (
-        <section className="bg-volt">
+        <section className="bg-petal">
           <div className="container-site grid gap-4 py-10 md:grid-cols-2">
             {promotions.map((p) => (
-              <div key={p.id} className="flex gap-4 rounded-[1.25rem] bg-ink p-6 text-paper">
-                <Megaphone className="size-7 shrink-0 text-volt" aria-hidden="true" />
+              <div key={p.id} className="flex gap-4 rounded-[1.25rem] bg-paper p-6">
+                <Megaphone className="size-7 shrink-0 text-rose" aria-hidden="true" />
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-volt">Actie</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-rose">Actie</p>
                   <h2 className="mt-1 text-xl font-semibold">{p.title}</h2>
-                  <p className="mt-1 text-mist">{p.description}</p>
+                  <p className="mt-1 text-muted">{p.description}</p>
                 </div>
               </div>
             ))}
@@ -84,20 +84,20 @@ export default function RewardsPage() {
         </ul>
       </section>
 
-      <section className="bg-ink py-20 text-paper lg:py-28">
+      <section className="bg-blush py-20 lg:py-28">
         <div className="container-site">
-          <SectionHeading tone="dark" eyebrow="Niveaus" title="Klim van Brons naar Platina" />
+          <SectionHeading eyebrow="Niveaus" title="Klim van Brons naar Platina" />
           <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {TIERS.map((tier, i) => (
-              <div key={tier.id} className={`rounded-[1.25rem] border p-7 ${i === TIERS.length - 1 ? "border-volt bg-volt text-ink" : "card-dark"}`}>
-                <p className={`text-xs font-semibold uppercase tracking-[0.14em] ${i === TIERS.length - 1 ? "text-ink/70" : "text-mist"}`}>
+              <div key={tier.id} className={`rounded-[1.25rem] border p-7 ${i === TIERS.length - 1 ? "border-rose bg-petal text-ink" : "card-soft"}`}>
+                <p className={`text-xs font-semibold uppercase tracking-[0.14em] ${i === TIERS.length - 1 ? "text-ink/70" : "text-muted"}`}>
                   {tier.minPoints === 0 ? "Start" : `Vanaf ${tier.minPoints} punten`}
                 </p>
                 <h3 className="display mt-2 text-4xl">{tier.name}</h3>
                 <ul className="mt-6 space-y-2 text-sm">
                   {tier.perks.map((perk) => (
                     <li key={perk} className="flex gap-2">
-                      <span className={`mt-2 size-1.5 shrink-0 rotate-45 ${i === TIERS.length - 1 ? "bg-ink" : "bg-volt"}`} />
+                      <span className={`mt-2 size-1.5 shrink-0 rotate-45 ${i === TIERS.length - 1 ? "bg-rose" : "bg-rose-soft"}`} />
                       {perk}
                     </li>
                   ))}
@@ -142,7 +142,7 @@ export default function RewardsPage() {
               ["Vriend start een traject", `+${POINTS.friendStarts} voor jou. Bij ${POINTS.friendsMilestoneCount} vrienden nog eens +${POINTS.friendsMilestone}.`],
             ].map(([title, text], i) => (
               <li key={title} className="flex gap-5 rounded-[1.25rem] bg-paper p-6">
-                <span className="display grid size-12 shrink-0 place-items-center rounded-full bg-ink text-2xl text-volt">{i + 1}</span>
+                <span className="display grid size-12 shrink-0 place-items-center rounded-full bg-rose text-2xl text-white">{i + 1}</span>
                 <span>
                   <span className="block text-lg font-semibold">{title}</span>
                   <span className="mt-1 block text-muted">{text}</span>

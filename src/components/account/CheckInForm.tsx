@@ -30,7 +30,7 @@ export function CheckInForm({ done }: { done: boolean }) {
             {[1, 2, 3, 4, 5].map((n) => (
               <label
                 key={n}
-                className="grid h-11 cursor-pointer place-items-center rounded-lg border-[1.5px] border-line bg-white text-sm font-semibold transition-colors hover:border-ink has-[:checked]:border-ink has-[:checked]:bg-ink has-[:checked]:text-volt has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-volt-deep"
+                className="grid h-11 cursor-pointer place-items-center rounded-lg border-[1.5px] border-line bg-white text-sm font-semibold transition-colors hover:border-rose-soft has-[:checked]:border-rose has-[:checked]:bg-rose has-[:checked]:text-white has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-rose"
               >
                 <input type="radio" name={scale.name} value={n} defaultChecked={v[scale.name] === String(n)} className="sr-only" />
                 {n}

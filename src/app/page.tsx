@@ -76,17 +76,17 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="grain relative overflow-hidden bg-ink text-paper">
+      <section className="hero-soft relative overflow-hidden">
         <LogoMark className="pointer-events-none absolute -right-20 top-10 hidden h-[640px] w-auto opacity-[0.035] lg:block" />
         <div className="container-site grid items-center gap-12 pb-16 pt-12 lg:grid-cols-[1.3fr_1fr] lg:pb-24 lg:pt-20">
           <div className="animate-rise">
-            <p className="eyebrow text-volt">Personal training · Amsterdam &amp; online</p>
+            <p className="eyebrow text-rose">Personal training · Amsterdam &amp; online</p>
             <h1 className="display display-xl mt-6">
               Sterker lichaam.
               <br />
-              <span className="text-volt">Gezonder</span> leven.
+              <span className="text-rose">Gezonder</span> leven.
             </h1>
-            <p className="lead mt-7 max-w-xl text-paper/75">
+            <p className="lead mt-7 max-w-xl text-ink/75">
               Ik ben Steyn van Leeuwen, personal trainer en orthomoleculair voedingscoach. Ik help je aan een gezondere
               leefstijl, begeleid je 1-op-1 naar je specifieke doel en coach sporters naar hun beste prestatie. Vanaf nu
               ook online, waar je ook bent.
@@ -95,11 +95,11 @@ export default function HomePage() {
               <ButtonLink href="/online-coaching">
                 Start online coaching <ArrowRight className="size-4" aria-hidden="true" />
               </ButtonLink>
-              <ButtonLink href="/contact" variant="outline-light">
+              <ButtonLink href="/contact" variant="outline">
                 Gratis kennismaking
               </ButtonLink>
             </div>
-            <dl className="mt-12 grid max-w-xl grid-cols-2 gap-x-6 gap-y-5 border-t border-white/10 pt-8 sm:grid-cols-4">
+            <dl className="mt-12 grid max-w-xl grid-cols-2 gap-x-6 gap-y-5 border-t border-ink/10 pt-8 sm:grid-cols-4">
               {[
                 ["1-op-1", "persoonlijke aandacht"],
                 ["Online", "overal coaching"],
@@ -109,8 +109,8 @@ export default function HomePage() {
                 <div key={label}>
                   <dt className="sr-only">{label}</dt>
                   <dd>
-                    <span className="display block text-3xl text-paper">{value}</span>
-                    <span className="mt-1 block text-xs text-mist">{label}</span>
+                    <span className="display block text-3xl text-ink">{value}</span>
+                    <span className="mt-1 block text-xs text-muted">{label}</span>
                   </dd>
                 </div>
               ))}
@@ -118,10 +118,10 @@ export default function HomePage() {
           </div>
 
           <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-            <div className="absolute -inset-3 rotate-2 rounded-[1.75rem] border border-volt/40" aria-hidden="true" />
+            <div className="absolute -inset-3 rotate-2 rounded-[1.75rem] border border-rose/40" aria-hidden="true" />
             <Image
-              src="/images/steyn-portret-neon.jpg"
-              alt="Steyn van Leeuwen in de gym"
+              src="/images/steyn-glimlach.jpg"
+              alt="Steyn van Leeuwen lacht tijdens een intakegesprek"
               width={900}
               height={1350}
               priority
@@ -130,7 +130,7 @@ export default function HomePage() {
             />
             <Link
               href="/online-coaching"
-              className="absolute -bottom-6 left-4 right-4 flex items-center justify-between gap-4 rounded-2xl bg-volt p-4 text-ink shadow-xl transition-transform hover:-translate-y-0.5 sm:left-auto sm:right-[-1rem] sm:w-72"
+              className="absolute -bottom-6 left-4 right-4 flex items-center justify-between gap-4 rounded-2xl bg-petal p-4 text-ink shadow-xl transition-transform hover:-translate-y-0.5 sm:left-auto sm:right-[-1rem] sm:w-72"
             >
               <span>
                 <span className="block text-[11px] font-bold uppercase tracking-wider">Nieuw</span>
@@ -143,12 +143,12 @@ export default function HomePage() {
       </section>
 
       {/* Marquee */}
-      <div className="overflow-hidden border-y border-ink bg-volt py-3 text-ink" aria-hidden="true">
+      <div className="overflow-hidden border-y border-line bg-petal py-3 text-ink" aria-hidden="true">
         <div className="animate-marquee flex w-max gap-8 whitespace-nowrap">
           {[...marquee, ...marquee, ...marquee, ...marquee].map((item, i) => (
             <span key={i} className="display flex items-center gap-8 text-2xl">
               {item}
-              <span className="inline-block size-2 rotate-45 bg-ink" />
+              <span className="inline-block size-2 rotate-45 bg-rose" />
             </span>
           ))}
         </div>
@@ -170,7 +170,7 @@ export default function HomePage() {
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
               {onlineFeatures.map(({ icon: Icon, title, text }) => (
                 <div key={title} className="card flex gap-4 p-5">
-                  <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-ink text-volt">
+                  <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-blush text-rose">
                     <Icon className="size-5" aria-hidden="true" />
                   </span>
                   <span>
@@ -215,19 +215,19 @@ export default function HomePage() {
                 key={title}
                 href={href}
                 className={`group relative flex min-h-64 flex-col rounded-[1.25rem] border p-7 transition-all duration-300 hover:-translate-y-1 ${
-                  highlight ? "border-ink bg-ink text-paper" : "border-line bg-paper hover:border-ink"
+                  highlight ? "border-rose bg-blush" : "border-line bg-paper hover:border-rose-soft"
                 }`}
               >
                 <div className="flex items-start justify-between">
-                  <span className={`grid size-12 place-items-center rounded-xl ${highlight ? "bg-volt text-ink" : "bg-ink text-volt"}`}>
+                  <span className={`grid size-12 place-items-center rounded-xl ${highlight ? "bg-rose text-white" : "bg-blush text-rose"}`}>
                     <Icon className="size-6" aria-hidden="true" />
                   </span>
                   {highlight && (
-                    <span className="rounded-full bg-volt px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-ink">Nieuw</span>
+                    <span className="rounded-full bg-petal px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-ink">Nieuw</span>
                   )}
                 </div>
                 <h3 className="display mt-8 text-3xl">{title}</h3>
-                <p className={`mt-3 flex-1 text-[15px] leading-relaxed ${highlight ? "text-mist" : "text-muted"}`}>{text}</p>
+                <p className="mt-3 flex-1 text-[15px] leading-relaxed text-muted">{text}</p>
                 <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold">
                   Lees meer
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
@@ -239,12 +239,12 @@ export default function HomePage() {
       </section>
 
       {/* Over Steyn */}
-      <section className="grain bg-ink py-20 text-paper lg:py-28">
+      <section className="bg-blush py-20 lg:py-28">
         <div className="container-site grid items-center gap-14 lg:grid-cols-2">
           <div className="relative">
             <Image
-              src="/images/steyn-intake.jpg"
-              alt="Steyn tijdens een intakegesprek"
+              src="/images/steyn-coaching-dumbbell.jpg"
+              alt="Steyn begeleidt een sporter bij een dumbbell press"
               width={900}
               height={1350}
               sizes="(min-width: 1024px) 45vw, 100vw"
@@ -257,14 +257,14 @@ export default function HomePage() {
           </div>
           <div>
             <SectionHeading
-              tone="dark"
+             
               eyebrow="Ontmoet Steyn"
               title="Hallo, ik ben Steyn van Leeuwen"
               intro="Full-time personal trainer en voedingscoach, geboren in Hoevelaken en werkzaam in Amsterdam. Door een beginnende hernia van het hockeyen ontdekte ik krachttraining. Daar vond ik mijn passie, en de motivatie om de onduidelijkheid in de fitnesswereld te doorbreken."
             />
             <ul className="mt-8 flex flex-wrap gap-2">
               {EXPERTISE.map((e) => (
-                <li key={e} className="rounded-full border border-white/15 px-3.5 py-1.5 text-sm text-paper/85">
+                <li key={e} className="rounded-full border border-ink/15 px-3.5 py-1.5 text-sm text-ink/85">
                   {e}
                 </li>
               ))}
@@ -286,7 +286,7 @@ export default function HomePage() {
         <ol className="mt-14 grid gap-px overflow-hidden rounded-[1.25rem] border border-line bg-line md:grid-cols-2 lg:grid-cols-4">
           {METHOD_STEPS.map((step, i) => (
             <li key={step.title} className="bg-paper p-7">
-              <span className="display text-6xl text-volt-deep">0{i + 1}</span>
+              <span className="display text-6xl text-rose">0{i + 1}</span>
               <h3 className="display mt-6 text-2xl">{step.title}</h3>
               <p className="mt-3 text-[15px] leading-relaxed text-muted">{step.text}</p>
             </li>
@@ -295,15 +295,15 @@ export default function HomePage() {
       </section>
 
       {/* Rewards & vrienden */}
-      <section className="relative overflow-hidden bg-ink py-20 text-paper lg:py-28">
+      <section className="relative overflow-hidden bg-blush py-20 lg:py-28">
         <div className="container-site grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:items-center">
           <div>
             <SectionHeading
-              tone="dark"
+             
               eyebrow="SteynPT Rewards"
               title={
                 <>
-                  Samen sterker. <span className="text-volt">Nodig vrienden uit</span>
+                  Samen sterker. <span className="text-rose">Nodig vrienden uit</span>
                 </>
               }
               intro="Met je account spaar je automatisch punten: voor elke check-in, voor je streak en voor iedere vriend die je meeneemt. Wissel ze in voor korting, ademcoaching of een gratis PT-sessie."
@@ -312,7 +312,7 @@ export default function HomePage() {
               <ButtonLink href="/registreren">
                 Maak gratis account <ArrowRight className="size-4" aria-hidden="true" />
               </ButtonLink>
-              <ButtonLink href="/rewards" variant="outline-light">
+              <ButtonLink href="/rewards" variant="outline">
                 Hoe het werkt
               </ButtonLink>
             </div>
@@ -331,18 +331,18 @@ export default function HomePage() {
                 text: `Nog eens ${POINTS.friendStarts} punten voor jou. Bij ${POINTS.friendsMilestoneCount} gestarte vrienden volgt een bonus van ${POINTS.friendsMilestone}.`,
               },
             ].map((item) => (
-              <div key={item.step} className="card-dark flex gap-5 p-6">
-                <span className="display grid size-12 shrink-0 place-items-center rounded-full bg-volt text-2xl text-ink">{item.step}</span>
+              <div key={item.step} className="card-soft flex gap-5 p-6">
+                <span className="display grid size-12 shrink-0 place-items-center rounded-full bg-petal text-2xl text-ink">{item.step}</span>
                 <span>
                   <span className="block text-lg font-semibold">{item.title}</span>
-                  <span className="mt-1 block text-mist">{item.text}</span>
+                  <span className="mt-1 block text-muted">{item.text}</span>
                 </span>
               </div>
             ))}
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-mist">
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted">
               Niveaus:
               {TIERS.map((t) => (
-                <span key={t.id} className="rounded-full border border-white/15 px-3 py-1 text-paper/85">
+                <span key={t.id} className="rounded-full border border-ink/15 px-3 py-1 text-ink/85">
                   {t.name}
                 </span>
               ))}

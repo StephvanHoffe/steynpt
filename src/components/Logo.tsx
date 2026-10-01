@@ -3,7 +3,7 @@ import Image from "next/image";
 type Props = { variant?: "light" | "dark"; className?: string; priority?: boolean };
 
 /** Het originele SteynPT-logo. "light" = wit logo voor donkere achtergronden. */
-export function Logo({ variant = "light", className = "h-12 w-auto", priority }: Props) {
+export function Logo({ variant = "dark", className = "h-12 w-auto", priority }: Props) {
   return (
     <Image
       src={variant === "light" ? "/brand/steynpt-logo-white.png" : "/brand/steynpt-logo-black.png"}
@@ -16,7 +16,7 @@ export function Logo({ variant = "light", className = "h-12 w-auto", priority }:
   );
 }
 
-export function LogoMark({ variant = "light", className = "h-10 w-auto" }: Props) {
+export function LogoMark({ variant = "dark", className = "h-10 w-auto" }: Props) {
   return (
     <Image
       src={variant === "light" ? "/brand/steynpt-mark-white.png" : "/brand/steynpt-mark-black.png"}

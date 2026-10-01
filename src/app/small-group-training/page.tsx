@@ -26,7 +26,7 @@ export default function SmallGroupPage() {
         eyebrow="Met je vrienden of collega's"
         title={
           <>
-            Small group <span className="text-volt">training</span>
+            Small group <span className="text-rose">training</span>
           </>
         }
         intro="Wil je samen met een groepje, je bedrijf of vrienden binnen of buiten trainen? Ik kom op locatie om jullie een top workout te geven: krachttraining, bootcamp, boksen of een combinatie. Groepen tot maximaal 6 personen."
@@ -43,7 +43,7 @@ export default function SmallGroupPage() {
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {formats.map(({ icon: Icon, title, text }) => (
             <div key={title} className="card p-6">
-              <span className="grid size-11 place-items-center rounded-xl bg-ink text-volt">
+              <span className="grid size-11 place-items-center rounded-xl bg-blush text-rose">
                 <Icon className="size-5" aria-hidden="true" />
               </span>
               <h3 className="mt-5 text-lg font-semibold">{title}</h3>

@@ -13,8 +13,8 @@ import { getOnlinePlan, GOALS, SITE } from "@/lib/site";
 
 const STATUS: Record<CoachingStatus, { label: string; tone: string }> = {
   geen: { label: "Nog niet gestart", tone: "bg-sand text-ink" },
-  aangevraagd: { label: "Aanvraag ontvangen", tone: "bg-volt text-ink" },
-  actief: { label: "Actief", tone: "bg-ink text-volt" },
+  aangevraagd: { label: "Aanvraag ontvangen", tone: "bg-petal text-ink" },
+  actief: { label: "Actief", tone: "bg-rose text-white" },
   gepauzeerd: { label: "Gepauzeerd", tone: "bg-sand text-ink" },
   gestopt: { label: "Gestopt", tone: "bg-sand text-muted" },
 };
@@ -50,10 +50,10 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
 
   return (
     <>
-      <section className="grain bg-ink text-paper">
+      <section className="hero-soft">
         <div className="container-site py-10 lg:py-14">
           {welkom && (
-            <div className="mb-8 flex items-start gap-3 rounded-2xl bg-volt p-4 text-ink sm:items-center">
+            <div className="mb-8 flex items-start gap-3 rounded-2xl bg-petal p-4 text-ink sm:items-center">
               <PartyPopper className="size-6 shrink-0" aria-hidden="true" />
               <p className="font-medium">
                 Welkom bij SteynPT, {user.firstName}! Je welkomstpunten staan klaar.
@@ -63,32 +63,32 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
           )}
           <div className="grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-end">
             <div>
-              <p className="eyebrow text-volt">Mijn SteynPT</p>
+              <p className="eyebrow text-rose">Mijn SteynPT</p>
               <h1 className="display display-lg mt-3">Hoi {user.firstName}!</h1>
-              <p className="mt-3 text-mist">
+              <p className="mt-3 text-muted">
                 {goal ? `Doel: ${goal}` : "Stel je doel in via je profiel"}
                 {plan ? ` · Online coaching ${plan.name}` : ""}
               </p>
             </div>
-            <div className="card-dark p-6">
+            <div className="card-soft p-6">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-sm text-mist">Je punten</p>
-                  <p className="display mt-1 text-6xl text-volt">{points.balance}</p>
+                  <p className="text-sm text-muted">Je punten</p>
+                  <p className="display mt-1 text-6xl text-rose">{points.balance}</p>
                 </div>
-                <span className="rounded-full bg-volt px-3 py-1 text-xs font-bold uppercase tracking-wider text-ink">{tier.current.name}</span>
+                <span className="rounded-full bg-petal px-3 py-1 text-xs font-bold uppercase tracking-wider text-ink">{tier.current.name}</span>
               </div>
               <div
-                className="mt-5 h-2 overflow-hidden rounded-full bg-ink-3"
+                className="mt-5 h-2 overflow-hidden rounded-full bg-sand"
                 role="progressbar"
                 aria-label={tier.next ? `Voortgang naar ${tier.next.name}` : "Hoogste niveau bereikt"}
                 aria-valuenow={Math.round(tier.progress * 100)}
                 aria-valuemin={0}
                 aria-valuemax={100}
               >
-                <div className="h-full rounded-full bg-volt" style={{ width: `${Math.max(4, tier.progress * 100)}%` }} />
+                <div className="h-full rounded-full bg-petal" style={{ width: `${Math.max(4, tier.progress * 100)}%` }} />
               </div>
-              <p className="mt-2 text-xs text-mist">
+              <p className="mt-2 text-xs text-muted">
                 {tier.next ? `Nog ${tier.pointsToNext} punten tot ${tier.next.name}` : "Je hebt het hoogste niveau bereikt!"} · {points.lifetime} punten verdiend in totaal
               </p>
             </div>
@@ -117,7 +117,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
                 <div className="mt-5">
                   <RequestCoachingForm currentPlan={user.plan} />
                 </div>
-                <Link href="/online-coaching#pakketten" className="mt-3 inline-block text-sm font-semibold underline decoration-volt-deep underline-offset-4">
+                <Link href="/online-coaching#pakketten" className="mt-3 inline-block text-sm font-semibold underline decoration-rose underline-offset-4">
                   Vergelijk de pakketten
                 </Link>
               </div>
@@ -161,7 +161,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
             )}
 
             {user.coachNote && (
-              <div className="mt-6 flex gap-3 rounded-xl border border-volt-deep/40 bg-volt/15 p-4">
+              <div className="mt-6 flex gap-3 rounded-xl border border-rose/40 bg-blush p-4">
                 <MessageSquareQuote className="size-5 shrink-0" aria-hidden="true" />
                 <div>
                   <p className="text-sm font-semibold">Bericht van Steyn</p>
@@ -242,7 +242,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
                     <p className="mt-1 flex-1 text-sm text-muted">{r.description}</p>
                     {!affordable && (
                       <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-sand" aria-hidden="true">
-                        <div className="h-full rounded-full bg-volt-deep" style={{ width: `${Math.min(100, (points.balance / r.cost) * 100)}%` }} />
+                        <div className="h-full rounded-full bg-rose" style={{ width: `${Math.min(100, (points.balance / r.cost) * 100)}%` }} />
                       </div>
                     )}
                     <div className="mt-3">
@@ -272,7 +272,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
 
         <div className="grid content-start gap-6">
           {/* Vrienden */}
-          <section className="rounded-[1.25rem] bg-volt p-6 text-ink sm:p-8" aria-labelledby="friends-title">
+          <section className="rounded-[1.25rem] bg-petal p-6 text-ink sm:p-8" aria-labelledby="friends-title">
             <h2 id="friends-title" className="display flex items-center gap-2 text-3xl">
               <Users className="size-7" aria-hidden="true" /> Nodig vrienden uit
             </h2>
@@ -327,7 +327,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
                 ))}
               </ul>
             )}
-            <Link href="/rewards" className="mt-5 inline-block text-sm font-semibold underline decoration-volt-deep underline-offset-4">
+            <Link href="/rewards" className="mt-5 inline-block text-sm font-semibold underline decoration-rose underline-offset-4">
               Hoe verdien ik punten?
             </Link>
           </section>
@@ -337,7 +337,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
             <ul className="mt-4 space-y-2 text-sm text-muted">
               {tier.current.perks.map((p) => (
                 <li key={p} className="flex gap-2">
-                  <span className="mt-2 size-1.5 shrink-0 rotate-45 bg-ink" />
+                  <span className="mt-2 size-1.5 shrink-0 rotate-45 bg-rose" />
                   {p}
                 </li>
               ))}

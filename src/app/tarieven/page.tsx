@@ -36,7 +36,7 @@ export default function TarievenPage() {
         <ul className="container-site flex gap-2 overflow-x-auto py-3">
           {jump.map((j) => (
             <li key={j.href}>
-              <a href={j.href} className="block whitespace-nowrap rounded-full border border-line px-4 py-2 text-sm font-medium hover:border-ink">
+              <a href={j.href} className="block whitespace-nowrap rounded-full border border-line px-4 py-2 text-sm font-medium hover:border-rose-soft">
                 {j.label}
               </a>
             </li>
@@ -44,10 +44,10 @@ export default function TarievenPage() {
         </ul>
       </nav>
 
-      <section id="online" className="scroll-mt-28 bg-ink py-20 text-paper lg:py-24">
+      <section id="online" className="scroll-mt-28 bg-blush py-20 lg:py-24">
         <div className="container-site">
           <SectionHeading
-            tone="dark"
+           
             eyebrow="Nieuw · Online coaching"
             title="Online coaching"
             intro="Maandelijkse begeleiding met je eigen dashboard, wekelijkse check-ins en SteynPT Rewards."
@@ -101,7 +101,7 @@ export default function TarievenPage() {
             <ButtonLink href="/contact" variant="ink">
               Vraag een offerte aan
             </ButtonLink>
-            <Link href="/ademcoaching" className="text-sm font-semibold underline decoration-volt-deep underline-offset-4">
+            <Link href="/ademcoaching" className="text-sm font-semibold underline decoration-rose underline-offset-4">
               Meer over ademcoaching
             </Link>
           </div>
