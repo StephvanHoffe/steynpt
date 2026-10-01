@@ -195,7 +195,7 @@ export default async function MemberPage({ params }: PageProps<"/admin/leden/[id
                   {formatDayLong(a.startsAt)}, {formatTime(a.startsAt)}
                 </span>
                 <span className="text-muted">
-                  {getAppointmentType(a.type)?.label} · {getAgendaLocation(a.location)?.label}
+                  {getAppointmentType(a.type)?.label ?? a.type} · {getAgendaLocation(a.location)?.label ?? a.location}
                 </span>
               </li>
             ))}

@@ -7,7 +7,6 @@ const pages = [
   "/personal-training",
   "/ademcoaching",
   "/voedingscoaching",
-  "/small-group-training",
   "/tarieven",
   "/vriend-uitnodigen",
   "/over-steyn",

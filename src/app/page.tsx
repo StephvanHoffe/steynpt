@@ -8,7 +8,6 @@ import {
   MessageCircle,
   Smartphone,
   Trophy,
-  Users,
   Wind,
 } from "lucide-react";
 import Image from "next/image";
@@ -19,7 +18,7 @@ import { Locations } from "@/components/Locations";
 import { LogoMark } from "@/components/Logo";
 import { ReferralSteps } from "@/components/ReferralSteps";
 import { Reviews } from "@/components/Reviews";
-import { ButtonLink, SectionHeading } from "@/components/ui";
+import { ButtonLink, CheckList, SectionHeading } from "@/components/ui";
 import { REFERRAL } from "@/lib/referral-program";
 import { EXPERTISE, METHOD_STEPS, ONLINE_PLANS } from "@/lib/site";
 
@@ -30,6 +29,12 @@ const services = [
     title: "Online coaching",
     text: "Schema, voedingsplan en wekelijkse check-ins in je eigen dashboard. Train waar en wanneer jij wilt.",
     highlight: true,
+    points: [
+      "Trainings- en voedingsschema op maat",
+      "Wekelijkse check-in met feedback van Steyn",
+      "Afspraken en voortgang in je dashboard",
+      `Vanaf € ${ONLINE_PLANS[0].price} per maand`,
+    ],
   },
   {
     href: "/personal-training",
@@ -55,12 +60,6 @@ const services = [
     title: "Voedingscoaching",
     text: "Bij afvallen en aankomen. Orthomoleculaire, leefstijl- en vitaliteitscoaching.",
   },
-  {
-    href: "/small-group-training",
-    icon: Users,
-    title: "Small group training",
-    text: "Bedrijfsfitness op locatie of buitentrainingen met je vrienden of collega's.",
-  },
 ];
 
 const onlineFeatures = [
@@ -70,7 +69,7 @@ const onlineFeatures = [
   { icon: MessageCircle, title: "Direct contact", text: "Steyn stuurt bij waar nodig." },
 ];
 
-const marquee = ["Personal training", "Online coaching", "Ademcoaching", "Voedingscoaching", "Topsport", "Small group", "Leefstijl"];
+const marquee = ["Personal training", "Online coaching", "Ademcoaching", "Voedingscoaching", "Topsport", "Leefstijl"];
 
 export default function HomePage() {
   const lowestPrice = Math.min(...ONLINE_PLANS.map((p) => Number(p.price)));
@@ -104,7 +103,7 @@ export default function HomePage() {
               {[
                 ["1-op-1", "persoonlijke aandacht"],
                 ["Online", "overal coaching"],
-                ["2", "locaties in Amsterdam"],
+                ["24 uur", "en Steyn neemt contact op"],
                 ["100%", "inzet voor jouw doel"],
               ].map(([value, label]) => (
                 <div key={label}>
@@ -208,12 +207,12 @@ export default function HomePage() {
             </ButtonLink>
           </div>
           <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {services.map(({ href, icon: Icon, title, text, highlight }) => (
+            {services.map(({ href, icon: Icon, title, text, highlight, points }) => (
               <Link
                 key={title}
                 href={href}
                 className={`group relative flex min-h-64 flex-col rounded-xl border p-7 transition-all duration-300 hover:-translate-y-1 ${
-                  highlight ? "border-ink bg-white ring-1 ring-ink" : "border-line bg-paper hover:border-ink/40"
+                  highlight ? "border-ink bg-white ring-1 ring-ink md:row-span-2" : "border-line bg-paper hover:border-ink/40"
                 }`}
               >
                 <div className="flex items-start justify-between">
@@ -225,7 +224,12 @@ export default function HomePage() {
                   )}
                 </div>
                 <h3 className="display mt-8 text-3xl">{title}</h3>
-                <p className="mt-3 flex-1 text-[15px] leading-relaxed text-muted">{text}</p>
+                <p className={`mt-3 text-[15px] leading-relaxed text-muted ${points ? "" : "flex-1"}`}>{text}</p>
+                {points && (
+                  <div className="mt-6 flex-1 text-sm">
+                    <CheckList items={points} />
+                  </div>
+                )}
                 <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold">
                   Lees meer
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
@@ -332,7 +336,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="Bezoek ons"
             title="Trainen waar het jou uitkomt"
-            intro="In één van onze studio's in Amsterdam, op jouw favoriete plek of volledig online."
+            intro="Bij Workout Amsterdam, op jouw favoriete plek of volledig online."
           />
           <div className="mt-12">
             <Locations />

@@ -3,7 +3,7 @@ import { LOCATIONS, ON_LOCATION } from "@/lib/site";
 
 export function Locations() {
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 md:grid-cols-3">
       {LOCATIONS.map((loc) => (
         <a
           key={loc.name}

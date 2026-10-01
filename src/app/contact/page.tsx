@@ -7,7 +7,7 @@ import { LOCATIONS, ON_LOCATION, SITE, INTERESTS } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Contact & gratis kennismaking",
   description:
-    "Vraag een gratis kennismaking aan bij SteynPT. We nodigen je graag uit in één van onze studio's in Amsterdam: Gymbase of Workout Amsterdam.",
+    "Vraag een gratis kennismaking aan bij SteynPT. We nodigen je graag uit bij Workout Amsterdam.",
 };
 
 export default async function ContactPage({ searchParams }: PageProps<"/contact">) {
@@ -23,7 +23,7 @@ export default async function ContactPage({ searchParams }: PageProps<"/contact"
             Leuk om eens <span className="text-accent">kennis</span> te maken!
           </h1>
           <p className="lead mt-6 max-w-xl text-ink/75">
-            We nodigen je graag uit in één van onze studio's voor een gratis kennismaking. We vertellen je meer over onze
+            We nodigen je graag uit bij Workout Amsterdam voor een gratis kennismaking. We vertellen je meer over onze
             werkwijze, geven je een rondleiding en horen graag meer over jouw verwachtingen en doelen.
           </p>
           <p className="mt-8 flex items-center gap-3 text-ink/85">

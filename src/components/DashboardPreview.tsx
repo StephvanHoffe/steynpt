@@ -39,7 +39,7 @@ export function DashboardPreview() {
               <CalendarDays className="size-3.5" /> Volgende afspraak
             </p>
             <p className="mt-1 text-sm font-semibold">Ma 12 okt, 07:30</p>
-            <p className="text-xs text-muted">Personal training · Gymbase</p>
+            <p className="text-xs text-muted">Personal training · Workout</p>
           </div>
           <div className="rounded-lg bg-surface p-3">
             <p className="flex items-center gap-1.5 text-xs text-muted">

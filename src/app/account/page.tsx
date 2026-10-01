@@ -96,7 +96,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
                     {formatDayLong(next.startsAt)}, {formatTime(next.startsAt)}
                   </p>
                   <p className="text-sm text-muted">
-                    {getAppointmentType(next.type)?.label} · {getAgendaLocation(next.location)?.label}
+                    {getAppointmentType(next.type)?.label ?? next.type} · {getAgendaLocation(next.location)?.label ?? next.location}
                   </p>
                   <Link href="/account/agenda" className="mt-3 inline-flex items-center gap-1 text-sm font-semibold underline decoration-accent underline-offset-4">
                     Alle afspraken

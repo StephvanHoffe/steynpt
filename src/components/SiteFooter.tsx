@@ -13,7 +13,6 @@ const columns = [
       { href: "/personal-training#topsport", label: "Topsport & specifieke doelen" },
       { href: "/ademcoaching", label: "Ademcoaching" },
       { href: "/voedingscoaching", label: "Voedingscoaching" },
-      { href: "/small-group-training", label: "Small group training" },
     ],
   },
   {

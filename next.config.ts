@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       { source: "/vraag-een-gratis-kennismaking-aan", destination: "/contact", permanent: true },
       { source: "/kennismaking", destination: "/contact", permanent: true },
       { source: "/rewards", destination: "/vriend-uitnodigen", permanent: true },
+      { source: "/small-group-training", destination: "/personal-training", permanent: true },
       { source: "/feed", destination: "/", permanent: true },
     ];
   },

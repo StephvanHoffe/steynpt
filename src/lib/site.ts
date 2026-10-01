@@ -16,24 +16,17 @@ export const SITE = {
 };
 
 // `desktop: false` = alleen in het mobiele menu en de footer.
-export const NAV = [
+export const NAV: { href: string; label: string; highlight?: boolean; desktop?: boolean }[] = [
   { href: "/online-coaching", label: "Online coaching", highlight: true },
   { href: "/personal-training", label: "Personal training" },
   { href: "/ademcoaching", label: "Ademcoaching" },
   { href: "/voedingscoaching", label: "Voeding" },
-  { href: "/small-group-training", label: "Small group", desktop: false },
   { href: "/tarieven", label: "Tarieven" },
   { href: "/account/agenda", label: "Afspraak maken" },
   { href: "/over-steyn", label: "Over Steyn" },
 ];
 
 export const LOCATIONS = [
-  {
-    name: "Gymbase",
-    street: "Overtoom 371-w",
-    city: "1054 JN Amsterdam",
-    maps: "https://maps.google.com/?q=Overtoom+371-w,+1054+JN+Amsterdam",
-  },
   {
     name: "Workout Amsterdam",
     street: "H.J.E. Wenckebachweg 123",
@@ -43,7 +36,7 @@ export const LOCATIONS = [
 ];
 
 export const ON_LOCATION =
-  "Naast onze vaste locaties Gymbase en Workout Amsterdam komen we ook op locatie: in jouw favoriete park of in de kantine van je werk.";
+  "Naast onze vaste locatie Workout Amsterdam komen we ook op locatie: in jouw favoriete park of in de kantine van je werk.";
 
 export type PriceCard = {
   name: string;
@@ -94,35 +87,6 @@ export const PT_PRICES: PriceCard[] = [
       "Verbeter je gezondheid",
       "Verander je leefstijl",
     ],
-  },
-];
-
-export const GROUP_PRICES: PriceCard[] = [
-  {
-    name: "Small group training",
-    label: "3 personen of meer",
-    price: "200",
-    unit: "per uur",
-    features: ["Flexibele uren", "Op locatie, buiten of in de gym", "Maak kennis met de werkwijze"],
-  },
-  {
-    name: "Gezondheidspakket",
-    label: "10 sessies · 3+ personen",
-    price: "1950",
-    features: ["Flexibele uren", "Op locatie, buiten of in de gym", "Verbeter jullie gezondheid", "Verander je leefstijl"],
-  },
-  {
-    name: "Lifechanger-pakket",
-    label: "20 sessies · 3+ personen",
-    price: "3850",
-    features: ["Flexibele uren", "Op locatie, buiten of in de gym", "Verbeter jullie gezondheid", "Verander je leefstijl"],
-    featured: true,
-  },
-  {
-    name: "Masterplan-pakket",
-    label: "30 sessies · 3+ personen",
-    price: "5600",
-    features: ["Flexibele uren", "Op locatie, buiten of in de gym", "Verbeter jullie gezondheid", "Verander je leefstijl"],
   },
 ];
 
@@ -199,7 +163,6 @@ export const INTERESTS = [
   { id: "topsport", label: "Begeleiding specifiek doel / topsport" },
   { id: "ademcoaching", label: "Ademcoaching in groepsverband" },
   { id: "voedingscoaching", label: "Voedingsbegeleiding" },
-  { id: "small-group", label: "Small group training" },
 ];
 
 export const REVIEWS = [

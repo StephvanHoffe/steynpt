@@ -412,12 +412,12 @@ await db.insert(s.checkIns).values(
 // Agenda: beschikbaarheid, vakantie en afspraken
 
 await db.insert(s.availability).values([
-  ...[1, 2, 3, 4, 5].map((weekday) => ({ weekday, startTime: "07:00", endTime: "12:00", location: "gymbase" })),
+  ...[1, 2, 3, 4, 5].map((weekday) => ({ weekday, startTime: "07:00", endTime: "12:00", location: "workout" })),
   { weekday: 1, startTime: "16:00", endTime: "20:00", location: "workout" },
   { weekday: 3, startTime: "16:00", endTime: "20:00", location: "workout" },
   { weekday: 2, startTime: "13:00", endTime: "16:00", location: "online" },
   { weekday: 4, startTime: "13:00", endTime: "16:00", location: "online" },
-  { weekday: 6, startTime: "08:00", endTime: "12:00", location: "gymbase" },
+  { weekday: 6, startTime: "08:00", endTime: "12:00", location: "workout" },
 ]);
 
 const vacation = nextWeekday(1, 21);
@@ -429,16 +429,16 @@ await db.insert(s.blockedPeriods).values({
 
 await db.insert(s.appointments).values([
   // afgelopen weken
-  { ...appointment(lisaId, "personal-training", "gymbase", addDays(nextWeekday(1), -7), "07:30"), createdAt: daysAgo(14) },
-  { ...appointment(lisaId, "meting", "gymbase", addDays(today, -7), "08:00"), createdAt: daysAgo(10) },
+  { ...appointment(lisaId, "personal-training", "workout", addDays(nextWeekday(1), -7), "07:30"), createdAt: daysAgo(14) },
+  { ...appointment(lisaId, "meting", "workout", addDays(today, -7), "08:00"), createdAt: daysAgo(10) },
   // komende afspraken
-  appointment(sanneId, "personal-training", "gymbase", nextWeekday(5), "08:00", "Eerste training, graag uitleg over de basisoefeningen"),
-  appointment(lisaId, "personal-training", "gymbase", nextWeekday(1), "07:30", "Graag focus op techniek bij de deadlift"),
-  appointment(tomId, "meting", "gymbase", nextWeekday(2), "09:00"),
+  appointment(sanneId, "personal-training", "workout", nextWeekday(5), "08:00", "Eerste training, graag uitleg over de basisoefeningen"),
+  appointment(lisaId, "personal-training", "workout", nextWeekday(1), "07:30", "Graag focus op techniek bij de deadlift"),
+  appointment(tomId, "meting", "workout", nextWeekday(2), "09:00"),
   appointment(noorId, "online-call", "online", nextWeekday(2), "14:00", "Evaluatie wedstrijdvoorbereiding"),
   appointment(markId, "kennismaking", "workout", nextWeekday(3), "16:30", "Ik train voor de marathon van Amsterdam"),
   appointment(lisaId, "online-call", "online", nextWeekday(4), "13:30"),
-  appointment(lisaId, "personal-training", "gymbase", nextWeekday(1, 8), "07:30"),
+  appointment(lisaId, "personal-training", "workout", nextWeekday(1, 8), "07:30"),
 ]);
 
 // ---------------------------------------------------------------------------

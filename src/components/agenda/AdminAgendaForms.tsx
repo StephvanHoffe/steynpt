@@ -33,7 +33,7 @@ export function AvailabilityForm() {
         </label>
         <label className="block">
           <span className="label">Locatie</span>
-          <select name="location" className="input" defaultValue="gymbase">
+          <select name="location" className="input" defaultValue="workout">
             {AGENDA_LOCATIONS.map((l) => (
               <option key={l.id} value={l.id}>
                 {l.label}

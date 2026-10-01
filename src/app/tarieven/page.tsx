@@ -6,18 +6,17 @@ import { PageHero } from "@/components/PageHero";
 import { PriceCard } from "@/components/PriceCard";
 import { Reviews } from "@/components/Reviews";
 import { ButtonLink, SectionHeading } from "@/components/ui";
-import { GROUP_PRICES, PT_PRICES } from "@/lib/site";
+import { PT_PRICES } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Tarieven",
   description:
-    "Alle tarieven van SteynPT: 1-op-1 personal training, small group training, online coaching en ademcoaching in Amsterdam.",
+    "Alle tarieven van SteynPT: 1-op-1 personal training, online coaching en ademcoaching in Amsterdam.",
 };
 
 const jump = [
   { href: "#online", label: "Online coaching" },
   { href: "#personal-training", label: "1-op-1 training" },
-  { href: "#small-group", label: "Small group" },
   { href: "#ademcoaching", label: "Ademcoaching" },
 ];
 
@@ -70,22 +69,6 @@ export default function TarievenPage() {
           ))}
         </div>
         <p className="mt-6 text-sm text-muted">* Prijs per uur. Duo-trainingen: € 15,- toeslag per sessie.</p>
-      </section>
-
-      <section id="small-group" className="scroll-mt-28 bg-surface py-20 lg:py-24">
-        <div className="container-site">
-          <SectionHeading
-            eyebrow="Pricing"
-            title="Small group trainingen"
-            intro="Vanaf 3 personen trainen wij in small group classes. Ideaal voor bedrijven of sportteams."
-          />
-          <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {GROUP_PRICES.map((card) => (
-              <PriceCard key={card.name} card={card} />
-            ))}
-          </div>
-          <p className="mt-6 text-sm text-muted">* Prijs per uur.</p>
-        </div>
       </section>
 
       <section id="ademcoaching" className="container-site scroll-mt-28 py-20 lg:py-24">
