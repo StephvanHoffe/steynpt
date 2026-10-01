@@ -36,7 +36,7 @@ test("slots: minimale aanmeldtijd, horizon, locatie en weekdag", () => {
   const late = new Date("2026-10-04T17:30:00Z"); // zondag 19:30, 12 uur later = maandag 07:30
   assert.deepEqual(times(computeSlots({ type: pt, location: "gymbase", day: "2026-10-05", windows, busy: [], now: late })), ["07:30", "08:00", "08:30", "09:00"]);
   assert.deepEqual(computeSlots({ type: pt, location: "online", day: "2026-10-05", windows, busy: [], now }), [], "PT niet online");
-  assert.deepEqual(computeSlots({ type: pt, location: "workout", day: "2026-10-05", windows, busy: [], now }), [], "andere locatie");
+  assert.deepEqual(computeSlots({ type: pt, location: "op-locatie", day: "2026-10-05", windows, busy: [], now }), [], "andere locatie");
   assert.deepEqual(computeSlots({ type: pt, location: "gymbase", day: "2026-10-06", windows, busy: [], now }), [], "dinsdag");
   assert.deepEqual(computeSlots({ type: pt, location: "gymbase", day: "2027-01-04", windows, busy: [], now }), [], "voorbij de horizon");
 });

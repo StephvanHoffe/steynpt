@@ -413,8 +413,8 @@ await db.insert(s.checkIns).values(
 
 await db.insert(s.availability).values([
   ...[1, 2, 3, 4, 5].map((weekday) => ({ weekday, startTime: "07:00", endTime: "12:00", location: "gymbase" })),
-  { weekday: 1, startTime: "16:00", endTime: "20:00", location: "workout" },
-  { weekday: 3, startTime: "16:00", endTime: "20:00", location: "workout" },
+  { weekday: 1, startTime: "16:00", endTime: "20:00", location: "gymbase" },
+  { weekday: 3, startTime: "16:00", endTime: "20:00", location: "gymbase" },
   { weekday: 2, startTime: "13:00", endTime: "16:00", location: "online" },
   { weekday: 4, startTime: "13:00", endTime: "16:00", location: "online" },
   { weekday: 6, startTime: "08:00", endTime: "12:00", location: "gymbase" },
@@ -436,7 +436,7 @@ await db.insert(s.appointments).values([
   appointment(lisaId, "personal-training", "gymbase", nextWeekday(1), "07:30", "Graag focus op techniek bij de deadlift"),
   appointment(tomId, "meting", "gymbase", nextWeekday(2), "09:00"),
   appointment(noorId, "online-call", "online", nextWeekday(2), "14:00", "Evaluatie wedstrijdvoorbereiding"),
-  appointment(markId, "kennismaking", "workout", nextWeekday(3), "16:30", "Ik train voor de marathon van Amsterdam"),
+  appointment(markId, "kennismaking", "gymbase", nextWeekday(3), "16:30", "Ik train voor de marathon van Amsterdam"),
   appointment(lisaId, "online-call", "online", nextWeekday(4), "13:30"),
   appointment(lisaId, "personal-training", "gymbase", nextWeekday(1, 8), "07:30"),
 ]);

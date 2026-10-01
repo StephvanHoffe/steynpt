@@ -11,7 +11,7 @@ import { PT_PRICES } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Personal training",
   description:
-    "1-op-1 personal training in Amsterdam met Steyn van Leeuwen. Voor een gezondere leefstijl, specifieke doelen en topsporters. Gymbase, Workout Amsterdam of op locatie.",
+    "1-op-1 personal training in Amsterdam met Steyn van Leeuwen. Voor een gezondere leefstijl, specifieke doelen en topsporters. Bij Gymbase of op locatie.",
 };
 
 const topsport = [
@@ -70,7 +70,7 @@ export default function PersonalTrainingPage() {
                 "Persoonlijk trainingsschema",
                 "Voedingsadvies op basis van jouw doel",
                 "Contactmomenten ook buiten de trainingen",
-                "Trainen bij Gymbase, Workout Amsterdam of op locatie",
+                "Trainen bij Gymbase of op locatie",
               ]}
             />
           </div>
@@ -141,7 +141,7 @@ export default function PersonalTrainingPage() {
 
       <CtaBand
         title="Zin om kennis te maken?"
-        text="Plan een gratis proefles of kennismaking. We ontvangen je graag in één van onze studio's."
+        text="Plan een gratis proefles of kennismaking. We ontvangen je graag bij Gymbase."
         primary={{ href: "/contact", label: "Gratis kennismaking" }}
         secondary={{ href: "/online-coaching", label: "Of start online" }}
       />

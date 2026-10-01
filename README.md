@@ -46,9 +46,9 @@ De vormgeving is zakelijk zwart-wit met één accentkleur (petrol, `#0b6f78`) en
 
    | Type | Duur | Locaties |
    | --- | --- | --- |
-   | Personal training | 60 min | Gymbase, Workout Amsterdam, op locatie |
-   | Gratis kennismaking (max. 1 tegelijk) | 30 min | Gymbase, Workout Amsterdam, online |
-   | Meting | 30 min | Gymbase, Workout Amsterdam |
+   | Personal training | 60 min | Gymbase, op locatie |
+   | Gratis kennismaking (max. 1 tegelijk) | 30 min | Gymbase, online |
+   | Meting | 30 min | Gymbase |
    | Online coaching videocall (alleen voor actieve coachingklanten) | 30 min | Online |
 
    Boeken kan vanaf 12 uur en tot 6 weken vooruit, afzeggen tot 24 uur van tevoren, maximaal 8 komende afspraken per klant. Tijden starten elk half uur. Dubbel boeken is niet mogelijk; de vrije tijd wordt bij het bevestigen opnieuw gecontroleerd.

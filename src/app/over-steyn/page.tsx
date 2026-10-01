@@ -98,7 +98,7 @@ export default function OverSteynPage() {
 
       <CtaBand
         title="Leuk om eens kennis te maken!"
-        text="We ontvangen je graag in één van onze studio's, of start direct online."
+        text="We ontvangen je graag bij Gymbase, of start direct online."
         primary={{ href: "/contact", label: "Gratis kennismaking" }}
         secondary={{ href: "/online-coaching", label: "Start online coaching" }}
       />
