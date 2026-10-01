@@ -23,7 +23,7 @@ export function SiteHeader({ announcement }: { announcement?: string }) {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className="sticky top-0 z-50 print:hidden">
       {announcement && (
         <Link
           href="/online-coaching"

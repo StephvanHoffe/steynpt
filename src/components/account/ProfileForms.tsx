@@ -74,7 +74,7 @@ export function DeleteAccountForm() {
       <Field id="delete-password" label="Wachtwoord ter bevestiging" name="password" type="password" autoComplete="current-password" error={e.password} />
       <label className="flex gap-3 text-sm">
         <input type="checkbox" name="confirm" className="mt-0.5 size-4 shrink-0 accent-danger" />
-        Ik begrijp dat mijn account, punten en check-ins definitief worden verwijderd.
+        Ik begrijp dat mijn account, punten, check-ins, intake en schema's definitief worden verwijderd.
       </label>
       {e.confirm && <p className="field-error">{e.confirm}</p>}
       <SubmitButton className="btn btn-sm w-full border-[1.5px] border-danger text-danger hover:bg-danger hover:text-white sm:w-auto" pendingText="Verwijderen…">

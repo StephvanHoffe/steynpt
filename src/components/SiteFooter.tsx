@@ -38,7 +38,7 @@ const columns = [
 
 export function SiteFooter() {
   return (
-    <footer className="bg-sand text-ink">
+    <footer className="bg-sand text-ink print:hidden">
       <div className="zigzag opacity-70" aria-hidden="true" />
       <div className="container-site grid gap-12 py-16 lg:grid-cols-[1fr_2.3fr] lg:py-20">
         <div>

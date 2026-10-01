@@ -1,4 +1,4 @@
-import { ArrowRight, CalendarCheck, Flame, Gift, Megaphone, Share2, UserCheck, UserPlus } from "lucide-react";
+import { ArrowRight, CalendarCheck, ClipboardList, Flame, Gift, Megaphone, Share2, UserCheck, UserPlus } from "lucide-react";
 import type { Metadata } from "next";
 import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
@@ -16,6 +16,7 @@ export default function RewardsPage() {
   const earn = [
     { icon: UserPlus, label: "Account aanmaken", points: welcomePoints(), note: welcomePoints() > POINTS.welcome ? "Tijdelijk dubbel!" : undefined },
     { icon: UserCheck, label: "Profiel compleet (met telefoonnummer)", points: POINTS.profileComplete },
+    { icon: ClipboardList, label: "Intake voor je schema ingevuld", points: POINTS.intake },
     { icon: CalendarCheck, label: "Wekelijkse check-in", points: POINTS.weeklyCheckIn, note: "Elke week" },
     { icon: Flame, label: `${POINTS.streakLength} weken op rij ingecheckt`, points: POINTS.streakBonus, note: "Steeds opnieuw" },
     { icon: Share2, label: "Vriend maakt een account via jouw link", points: POINTS.friendSignup },

@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { hashPassword, requireUser, SESSION_COOKIE_NAME, verifyPassword } from "../auth";
-import { checkIns, db, pointTransactions, redemptions, sessions, users } from "../db";
+import { checkIns, db, intakes, plans, pointTransactions, redemptions, sessions, users } from "../db";
 import { checkInStreak, getReward, isoWeekKey, POINT_TYPES, POINTS } from "../loyalty";
 import { awardPoints } from "../points";
 import { getOnlinePlan, GOALS } from "../site";
@@ -179,6 +179,8 @@ export async function deleteAccountAction(_prev: FormState, formData: FormData):
     await tx.delete(pointTransactions).where(eq(pointTransactions.userId, user.id));
     await tx.delete(checkIns).where(eq(checkIns.userId, user.id));
     await tx.delete(redemptions).where(eq(redemptions.userId, user.id));
+    await tx.delete(plans).where(eq(plans.userId, user.id));
+    await tx.delete(intakes).where(eq(intakes.userId, user.id));
     await tx.update(users).set({ referredById: null }).where(eq(users.referredById, user.id));
     await tx.delete(users).where(eq(users.id, user.id));
   });

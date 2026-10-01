@@ -1,12 +1,14 @@
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, ne } from "drizzle-orm";
 import { CalendarCheck, CircleCheck, Circle, Flame, Gift, MessageSquareQuote, PartyPopper, Users } from "lucide-react";
 import Link from "next/link";
 import { CheckInForm } from "@/components/account/CheckInForm";
+import { MyPlansCard } from "@/components/account/MyPlansCard";
 import { RedeemButton } from "@/components/account/RedeemButton";
 import { ReferralShare } from "@/components/account/ReferralShare";
 import { RequestCoachingForm } from "@/components/account/RequestCoachingForm";
 import { requireUser } from "@/lib/auth";
-import { checkIns, db, redemptions, users, type CoachingStatus } from "@/lib/db";
+import { checkIns, db, intakes, plans, redemptions, users, type CoachingStatus } from "@/lib/db";
+import { intakeSchema } from "@/lib/intake";
 import { checkInStreak, getReward, getTierProgress, isoWeekKey, POINTS, REWARDS } from "@/lib/loyalty";
 import { getPointsHistory, getPointsSummary } from "@/lib/points";
 import { getOnlinePlan, GOALS, SITE } from "@/lib/site";
@@ -23,9 +25,9 @@ const dateFmt = new Intl.DateTimeFormat("nl-NL", { day: "numeric", month: "short
 
 export default async function DashboardPage({ searchParams }: PageProps<"/account">) {
   const user = await requireUser();
-  const { welkom } = await searchParams;
+  const { welkom, intake: intakeParam } = await searchParams;
 
-  const [points, history, myCheckIns, friends, myRedemptions] = await Promise.all([
+  const [points, history, myCheckIns, friends, myRedemptions, intakeRows, myPlans] = await Promise.all([
     getPointsSummary(user.id),
     getPointsHistory(user.id, 12),
     db.select().from(checkIns).where(eq(checkIns.userId, user.id)).orderBy(desc(checkIns.week)).limit(52),
@@ -35,7 +37,14 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
       .where(eq(users.referredById, user.id))
       .orderBy(desc(users.createdAt)),
     db.select().from(redemptions).where(eq(redemptions.userId, user.id)).orderBy(desc(redemptions.createdAt)).limit(10),
+    db.select().from(intakes).where(eq(intakes.userId, user.id)),
+    db
+      .select({ id: plans.id, type: plans.type, status: plans.status, publishedAt: plans.publishedAt })
+      .from(plans)
+      .where(and(eq(plans.userId, user.id), ne(plans.status, "vervangen")))
+      .orderBy(desc(plans.createdAt)),
   ]);
+  const intake = intakeSchema.safeParse(intakeRows[0]?.data);
 
   const tier = getTierProgress(points.lifetime);
   const week = isoWeekKey(new Date());
@@ -58,6 +67,17 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
               <p className="font-medium">
                 Welkom bij SteynPT, {user.firstName}! Je welkomstpunten staan klaar.
                 {user.coachingStatus === "aangevraagd" && " Steyn neemt binnen 24 uur contact met je op voor je intake."}
+              </p>
+            </div>
+          )}
+          {intakeParam && (
+            <div role="status" className="mb-8 flex items-start gap-3 rounded-2xl bg-petal p-4 text-ink sm:items-center">
+              <PartyPopper className="size-6 shrink-0" aria-hidden="true" />
+              <p className="font-medium">
+                Je intake is opgeslagen.{" "}
+                {intakeParam === "gestart"
+                  ? "We maken nu een eerste opzet van je schema. Steyn controleert het en laat het je weten zodra het klaarstaat."
+                  : "Steyn gebruikt je gegevens voor je schema."}
               </p>
             </div>
           )}
@@ -98,6 +118,8 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
 
       <div className="container-site grid gap-6 py-10 lg:grid-cols-[1.6fr_1fr] lg:py-14">
         <div className="grid content-start gap-6">
+          <MyPlansCard intake={intake.success ? intake.data : null} plans={myPlans} coachingStatus={user.coachingStatus} />
+
           {/* Coaching */}
           <section className="card p-6 sm:p-8" aria-labelledby="coaching-title">
             <div className="flex flex-wrap items-center justify-between gap-3">

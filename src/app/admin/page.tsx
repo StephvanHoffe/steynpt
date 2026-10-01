@@ -1,10 +1,11 @@
-import { desc, eq, sql } from "drizzle-orm";
+import { desc, eq, inArray, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/sqlite-core";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { adjustPointsAction, handleRedemptionAction, toggleContactHandledAction, updateMemberAction } from "@/lib/actions/admin";
-import { COACHING_STATUSES, contactRequests, db, pointTransactions, redemptions, users } from "@/lib/db";
+import { PLAN_STATUS, PLAN_TYPE_LABEL, isStuck } from "@/components/plans/labels";
+import { COACHING_STATUSES, contactRequests, db, plans, pointTransactions, redemptions, users } from "@/lib/db";
 import { getReward } from "@/lib/loyalty";
 import { getOnlinePlan, GOALS, INTERESTS } from "@/lib/site";
 
@@ -16,7 +17,7 @@ export default async function AdminPage() {
   await requireAdmin();
   const referrer = alias(users, "referrer");
 
-  const [members, openRedemptions, contacts] = await Promise.all([
+  const [members, openRedemptions, contacts, openPlans] = await Promise.all([
     db
       .select({
         id: users.id,
@@ -42,9 +43,16 @@ export default async function AdminPage() {
       .where(eq(redemptions.status, "aangevraagd"))
       .orderBy(desc(redemptions.createdAt)),
     db.select().from(contactRequests).orderBy(contactRequests.handled, desc(contactRequests.createdAt)).limit(100),
+    db
+      .select({ id: plans.id, type: plans.type, status: plans.status, createdAt: plans.createdAt, updatedAt: plans.updatedAt, firstName: users.firstName, lastName: users.lastName })
+      .from(plans)
+      .innerJoin(users, eq(plans.userId, users.id))
+      .where(inArray(plans.status, ["genereren", "concept", "fout"]))
+      .orderBy(plans.createdAt),
   ]);
 
   const stats = [
+    { label: "Schema's te controleren", value: openPlans.filter((p) => p.status === "concept").length },
     { label: "Leden", value: members.length },
     { label: "Coaching aangevraagd", value: members.filter((m) => m.coachingStatus === "aangevraagd").length },
     { label: "Coaching actief", value: members.filter((m) => m.coachingStatus === "actief").length },
@@ -58,7 +66,7 @@ export default async function AdminPage() {
         ← Naar mijn dashboard
       </Link>
       <h1 className="display display-lg mt-3">Beheer</h1>
-      <dl className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-5">
+      <dl className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
         {stats.map((s) => (
           <div key={s.label} className="card p-5">
             <dt className="text-sm text-muted">{s.label}</dt>
@@ -66,6 +74,36 @@ export default async function AdminPage() {
           </div>
         ))}
       </dl>
+
+      <section className="mt-12" aria-labelledby="schemas">
+        <h2 id="schemas" className="display text-3xl">
+          Schema&apos;s ter controle
+        </h2>
+        {openPlans.length === 0 ? (
+          <p className="mt-4 text-muted">Geen schema&apos;s die op je wachten.</p>
+        ) : (
+          <ul className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {openPlans.map((p) => {
+              const status = isStuck(p.status, p.updatedAt) ? { label: "Vastgelopen", tone: "bg-danger/10 text-danger" } : PLAN_STATUS[p.status];
+              return (
+                <li key={p.id}>
+                  <Link href={`/admin/schemas/${p.id}`} className="card flex items-center justify-between gap-3 p-5 transition-colors hover:border-rose-soft">
+                    <span>
+                      <span className="block font-semibold">
+                        {p.firstName} {p.lastName}
+                      </span>
+                      <span className="block text-sm text-muted">
+                        {PLAN_TYPE_LABEL[p.type]} · {dateFmt.format(p.createdAt)}
+                      </span>
+                    </span>
+                    <span className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${status.tone}`}>{status.label}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </section>
 
       <section className="mt-12" aria-labelledby="aanvragen">
         <h2 id="aanvragen" className="display text-3xl">
@@ -188,7 +226,10 @@ export default async function AdminPage() {
                     <form action={updateMemberAction} className="grid gap-3">
                       <input type="hidden" name="userId" value={m.id} />
                       <p className="text-sm text-muted">
-                        Doel: {GOALS.find((g) => g.id === m.goal)?.label ?? "–"} · Lid sinds {dateFmt.format(m.createdAt)}
+                        <Link href={`/admin/leden/${m.id}`} className="font-semibold text-ink underline decoration-rose underline-offset-4">
+                          Intake &amp; schema&apos;s
+                        </Link>{" "}
+                        · Doel: {GOALS.find((g) => g.id === m.goal)?.label ?? "–"} · Lid sinds {dateFmt.format(m.createdAt)}
                         {m.referrerName ? ` · Uitgenodigd door ${m.referrerName}` : ""}
                       </p>
                       <label className="label" htmlFor={`status-${m.id}`}>

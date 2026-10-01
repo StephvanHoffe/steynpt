@@ -14,7 +14,7 @@ export default async function AccountLayout({ children }: LayoutProps<"/account"
   if (!user) return children;
   return (
     <div className="bg-paper">
-      <div className="border-b border-line bg-white">
+      <div className="border-b border-line bg-white print:hidden">
         <div className="container-site flex items-center justify-between gap-4 overflow-x-auto py-2">
           <nav aria-label="Account" className="flex gap-1">
             <Link href="/account" className="inline-flex items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium hover:bg-sand">

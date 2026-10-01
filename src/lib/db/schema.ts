@@ -121,3 +121,50 @@ export type User = typeof users.$inferSelect;
 export type CheckIn = typeof checkIns.$inferSelect;
 export type Redemption = typeof redemptions.$inferSelect;
 export type ContactRequest = typeof contactRequests.$inferSelect;
+
+// Intake van de klant: één per lid, de inhoud is gevalideerd met intakeSchema (src/lib/intake.ts).
+export const intakes = sqliteTable("intakes", {
+  userId: text("user_id")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  data: text("data", { mode: "json" }).notNull(),
+  createdAt: createdAt(),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .notNull()
+    .default(sql`(unixepoch())`),
+});
+
+export const PLAN_TYPES = ["training", "voeding"] as const;
+export type PlanType = (typeof PLAN_TYPES)[number];
+
+// genereren -> concept (of fout) -> gepubliceerd; oude versies worden "vervangen".
+export const PLAN_STATUSES = ["genereren", "fout", "concept", "gepubliceerd", "vervangen"] as const;
+export type PlanStatus = (typeof PLAN_STATUSES)[number];
+
+export const plans = sqliteTable(
+  "plans",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    type: text("type", { enum: PLAN_TYPES }).notNull(),
+    status: text("status", { enum: PLAN_STATUSES }).notNull().default("genereren"),
+    // Huidige (door Steyn bewerkte) inhoud en het oorspronkelijke AI-concept.
+    content: text("content", { mode: "json" }),
+    aiDraft: text("ai_draft", { mode: "json" }),
+    source: text("source", { enum: ["ai", "handmatig"] }).notNull().default("ai"),
+    instruction: text("instruction"),
+    error: text("error"),
+    model: text("model"),
+    createdAt: createdAt(),
+    updatedAt: integer("updated_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(unixepoch())`),
+    publishedAt: integer("published_at", { mode: "timestamp" }),
+  },
+  (t) => [index("plans_user_idx").on(t.userId, t.type, t.status)],
+);
+
+export type Intake = typeof intakes.$inferSelect;
+export type Plan = typeof plans.$inferSelect;
