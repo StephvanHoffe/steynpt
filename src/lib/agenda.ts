@@ -4,6 +4,7 @@
 export const TIME_ZONE = "Europe/Amsterdam";
 
 export const AGENDA_LOCATIONS = [
+  { id: "gymbase", label: "Gymbase", address: "Overtoom 371-w, 1054 JN Amsterdam" },
   { id: "workout", label: "Workout Amsterdam", address: "H.J.E. Wenckebachweg 123, 1096 AM Amsterdam" },
   { id: "op-locatie", label: "Op locatie", address: "Locatie in overleg" },
   { id: "online", label: "Online (videocall)", address: "Online, Steyn stuurt een link" },
@@ -15,14 +16,14 @@ export const APPOINTMENT_TYPES = [
     id: "personal-training",
     label: "Personal training",
     minutes: 60,
-    locations: ["workout", "op-locatie"],
+    locations: ["gymbase", "workout", "op-locatie"],
     description: "1-op-1 training van 60 minuten.",
   },
   {
     id: "kennismaking",
     label: "Gratis kennismaking",
     minutes: 30,
-    locations: ["workout", "online"],
+    locations: ["gymbase", "workout", "online"],
     description: "Kennismaken, je doelen bespreken en een rondleiding.",
     maxUpcoming: 1,
   },
@@ -30,7 +31,7 @@ export const APPOINTMENT_TYPES = [
     id: "meting",
     label: "Meting",
     minutes: 30,
-    locations: ["workout"],
+    locations: ["gymbase", "workout"],
     description: "Wegen, meten en vetpercentage bepalen.",
   },
   {

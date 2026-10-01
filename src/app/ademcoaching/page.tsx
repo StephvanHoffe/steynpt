@@ -39,7 +39,7 @@ const faq = [
   },
   {
     q: "Waar vindt een sessie plaats?",
-    a: "Bij Workout Amsterdam, bij jullie op kantoor of buiten. Zo lang er rustig ruimte is om te liggen of te zitten.",
+    a: "In één van onze studio's in Amsterdam, bij jullie op kantoor of buiten. Zo lang er rustig ruimte is om te liggen of te zitten.",
   },
 ];
 

@@ -40,15 +40,15 @@ De vormgeving is zakelijk zwart-wit met één accentkleur (petrol, `#0b6f78`) en
 
 ## Agenda
 
-1. **Beschikbaarheid instellen.** In `/admin/agenda` stelt Steyn per weekdag tijdvakken in met een locatie (bijvoorbeeld maandag 07:00–12:00 Workout Amsterdam). Klanten zien alleen tijden binnen die vakken. Zolang er niets is ingesteld, kan niemand boeken.
+1. **Beschikbaarheid instellen.** In `/admin/agenda` stelt Steyn per weekdag tijdvakken in met een locatie (bijvoorbeeld maandag 07:00–12:00 Gymbase). Klanten zien alleen tijden binnen die vakken. Zolang er niets is ingesteld, kan niemand boeken.
 2. **Vrije dagen en vakanties.** Blokkeer hele dagen; bestaande afspraken in die periode blijven staan (Steyn krijgt een melding en zegt ze zelf af).
 3. **Afspraaktypes en regels** staan in `src/lib/agenda.ts`:
 
    | Type | Duur | Locaties |
    | --- | --- | --- |
-   | Personal training | 60 min | Workout Amsterdam, op locatie |
-   | Gratis kennismaking (max. 1 tegelijk) | 30 min | Workout Amsterdam, online |
-   | Meting | 30 min | Workout Amsterdam |
+   | Personal training | 60 min | Gymbase, Workout Amsterdam, op locatie |
+   | Gratis kennismaking (max. 1 tegelijk) | 30 min | Gymbase, Workout Amsterdam, online |
+   | Meting | 30 min | Gymbase, Workout Amsterdam |
    | Online coaching videocall (alleen voor actieve coachingklanten) | 30 min | Online |
 
    Boeken kan vanaf 12 uur en tot 6 weken vooruit, afzeggen tot 24 uur van tevoren, maximaal 8 komende afspraken per klant. Tijden starten elk half uur. Dubbel boeken is niet mogelijk; de vrije tijd wordt bij het bevestigen opnieuw gecontroleerd.

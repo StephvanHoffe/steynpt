@@ -103,7 +103,7 @@ export default function HomePage() {
               {[
                 ["1-op-1", "persoonlijke aandacht"],
                 ["Online", "overal coaching"],
-                ["24 uur", "en Steyn neemt contact op"],
+                ["2", "locaties in Amsterdam"],
                 ["100%", "inzet voor jouw doel"],
               ].map(([value, label]) => (
                 <div key={label}>
@@ -336,7 +336,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="Bezoek ons"
             title="Trainen waar het jou uitkomt"
-            intro="Bij Workout Amsterdam, op jouw favoriete plek of volledig online."
+            intro="In één van onze studio's in Amsterdam, op jouw favoriete plek of volledig online."
           />
           <div className="mt-12">
             <Locations />

@@ -28,6 +28,12 @@ export const NAV: { href: string; label: string; highlight?: boolean; desktop?: 
 
 export const LOCATIONS = [
   {
+    name: "Gymbase",
+    street: "Overtoom 371-w",
+    city: "1054 JN Amsterdam",
+    maps: "https://maps.google.com/?q=Overtoom+371-w,+1054+JN+Amsterdam",
+  },
+  {
     name: "Workout Amsterdam",
     street: "H.J.E. Wenckebachweg 123",
     city: "1096 AM Amsterdam",
@@ -36,7 +42,7 @@ export const LOCATIONS = [
 ];
 
 export const ON_LOCATION =
-  "Naast onze vaste locatie Workout Amsterdam komen we ook op locatie: in jouw favoriete park of in de kantine van je werk.";
+  "Naast onze vaste locaties Gymbase en Workout Amsterdam komen we ook op locatie: in jouw favoriete park of in de kantine van je werk.";
 
 export type PriceCard = {
   name: string;
