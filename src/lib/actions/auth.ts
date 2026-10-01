@@ -8,6 +8,7 @@ import { z } from "zod";
 import {
   clearAttempts,
   createSession,
+  destroySession,
   hashPassword,
   isAdminEmail,
   isRateLimited,
@@ -17,6 +18,7 @@ import {
 } from "../auth";
 import { REFERRAL_COOKIE } from "../constants";
 import { db, users } from "../db";
+import { DEMO_ACCOUNTS, DEMO_MODE } from "../demo";
 import { makeReferralCode, normalizeReferralCode } from "../referral-program";
 import { getOnlinePlan, GOALS } from "../site";
 import { fieldErrorsFrom, formValues, type FormState } from "./types";
@@ -132,4 +134,15 @@ export async function loginAction(_prev: FormState, formData: FormData): Promise
 
   await createSession(user.id);
   redirect(safeNextPath(next));
+}
+
+/** Alleen in de demoversie: direct inloggen als voorbeeldklant of als Steyn, zonder wachtwoord. */
+export async function demoLoginAction(formData: FormData) {
+  const account = DEMO_ACCOUNTS.find((a) => a.id === formData.get("account"));
+  if (!DEMO_MODE || !account) redirect("/inloggen");
+  const [user] = await db.select({ id: users.id }).from(users).where(eq(users.email, account.email)).limit(1);
+  if (!user) redirect("/inloggen?demo=ontbreekt");
+  await destroySession();
+  await createSession(user.id);
+  redirect(account.next);
 }

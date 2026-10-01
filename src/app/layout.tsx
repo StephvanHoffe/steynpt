@@ -3,7 +3,9 @@ import "@fontsource-variable/inter";
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { SiteFooter } from "@/components/SiteFooter";
+import { DemoBanner } from "@/components/DemoBanner";
 import { SiteHeader } from "@/components/SiteHeader";
+import { DEMO_MODE } from "@/lib/demo";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -19,6 +21,8 @@ export const metadata: Metadata = {
     siteName: "SteynPT",
     images: [{ url: "/images/steyn-glimlach.jpg", width: 900, height: 1350, alt: "Steyn van Leeuwen" }],
   },
+  // De demoversie hoort niet in zoekmachines.
+  ...(DEMO_MODE && { robots: { index: false, follow: false } }),
 };
 
 export const viewport: Viewport = {
@@ -32,6 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#inhoud" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-accent-tint focus:px-4 focus:py-2 focus:text-ink">
           Naar de inhoud
         </a>
+        {DEMO_MODE && <DemoBanner />}
         <SiteHeader announcement={SITE.announcement} />
         <main id="inhoud" className="flex-1 overflow-x-clip">
           {children}

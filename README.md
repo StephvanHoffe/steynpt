@@ -107,6 +107,7 @@ Een klant zonder online coaching kan de intake wel invullen; Steyn kan dan vanaf
 | Allergenen- en dieetcontrole | `src/lib/plans/allergens.ts` |
 | Logo en foto's | `public/brand/`, `public/images/` |
 | Kleuren en typografie | `src/app/globals.css` |
+| Voorbeeldgegevens van de demo | `scripts/seed-demo.mts` |
 
 ## Lokaal draaien
 
@@ -142,6 +143,34 @@ De site heeft een Node.js-server en een database nodig.
 - **Vercel of andere serverless hosting**: gebruik een [Turso](https://turso.tech)-database. Zet `DATABASE_URL=libsql://…` en `DATABASE_AUTH_TOKEN`, en draai `npm run db:migrate` één keer tegen die database.
 
 Zet `NEXT_PUBLIC_SITE_URL` op het echte domein, zodat de uitnodigingslinks kloppen. Draai na elke update `npm run db:migrate`. Deze versie voegt de tabellen voor agenda en metingen toe en verwijdert de puntentabellen.
+
+## Demo online zetten
+
+Met `DEMO_MODE=1` draait de site als demo:
+
+- Bovenaan staat een demobalk.
+- Op de inlogpagina en in de demobalk log je met één klik in als voorbeeldklant (Lisa Jansen) of als Steyn (beheer).
+- De database wordt gevuld met voorbeeldklanten, afspraken, metingen, schema's, check-ins en contactaanvragen. De datums zijn relatief aan vandaag.
+- De AI draait altijd in testmodus, dus er zijn geen kosten.
+- De site is niet vindbaar in zoekmachines.
+- De twee demo-accounts kunnen niet worden verwijderd of van wachtwoord wisselen.
+
+**Op Render (gratis):**
+
+1. Maak een account op [render.com](https://render.com) en koppel GitHub met toegang tot deze repository.
+2. Open [render.com/deploy?repo=https://github.com/StephvanHoffe/steynpt](https://render.com/deploy?repo=https://github.com/StephvanHoffe/steynpt), of kies in Render *New → Blueprint* en selecteer de repository. Render leest `render.yaml`.
+3. Klik op *Deploy Blueprint*. Na een paar minuten staat de demo op een adres als `https://steynpt-demo.onrender.com`.
+
+Op het gratis plan valt de demo na een kwartier zonder bezoek in slaap. Het eerste bezoek daarna duurt ongeveer een minuut. Bij elke herstart begint de demo weer met de voorbeeldgegevens; wat bezoekers invoeren, verdwijnt dan.
+
+**Lokaal:**
+
+```bash
+DEMO_MODE=1 npm run build
+DEMO_MODE=1 npm run demo:start   # http://localhost:3000
+```
+
+`DEMO_MODE=1 npm run db:seed-demo -- --reset` maakt de database leeg en vult hem opnieuw. **Gebruik dit nooit op de echte database.** Zonder `DEMO_MODE=1` weigert het script te draaien.
 
 ## Nog te bevestigen
 

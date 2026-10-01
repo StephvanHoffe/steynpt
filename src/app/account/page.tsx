@@ -11,8 +11,9 @@ import { formatDayLong, formatTime, getAgendaLocation, getAppointmentType } from
 import { requireUser } from "@/lib/auth";
 import { appointments, checkIns, db, intakes, measurements, plans, users, type CoachingStatus } from "@/lib/db";
 import { intakeSchema } from "@/lib/intake";
+import { siteOrigin } from "@/lib/origin";
 import { REFERRAL } from "@/lib/referral-program";
-import { getOnlinePlan, GOALS, SITE } from "@/lib/site";
+import { getOnlinePlan, GOALS } from "@/lib/site";
 import { checkInStreak, isoWeekKey } from "@/lib/weeks";
 
 const STATUS: Record<CoachingStatus, { label: string; tone: string }> = {
@@ -55,7 +56,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
   const streak = checkInStreak(myCheckIns.map((c) => c.week));
   const plan = getOnlinePlan(user.plan);
   const goal = GOALS.find((g) => g.id === user.goal)?.label;
-  const referralUrl = `${SITE.url}/r/${user.referralCode}`;
+  const referralUrl = `${await siteOrigin()}/r/${user.referralCode}`;
   const status = STATUS[user.coachingStatus];
   const next = upcoming[0];
 

@@ -1,0 +1,21 @@
+# Demoversie van de site op Render (gratis plan): voorbeeldgegevens, inloggen met één klik,
+# AI in testmodus en niet vindbaar in zoekmachines. Zie README, "Demo online zetten".
+services:
+  - type: web
+    name: steynpt-demo
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: npm ci --include=dev && npm run build
+    # Database aanmaken, voorbeeldgegevens vullen en de site starten.
+    startCommand: npm run demo:start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DEMO_MODE
+        value: "1"
+      - key: AI_MOCK
+        value: "1"
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"

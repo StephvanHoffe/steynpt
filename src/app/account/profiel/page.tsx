@@ -38,7 +38,7 @@ export default async function ProfilePage() {
         <h2 id="verwijderen" className="display text-2xl">
           Account verwijderen
         </h2>
-        <p className="mt-2 text-sm text-muted">Hiermee verwijder je je account en al je gegevens definitief, inclusief je gespaarde punten.</p>
+        <p className="mt-2 text-sm text-muted">Hiermee verwijder je je account en al je gegevens definitief, inclusief je afspraken, metingen en schema&apos;s.</p>
         <div className="mt-6">
           <DeleteAccountForm />
         </div>

@@ -7,9 +7,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "demo:start": "node scripts/migrate.mjs && tsx scripts/seed-demo.mts && next start -H 0.0.0.0",
     "typecheck": "tsc --noEmit",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "node --env-file-if-exists=.env scripts/migrate.mjs",
+    "db:seed-demo": "tsx scripts/seed-demo.mts",
     "test": "tsx --test 'src/**/*.test.ts'"
   },
   "dependencies": {
@@ -36,5 +38,8 @@
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.9"
   }
 }

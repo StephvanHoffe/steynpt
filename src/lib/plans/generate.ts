@@ -3,6 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import { and, count, eq, gt, inArray } from "drizzle-orm";
 import { db, intakes, plans, type PlanType, type User } from "../db";
+import { DEMO_MODE } from "../demo";
 import { intakeSchema } from "../intake";
 import { mockNutritionPlan, mockTrainingPlan } from "./mock";
 import { buildPlanPrompt } from "./prompt";
@@ -11,7 +12,8 @@ import { nutritionPlanSchema, trainingPlanSchema, type PlanContent } from "./sch
 export const AI_MODEL = "claude-opus-5-5";
 const MAX_AUTO_PER_DAY = 6;
 
-const mockMode = () => process.env.AI_MOCK === "1";
+// In de demoversie nooit de echte API aanroepen, ook niet als er een sleutel staat.
+const mockMode = () => process.env.AI_MOCK === "1" || DEMO_MODE;
 
 export function aiConfigured() {
   return mockMode() || Boolean(process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN);

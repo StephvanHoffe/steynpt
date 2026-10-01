@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { hashPassword, requireUser, SESSION_COOKIE_NAME, verifyPassword } from "../auth";
 import { appointments, checkIns, db, intakes, measurements, plans, sessions, users } from "../db";
+import { isDemoAccount } from "../demo";
 import { checkInStreak, isoWeekKey } from "../weeks";
 import { getOnlinePlan, GOALS } from "../site";
 import { fieldErrorsFrom, formValues, type FormState } from "./types";
@@ -91,6 +92,7 @@ const passwordSchema = z
 
 export async function changePasswordAction(_prev: FormState, formData: FormData): Promise<FormState> {
   const user = await requireUser("/account/profiel");
+  if (isDemoAccount(user.email)) return { error: "In de demo kun je het wachtwoord van dit voorbeeldaccount niet wijzigen." };
   const parsed = passwordSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { fieldErrors: fieldErrorsFrom(parsed.error.issues) };
   if (!(await verifyPassword(parsed.data.current, user.passwordHash))) {
@@ -119,6 +121,9 @@ export async function requestCoachingAction(_prev: FormState, formData: FormData
 
 export async function deleteAccountAction(_prev: FormState, formData: FormData): Promise<FormState> {
   const user = await requireUser("/account/profiel");
+  if (isDemoAccount(user.email)) {
+    return { error: "In de demo kun je dit voorbeeldaccount niet verwijderen. Maak een eigen account aan om het te proberen." };
+  }
   const password = String(formData.get("password") ?? "");
   if (formData.get("confirm") !== "on") return { fieldErrors: { confirm: "Bevestig dat je je account wilt verwijderen" } };
   if (!(await verifyPassword(password, user.passwordHash))) return { fieldErrors: { password: "Je wachtwoord klopt niet" } };
