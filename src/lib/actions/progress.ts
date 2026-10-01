@@ -20,7 +20,7 @@ export async function addMeasurementAction(_prev: FormState, formData: FormData)
 
   // Datum als 12:00 Nederlandse tijd opslaan, zodat hij in elke tijdzone op dezelfde dag valt.
   await db.insert(measurements).values({ userId, measuredAt: new Date(`${measuredAt}T12:00:00+01:00`), ...data });
-  revalidatePath(`/admin/leden/${userId}`);
+  revalidatePath("/admin", "layout");
   revalidatePath("/account", "layout");
   return { success: "Meting opgeslagen. De klant ziet hem direct in Mijn omgeving." };
 }
@@ -31,6 +31,6 @@ export async function deleteMeasurementAction(formData: FormData) {
   const userId = String(formData.get("userId") ?? "");
   if (!Number.isInteger(id)) return;
   await db.delete(measurements).where(and(eq(measurements.id, id), eq(measurements.userId, userId)));
-  revalidatePath(`/admin/leden/${userId}`);
+  revalidatePath("/admin", "layout");
   revalidatePath("/account", "layout");
 }

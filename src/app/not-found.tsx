@@ -1,7 +1,13 @@
+import { SiteFooter } from "@/components/SiteFooter";
+import { SiteHeader } from "@/components/SiteHeader";
 import { ButtonLink } from "@/components/ui";
+import { SITE } from "@/lib/site";
 
 export default function NotFound() {
   return (
+    <>
+      <SiteHeader announcement={SITE.announcement} />
+      <main id="inhoud" className="flex-1 overflow-x-clip">
     <section className="hero-soft">
       <div className="container-site py-28 text-center lg:py-40">
         <p className="eyebrow justify-center text-accent">404</p>
@@ -15,5 +21,8 @@ export default function NotFound() {
         </div>
       </div>
     </section>
+      </main>
+      <SiteFooter />
+    </>
   );
 }

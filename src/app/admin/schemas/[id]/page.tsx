@@ -2,6 +2,7 @@ import { eq } from "drizzle-orm";
 import { AlertTriangle, ArrowLeft, LoaderCircle } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ADMIN_PAGE } from "@/components/admin/ui";
 import { notFound } from "next/navigation";
 import { AutoRefresh } from "@/components/plans/AutoRefresh";
 import { GenerateForms } from "@/components/plans/GenerateForms";
@@ -44,7 +45,7 @@ export default async function PlanReviewPage({ params }: PageProps<"/admin/schem
   const editable = (plan.status === "concept" || plan.status === "gepubliceerd") && content;
 
   return (
-    <div className="container-site py-10 lg:py-14">
+    <div className={ADMIN_PAGE}>
       {plan.status === "genereren" && !stuck && <AutoRefresh />}
       <Link href={`/admin/leden/${member.id}`} className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted hover:text-ink">
         <ArrowLeft className="size-4" aria-hidden="true" /> {member.firstName} {member.lastName}
@@ -122,7 +123,7 @@ export default async function PlanReviewPage({ params }: PageProps<"/admin/schem
           )}
         </div>
 
-        <aside className="card self-start p-6 xl:sticky xl:top-28">
+        <aside className="card self-start p-6 xl:sticky xl:top-20">
           <h2 className="display text-2xl">Intake</h2>
           <div className="mt-4">
             {intake.success ? <IntakePanel intake={intake.data} updatedAt={intakeRow?.updatedAt} /> : <p className="text-sm text-muted">Geen intake ingevuld.</p>}

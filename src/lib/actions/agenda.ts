@@ -1,14 +1,14 @@
 "use server";
 
-import { and, count, eq, gt, lt } from "drizzle-orm";
+import { and, count, eq, gt, lt, ne } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { requireAdmin, requireUser } from "../auth";
 import { addDays, BOOKING_RULES, getAppointmentType, isValidDay, zonedParts, zonedTimeToUtc } from "../agenda";
 import { rotateIcalToken, slotsForDay } from "../agenda-server";
-import { appointments, availability, blockedPeriods, db } from "../db";
-import type { FormState } from "./types";
+import { appointments, availability, blockedPeriods, db, users } from "../db";
+import { fieldErrorsFrom, type FormState, formValues } from "./types";
 
 const bookingSchema = z.object({
   type: z.string(),
@@ -60,6 +60,7 @@ export async function bookAppointmentAction(_prev: FormState, formData: FormData
   if (result === "taken") return { error: "Dit tijdstip is net niet meer beschikbaar. Kies een ander tijdstip." };
 
   revalidatePath("/account", "layout");
+  revalidatePath("/admin", "layout");
   redirect(`/account/agenda?geboekt=${result}`);
 }
 
@@ -72,6 +73,7 @@ export async function cancelMyAppointmentAction(formData: FormData) {
   if (appointment.startsAt.getTime() - Date.now() < BOOKING_RULES.cancelUntilHours * 3600_000) return;
   await db.update(appointments).set({ status: "geannuleerd", cancelledBy: "klant", cancelledAt: new Date() }).where(eq(appointments.id, id));
   revalidatePath("/account", "layout");
+  revalidatePath("/admin", "layout");
 }
 
 // ---------------------------------------------------------------------------
@@ -85,11 +87,84 @@ export async function cancelAppointmentAction(formData: FormData) {
     .update(appointments)
     .set({ status: "geannuleerd", cancelledBy: "steyn", cancelledAt: new Date() })
     .where(and(eq(appointments.id, id), eq(appointments.status, "gepland")));
-  revalidatePath("/admin/agenda");
+  revalidatePath("/admin", "layout");
   revalidatePath("/account", "layout");
 }
 
 const time = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Vul een tijd in");
+
+const adminBookingSchema = z.object({
+  userId: z.string().min(1, "Kies een klant"),
+  type: z.string().min(1, "Kies een soort afspraak"),
+  location: z.string().min(1, "Kies een locatie"),
+  day: z.string().refine(isValidDay, "Kies een datum"),
+  time,
+  note: z.string().trim().max(500).optional(),
+  replaces: z.preprocess((v) => (v === "" || v == null ? undefined : v), z.coerce.number().int().positive().optional()),
+});
+
+const hhmm = (d: Date) => zonedParts(d).time;
+
+/**
+ * Steyn plant zelf een afspraak in, of verplaatst er een (`replaces`): dan wordt de nieuwe
+ * afspraak gemaakt en de oude in dezelfde transactie geannuleerd. Steyn mag buiten de
+ * beschikbaarheid plannen; alleen dubbel boeken wordt tegengehouden.
+ */
+export async function createAppointmentAction(_prev: FormState, formData: FormData): Promise<FormState> {
+  await requireAdmin();
+  const values = formValues(formData);
+  const parsed = adminBookingSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return { fieldErrors: fieldErrorsFrom(parsed.error.issues), values };
+  const { userId, day, note, replaces } = parsed.data;
+  const type = getAppointmentType(parsed.data.type);
+  if (!type) return { fieldErrors: { type: "Kies een soort afspraak" }, values };
+  if (!(type.locations as readonly string[]).includes(parsed.data.location)) {
+    return { fieldErrors: { location: `${type.label} kan niet op deze locatie` }, values };
+  }
+  const start = zonedTimeToUtc(day, parsed.data.time);
+  const end = new Date(start.getTime() + type.minutes * 60_000);
+  if (start.getTime() < Date.now()) return { fieldErrors: { time: "Kies een tijdstip in de toekomst" }, values };
+
+  const result = await db.transaction(async (tx) => {
+    const [member] = await tx.select({ id: users.id }).from(users).where(eq(users.id, userId));
+    if (!member) return { error: "Deze klant bestaat niet meer." };
+    const [old] = replaces
+      ? await tx.select().from(appointments).where(and(eq(appointments.id, replaces), eq(appointments.status, "gepland")))
+      : [undefined];
+    if (replaces && !old) return { error: "De afspraak die je wilt verplaatsen is al geannuleerd." };
+
+    const [clash] = await tx
+      .select({ startsAt: appointments.startsAt, endsAt: appointments.endsAt, firstName: users.firstName, lastName: users.lastName })
+      .from(appointments)
+      .innerJoin(users, eq(appointments.userId, users.id))
+      .where(
+        and(
+          eq(appointments.status, "gepland"),
+          lt(appointments.startsAt, end),
+          gt(appointments.endsAt, start),
+          replaces ? ne(appointments.id, replaces) : undefined,
+        ),
+      )
+      .limit(1);
+    if (clash) {
+      return { error: `Op dit tijdstip staat al een afspraak met ${clash.firstName} ${clash.lastName} (${hhmm(clash.startsAt)}–${hhmm(clash.endsAt)}).` };
+    }
+
+    const [row] = await tx
+      .insert(appointments)
+      .values({ userId, type: type.id, location: parsed.data.location, startsAt: start, endsAt: end, note: note || old?.note || null })
+      .returning({ id: appointments.id });
+    if (old) {
+      await tx.update(appointments).set({ status: "geannuleerd", cancelledBy: "steyn", cancelledAt: new Date() }).where(eq(appointments.id, old.id));
+    }
+    return { id: row.id };
+  });
+
+  if ("error" in result) return { error: result.error, values };
+  revalidatePath("/admin", "layout");
+  revalidatePath("/account", "layout");
+  redirect(`/admin/agenda?weergave=dag&datum=${day}&afspraak=${result.id}&melding=${replaces ? "verplaatst" : "gepland"}`);
+}
 
 const availabilitySchema = z
   .object({
@@ -105,7 +180,7 @@ export async function addAvailabilityAction(_prev: FormState, formData: FormData
   const parsed = availabilitySchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Controleer de invoer." };
   await db.insert(availability).values(parsed.data);
-  revalidatePath("/admin/agenda");
+  revalidatePath("/admin", "layout");
   return { success: "Beschikbaarheid toegevoegd." };
 }
 
@@ -113,7 +188,7 @@ export async function deleteAvailabilityAction(formData: FormData) {
   await requireAdmin();
   const id = Number(formData.get("id"));
   if (Number.isInteger(id)) await db.delete(availability).where(eq(availability.id, id));
-  revalidatePath("/admin/agenda");
+  revalidatePath("/admin", "layout");
 }
 
 const blockSchema = z
@@ -138,7 +213,7 @@ export async function addBlockedPeriodAction(_prev: FormState, formData: FormDat
     .select({ n: count() })
     .from(appointments)
     .where(and(eq(appointments.status, "gepland"), lt(appointments.startsAt, endsAt), gt(appointments.endsAt, startsAt)));
-  revalidatePath("/admin/agenda");
+  revalidatePath("/admin", "layout");
   return { success: n ? `Periode geblokkeerd. Let op: er staan nog ${n} afspraken in deze periode.` : "Periode geblokkeerd." };
 }
 
@@ -146,11 +221,11 @@ export async function deleteBlockedPeriodAction(formData: FormData) {
   await requireAdmin();
   const id = Number(formData.get("id"));
   if (Number.isInteger(id)) await db.delete(blockedPeriods).where(eq(blockedPeriods.id, id));
-  revalidatePath("/admin/agenda");
+  revalidatePath("/admin", "layout");
 }
 
 export async function rotateIcalTokenAction() {
   await requireAdmin();
   await rotateIcalToken();
-  revalidatePath("/admin/agenda");
+  revalidatePath("/admin", "layout");
 }

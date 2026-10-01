@@ -2,9 +2,7 @@ import "@fontsource-variable/archivo/wdth.css";
 import "@fontsource-variable/inter";
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { SiteFooter } from "@/components/SiteFooter";
 import { DemoBanner } from "@/components/DemoBanner";
-import { SiteHeader } from "@/components/SiteHeader";
 import { DEMO_MODE } from "@/lib/demo";
 import { SITE } from "@/lib/site";
 
@@ -37,11 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Naar de inhoud
         </a>
         {DEMO_MODE && <DemoBanner />}
-        <SiteHeader announcement={SITE.announcement} />
-        <main id="inhoud" className="flex-1 overflow-x-clip">
-          {children}
-        </main>
-        <SiteFooter />
+        {children}
       </body>
     </html>
   );

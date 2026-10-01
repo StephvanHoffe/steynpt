@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { requireAdmin } from "../auth";
 import { COACHING_STATUSES, contactRequests, db, users } from "../db";
+import type { FormState } from "./types";
 
 const memberSchema = z.object({
   userId: z.string().min(1),
@@ -12,17 +13,19 @@ const memberSchema = z.object({
   coachNote: z.string().trim().max(2000).optional(),
 });
 
-export async function updateMemberAction(formData: FormData) {
+export async function updateMemberAction(_prev: FormState, formData: FormData): Promise<FormState> {
   await requireAdmin();
   const parsed = memberSchema.safeParse(Object.fromEntries(formData));
-  if (!parsed.success) return;
+  if (!parsed.success) return { error: "Controleer de invoer." };
   const { userId, coachingStatus, coachNote } = parsed.data;
 
   await db
     .update(users)
     .set({ coachingStatus, coachNote: coachNote || null })
     .where(eq(users.id, userId));
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
+  revalidatePath("/account", "layout");
+  return { success: "Opgeslagen. De klant ziet het bericht direct in Mijn omgeving." };
 }
 
 /** Vriendenactie: de korting voor de uitnodiger is verrekend. */
@@ -34,7 +37,7 @@ export async function markReferralRewardAction(formData: FormData) {
     .update(users)
     .set({ referralRewardAt: new Date() })
     .where(and(eq(users.id, friendId), isNull(users.referralRewardAt)));
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
 }
 
 export async function toggleContactHandledAction(formData: FormData) {
@@ -44,5 +47,5 @@ export async function toggleContactHandledAction(formData: FormData) {
   const [request] = await db.select().from(contactRequests).where(eq(contactRequests.id, id));
   if (!request) return;
   await db.update(contactRequests).set({ handled: !request.handled }).where(eq(contactRequests.id, id));
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
 }

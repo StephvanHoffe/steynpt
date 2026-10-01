@@ -97,7 +97,7 @@ export async function savePlanAction(_prev: FormState, formData: FormData): Prom
     await db.update(plans).set({ content, updatedAt: now }).where(eq(plans.id, id));
   }
 
-  revalidatePath(`/admin/schemas/${id}`);
+  revalidatePath("/admin", "layout");
   revalidatePath("/account", "layout");
   return {
     success:

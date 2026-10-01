@@ -12,7 +12,7 @@ export function AvailabilityForm() {
   return (
     <form action={action} className="grid gap-3">
       <FormAlert error={state.error} success={state.success} />
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <label className="block">
           <span className="label">Dag</span>
           <select name="weekday" className="input" defaultValue="1">
@@ -41,7 +41,7 @@ export function AvailabilityForm() {
             ))}
           </select>
         </label>
-        <SubmitButton className="btn btn-primary col-span-2 justify-self-start" pendingText="…">
+        <SubmitButton className="btn btn-primary col-span-2 justify-self-start sm:col-span-4" pendingText="…">
           Toevoegen
         </SubmitButton>
       </div>

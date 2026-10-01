@@ -1,192 +1,248 @@
-import { asc, eq, gt } from "drizzle-orm";
-import { ArrowLeft, Trash2 } from "lucide-react";
+import { and, asc, eq, gt, lt, ne } from "drizzle-orm";
+import { CalendarPlus, CheckCircle2, ChevronLeft, ChevronRight, Settings2 } from "lucide-react";
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import Link from "next/link";
-import { AvailabilityForm, BlockForm, CopyField } from "@/components/agenda/AdminAgendaForms";
-import { formatDayLong, formatTime, getAgendaLocation, getAppointmentType, WEEKDAYS, zonedParts } from "@/lib/agenda";
-import { getIcalToken } from "@/lib/agenda-server";
-import { cancelAppointmentAction, deleteAvailabilityAction, deleteBlockedPeriodAction, rotateIcalTokenAction } from "@/lib/actions/agenda";
+import { ADMIN_PAGE, AdminPageHeader } from "@/components/admin/ui";
+import { AgendaList } from "@/components/admin/calendar/AgendaList";
+import { AppointmentDrawer } from "@/components/admin/calendar/AppointmentDrawer";
+import { DateJump } from "@/components/admin/calendar/DateJump";
+import { MonthGrid } from "@/components/admin/calendar/MonthGrid";
+import { agendaHref, type AgendaParams, type CalendarEvent, shortName, TYPE_COLOR } from "@/components/admin/calendar/shared";
+import { TimeGrid } from "@/components/admin/calendar/TimeGrid";
+import { addDays, APPOINTMENT_TYPES, dayToDate, getAgendaLocation, getAppointmentType, isValidDay, weekdayOf, zonedParts, zonedTimeToUtc } from "@/lib/agenda";
+import { CALENDAR_VIEWS, gridHours, isoWeek, minutesOfDay, parseView, shiftDay, timeToMinutes, viewDays } from "@/lib/agenda-calendar";
 import { requireAdmin } from "@/lib/auth";
 import { appointments, availability, blockedPeriods, db, users } from "@/lib/db";
-import { SITE } from "@/lib/site";
 
-export const metadata: Metadata = { title: "Agenda beheren", robots: { index: false } };
+export const metadata: Metadata = { title: "Agenda" };
 
-export default async function AdminAgendaPage() {
+const fmt = (o: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat("nl-NL", { timeZone: "Europe/Amsterdam", ...o });
+const longDay = fmt({ weekday: "long", day: "numeric", month: "long", year: "numeric" });
+const monthYear = fmt({ month: "long", year: "numeric" });
+const dayMonth = fmt({ day: "numeric", month: "short" });
+const dayMonthYear = fmt({ day: "numeric", month: "short", year: "numeric" });
+
+function periodTitle(view: AgendaParams["view"], days: string[], day: string) {
+  const first = dayToDate(days[0]);
+  const last = dayToDate(days.at(-1)!);
+  if (view === "dag") return { title: longDay.format(dayToDate(day)), eyebrow: `Week ${isoWeek(day)}` };
+  if (view === "maand") return { title: monthYear.format(dayToDate(day)), eyebrow: null };
+  const title = `${dayMonth.format(first)} – ${dayMonthYear.format(last)}`;
+  return { title, eyebrow: view === "week" ? `Week ${isoWeek(days[0])}` : `${days.length} dagen` };
+}
+
+const MELDING: Record<string, string> = { gepland: "Afspraak ingepland.", verplaatst: "Afspraak verplaatst. De oude afspraak is geannuleerd." };
+
+export default async function AdminAgendaPage({ searchParams }: PageProps<"/admin/agenda">) {
   await requireAdmin("/admin/agenda");
+  const sp = await searchParams;
   const now = new Date();
-  const [upcoming, windows, blocks, token, headerList] = await Promise.all([
+  const today = zonedParts(now).day;
+  const view = parseView(sp.weergave);
+  const day = typeof sp.datum === "string" && isValidDay(sp.datum) ? sp.datum : today;
+  const cancelled = sp.geannuleerd === "1";
+  const params: AgendaParams = { view, day, cancelled };
+  const selectedId = Number(sp.afspraak);
+
+  const days = viewDays(view, day);
+  const from = zonedTimeToUtc(days[0], "00:00");
+  const to = zonedTimeToUtc(addDays(days.at(-1)!, 1), "00:00");
+
+  const [rows, windows, blocks, selected] = await Promise.all([
     db
-      .select({ a: appointments, firstName: users.firstName, lastName: users.lastName, phone: users.phone, email: users.email, userId: users.id })
+      .select({ a: appointments, firstName: users.firstName, lastName: users.lastName })
       .from(appointments)
       .innerJoin(users, eq(appointments.userId, users.id))
-      .where(gt(appointments.endsAt, now))
-      .orderBy(asc(appointments.startsAt))
-      .limit(200),
+      .where(and(lt(appointments.startsAt, to), gt(appointments.endsAt, from), cancelled ? undefined : eq(appointments.status, "gepland")))
+      .orderBy(asc(appointments.startsAt)),
     db.select().from(availability).orderBy(asc(availability.weekday), asc(availability.startTime)),
-    db.select().from(blockedPeriods).where(gt(blockedPeriods.endsAt, now)).orderBy(asc(blockedPeriods.startsAt)),
-    getIcalToken(),
-    headers(),
+    db.select().from(blockedPeriods).where(and(lt(blockedPeriods.startsAt, to), gt(blockedPeriods.endsAt, from))),
+    Number.isInteger(selectedId) && selectedId > 0
+      ? db
+          .select({ a: appointments, u: users })
+          .from(appointments)
+          .innerJoin(users, eq(appointments.userId, users.id))
+          .where(eq(appointments.id, selectedId))
+          .then((r) => r[0])
+      : Promise.resolve(undefined),
   ]);
 
-  // Gebruik het echte domein voor de abonnementslink (ook lokaal en op preview-omgevingen).
-  const host = headerList.get("x-forwarded-host") ?? headerList.get("host");
-  const proto = headerList.get("x-forwarded-proto") ?? (host?.startsWith("localhost") ? "http" : "https");
-  const base = host ? `${proto}://${host}` : SITE.url;
-  const feedUrl = `${base}/ical/${token}.ics`;
-  const webcalUrl = feedUrl.replace(/^https?:/, "webcal:");
+  const events: CalendarEvent[] = rows.map(({ a, firstName, lastName }) => {
+    const startDay = zonedParts(a.startsAt).day;
+    return {
+      id: a.id,
+      day: startDay,
+      start: minutesOfDay(a.startsAt),
+      end: zonedParts(a.endsAt).day === startDay ? minutesOfDay(a.endsAt) : 24 * 60,
+      startsAt: a.startsAt,
+      endsAt: a.endsAt,
+      type: a.type,
+      typeLabel: getAppointmentType(a.type)?.label ?? a.type,
+      location: a.location,
+      client: shortName(firstName, lastName),
+      cancelled: a.status === "geannuleerd",
+      href: agendaHref(params, { afspraak: a.id }),
+    };
+  });
 
-  const byDay = new Map<string, typeof upcoming>();
-  for (const row of upcoming) {
-    const day = zonedParts(row.a.startsAt).day;
-    byDay.set(day, [...(byDay.get(day) ?? []), row]);
+  // Vrije periodes per dag (in minuten), voor rooster, maand en lijst.
+  const dayBlocks = days.flatMap((d) => {
+    const start = zonedTimeToUtc(d, "00:00");
+    const end = zonedTimeToUtc(addDays(d, 1), "00:00");
+    return blocks
+      .filter((b) => b.startsAt < end && b.endsAt > start)
+      .map((b) => ({
+        day: d,
+        start: b.startsAt <= start ? 0 : minutesOfDay(b.startsAt),
+        end: b.endsAt >= end ? 24 * 60 : minutesOfDay(b.endsAt),
+        reason: b.reason,
+      }));
+  });
+  const blockedDays = new Map(dayBlocks.map((b) => [b.day, b.reason]));
+
+  const weekdays = new Set(days.map(weekdayOf));
+  const hours = gridHours([
+    ...windows.filter((w) => weekdays.has(w.weekday)).map((w) => ({ start: timeToMinutes(w.startTime), end: timeToMinutes(w.endTime) })),
+    ...events,
+  ]);
+
+  // Aandachtspunten bij de geselecteerde afspraak.
+  const warnings: string[] = [];
+  if (selected && selected.a.status === "gepland") {
+    const { a } = selected;
+    const start = minutesOfDay(a.startsAt);
+    const end = minutesOfDay(a.endsAt);
+    const fits = windows.some(
+      (w) => w.weekday === weekdayOf(zonedParts(a.startsAt).day) && w.location === a.location && timeToMinutes(w.startTime) <= start && timeToMinutes(w.endTime) >= end,
+    );
+    if (!fits) warnings.push(`Valt buiten je beschikbaarheid voor ${getAgendaLocation(a.location)?.label ?? a.location}.`);
+    const [block] = await db.select().from(blockedPeriods).where(and(lt(blockedPeriods.startsAt, a.endsAt), gt(blockedPeriods.endsAt, a.startsAt))).limit(1);
+    if (block) warnings.push(`Valt in een vrije periode${block.reason ? ` (${block.reason})` : ""}.`);
+    const [overlap] = await db
+      .select({ id: appointments.id })
+      .from(appointments)
+      .where(and(ne(appointments.id, a.id), eq(appointments.status, "gepland"), lt(appointments.startsAt, a.endsAt), gt(appointments.endsAt, a.startsAt)))
+      .limit(1);
+    if (overlap) warnings.push("Overlapt met een andere afspraak.");
   }
 
+  const { title, eyebrow } = periodTitle(view, days, day);
+  const planned = events.filter((e) => !e.cancelled).length;
+  const newHref = `/admin/agenda/nieuw?datum=${day < today ? today : day}`;
+  const melding = typeof sp.melding === "string" ? MELDING[sp.melding] : undefined;
+  const nav = "grid h-9 place-items-center rounded-lg border border-line bg-white px-2.5 text-sm font-medium hover:border-ink";
+
   return (
-    <div className="container-site py-10 lg:py-14">
-      <Link href="/admin" className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted hover:text-ink">
-        <ArrowLeft className="size-4" aria-hidden="true" /> Beheer
-      </Link>
-      <h1 className="display display-lg mt-3">Agenda</h1>
+    <div className={ADMIN_PAGE}>
+      <AdminPageHeader
+        title="Agenda"
+        description={
+          <>
+            {planned} {planned === 1 ? "afspraak" : "afspraken"} in deze {view === "dag" ? "dag" : view === "week" ? "week" : view === "maand" ? "maand" : "periode"}
+          </>
+        }
+        actions={
+          <>
+            <Link href="/admin/agenda/instellingen" className="btn btn-sm btn-outline">
+              <Settings2 className="size-4" aria-hidden="true" /> Beschikbaarheid
+            </Link>
+            <Link href={newHref} className="btn btn-sm btn-primary">
+              <CalendarPlus className="size-4" aria-hidden="true" /> Nieuwe afspraak
+            </Link>
+          </>
+        }
+      />
 
-      <div className="mt-8 grid gap-8 xl:grid-cols-[1.4fr_1fr]">
-        <section aria-labelledby="afspraken" className="grid content-start gap-4">
-          <h2 id="afspraken" className="display display-sm">
-            Komende afspraken
-          </h2>
-          {byDay.size === 0 && <p className="text-muted">Nog geen afspraken.</p>}
-          {[...byDay.entries()].map(([day, rows]) => (
-            <div key={day} className="card overflow-hidden">
-              <h3 className="border-b border-line bg-surface px-5 py-3 text-sm font-semibold first-letter:uppercase">{formatDayLong(rows[0].a.startsAt)}</h3>
-              <ul className="divide-y divide-line">
-                {rows.map(({ a, firstName, lastName, phone, email, userId }) => (
-                  <li key={a.id} className={`flex flex-col gap-2 px-5 py-4 sm:flex-row sm:items-start sm:justify-between ${a.status === "geannuleerd" ? "opacity-55" : ""}`}>
-                    <div className="text-sm">
-                      <p className="font-semibold tabular-nums">
-                        {formatTime(a.startsAt)}–{formatTime(a.endsAt)} · {getAppointmentType(a.type)?.label ?? a.type}
-                        {a.status === "geannuleerd" && <span className="ml-2 rounded bg-surface px-1.5 py-0.5 text-xs font-medium">geannuleerd door {a.cancelledBy}</span>}
-                      </p>
-                      <p className="mt-0.5 text-muted">
-                        <Link href={`/admin/leden/${userId}`} className="font-medium text-ink underline decoration-accent underline-offset-4">
-                          {firstName} {lastName}
-                        </Link>{" "}
-                        · {getAgendaLocation(a.location)?.label ?? a.location} · {phone ?? email}
-                      </p>
-                      {a.note && <p className="mt-1 text-muted">&ldquo;{a.note}&rdquo;</p>}
-                    </div>
-                    {a.status === "gepland" && (
-                      <form action={cancelAppointmentAction}>
-                        <input type="hidden" name="id" value={a.id} />
-                        <button type="submit" className="btn btn-sm btn-outline">
-                          Annuleren
-                        </button>
-                      </form>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </section>
+      {melding && (
+        <p className="mb-4 flex items-center gap-2 rounded-lg border border-success/30 bg-success/5 px-4 py-2.5 text-sm font-medium" role="status">
+          <CheckCircle2 className="size-4 text-success" aria-hidden="true" /> {melding}
+        </p>
+      )}
 
-        <div className="grid content-start gap-8">
-          <section aria-labelledby="ical" className="card p-6">
-            <h2 id="ical" className="display text-xl">
-              Koppelen met je eigen agenda
-            </h2>
-            <p className="mt-2 text-sm text-muted">Abonneer je op deze link; nieuwe en geannuleerde afspraken verschijnen dan automatisch in je agenda.</p>
-            <div className="mt-4">
-              <CopyField value={feedUrl} label="iCal-link" />
-            </div>
-            <div className="mt-5 grid gap-4 text-sm">
-              <div>
-                <p className="font-semibold">Google Agenda</p>
-                <p className="text-muted">
-                  Ga op een computer naar calendar.google.com › Andere agenda&apos;s › + › Via URL, plak de link en kies Agenda toevoegen. Google ververst
-                  geabonneerde agenda&apos;s zelf, meestal enkele keren per dag.
-                </p>
-              </div>
-              <div>
-                <p className="font-semibold">Apple Agenda (iPhone, iPad, Mac)</p>
-                <p className="text-muted">
-                  Open{" "}
-                  <a href={webcalUrl} className="font-medium text-ink underline decoration-accent underline-offset-4">
-                    deze link op je iPhone of Mac
-                  </a>{" "}
-                  en kies Abonneer. Zet bij Vernieuw automatisch bijvoorbeeld &ldquo;Elk uur&rdquo;.
-                </p>
-              </div>
-              <p className="rounded-lg bg-surface p-3 text-xs text-muted">
-                De link bevat namen en telefoonnummers van klanten. Deel hem met niemand. Uitgelekt? Maak een nieuwe link; de oude werkt dan direct niet meer.
-              </p>
-              <form action={rotateIcalTokenAction}>
-                <button type="submit" className="btn btn-sm btn-outline">
-                  Nieuwe link maken
-                </button>
-              </form>
-            </div>
-          </section>
-
-          <section aria-labelledby="beschikbaar" className="card p-6">
-            <h2 id="beschikbaar" className="display text-xl">
-              Beschikbaarheid per week
-            </h2>
-            <p className="mt-2 text-sm text-muted">Klanten kunnen alleen binnen deze tijden boeken, minimaal 12 uur van tevoren en maximaal 6 weken vooruit.</p>
-            <ul className="mt-4 divide-y divide-line rounded-lg border border-line text-sm">
-              {windows.length === 0 && <li className="p-3 text-muted">Nog geen tijden ingesteld: klanten kunnen nog niets boeken.</li>}
-              {windows.map((w) => (
-                <li key={w.id} className="flex items-center justify-between gap-3 px-3 py-2">
-                  <span>
-                    <span className="inline-block w-24 font-medium first-letter:uppercase">{WEEKDAYS[w.weekday - 1]}</span>
-                    <span className="tabular-nums">
-                      {w.startTime}–{w.endTime}
-                    </span>{" "}
-                    · {getAgendaLocation(w.location)?.label ?? w.location}
-                  </span>
-                  <form action={deleteAvailabilityAction}>
-                    <input type="hidden" name="id" value={w.id} />
-                    <button type="submit" aria-label={`Verwijder ${WEEKDAYS[w.weekday - 1]} ${w.startTime}`} className="grid size-8 place-items-center rounded-md text-muted hover:bg-surface hover:text-danger">
-                      <Trash2 className="size-4" aria-hidden="true" />
-                    </button>
-                  </form>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-5">
-              <AvailabilityForm />
-            </div>
-          </section>
-
-          <section aria-labelledby="geblokkeerd" className="card p-6">
-            <h2 id="geblokkeerd" className="display text-xl">
-              Vrije dagen en vakanties
-            </h2>
-            <ul className="mt-4 divide-y divide-line rounded-lg border border-line text-sm">
-              {blocks.length === 0 && <li className="p-3 text-muted">Geen geblokkeerde periodes.</li>}
-              {blocks.map((b) => (
-                <li key={b.id} className="flex items-center justify-between gap-3 px-3 py-2">
-                  <span>
-                    {formatDayLong(b.startsAt)}
-                    {zonedParts(b.startsAt).day !== zonedParts(new Date(b.endsAt.getTime() - 60_000)).day &&
-                      ` t/m ${formatDayLong(new Date(b.endsAt.getTime() - 60_000))}`}
-                    {b.reason ? ` · ${b.reason}` : ""}
-                  </span>
-                  <form action={deleteBlockedPeriodAction}>
-                    <input type="hidden" name="id" value={b.id} />
-                    <button type="submit" aria-label="Verwijder blokkade" className="grid size-8 place-items-center rounded-md text-muted hover:bg-surface hover:text-danger">
-                      <Trash2 className="size-4" aria-hidden="true" />
-                    </button>
-                  </form>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-5">
-              <BlockForm today={zonedParts(now).day} />
-            </div>
-          </section>
+      {/* Werkbalk */}
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <Link href={agendaHref({ ...params, day: today })} className={nav}>
+            Vandaag
+          </Link>
+          <div className="flex">
+            <Link href={agendaHref({ ...params, day: shiftDay(view, day, -1) })} className={`${nav} rounded-r-none`} aria-label="Vorige periode">
+              <ChevronLeft className="size-4" aria-hidden="true" />
+            </Link>
+            <Link href={agendaHref({ ...params, day: shiftDay(view, day, 1) })} className={`${nav} -ml-px rounded-l-none`} aria-label="Volgende periode">
+              <ChevronRight className="size-4" aria-hidden="true" />
+            </Link>
+          </div>
+          <div className="ml-1">
+            {eyebrow && <p className="text-xs font-medium uppercase tracking-wide text-muted">{eyebrow}</p>}
+            <h2 className="text-lg font-semibold leading-tight first-letter:uppercase">{title}</h2>
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <DateJump day={day} view={view} cancelled={cancelled} />
+          <nav aria-label="Weergave" className="flex rounded-lg border border-line bg-white p-0.5">
+            {CALENDAR_VIEWS.map((v) => (
+              <Link
+                key={v.id}
+                href={agendaHref({ ...params, view: v.id })}
+                aria-current={v.id === view ? "page" : undefined}
+                className={`rounded-md px-3 py-1.5 text-sm font-medium ${v.id === view ? "bg-ink text-white" : "text-ink/80 hover:bg-surface"}`}
+              >
+                {v.label}
+              </Link>
+            ))}
+          </nav>
         </div>
       </div>
+
+      {/* Weergave */}
+      {view === "maand" ? (
+        <MonthGrid params={params} days={days} events={events} blockedDays={blockedDays} today={today} />
+      ) : view === "lijst" ? (
+        <AgendaList days={days} events={events} today={today} blockedDays={blockedDays} />
+      ) : view === "dag" ? (
+        <div className="grid gap-4 xl:grid-cols-[1fr_22rem]">
+          <TimeGrid params={params} days={days} events={events} windows={windows} blocks={dayBlocks} hours={hours} today={today} nowMinutes={minutesOfDay(now)} now={now} />
+          <div className="min-w-0">
+            <AgendaList days={days} events={events} today={today} blockedDays={blockedDays} />
+          </div>
+        </div>
+      ) : (
+        <TimeGrid params={params} days={days} events={events} windows={windows} blocks={dayBlocks} hours={hours} today={today} nowMinutes={minutesOfDay(now)} now={now} />
+      )}
+
+      {/* Legenda en filter */}
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-xs text-muted">
+        <ul className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+          {APPOINTMENT_TYPES.map((t) => (
+            <li key={t.id} className="flex items-center gap-1.5">
+              <span className="size-2.5 rounded-full" style={{ background: TYPE_COLOR[t.id] }} aria-hidden="true" /> {t.label}
+            </li>
+          ))}
+          {view !== "maand" && view !== "lijst" && (
+            <li className="flex items-center gap-1.5">
+              <span className="size-2.5 rounded-sm border border-line bg-white" aria-hidden="true" /> Beschikbaar
+              <span className="ml-2 size-2.5 rounded-sm bg-[#e9ebed]" aria-hidden="true" /> Niet beschikbaar
+            </li>
+          )}
+        </ul>
+        <Link href={agendaHref({ ...params, cancelled: !cancelled })} className="inline-flex items-center gap-2 font-medium text-ink hover:underline" role="switch" aria-checked={cancelled}>
+          <span className={`relative h-4 w-7 rounded-full transition-colors ${cancelled ? "bg-ink" : "bg-line"}`} aria-hidden="true">
+            <span className={`absolute top-0.5 size-3 rounded-full bg-white transition-all ${cancelled ? "left-3.5" : "left-0.5"}`} />
+          </span>
+          Geannuleerde afspraken tonen
+        </Link>
+      </div>
+
+      {selected && (
+        <AppointmentDrawer
+          appointment={selected.a}
+          client={selected.u}
+          closeHref={agendaHref(params)}
+          warnings={warnings}
+          now={now}
+        />
+      )}
     </div>
   );
 }

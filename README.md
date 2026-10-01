@@ -34,13 +34,19 @@ De vormgeving is zakelijk zwart-wit met één accentkleur (petrol, `#0b6f78`) en
 
 **Beheer (Steyn)**
 
-- `/admin`: overzicht met komende afspraken, schema's ter controle, vriendenkortingen die nog verrekend moeten worden, contactaanvragen en leden (coachingstatus en bericht per lid).
-- `/admin/leden/[id]`: intake, schema's, metingen invoeren en verwijderen, komende afspraken van dat lid, en door wie het lid is uitgenodigd.
-- `/admin/agenda`: alle afspraken, beschikbaarheid per week, vrije dagen en de iCal-koppeling.
+Het beheer heeft een eigen opmaak met een zijbalk (op de telefoon een balk bovenaan). Tellers laten zien wat aandacht nodig heeft.
+
+- `/admin` Overzicht: de afspraken van vandaag en de dagen erna, en wat er te doen is: schema's controleren, nieuwe aanvragen, leden die op een intake wachten en vriendenkortingen om te verrekenen.
+- `/admin/agenda` Agenda: weergave per dag, week, maand of als lijst. Klik op een afspraak voor alle gegevens, om hem te verplaatsen of te annuleren. Klik op een leeg moment in de dag- of weekweergave om daar een afspraak in te plannen.
+- `/admin/agenda/nieuw`: Steyn plant zelf een afspraak in voor een klant (ook buiten de vaste beschikbaarheid; dubbel boeken kan niet).
+- `/admin/leden`: alle leden met zoeken en filteren op coachingstatus, volgende afspraak en laatste check-in. Per lid (`/admin/leden/[id]`): coachingstatus en bericht, schema's, metingen, komende afspraken en de intake.
+- `/admin/schemas`: schema's die gecontroleerd moeten worden en recent gepubliceerde.
+- `/admin/aanvragen`: contactaanvragen, open of afgehandeld.
+- `/admin/agenda/instellingen`: beschikbaarheid per week, vrije dagen en de koppeling met Google of Apple Agenda.
 
 ## Agenda
 
-1. **Beschikbaarheid instellen.** In `/admin/agenda` stelt Steyn per weekdag tijdvakken in met een locatie (bijvoorbeeld maandag 07:00–12:00 Gymbase). Klanten zien alleen tijden binnen die vakken. Zolang er niets is ingesteld, kan niemand boeken.
+1. **Beschikbaarheid instellen.** In `/admin/agenda/instellingen` stelt Steyn per weekdag tijdvakken in met een locatie (bijvoorbeeld maandag 07:00–12:00 Gymbase). Klanten zien alleen tijden binnen die vakken. Zolang er niets is ingesteld, kan niemand boeken.
 2. **Vrije dagen en vakanties.** Blokkeer hele dagen; bestaande afspraken in die periode blijven staan (Steyn krijgt een melding en zegt ze zelf af).
 3. **Afspraaktypes en regels** staan in `src/lib/agenda.ts`:
 
@@ -53,7 +59,9 @@ De vormgeving is zakelijk zwart-wit met één accentkleur (petrol, `#0b6f78`) en
 
    Boeken kan vanaf 12 uur en tot 6 weken vooruit, afzeggen tot 24 uur van tevoren, maximaal 8 komende afspraken per klant. Tijden starten elk half uur. Dubbel boeken is niet mogelijk; de vrije tijd wordt bij het bevestigen opnieuw gecontroleerd.
 
-4. **Koppelen met Google of Apple Agenda (iCal).** In `/admin/agenda` staat een geheime abonnementslink (`/ical/<token>.ics`) met alle afspraken, inclusief naam, telefoonnummer, e-mail en opmerking van de klant. Afgezegde afspraken worden als geannuleerd doorgegeven en verdwijnen dan uit de agenda.
+   Steyn kan zelf afspraken inplannen en verplaatsen. Verplaatsen maakt een nieuwe afspraak en annuleert de oude in één keer. Er gaan nog geen e-mails uit; laat de klant het dus zelf weten.
+
+4. **Koppelen met Google of Apple Agenda (iCal).** In `/admin/agenda/instellingen` staat een geheime abonnementslink (`/ical/<token>.ics`) met alle afspraken, inclusief naam, telefoonnummer, e-mail en opmerking van de klant. Afgezegde afspraken worden als geannuleerd doorgegeven en verdwijnen dan uit de agenda.
    - **Google Agenda:** op een computer naar calendar.google.com → *Andere agenda's* → **+** → *Via URL*, plak de link en kies *Agenda toevoegen*. Google ververst geabonneerde agenda's zelf, meestal een paar keer per dag; een nieuwe afspraak kan dus enkele uren later verschijnen.
    - **Apple Agenda (iPhone, iPad, Mac):** open de *webcal*-link op het apparaat, of kies op de Mac *Archief → Nieuw agenda-abonnement*. Zet *Vernieuw automatisch* bijvoorbeeld op elk uur.
    - Is de link per ongeluk gedeeld? Kies *Nieuwe link maken*; de oude werkt direct niet meer.
