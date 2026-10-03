@@ -20,6 +20,7 @@ test("schema-planning: wie staat in het overzicht", () => {
   assert.equal(inPipeline({ ...base, wants: ["voeding"] }), false, "klant wil geen trainingsschema");
   assert.equal(inPipeline({ ...base, wants: null }), true, "zonder intake weten we het nog niet");
   assert.equal(inPipeline({ ...base, coachingStatus: "gestopt" }), false);
+  assert.equal(inPipeline({ ...base, coachingStatus: "geen", scheduled: { startsOn: "2026-10-12" } }), true);
 });
 
 test("schema-planning: fases", () => {
@@ -37,6 +38,13 @@ test("schema-planning: fases", () => {
   assert.deepEqual(stage({ current: published("2026-09-01", null, 6) }), { stage: "actief", dueOn: "2026-10-13" }, "zonder datum: publicatie + looptijd");
   assert.equal(stage({ current: published("2026-08-01", "2026-09-01"), coachingStatus: "gepauzeerd" }).stage, "pauze");
   assert.deepEqual(
+    stage({ current: published("2026-08-01", "2026-10-05"), scheduled: { startsOn: "2026-10-05" } }),
+    { stage: "gepland", dueOn: "2026-10-05" },
+    "volgend schema al ingepland: geen actie nodig",
+  );
+  assert.equal(stage({ scheduled: { startsOn: "2026-10-12" } }).stage, "gepland", "ook een eerste schema kan later ingaan");
+  assert.equal(stage({ scheduled: { startsOn: "2026-10-12" }, open: { status: "concept", stuck: false } }).stage, "controleren");
+  assert.deepEqual(
     stage({ current: published("2026-08-01", "2026-09-30"), open: { status: "concept", stuck: false } }),
     { stage: "controleren", dueOn: "2026-09-30" },
     "nieuw concept voor een verlopen schema",
@@ -52,7 +60,7 @@ test("schema-planning: volgorde, tellers en relatieve dagen", () => {
     { name: "Concept", stage: "controleren" as const, dueOn: null },
   ];
   assert.deepEqual([...rows].sort(compareByUrgency).map((r) => r.name), ["Laat", "Nieuw", "Concept", "Bijna", "Actief"]);
-  assert.deepEqual(countGroups(rows), { wacht: 2, controleren: 1, binnenkort: 1, actief: 1, intake: 0, pauze: 0 });
+  assert.deepEqual(countGroups(rows), { wacht: 2, controleren: 1, binnenkort: 1, ingepland: 0, actief: 1, intake: 0, pauze: 0 });
 
   assert.equal(relativeDay(today, today), "vandaag");
   assert.equal(relativeDay(today, "2026-10-04"), "morgen");

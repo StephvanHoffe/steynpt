@@ -96,7 +96,7 @@ export async function generatePlan(planId: number) {
  * Zet een nieuw concept klaar (status "genereren") en vervangt openstaande concepten
  * van hetzelfde type. Het gepubliceerde schema blijft zichtbaar tot er een nieuw is gepubliceerd.
  */
-export async function createPlanJob(userId: string, type: PlanType, instruction?: string | null) {
+export async function createPlanJob(userId: string, type: PlanType, instruction?: string | null, startsOn?: string | null) {
   return db.transaction(async (tx) => {
     await tx
       .update(plans)
@@ -104,7 +104,7 @@ export async function createPlanJob(userId: string, type: PlanType, instruction?
       .where(and(eq(plans.userId, userId), eq(plans.type, type), inArray(plans.status, ["genereren", "concept", "fout"])));
     const [row] = await tx
       .insert(plans)
-      .values({ userId, type, status: "genereren", source: "ai", instruction: instruction?.trim() || null })
+      .values({ userId, type, status: "genereren", source: "ai", instruction: instruction?.trim() || null, startsOn: startsOn ?? null })
       .returning({ id: plans.id });
     return row.id;
   });

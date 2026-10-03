@@ -122,7 +122,8 @@ export default async function MemberPage({ params }: PageProps<"/admin/leden/[id
                         {row?.dueOn && (
                           <span className={row.dueOn <= today && row.stage !== "pauze" ? "text-danger" : ""}>
                             {" "}
-                            · nieuw schema {formatPlanDay(row.dueOn)} ({relativeDay(today, row.dueOn)})
+                            · nieuw schema {row.stage === "gepland" ? "start " : ""}
+                            {formatPlanDay(row.dueOn)} ({relativeDay(today, row.dueOn)})
                           </span>
                         )}
                       </p>
@@ -137,6 +138,11 @@ export default async function MemberPage({ params }: PageProps<"/admin/leden/[id
                           {row?.current && (
                             <Link href={planHref(type, row.current.id)} className="btn btn-sm btn-outline">
                               Bekijken
+                            </Link>
+                          )}
+                          {row?.scheduled && (
+                            <Link href={planHref(type, row.scheduled.id)} className="btn btn-sm btn-outline">
+                              Ingepland
                             </Link>
                           )}
                           <Link href={newPlanHref(type, member.id)} className="btn btn-sm btn-outline">

@@ -1,16 +1,37 @@
 import { FilePlus2, Sparkles } from "lucide-react";
-import { createManualPlanAction, generatePlanAction } from "@/lib/actions/plans";
+import { createPlanAction } from "@/lib/actions/plans";
 import type { PlanType } from "@/lib/db";
 import { PLAN_TYPE_LABEL } from "./labels";
 
-/** Knoppen om een AI-concept te laten maken (met optionele instructie) of zelf te beginnen. */
-export function GenerateForms({ userId, type, aiEnabled, hasIntake, regenerate }: { userId: string; type: PlanType; aiEnabled: boolean; hasIntake: boolean; regenerate?: boolean }) {
+/** Knoppen om een AI-concept te laten maken (met optionele instructie) of zelf te beginnen. De startdatum gaat mee naar het nieuwe concept. */
+export function GenerateForms({
+  userId,
+  type,
+  aiEnabled,
+  hasIntake,
+  regenerate,
+  startsOn,
+}: {
+  userId: string;
+  type: PlanType;
+  aiEnabled: boolean;
+  hasIntake: boolean;
+  regenerate?: boolean;
+  startsOn?: string | null;
+}) {
+  const hidden = (method: "ai" | "leeg") => (
+    <>
+      <input type="hidden" name="userId" value={userId} />
+      <input type="hidden" name="type" value={type} />
+      <input type="hidden" name="method" value={method} />
+      {startsOn && <input type="hidden" name="startsOn" value={startsOn} />}
+    </>
+  );
   return (
     <div className="grid gap-3">
       {aiEnabled && hasIntake && (
-        <form action={generatePlanAction} className="grid gap-2">
-          <input type="hidden" name="userId" value={userId} />
-          <input type="hidden" name="type" value={type} />
+        <form action={createPlanAction} className="grid gap-2">
+          {hidden("ai")}
           <label className="block">
             <span className="label">{regenerate ? "Opnieuw laten maken met een instructie (optioneel)" : "Instructie voor de AI (optioneel)"}</span>
             <textarea
@@ -26,9 +47,8 @@ export function GenerateForms({ userId, type, aiEnabled, hasIntake, regenerate }
           </button>
         </form>
       )}
-      <form action={createManualPlanAction}>
-        <input type="hidden" name="userId" value={userId} />
-        <input type="hidden" name="type" value={type} />
+      <form action={createPlanAction}>
+        {hidden("leeg")}
         <button type="submit" className="btn btn-sm btn-outline bg-white">
           <FilePlus2 className="size-4" aria-hidden="true" /> Zelf een leeg schema starten
         </button>

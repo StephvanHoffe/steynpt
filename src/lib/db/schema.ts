@@ -101,7 +101,8 @@ export const PLAN_TYPES = ["training", "voeding"] as const;
 export type PlanType = (typeof PLAN_TYPES)[number];
 
 // genereren -> concept (of fout) -> gepubliceerd; oude versies worden "vervangen".
-export const PLAN_STATUSES = ["genereren", "fout", "concept", "gepubliceerd", "vervangen"] as const;
+// Met een startdatum in de toekomst is een goedgekeurd schema eerst "gepland" en wordt het op die dag gepubliceerd.
+export const PLAN_STATUSES = ["genereren", "fout", "concept", "gepland", "gepubliceerd", "vervangen"] as const;
 export type PlanStatus = (typeof PLAN_STATUSES)[number];
 
 export const plans = sqliteTable(
@@ -125,6 +126,8 @@ export const plans = sqliteTable(
       .notNull()
       .default(sql`(unixepoch())`),
     publishedAt: integer("published_at", { mode: "timestamp" }),
+    // Dag (YYYY-MM-DD, Amsterdam) waarop het schema voor de klant ingaat; leeg = direct bij publiceren.
+    startsOn: text("starts_on"),
     // Dag (YYYY-MM-DD, Amsterdam) waarop de klant toe is aan een nieuw schema.
     renewOn: text("renew_on"),
   },

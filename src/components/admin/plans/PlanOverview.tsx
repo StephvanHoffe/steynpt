@@ -28,6 +28,8 @@ function nextStep(row: PipelineRow, type: PlanType, origin: string): { label: st
       return { label: "Opnieuw proberen", href: planHref(type, row.open!.id), primary: true };
     case "bezig":
       return { label: "Bekijken", href: planHref(type, row.open!.id) };
+    case "gepland":
+      return { label: "Ingepland bekijken", href: planHref(type, row.scheduled!.id) };
     case "intake": {
       const body = `Hoi ${row.member.firstName},\n\nWil je je intake invullen? Dan maak ik je ${section.one} op maat.\n\n${origin}/account/intake\n\nGroet,\nSteyn`;
       return { label: "Herinnering mailen", href: `mailto:${row.member.email}?subject=${encodeURIComponent("Je intake voor je schema")}&body=${encodeURIComponent(body)}` };
@@ -44,7 +46,9 @@ function Due({ row, today }: { row: PipelineRow; today: string }) {
   return (
     <span className="whitespace-nowrap">
       <span className={`font-medium tabular-nums ${late ? "text-danger" : ""}`}>{formatPlanDay(row.dueOn)}</span>
-      <span className={`block text-xs ${late ? "text-danger" : "text-muted"}`}>{relativeDay(today, row.dueOn)}</span>
+      <span className={`block text-xs ${late ? "text-danger" : "text-muted"}`}>
+        {row.stage === "gepland" ? `start ${relativeDay(today, row.dueOn)}` : relativeDay(today, row.dueOn)}
+      </span>
     </span>
   );
 }
@@ -212,7 +216,7 @@ export async function PlanOverview({ type, searchParams }: { type: PlanType; sea
                     {r.current ? `Schema sinds ${sinceFmt.format(r.current.publishedAt)}` : r.stage === "intake" ? "Intake nog niet ingevuld" : "Nog geen schema"}
                     {r.dueOn && (
                       <>
-                        {" · nieuw schema "}
+                        {r.stage === "gepland" ? " · nieuw schema start " : " · nieuw schema "}
                         <span className={r.dueOn <= today && r.stage !== "pauze" ? "font-semibold text-danger" : "text-ink"}>
                           {formatPlanDay(r.dueOn)} ({relativeDay(today, r.dueOn)})
                         </span>

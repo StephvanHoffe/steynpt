@@ -438,6 +438,7 @@ function published(userId: string, content: TrainingPlan | NutritionPlan, ago: n
     createdAt: daysAgo(ago + 1),
     updatedAt: daysAgo(ago),
     publishedAt: daysAgo(ago),
+    startsOn: publishedDay,
     renewOn: renewIn === undefined ? defaultRenewOn(type, publishedDay, "days" in content ? content.durationWeeks : null) : addDays(today, renewIn),
   };
 }
@@ -463,6 +464,18 @@ await db.insert(s.plans).values([
   published(elineId, lisaTraining, 10, 32, "Fit in 6 weken"),
   published(jorisId, tomTraining, 26, 30, "Spieropbouw 4 dagen"),
   published(jorisId, tomNutrition, 26, 9, "Voedingsplan spieropbouw"),
+  // Ingepland: het volgende voedingsplan van Joris staat al klaar en wordt zichtbaar als het huidige afloopt.
+  {
+    userId: jorisId,
+    type: "voeding" as const,
+    status: "gepland" as const,
+    content: { ...tomNutrition, title: "Voedingsplan spieropbouw: fase 2" },
+    source: "handmatig" as const,
+    createdAt: daysAgo(1),
+    updatedAt: daysAgo(1),
+    startsOn: addDays(today, 9),
+    renewOn: addDays(today, 9 + 28),
+  },
   published(milaId, tomTraining, 17, 25, "Sprintkracht"),
   published(milaId, lisaNutrition, 17, 11, "Voedingsplan prestatie"),
   published(semId, lisaTraining, 14, 28, "Fit en sterk"),

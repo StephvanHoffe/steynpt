@@ -1,9 +1,8 @@
 import { asc, eq } from "drizzle-orm";
-import { AlertTriangle, CopyPlus, FilePlus2, Info, Sparkles } from "lucide-react";
+import { AlertTriangle, CalendarClock } from "lucide-react";
 import Link from "next/link";
 import { ADMIN_PAGE, AdminPageHeader } from "@/components/admin/ui";
 import { IntakePanel } from "@/components/plans/IntakePanel";
-import { createManualPlanAction, generatePlanAction } from "@/lib/actions/plans";
 import { db, intakes, type PlanType, users } from "@/lib/db";
 import { intakeSchema } from "@/lib/intake";
 import { aiConfigured } from "@/lib/plans/generate";
@@ -12,22 +11,12 @@ import { loadPlanPipeline } from "@/lib/plans/pipeline-server";
 import { PLAN_SECTION, planHref } from "@/lib/plans/sections";
 import { getOnlinePlan } from "@/lib/site";
 import { MemberPicker, type PickerGroup } from "./MemberPicker";
+import { NewPlanForm } from "./NewPlanForm";
 import { formatPlanDayLong, StageBadge } from "./stage";
 
 const sinceFmt = new Intl.DateTimeFormat("nl-NL", { day: "numeric", month: "long", timeZone: "Europe/Amsterdam" });
 
-function Option({ icon: Icon, title, children }: { icon: typeof Sparkles; title: string; children: React.ReactNode }) {
-  return (
-    <section className="card p-5 sm:p-6">
-      <h2 className="flex items-center gap-2 text-lg font-semibold">
-        <Icon className="size-5 text-accent" aria-hidden="true" /> {title}
-      </h2>
-      <div className="mt-3">{children}</div>
-    </section>
-  );
-}
-
-/** Nieuw schema maken: klant kiezen, dan AI-concept, verder met het huidige schema of leeg beginnen. */
+/** Nieuw schema maken: klant kiezen, startdatum, en dan AI-concept, verder met het huidige schema of leeg beginnen. */
 export async function NewPlan({ type, searchParams }: { type: PlanType; searchParams: Record<string, string | string[] | undefined> }) {
   const section = PLAN_SECTION[type];
   const lid = typeof searchParams.lid === "string" ? searchParams.lid : undefined;
@@ -67,12 +56,8 @@ export async function NewPlan({ type, searchParams }: { type: PlanType; searchPa
     const row = rows[type][0];
     const intake = intakeSchema.safeParse(intakeRow?.data);
     const ai = aiConfigured();
-    const hidden = (
-      <>
-        <input type="hidden" name="userId" value={member.id} />
-        <input type="hidden" name="type" value={type} />
-      </>
-    );
+    // Standaard start het nieuwe schema waar het huidige ophoudt (of op de al ingeplande dag).
+    const defaultStart = row?.scheduled?.startsOn ?? (row?.currentDueOn && row.currentDueOn > today ? row.currentDueOn : today);
 
     details = (
       <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_24rem]">
@@ -103,10 +88,12 @@ export async function NewPlan({ type, searchParams }: { type: PlanType; searchPa
               <div>
                 <dt className="text-muted">Toe aan nieuw schema</dt>
                 <dd className="font-medium">
-                  {row?.dueOn ? (
+                  {row?.currentDueOn ? (
                     <>
-                      <span className="first-letter:uppercase">{formatPlanDayLong(row.dueOn)}</span>
-                      <span className={`block font-normal ${row.dueOn <= today && row.stage !== "pauze" ? "text-danger" : "text-muted"}`}>{relativeDay(today, row.dueOn)}</span>
+                      <span className="first-letter:uppercase">{formatPlanDayLong(row.currentDueOn)}</span>
+                      <span className={`block font-normal ${row.currentDueOn <= today && row.stage !== "pauze" ? "text-danger" : "text-muted"}`}>
+                        {relativeDay(today, row.currentDueOn)}
+                      </span>
                     </>
                   ) : (
                     "Zo snel mogelijk"
@@ -114,6 +101,18 @@ export async function NewPlan({ type, searchParams }: { type: PlanType; searchPa
                 </dd>
               </div>
             </dl>
+            {row?.scheduled && (
+              <p className="mt-4 flex gap-2 rounded-lg bg-[#eef0ff] p-3 text-sm">
+                <CalendarClock className="size-4 shrink-0 text-[#3730a3]" aria-hidden="true" />
+                <span>
+                  Er staat al een schema ingepland vanaf {formatPlanDayLong(row.scheduled.startsOn)}.{" "}
+                  <Link href={planHref(type, row.scheduled.id)} className="font-semibold underline">
+                    Ingepland schema openen
+                  </Link>
+                  . Een nieuw schema dat je inplant, vervangt die planning.
+                </span>
+              </p>
+            )}
             {row?.open && (
               <p className="mt-4 flex gap-2 rounded-lg bg-accent-tint p-3 text-sm">
                 <AlertTriangle className="size-4 shrink-0 text-accent" aria-hidden="true" />
@@ -128,60 +127,25 @@ export async function NewPlan({ type, searchParams }: { type: PlanType; searchPa
             )}
           </section>
 
-          <Option icon={Sparkles} title="Laat de AI een concept maken">
-            {ai && intake.success ? (
-              <form action={generatePlanAction} className="grid gap-3">
-                {hidden}
-                <p className="text-sm text-muted">Op basis van de intake. Je controleert het concept altijd eerst; de klant ziet niets tot je publiceert.</p>
-                <label className="block">
-                  <span className="label">Instructie voor de AI (optioneel)</span>
-                  <textarea
-                    name="instruction"
-                    rows={3}
-                    maxLength={1500}
-                    className="input min-h-0 py-2 text-sm"
-                    placeholder={type === "training" ? "Bijv. 'volgende fase: meer kracht, 4 dagen, geen squats vanwege de knie'" : "Bijv. 'calorieën 100 kcal omlaag, meer warme lunches'"}
-                  />
-                </label>
-                <button type="submit" className="btn btn-primary justify-self-start">
-                  <Sparkles className="size-4" aria-hidden="true" /> Concept laten maken
-                </button>
-              </form>
-            ) : (
-              <p className="flex gap-2 text-sm text-muted">
-                <Info className="size-4 shrink-0" aria-hidden="true" />
-                {!intake.success
-                  ? "De klant heeft de intake nog niet ingevuld. Die heeft de AI nodig; je kunt het schema wel zelf opstellen."
-                  : "AI staat uit: stel ANTHROPIC_API_KEY in om concepten te laten maken. Je kunt het schema wel zelf opstellen."}
-              </p>
-            )}
-          </Option>
-
-          {row?.current && (
-            <Option icon={CopyPlus} title="Verder met het huidige schema">
-              <form action={createManualPlanAction} className="grid gap-3">
-                {hidden}
-                <input type="hidden" name="start" value="huidig" />
-                <p className="text-sm text-muted">Maakt een kopie van het huidige {section.one} als concept. Pas aan wat er verandert en publiceer opnieuw.</p>
-                <button type="submit" className="btn btn-outline justify-self-start">
-                  <CopyPlus className="size-4" aria-hidden="true" /> Kopie als concept
-                </button>
-              </form>
-            </Option>
-          )}
-
-          <Option icon={FilePlus2} title="Zelf een leeg schema opstellen">
-            <form action={createManualPlanAction} className="grid gap-3">
-              {hidden}
-              <input type="hidden" name="start" value="leeg" />
-              <p className="text-sm text-muted">
-                {type === "training" ? "Met het aantal trainingsdagen uit de intake al klaargezet." : "Met de richtwaarden uit de intake al ingevuld."}
-              </p>
-              <button type="submit" className="btn btn-outline justify-self-start">
-                <FilePlus2 className="size-4" aria-hidden="true" /> Leeg schema starten
-              </button>
-            </form>
-          </Option>
+          <NewPlanForm
+            key={member.id}
+            userId={member.id}
+            type={type}
+            today={today}
+            defaultStart={defaultStart}
+            currentEndsOn={row?.currentDueOn ?? null}
+            hasCurrent={Boolean(row?.current || row?.scheduled)}
+            ai={
+              ai && intake.success
+                ? { available: true }
+                : {
+                    available: false,
+                    reason: !intake.success
+                      ? "Kan nog niet: de klant heeft de intake nog niet ingevuld."
+                      : "AI staat uit: stel ANTHROPIC_API_KEY in om concepten te laten maken.",
+                  }
+            }
+          />
         </div>
 
         <aside className="card self-start p-6 xl:sticky xl:top-20" aria-labelledby="intake">
@@ -201,7 +165,7 @@ export async function NewPlan({ type, searchParams }: { type: PlanType; searchPa
       <AdminPageHeader
         back={{ href: section.href, label: section.title }}
         title={`Nieuw ${section.one}`}
-        description="Kies een klant en hoe je het schema wilt maken. Een nieuw schema vervangt het huidige pas als je het publiceert."
+        description="Kies een klant, de startdatum en hoe je het schema wilt maken. De klant ziet het pas na jouw controle, en niet voor de startdatum."
       />
       <div className="max-w-xl">
         <MemberPicker action={`${section.href}/nieuw`} groups={groups} selected={member?.id} />

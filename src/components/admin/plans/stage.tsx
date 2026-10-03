@@ -5,6 +5,7 @@ export const GROUP_TONE: Record<StageGroup, { badge: string; dot: string }> = {
   wacht: { badge: "bg-danger/10 text-danger", dot: "bg-danger" },
   controleren: { badge: "bg-accent-tint text-accent", dot: "bg-accent" },
   binnenkort: { badge: "bg-[#fdf3e1] text-[#8a4b08]", dot: "bg-[#c97a12]" },
+  ingepland: { badge: "bg-[#eef0ff] text-[#3730a3]", dot: "bg-[#4f46e5]" },
   actief: { badge: "bg-success/10 text-success", dot: "bg-success" },
   intake: { badge: "bg-surface text-ink", dot: "bg-muted" },
   pauze: { badge: "bg-surface text-muted", dot: "bg-line" },

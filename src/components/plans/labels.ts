@@ -6,6 +6,7 @@ export const PLAN_STATUS: Record<PlanStatus, { label: string; tone: string }> = 
   genereren: { label: "AI is bezig", tone: "bg-surface text-ink" },
   fout: { label: "Mislukt", tone: "bg-danger/10 text-danger" },
   concept: { label: "Te controleren", tone: "bg-accent-tint text-ink" },
+  gepland: { label: "Ingepland", tone: "bg-[#eef0ff] text-[#3730a3]" },
   gepubliceerd: { label: "Gepubliceerd", tone: "bg-ink text-white" },
   vervangen: { label: "Oude versie", tone: "bg-surface text-muted" },
 };

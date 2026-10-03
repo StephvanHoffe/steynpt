@@ -7,7 +7,7 @@ import type { FormState } from "@/lib/actions/types";
 import { addDays } from "@/lib/agenda";
 import type { IntakeData } from "@/lib/intake";
 import { findAllergenWarnings } from "@/lib/plans/allergens";
-import { defaultRenewOn, relativeDay } from "@/lib/plans/pipeline";
+import { daysBetween, defaultRenewOn, relativeDay } from "@/lib/plans/pipeline";
 import {
   emptyExercise,
   emptyMeal,
@@ -220,34 +220,58 @@ const formatDay = (day: string) => dateFmt.format(new Date(`${day}T12:00:00Z`));
 export function PlanEditor({
   planId,
   initial,
-  published,
+  status,
   allergyContext,
   today,
+  startsOn: initialStart,
   renewOn: initialRenewOn,
   followDuration,
 }: {
   planId: number;
   initial: PlanContent;
-  published: boolean;
+  status: "concept" | "gepland" | "gepubliceerd";
   allergyContext: Pick<IntakeData, "allergies" | "diet"> | null;
   today: string;
+  /** Dag waarop het schema voor de klant ingaat. */
+  startsOn: string;
   /** Dag waarop de klant toe is aan een nieuw schema. */
   renewOn: string;
-  /** Nog geen vaste datum: volg de duur van het trainingsschema tot Steyn zelf een datum kiest. */
+  /** Nog geen vaste datum: volg de startdatum en de duur van het schema tot Steyn zelf een datum kiest. */
   followDuration: boolean;
 }) {
+  const live = status === "gepubliceerd";
   const [plan, setPlan] = useState<PlanContent>(initial);
   const [tab, setTab] = useState<"bewerken" | "voorbeeld">("bewerken");
   const [state, action] = useActionState<FormState, FormData>(savePlanAction, {});
+  const [start, setStart] = useState(initialStart);
   const [pickedRenewOn, setPickedRenewOn] = useState<string | null>(followDuration ? null : initialRenewOn);
-  const renewOn = pickedRenewOn ?? ("days" in plan ? defaultRenewOn("training", today, plan.durationWeeks) : initialRenewOn);
-  const [saved, setSaved] = useState(() => `${JSON.stringify(normalize(initial))}|${renewOn}`);
+  const renewOn = pickedRenewOn ?? defaultRenewOn("days" in plan ? "training" : "voeding", start, "days" in plan ? plan.durationWeeks : null);
+  const later = !live && start > today;
+  const [saved, setSaved] = useState(() => `${JSON.stringify(normalize(initial))}|${renewOn}|${start}`);
   const submitted = useRef<string>("");
 
   const json = useMemo(() => JSON.stringify(normalize(plan)), [plan]);
-  const current = `${json}|${renewOn}`;
+  const current = `${json}|${renewOn}|${start}`;
   const dirty = current !== saved;
   const warnings = useMemo(() => ("meals" in plan && allergyContext ? findAllergenWarnings(plan, allergyContext) : []), [plan, allergyContext]);
+  const minRenew = addDays(later ? start : today, 1);
+  const weeksAfterStart = Math.round(daysBetween(start, renewOn) / 7);
+
+  // Een andere startdatum verschuift een zelfgekozen "nieuw schema"-datum mee, zodat de looptijd gelijk blijft.
+  const changeStart = (day: string) => {
+    if (!day) return;
+    if (pickedRenewOn) setPickedRenewOn(addDays(pickedRenewOn, daysBetween(start, day)));
+    setStart(day);
+  };
+  const publishLabel = live
+    ? "Opnieuw publiceren"
+    : later
+      ? status === "gepland"
+        ? "Opnieuw inplannen"
+        : "Goedkeuren & inplannen"
+      : status === "gepland"
+        ? "Nu publiceren"
+        : "Goedkeuren & publiceren";
 
   useEffect(() => {
     if (state.success) setSaved(submitted.current);
@@ -260,7 +284,8 @@ export function PlanEditor({
         const intent = ((e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null)?.value;
         if (intent === "publiceren") {
           const extra = warnings.length ? `\n\nLet op: er ${warnings.length === 1 ? "is 1 waarschuwing" : `zijn ${warnings.length} waarschuwingen`} over allergieën/eetstijl.` : "";
-          if (!confirm(`Schema publiceren? De klant ziet het daarna direct in Mijn omgeving. Volgend schema: ${formatDay(renewOn)}.${extra}`)) {
+          const when = later ? `Schema inplannen? De klant ziet het vanaf ${formatDay(start)} in Mijn omgeving.` : "Schema publiceren? De klant ziet het daarna direct in Mijn omgeving.";
+          if (!confirm(`${when} Volgend schema: ${formatDay(renewOn)}.${extra}`)) {
             e.preventDefault();
             return;
           }
@@ -322,29 +347,47 @@ export function PlanEditor({
 
       <div className="sticky bottom-0 z-10 -mx-4 border-t border-line bg-paper/95 px-4 py-4 backdrop-blur sm:mx-0 sm:rounded-xl sm:border sm:px-5">
         <FormAlert error={state.error} success={dirty ? undefined : state.success} />
-        <label className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm first:mt-0">
-          <span className="font-semibold">Nieuw schema op</span>
-          <input
-            type="date"
-            name="renewOn"
-            required
-            value={renewOn}
-            min={renewOn === initialRenewOn && !followDuration ? undefined : addDays(today, 1)}
-            max={addDays(today, 366)}
-            onChange={(e) => setPickedRenewOn(e.target.value || null)}
-            className="input h-9 w-auto min-h-0 bg-white py-1 text-sm"
-          />
-          <span className={renewOn <= today ? "font-semibold text-danger" : "text-muted"}>
-            {renewOn <= today ? "verlopen, kies een nieuwe datum" : relativeDay(today, renewOn)}
-            {followDuration && pickedRenewOn === null && "days" in plan ? " · volgt de duur van het schema" : ""}
-          </span>
-        </label>
+        <div className="mt-3 grid gap-2 text-sm first:mt-0">
+          {!live && (
+            <label className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span className="w-32 font-semibold">Start op</span>
+              <input
+                type="date"
+                name="startsOn"
+                required
+                value={start < today ? today : start}
+                min={today}
+                max={addDays(today, 366)}
+                onChange={(e) => changeStart(e.target.value)}
+                className="input h-9 w-auto min-h-0 bg-white py-1 text-sm"
+              />
+              <span className="text-muted">{later ? `zichtbaar voor de klant vanaf ${formatDay(start)} (${relativeDay(today, start)})` : "direct na publiceren"}</span>
+            </label>
+          )}
+          <label className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span className="w-32 font-semibold">Nieuw schema op</span>
+            <input
+              type="date"
+              name="renewOn"
+              required
+              value={renewOn}
+              min={live && renewOn === initialRenewOn ? undefined : minRenew}
+              max={addDays(later ? start : today, 366)}
+              onChange={(e) => setPickedRenewOn(e.target.value || null)}
+              className="input h-9 w-auto min-h-0 bg-white py-1 text-sm"
+            />
+            <span className={renewOn <= today ? "font-semibold text-danger" : "text-muted"}>
+              {renewOn <= today ? "verlopen, kies een nieuwe datum" : later ? `${weeksAfterStart} ${weeksAfterStart === 1 ? "week" : "weken"} na de start` : relativeDay(today, renewOn)}
+              {followDuration && pickedRenewOn === null && "days" in plan ? " · volgt de duur van het schema" : ""}
+            </span>
+          </label>
+        </div>
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <button type="submit" name="intent" value="opslaan" className="btn btn-outline bg-white" disabled={!dirty}>
-            {published ? "Wijzigingen opslaan" : "Concept opslaan"}
+            {status === "concept" ? "Concept opslaan" : "Wijzigingen opslaan"}
           </button>
           <button type="submit" name="intent" value="publiceren" className="btn btn-primary">
-            {published ? "Opnieuw publiceren" : "Goedkeuren & publiceren"}
+            {publishLabel}
           </button>
           <span className="text-sm text-muted" aria-live="polite">
             {dirty ? "Niet-opgeslagen wijzigingen" : "Alles opgeslagen"}

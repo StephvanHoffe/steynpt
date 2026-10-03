@@ -15,6 +15,7 @@ import { siteOrigin } from "@/lib/origin";
 import { REFERRAL } from "@/lib/referral-program";
 import { getOnlinePlan, GOALS } from "@/lib/site";
 import { checkInStreak, isoWeekKey } from "@/lib/weeks";
+import { activateDuePlans } from "@/lib/plans/schedule";
 
 const STATUS: Record<CoachingStatus, { label: string; tone: string }> = {
   geen: { label: "Nog niet gestart", tone: "bg-surface text-ink" },
@@ -28,6 +29,8 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
   const user = await requireUser();
   const { welkom, intake: intakeParam } = await searchParams;
   const now = new Date();
+  // Ingeplande schema's waarvan de startdag is aangebroken, worden nu zichtbaar.
+  await activateDuePlans();
 
   const [myCheckIns, friends, intakeRows, myPlans, upcoming, myMeasurements] = await Promise.all([
     db.select().from(checkIns).where(eq(checkIns.userId, user.id)).orderBy(desc(checkIns.week)).limit(52),
@@ -38,7 +41,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
       .orderBy(desc(users.createdAt)),
     db.select().from(intakes).where(eq(intakes.userId, user.id)),
     db
-      .select({ id: plans.id, type: plans.type, status: plans.status, publishedAt: plans.publishedAt })
+      .select({ id: plans.id, type: plans.type, status: plans.status, publishedAt: plans.publishedAt, startsOn: plans.startsOn })
       .from(plans)
       .where(and(eq(plans.userId, user.id), ne(plans.status, "vervangen")))
       .orderBy(desc(plans.createdAt)),

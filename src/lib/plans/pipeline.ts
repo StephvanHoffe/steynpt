@@ -23,6 +23,7 @@ export const STAGE_GROUPS = [
   { id: "wacht", label: "Wacht op nieuw schema", hint: "Jij maakt het schema" },
   { id: "controleren", label: "Te controleren", hint: "Concept staat klaar" },
   { id: "binnenkort", label: "Komende week", hint: `Nieuw schema binnen ${SOON_DAYS} dagen` },
+  { id: "ingepland", label: "Ingepland", hint: "Nieuw schema start later" },
   { id: "actief", label: "Actief schema", hint: "Loopt nog langer dan een week" },
   { id: "intake", label: "Wacht op intake", hint: "De klant is aan zet" },
   { id: "pauze", label: "Gepauzeerd", hint: "Coaching staat stil" },
@@ -36,6 +37,7 @@ export const STAGES = {
   mislukt: { group: "controleren", label: "Concept mislukt" },
   controleren: { group: "controleren", label: "Te controleren" },
   binnenkort: { group: "binnenkort", label: "Komende week" },
+  gepland: { group: "ingepland", label: "Ingepland" },
   actief: { group: "actief", label: "Actief" },
   intake: { group: "intake", label: "Wacht op intake" },
   pauze: { group: "pauze", label: "Gepauzeerd" },
@@ -51,11 +53,13 @@ export type PipelineInput = {
   current: { publishedDay: string; renewOn: string | null; durationWeeks: number | null } | null;
   /** Concept dat (nog) niet gepubliceerd is. */
   open: { status: "genereren" | "concept" | "fout"; stuck: boolean } | null;
+  /** Goedgekeurd schema dat op een latere dag ingaat. */
+  scheduled?: { startsOn: string } | null;
 };
 
 /** Hoort deze klant in het overzicht van dit schematype? */
-export function inPipeline({ type, coachingStatus, wants, current, open }: PipelineInput) {
-  if (current || open) return true;
+export function inPipeline({ type, coachingStatus, wants, current, open, scheduled }: PipelineInput) {
+  if (current || open || scheduled) return true;
   if (coachingStatus !== "aangevraagd" && coachingStatus !== "actief" && coachingStatus !== "gepauzeerd") return false;
   return wants === null || wants.includes(type);
 }
@@ -72,6 +76,8 @@ export function planStage(input: PipelineInput, today: string): { stage: Stage; 
     const stage = open.status === "fout" || open.stuck ? "mislukt" : open.status === "genereren" ? "bezig" : "controleren";
     return { stage, dueOn: due };
   }
+  // Het volgende schema is al goedgekeurd: de "nieuw schema"-datum is dan de startdatum daarvan.
+  if (input.scheduled) return { stage: "gepland", dueOn: input.scheduled.startsOn };
   if (input.coachingStatus === "gepauzeerd" || input.coachingStatus === "gestopt") return { stage: "pauze", dueOn: due };
   if (!due) return { stage: input.wants === null ? "intake" : "eerste", dueOn: null };
   if (due <= today) return { stage: "verlopen", dueOn: due };

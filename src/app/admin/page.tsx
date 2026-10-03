@@ -111,11 +111,12 @@ export default async function AdminOverviewPage() {
           const href = (fase: StageGroup) => `${section.href}?fase=${fase}`;
           const tiles = [
             { fase: "wacht" as const, n: c.wacht, text: plural(c.wacht, "wacht op een nieuw schema", "wachten op een nieuw schema"), alert: c.wacht > 0 },
-            { fase: "binnenkort" as const, n: c.binnenkort, text: plural(c.binnenkort, "krijgt de komende week een nieuw schema", "krijgen de komende week een nieuw schema") },
+            { fase: "binnenkort" as const, n: c.binnenkort, text: plural(c.binnenkort, "is de komende week toe aan een nieuw schema", "zijn de komende week toe aan een nieuw schema") },
             { fase: "actief" as const, n: c.actief, text: plural(c.actief, "heeft een actief schema", "hebben een actief schema") },
           ];
           const extra = [
             c.controleren > 0 && { fase: "controleren" as const, text: `${c.controleren} te controleren` },
+            c.ingepland > 0 && { fase: "ingepland" as const, text: plural(c.ingepland, "1 nieuw schema ingepland", `${c.ingepland} nieuwe schema's ingepland`) },
             c.intake > 0 && { fase: "intake" as const, text: `${c.intake} ${plural(c.intake, "wacht", "wachten")} nog op de intake` },
             c.pauze > 0 && { fase: "pauze" as const, text: `${c.pauze} gepauzeerd` },
           ].filter((e) => e !== false);

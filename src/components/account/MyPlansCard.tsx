@@ -8,7 +8,7 @@ const TYPES: { type: PlanType; label: string; icon: typeof Dumbbell }[] = [
   { type: "voeding", label: "Voedingsschema", icon: Utensils },
 ];
 
-const dateFmt = new Intl.DateTimeFormat("nl-NL", { day: "numeric", month: "short" });
+const dateFmt = new Intl.DateTimeFormat("nl-NL", { day: "numeric", month: "long", timeZone: "Europe/Amsterdam" });
 
 export function MyPlansCard({
   intake,
@@ -16,7 +16,7 @@ export function MyPlansCard({
   coachingStatus,
 }: {
   intake: IntakeData | null;
-  plans: Pick<Plan, "id" | "type" | "status" | "publishedAt">[];
+  plans: Pick<Plan, "id" | "type" | "status" | "publishedAt" | "startsOn">[];
   coachingStatus: CoachingStatus;
 }) {
   return (
@@ -48,9 +48,12 @@ export function MyPlansCard({
           {TYPES.map(({ type, label, icon: Icon }) => {
             const published = plans.find((p) => p.type === type && p.status === "gepubliceerd");
             const pending = plans.some((p) => p.type === type && ["genereren", "concept", "fout"].includes(p.status));
+            // Een ingepland schema blijft verborgen tot de startdag; de klant ziet alleen wanneer het komt.
+            const scheduled = plans.find((p) => p.type === type && p.status === "gepland" && p.startsOn);
             const wanted = intake.wants.includes(type);
             let status: string;
-            if (published) status = pending ? "Er komt binnenkort een vernieuwde versie." : `Klaar sinds ${published.publishedAt ? dateFmt.format(published.publishedAt) : "kort"}.`;
+            if (scheduled) status = `${published ? "Je nieuwe schema" : "Je schema"} staat klaar vanaf ${dateFmt.format(new Date(`${scheduled.startsOn}T12:00:00Z`))}.`;
+            else if (published) status = pending ? "Er komt binnenkort een vernieuwde versie." : `Klaar sinds ${published.publishedAt ? dateFmt.format(published.publishedAt) : "kort"}.`;
             else if (pending) status = "Wordt gemaakt en daarna door Steyn gecontroleerd.";
             else if (!wanted) status = "Niet aangevraagd in je intake.";
             else if (coachingStatus === "geen" || coachingStatus === "gestopt") status = "Start online coaching, dan maken we je schema.";
@@ -62,7 +65,7 @@ export function MyPlansCard({
                   <Icon className="size-4 text-accent" aria-hidden="true" /> {label}
                 </p>
                 <p className="mt-1 flex-1 text-sm text-muted">
-                  {!published && pending && <Hourglass className="mr-1 inline size-3.5" aria-hidden="true" />}
+                  {!published && (pending || scheduled) && <Hourglass className="mr-1 inline size-3.5" aria-hidden="true" />}
                   {status}
                 </p>
                 {published && (

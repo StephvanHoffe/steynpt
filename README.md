@@ -40,7 +40,7 @@ Het beheer heeft een eigen opmaak met een zijbalk (op de telefoon een balk boven
 - `/admin/agenda` Agenda: weergave per dag, week, maand of als lijst. Klik op een afspraak voor alle gegevens, om hem te verplaatsen of te annuleren. Klik op een leeg moment in de dag- of weekweergave om daar een afspraak in te plannen.
 - `/admin/agenda/nieuw`: Steyn plant zelf een afspraak in voor een klant (ook buiten de vaste beschikbaarheid; dubbel boeken kan niet).
 - `/admin/leden`: alle leden met zoeken en filteren op coachingstatus, volgende afspraak en laatste check-in. Per lid (`/admin/leden/[id]`): coachingstatus en bericht, de status van beide schema's, metingen, komende afspraken en de intake.
-- `/admin/trainingsschemas` en `/admin/voedingsschemas`: per schematype alle klanten met de fase waarin ze zitten, het huidige schema en wanneer ze toe zijn aan een nieuw schema. Filteren per fase en zoeken op naam. Via *Nieuw trainingsschema* (`…/nieuw`) maak je een schema: AI-concept, kopie van het huidige schema of leeg. Een schema bekijken, bewerken en publiceren gaat via `…/[id]`. Oude links naar `/admin/schemas` worden doorgestuurd.
+- `/admin/trainingsschemas` en `/admin/voedingsschemas`: per schematype alle klanten met de fase waarin ze zitten, het huidige schema en wanneer ze toe zijn aan een nieuw schema. Filteren per fase en zoeken op naam. Via *Nieuw trainingsschema* (`…/nieuw`) maak je een schema: je kiest de startdatum en begint met een AI-concept, een kopie van het huidige schema of leeg. Een schema bekijken, bewerken en publiceren gaat via `…/[id]`. Oude links naar `/admin/schemas` worden doorgestuurd.
 - `/admin/aanvragen`: contactaanvragen, open of afgehandeld.
 - `/admin/agenda/instellingen`: beschikbaarheid per week, vrije dagen en de koppeling met Google of Apple Agenda.
 
@@ -97,7 +97,10 @@ De teksten en kortingen staan in `src/lib/referral-program.ts`. Het puntensystee
    - Er verschijnt een automatische waarschuwing als ingrediënten botsen met allergieën of eetstijl.
    - Hij kan alles aanpassen: oefeningen, sets, maaltijden, hoeveelheden, richtwaarden en tips.
    - Met een instructie (bijv. "geen squats vanwege de knie") laat hij een nieuw concept maken, of hij start een leeg schema.
-4. **Publiceren:** pas na *Goedkeuren & publiceren* ziet de klant het schema in Mijn omgeving, met een printknop (ook voor pdf). Bij het publiceren kiest Steyn de datum voor het volgende schema (*Nieuw schema op*). Standaard is dat de duur van het trainingsschema, of 4 weken voor voeding. Later aanpassen kan op dezelfde plek.
+4. **Publiceren:** pas na *Goedkeuren & publiceren* ziet de klant het schema in Mijn omgeving, met een printknop (ook voor pdf). Bij het publiceren kiest Steyn de datum voor het volgende schema (*Nieuw schema op*). Standaard is dat de duur van het trainingsschema, of 4 weken voor voeding, gerekend vanaf de start. Later aanpassen kan op dezelfde plek.
+   - **Startdatum:** bij een nieuw schema (en in de editor, zolang de klant het nog niet ziet) kies je *Start op*. Ligt die in de toekomst, dan wordt de knop *Goedkeuren & inplannen*: het schema krijgt de status *Ingepland* en de klant ziet het pas vanaf die dag in Mijn omgeving. Tot dan blijft het huidige schema zichtbaar; de klant ziet alleen wanneer het nieuwe klaarstaat. Bij een klant met een lopend schema staat de startdatum standaard op de dag dat dat schema afloopt.
+   - Op de startdag wordt het ingeplande schema automatisch gepubliceerd en vervangt het het vorige. Er draait daarvoor geen achtergrondtaak: dat gebeurt zodra de klant of Steyn een pagina met schema's opent.
+   - Een ingepland schema kun je nog bewerken, verschuiven of *Terugzetten naar concept*.
 5. **Vernieuwen:** op basis van die datum laat het beheer per klant de fase zien:
 
    | Fase | Betekenis |
@@ -105,6 +108,7 @@ De teksten en kortingen staan in `src/lib/referral-program.ts`. Het puntensystee
    | Wacht op nieuw schema | Nog geen schema (wel een intake), of de datum is bereikt |
    | Te controleren | Er staat een concept klaar, de AI is bezig of het concept is mislukt |
    | Komende week | Het nieuwe schema is binnen 7 dagen nodig |
+   | Ingepland | Het volgende schema is al goedgekeurd en start op een latere datum |
    | Actief schema | Het schema loopt nog langer dan een week |
    | Wacht op intake | De klant moet de intake nog invullen; met *Herinnering mailen* stuur je een mailtje |
    | Gepauzeerd | Coaching gepauzeerd of gestopt |

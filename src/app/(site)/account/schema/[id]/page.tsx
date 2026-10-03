@@ -7,6 +7,7 @@ import { PrintButton } from "@/components/plans/PrintButton";
 import { NutritionPlanView, TrainingPlanView } from "@/components/plans/PlanViews";
 import { requireUser } from "@/lib/auth";
 import { db, plans } from "@/lib/db";
+import { activateDuePlans } from "@/lib/plans/schedule";
 import { nutritionPlanSchema, trainingPlanSchema } from "@/lib/plans/schema";
 
 export const metadata: Metadata = { title: "Mijn schema" };
@@ -19,7 +20,8 @@ export default async function PlanPage({ params }: PageProps<"/account/schema/[i
   const planId = Number(id);
   if (!Number.isInteger(planId)) notFound();
 
-  // Klanten zien alleen hun eigen, door Steyn gepubliceerde schema's.
+  // Klanten zien alleen hun eigen, door Steyn gepubliceerde schema's; een ingepland schema pas vanaf de startdag.
+  await activateDuePlans();
   const [plan] = await db
     .select()
     .from(plans)

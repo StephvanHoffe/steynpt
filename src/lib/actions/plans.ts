@@ -1,6 +1,6 @@
 "use server";
 
-import { and, eq, inArray, ne } from "drizzle-orm";
+import { and, desc, eq, inArray, ne } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { after } from "next/server";
@@ -20,38 +20,45 @@ const MAX_PLAN_BYTES = 200_000;
 const jobSchema = z.object({
   userId: z.string().min(1),
   type: z.enum(PLAN_TYPES),
+  // AI-concept, kopie van het laatste goedgekeurde schema, of leeg beginnen.
+  method: z.enum(["ai", "huidig", "leeg"]).default("leeg"),
   instruction: z.string().trim().max(1500).optional(),
-  // Handmatig: leeg beginnen of verder met het gepubliceerde schema.
-  start: z.enum(["leeg", "huidig"]).default("leeg"),
+  startsOn: z.string().optional(),
 });
 
-/** Steyn laat (opnieuw) een AI-concept maken, eventueel met een extra instructie. */
-export async function generatePlanAction(formData: FormData) {
+/** Startdatum uit een formulier: een dag na vandaag, anders null (= gaat in zodra het gepubliceerd is). */
+const futureDay = (value: unknown, today: string) => (isValidDay(value) && value > today ? value : null);
+
+const dayFmt = new Intl.DateTimeFormat("nl-NL", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
+const formatDay = (day: string) => dayFmt.format(new Date(`${day}T12:00:00Z`));
+
+/** Nieuw schema voor een klant, eventueel met een startdatum in de toekomst. */
+export async function createPlanAction(formData: FormData) {
   await requireAdmin();
   const parsed = jobSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return;
-  const { userId, type, instruction } = parsed.data;
+  const { userId, type, method, instruction } = parsed.data;
+  const startsOn = futureDay(parsed.data.startsOn, zonedParts(new Date()).day);
 
-  const id = await createPlanJob(userId, type, instruction);
-  after(() => generatePlan(id));
-  redirect(planHref(type, id));
-}
+  if (method === "ai") {
+    const id = await createPlanJob(userId, type, instruction, startsOn);
+    after(() => generatePlan(id));
+    redirect(planHref(type, id));
+  }
 
-/** Zelf een schema opstellen: leeg, of als kopie van het huidige schema om op voort te bouwen. */
-export async function createManualPlanAction(formData: FormData) {
-  await requireAdmin();
-  const parsed = jobSchema.safeParse(Object.fromEntries(formData));
-  if (!parsed.success) return;
-  const { userId, type, start } = parsed.data;
-
-  const [[intakeRow], [current]] = await Promise.all([
+  const [[intakeRow], [latest]] = await Promise.all([
     db.select().from(intakes).where(eq(intakes.userId, userId)),
-    start === "huidig"
-      ? db.select({ content: plans.content }).from(plans).where(and(eq(plans.userId, userId), eq(plans.type, type), eq(plans.status, "gepubliceerd")))
+    method === "huidig"
+      ? db
+          .select({ content: plans.content })
+          .from(plans)
+          .where(and(eq(plans.userId, userId), eq(plans.type, type), inArray(plans.status, ["gepland", "gepubliceerd"])))
+          .orderBy(desc(plans.createdAt))
+          .limit(1)
       : [],
   ]);
   const intake = intakeSchema.safeParse(intakeRow?.data);
-  const copy = current ? planSchemaFor(type).safeParse(current.content) : null;
+  const copy = latest ? planSchemaFor(type).safeParse(latest.content) : null;
   const content = copy?.success
     ? copy.data
     : type === "training"
@@ -65,11 +72,20 @@ export async function createManualPlanAction(formData: FormData) {
       .where(and(eq(plans.userId, userId), eq(plans.type, type), inArray(plans.status, ["genereren", "concept", "fout"])));
     const [row] = await tx
       .insert(plans)
-      .values({ userId, type, status: "concept", source: "handmatig", content })
+      .values({ userId, type, status: "concept", source: "handmatig", content, startsOn })
       .returning({ id: plans.id });
     return row.id;
   });
   redirect(planHref(type, id));
+}
+
+/** Ingepland schema terugzetten naar concept: de klant krijgt het dan niet op de startdatum. */
+export async function unschedulePlanAction(formData: FormData) {
+  await requireAdmin();
+  const id = Number(formData.get("planId"));
+  if (!Number.isInteger(id)) return;
+  await db.update(plans).set({ status: "concept", updatedAt: new Date() }).where(and(eq(plans.id, id), eq(plans.status, "gepland")));
+  revalidatePath("/admin", "layout");
 }
 
 /** Opslaan van Steyns bewerkingen, en optioneel direct publiceren voor de klant. */
@@ -81,7 +97,7 @@ export async function savePlanAction(_prev: FormState, formData: FormData): Prom
   if (!Number.isInteger(id) || raw.length > MAX_PLAN_BYTES) return { error: "Ongeldig schema." };
 
   const [plan] = await db.select().from(plans).where(eq(plans.id, id));
-  if (!plan || (plan.status !== "concept" && plan.status !== "gepubliceerd")) {
+  if (!plan || (plan.status !== "concept" && plan.status !== "gepland" && plan.status !== "gepubliceerd")) {
     return { error: "Dit schema kan niet (meer) bewerkt worden. Ververs de pagina." };
   }
 
@@ -96,37 +112,51 @@ export async function savePlanAction(_prev: FormState, formData: FormData): Prom
   const content = parsed.data;
   if ("days" in content) content.daysPerWeek = content.days.length;
 
-  // Wanneer de klant toe is aan een nieuw schema. Bij publiceren of wijzigen moet die datum na vandaag liggen.
   const now = new Date();
   const today = zonedParts(now).day;
+  const live = plan.status === "gepubliceerd";
+  // De startdatum ligt vast zodra de klant het schema ziet; daarvoor kan hij nog schuiven.
+  const startsOn = live ? plan.startsOn : futureDay(formData.get("startsOn"), today);
+  const startDay = live ? (plan.startsOn ?? (plan.publishedAt ? zonedParts(plan.publishedAt).day : today)) : (startsOn ?? today);
+  const schedule = !live && startsOn !== null && (intent === "publiceren" || plan.status === "gepland");
+  const publishNow = !live && startsOn === null && (intent === "publiceren" || plan.status === "gepland");
+
+  // Wanneer de klant toe is aan een nieuw schema: na de start (en na vandaag) als je hem kiest of publiceert.
   const requested = formData.get("renewOn");
   let renewOn = isValidDay(requested) ? requested : plan.renewOn;
-  if (renewOn && renewOn <= today && (intent === "publiceren" || renewOn !== plan.renewOn)) {
-    return { error: "Kies bij “Nieuw schema op” een datum na vandaag." };
+  const minRenew = startDay > today ? startDay : today;
+  if (renewOn && renewOn <= minRenew && (intent === "publiceren" || renewOn !== plan.renewOn)) {
+    return { error: startDay > today ? "Kies bij “Nieuw schema op” een datum na de startdatum." : "Kies bij “Nieuw schema op” een datum na vandaag." };
   }
-  if (renewOn && renewOn > addDays(today, 366)) return { error: "Kies voor het volgende schema een datum binnen een jaar." };
-  if (!renewOn && intent === "publiceren") renewOn = defaultRenewOn(plan.type, today, "durationWeeks" in content ? content.durationWeeks : null);
+  if (renewOn && renewOn > addDays(startDay, 366)) return { error: "Kies voor het volgende schema een datum binnen een jaar na de start." };
+  if (!renewOn && (schedule || publishNow)) renewOn = defaultRenewOn(plan.type, startDay, "durationWeeks" in content ? content.durationWeeks : null);
 
-  if (intent === "publiceren") {
+  const others = and(eq(plans.userId, plan.userId), eq(plans.type, plan.type), ne(plans.id, id));
+  if (schedule) {
+    // Er is steeds één ingepland schema; het huidige blijft zichtbaar tot de startdatum.
     await db.transaction(async (tx) => {
+      await tx.update(plans).set({ status: "vervangen", updatedAt: now }).where(and(others, eq(plans.status, "gepland")));
+      await tx.update(plans).set({ content, renewOn, startsOn, status: "gepland", publishedAt: null, updatedAt: now }).where(eq(plans.id, id));
+    });
+  } else if (publishNow || (live && intent === "publiceren")) {
+    // Een ingepland volgend schema blijft staan en neemt het op zijn startdatum over.
+    await db.transaction(async (tx) => {
+      await tx.update(plans).set({ status: "vervangen", updatedAt: now }).where(and(others, eq(plans.status, "gepubliceerd")));
       await tx
         .update(plans)
-        .set({ status: "vervangen", updatedAt: now })
-        .where(and(eq(plans.userId, plan.userId), eq(plans.type, plan.type), eq(plans.status, "gepubliceerd"), ne(plans.id, id)));
-      await tx.update(plans).set({ content, renewOn, status: "gepubliceerd", publishedAt: now, updatedAt: now }).where(eq(plans.id, id));
+        .set({ content, renewOn, startsOn: live ? plan.startsOn : today, status: "gepubliceerd", publishedAt: now, updatedAt: now })
+        .where(eq(plans.id, id));
     });
   } else {
-    await db.update(plans).set({ content, renewOn, updatedAt: now }).where(eq(plans.id, id));
+    await db.update(plans).set({ content, renewOn, startsOn, updatedAt: now }).where(eq(plans.id, id));
   }
 
   revalidatePath("/admin", "layout");
   revalidatePath("/account", "layout");
-  return {
-    success:
-      intent === "publiceren"
-        ? "Gepubliceerd. De klant ziet dit schema nu in Mijn omgeving."
-        : plan.status === "gepubliceerd"
-          ? "Opgeslagen. De klant ziet de wijzigingen direct."
-          : "Concept opgeslagen.",
-  };
+  let success: string;
+  if (schedule) success = `${intent === "publiceren" ? "Ingepland" : "Opgeslagen"}. De klant ziet dit schema vanaf ${formatDay(startsOn!)} in Mijn omgeving.`;
+  else if (publishNow || (live && intent === "publiceren")) success = "Gepubliceerd. De klant ziet dit schema nu in Mijn omgeving.";
+  else if (live) success = "Opgeslagen. De klant ziet de wijzigingen direct.";
+  else success = "Concept opgeslagen.";
+  return { success };
 }
