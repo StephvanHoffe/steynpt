@@ -94,7 +94,7 @@ export async function PlanOverview({ type, searchParams }: { type: PlanType; sea
       />
 
       {/* Fases als filter */}
-      <nav aria-label="Filter op fase" className="mb-5 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-6">
+      <nav aria-label="Filter op fase" className="mb-5 grid grid-cols-2 gap-2 sm:grid-cols-4 xl:grid-cols-7">
         {STAGE_GROUPS.map((g) => {
           const active = fase === g.id;
           const n = countFor(g.id);
