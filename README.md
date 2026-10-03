@@ -36,11 +36,11 @@ De vormgeving is zakelijk zwart-wit met één accentkleur (petrol, `#0b6f78`) en
 
 Het beheer heeft een eigen opmaak met een zijbalk (op de telefoon een balk bovenaan). Tellers laten zien wat aandacht nodig heeft.
 
-- `/admin` Overzicht: de afspraken van vandaag en de dagen erna, en wat er te doen is: schema's controleren, nieuwe aanvragen, leden die op een intake wachten en vriendenkortingen om te verrekenen.
+- `/admin` Overzicht: per schematype hoeveel klanten op een nieuw schema wachten, hoeveel er de komende week een nieuw schema krijgen en hoeveel er een actief schema hebben. Verder de afspraken van vandaag en de dagen erna, en wat er te doen is: schema's controleren, nieuwe aanvragen, coachingaanvragen en vriendenkortingen om te verrekenen.
 - `/admin/agenda` Agenda: weergave per dag, week, maand of als lijst. Klik op een afspraak voor alle gegevens, om hem te verplaatsen of te annuleren. Klik op een leeg moment in de dag- of weekweergave om daar een afspraak in te plannen.
 - `/admin/agenda/nieuw`: Steyn plant zelf een afspraak in voor een klant (ook buiten de vaste beschikbaarheid; dubbel boeken kan niet).
-- `/admin/leden`: alle leden met zoeken en filteren op coachingstatus, volgende afspraak en laatste check-in. Per lid (`/admin/leden/[id]`): coachingstatus en bericht, schema's, metingen, komende afspraken en de intake.
-- `/admin/schemas`: schema's die gecontroleerd moeten worden en recent gepubliceerde.
+- `/admin/leden`: alle leden met zoeken en filteren op coachingstatus, volgende afspraak en laatste check-in. Per lid (`/admin/leden/[id]`): coachingstatus en bericht, de status van beide schema's, metingen, komende afspraken en de intake.
+- `/admin/trainingsschemas` en `/admin/voedingsschemas`: per schematype alle klanten met de fase waarin ze zitten, het huidige schema en wanneer ze toe zijn aan een nieuw schema. Filteren per fase en zoeken op naam. Via *Nieuw trainingsschema* (`…/nieuw`) maak je een schema: AI-concept, kopie van het huidige schema of leeg. Een schema bekijken, bewerken en publiceren gaat via `…/[id]`. Oude links naar `/admin/schemas` worden doorgestuurd.
 - `/admin/aanvragen`: contactaanvragen, open of afgehandeld.
 - `/admin/agenda/instellingen`: beschikbaarheid per week, vrije dagen en de koppeling met Google of Apple Agenda.
 
@@ -92,14 +92,26 @@ De teksten en kortingen staan in `src/lib/referral-program.ts`. Het puntensystee
    - Energie en macro's worden eerst met een vaste formule berekend (Mifflin-St Jeor).
    - De AI krijgt geen naam of contactgegevens.
    - De output heeft een vaste structuur (structured outputs), zodat Steyn alles kan bewerken.
-3. **Controle (Steyn):** in `/admin` staan de schema's ter controle. Per schema (`/admin/schemas/[id]`):
+3. **Controle (Steyn):** in `/admin/trainingsschemas` en `/admin/voedingsschemas` staan de schema's ter controle. Per schema (`…/[id]`):
    - Steyn ziet de intake ernaast.
    - Er verschijnt een automatische waarschuwing als ingrediënten botsen met allergieën of eetstijl.
    - Hij kan alles aanpassen: oefeningen, sets, maaltijden, hoeveelheden, richtwaarden en tips.
    - Met een instructie (bijv. "geen squats vanwege de knie") laat hij een nieuw concept maken, of hij start een leeg schema.
-4. **Publiceren:** pas na *Goedkeuren & publiceren* ziet de klant het schema in Mijn omgeving, met een printknop (ook voor pdf).
+4. **Publiceren:** pas na *Goedkeuren & publiceren* ziet de klant het schema in Mijn omgeving, met een printknop (ook voor pdf). Bij het publiceren kiest Steyn de datum voor het volgende schema (*Nieuw schema op*). Standaard is dat de duur van het trainingsschema, of 4 weken voor voeding. Later aanpassen kan op dezelfde plek.
+5. **Vernieuwen:** op basis van die datum laat het beheer per klant de fase zien:
 
-Een klant zonder online coaching kan de intake wel invullen; Steyn kan dan vanaf de ledenpagina zelf een concept laten maken. Er geldt een limiet van 6 automatische concepten per klant per dag.
+   | Fase | Betekenis |
+   | --- | --- |
+   | Wacht op nieuw schema | Nog geen schema (wel een intake), of de datum is bereikt |
+   | Te controleren | Er staat een concept klaar, de AI is bezig of het concept is mislukt |
+   | Komende week | Het nieuwe schema is binnen 7 dagen nodig |
+   | Actief schema | Het schema loopt nog langer dan een week |
+   | Wacht op intake | De klant moet de intake nog invullen; met *Herinnering mailen* stuur je een mailtje |
+   | Gepauzeerd | Coaching gepauzeerd of gestopt |
+
+   In het overzicht staan klanten met online coaching (aangevraagd, actief of gepauzeerd) die dit schematype in de intake hebben gekozen, plus iedereen voor wie al een schema is gemaakt.
+
+Een klant zonder online coaching kan de intake wel invullen; Steyn kan dan via *Nieuw trainingsschema* of *Nieuw voedingsschema* zelf een concept laten maken. Er geldt een limiet van 6 automatische concepten per klant per dag.
 
 ## Content aanpassen
 
@@ -111,6 +123,7 @@ Een klant zonder online coaching kan de intake wel invullen; Steyn kan dan vanaf
 | Meetwaarden en grenzen | `src/lib/progress.ts` |
 | Intakevragen en berekening richtwaarden | `src/lib/intake.ts` |
 | Instructies voor de AI | `src/lib/plans/prompt.ts` |
+| Looptijd van schema's en de fases (o.a. "komende week" = 7 dagen) | `src/lib/plans/pipeline.ts` |
 | Allergenen- en dieetcontrole | `src/lib/plans/allergens.ts` |
 | Logo en foto's | `public/brand/`, `public/images/` |
 | Kleuren en typografie | `src/app/globals.css` |

@@ -14,6 +14,7 @@ import { addDays, getAppointmentType, weekdayOf, zonedParts, zonedTimeToUtc } fr
 import * as s from "../src/lib/db/schema";
 import { DEMO_ACCOUNTS } from "../src/lib/demo";
 import { estimateTargets, intakeSchema, type IntakeData } from "../src/lib/intake";
+import { defaultRenewOn } from "../src/lib/plans/pipeline";
 import { nutritionPlanSchema, trainingPlanSchema, type NutritionPlan, type TrainingPlan } from "../src/lib/plans/schema";
 import { makeReferralCode } from "../src/lib/referral-program";
 import { isoWeekKey } from "../src/lib/weeks";
@@ -144,6 +145,26 @@ const tomId = await user({
   createdAt: daysAgo(1),
 });
 
+// Meer coachingklanten, zodat het overzicht van de schema's alle fases laat zien.
+const coachingClient = (firstName: string, lastName: string, plan: string, goal: string, createdDaysAgo: number, coachingStatus: "actief" | "gepauzeerd" = "actief") =>
+  user({
+    email: `${firstName}.${lastName.replace(/\s/g, "")}@example.com`.toLowerCase(),
+    firstName,
+    lastName,
+    goal,
+    plan,
+    coachingStatus,
+    createdAt: daysAgo(createdDaysAgo),
+  });
+const fleurId = await coachingClient("Fleur", "Hendriks", "online-pro", "afvallen", 4);
+const daanId = await coachingClient("Daan", "Mulder", "online-start", "spieropbouw", 45);
+const elineId = await coachingClient("Eline", "Kok", "online-pro", "fitter", 58);
+const jorisId = await coachingClient("Joris", "Peters", "online-pro", "spieropbouw", 30);
+const milaId = await coachingClient("Mila", "Bos", "online-performance", "prestatie", 20);
+const semId = await coachingClient("Sem", "Vermeulen", "online-start", "fitter", 16);
+const irisId = await coachingClient("Iris", "Dekker", "online-start", "leefstijl", 9);
+const rubenId = await coachingClient("Ruben", "van Dijk", "online-pro", "herstel", 80, "gepauzeerd");
+
 // ---------------------------------------------------------------------------
 // Intakes
 
@@ -186,9 +207,38 @@ const tomIntake: IntakeData = intakeSchema.parse({
   mealsPerDay: 4,
 });
 
+/** Eenvoudige intake voor de extra klanten. */
+const quickIntake = (wants: ("training" | "voeding")[], goal: string, sex: "man" | "vrouw", extra: Record<string, unknown> = {}): IntakeData =>
+  intakeSchema.parse({
+    wants,
+    goal,
+    sex,
+    birthYear: now.getFullYear() - 31,
+    heightCm: sex === "man" ? 183 : 169,
+    weightKg: sex === "man" ? "81" : "65",
+    experience: "gemiddeld",
+    trainingDays: 3,
+    sessionMinutes: 60,
+    location: "sportschool",
+    activityLevel: "licht",
+    diet: "alles",
+    allergies: [],
+    mealsPerDay: 4,
+    ...extra,
+  });
+
 await db.insert(s.intakes).values([
   { userId: lisaId, data: lisaIntake, createdAt: daysAgo(120), updatedAt: daysAgo(120) },
   { userId: tomId, data: tomIntake, createdAt: daysAgo(1), updatedAt: daysAgo(1) },
+  { userId: noorId, data: quickIntake(["training", "voeding"], "prestatie", "vrouw", { experience: "gevorderd", trainingDays: 5 }), createdAt: daysAgo(62), updatedAt: daysAgo(62) },
+  { userId: fleurId, data: quickIntake(["training", "voeding"], "afvallen", "vrouw", { experience: "beginner", allergies: ["lactose"] }), createdAt: daysAgo(2), updatedAt: daysAgo(2) },
+  { userId: daanId, data: quickIntake(["training"], "spieropbouw", "man", { trainingDays: 4 }), createdAt: daysAgo(44), updatedAt: daysAgo(44) },
+  { userId: elineId, data: quickIntake(["training", "voeding"], "fitter", "vrouw"), createdAt: daysAgo(57), updatedAt: daysAgo(57) },
+  { userId: jorisId, data: quickIntake(["training", "voeding"], "spieropbouw", "man", { trainingDays: 4, diet: "flexitarisch" }), createdAt: daysAgo(29), updatedAt: daysAgo(29) },
+  { userId: milaId, data: quickIntake(["training", "voeding"], "prestatie", "vrouw", { experience: "gevorderd", trainingDays: 5 }), createdAt: daysAgo(19), updatedAt: daysAgo(19) },
+  { userId: semId, data: quickIntake(["training"], "fitter", "man"), createdAt: daysAgo(15), updatedAt: daysAgo(15) },
+  { userId: irisId, data: quickIntake(["training"], "leefstijl", "vrouw", { location: "thuis-materiaal" }), createdAt: daysAgo(8), updatedAt: daysAgo(8) },
+  { userId: rubenId, data: quickIntake(["training", "voeding"], "herstel", "man", { injuries: "Herstellende van een knieoperatie." }), createdAt: daysAgo(79), updatedAt: daysAgo(79) },
 ]);
 
 // ---------------------------------------------------------------------------
@@ -373,11 +423,53 @@ const tomTraining: TrainingPlan = trainingPlanSchema.parse({
   tips: ["Neem bij twijfel over je enkel contact op met Steyn."],
 });
 
+/** Gepubliceerd schema van `ago` dagen geleden; het volgende schema is over `renewIn` dagen nodig (negatief = te laat). */
+function published(userId: string, content: TrainingPlan | NutritionPlan, ago: number, renewIn?: number, title?: string) {
+  const type = "days" in content ? ("training" as const) : ("voeding" as const);
+  const publishedDay = addDays(today, -ago);
+  return {
+    userId,
+    type,
+    status: "gepubliceerd" as const,
+    content: title ? { ...content, title } : content,
+    aiDraft: content,
+    source: "ai" as const,
+    model: "voorbeeld",
+    createdAt: daysAgo(ago + 1),
+    updatedAt: daysAgo(ago),
+    publishedAt: daysAgo(ago),
+    renewOn: renewIn === undefined ? defaultRenewOn(type, publishedDay, "days" in content ? content.durationWeeks : null) : addDays(today, renewIn),
+  };
+}
+
 await db.insert(s.plans).values([
-  { userId: lisaId, type: "training", status: "gepubliceerd", content: lisaTraining, aiDraft: lisaTraining, source: "ai", model: "voorbeeld", createdAt: daysAgo(23), updatedAt: daysAgo(22), publishedAt: daysAgo(22) },
-  { userId: lisaId, type: "voeding", status: "gepubliceerd", content: lisaNutrition, aiDraft: lisaNutrition, source: "ai", model: "voorbeeld", createdAt: daysAgo(23), updatedAt: daysAgo(22), publishedAt: daysAgo(22) },
+  // Lisa: eerder blok 1, nu blok 2; voeding is de komende week aan vernieuwing toe.
+  {
+    ...published(lisaId, lisaTraining, 64, undefined, "Sterker en lichter: blok 1"),
+    status: "vervangen" as const,
+    renewOn: addDays(today, -22),
+  },
+  published(lisaId, lisaTraining, 22),
+  published(lisaId, lisaNutrition, 22),
   { userId: tomId, type: "training", status: "concept", content: tomTraining, aiDraft: tomTraining, source: "ai", model: "voorbeeld", createdAt: daysAgo(1), updatedAt: daysAgo(1) },
   { userId: tomId, type: "voeding", status: "concept", content: tomNutrition, aiDraft: tomNutrition, source: "ai", model: "voorbeeld", createdAt: daysAgo(1), updatedAt: daysAgo(1) },
+  // Toe aan een nieuw schema
+  published(noorId, tomTraining, 45, -3, "Wedstrijdvoorbereiding: opbouw"),
+  published(elineId, lisaNutrition, 32, -1, "Voedingsplan meer energie"),
+  // Komende week
+  published(daanId, tomTraining, 38, 4, "Basis spieropbouw"),
+  // Actief
+  published(noorId, lisaNutrition, 16, 12, "Voedingsplan wedstrijdperiode"),
+  published(elineId, lisaTraining, 10, 32, "Fit in 6 weken"),
+  published(jorisId, tomTraining, 26, 30, "Spieropbouw 4 dagen"),
+  published(jorisId, tomNutrition, 26, 9, "Voedingsplan spieropbouw"),
+  published(milaId, tomTraining, 17, 25, "Sprintkracht"),
+  published(milaId, lisaNutrition, 17, 11, "Voedingsplan prestatie"),
+  published(semId, lisaTraining, 14, 28, "Fit en sterk"),
+  published(irisId, lisaTraining, 7, 35, "Thuis trainen"),
+  // Gepauzeerd
+  published(rubenId, lisaTraining, 70, -28, "Revalidatie knie"),
+  published(rubenId, lisaNutrition, 70, -42, "Voedingsplan herstel"),
 ]);
 
 // ---------------------------------------------------------------------------

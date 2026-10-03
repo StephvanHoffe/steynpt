@@ -1,15 +1,18 @@
 "use server";
 
-import { and, eq, ne } from "drizzle-orm";
+import { and, eq, inArray, ne } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { after } from "next/server";
 import { z } from "zod";
+import { addDays, isValidDay, zonedParts } from "../agenda";
 import { requireAdmin } from "../auth";
 import { db, intakes, PLAN_TYPES, plans } from "../db";
 import { estimateTargets, intakeSchema } from "../intake";
 import { createPlanJob, generatePlan } from "../plans/generate";
+import { defaultRenewOn } from "../plans/pipeline";
 import { emptyNutritionPlan, emptyTrainingPlan, planSchemaFor } from "../plans/schema";
+import { planHref } from "../plans/sections";
 import type { FormState } from "./types";
 
 const MAX_PLAN_BYTES = 200_000;
@@ -18,6 +21,8 @@ const jobSchema = z.object({
   userId: z.string().min(1),
   type: z.enum(PLAN_TYPES),
   instruction: z.string().trim().max(1500).optional(),
+  // Handmatig: leeg beginnen of verder met het gepubliceerde schema.
+  start: z.enum(["leeg", "huidig"]).default("leeg"),
 });
 
 /** Steyn laat (opnieuw) een AI-concept maken, eventueel met een extra instructie. */
@@ -29,20 +34,27 @@ export async function generatePlanAction(formData: FormData) {
 
   const id = await createPlanJob(userId, type, instruction);
   after(() => generatePlan(id));
-  redirect(`/admin/schemas/${id}`);
+  redirect(planHref(type, id));
 }
 
-/** Leeg schema om zelf te vullen (bijv. als de AI niet beschikbaar is). */
+/** Zelf een schema opstellen: leeg, of als kopie van het huidige schema om op voort te bouwen. */
 export async function createManualPlanAction(formData: FormData) {
   await requireAdmin();
   const parsed = jobSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return;
-  const { userId, type } = parsed.data;
+  const { userId, type, start } = parsed.data;
 
-  const [intakeRow] = await db.select().from(intakes).where(eq(intakes.userId, userId));
+  const [[intakeRow], [current]] = await Promise.all([
+    db.select().from(intakes).where(eq(intakes.userId, userId)),
+    start === "huidig"
+      ? db.select({ content: plans.content }).from(plans).where(and(eq(plans.userId, userId), eq(plans.type, type), eq(plans.status, "gepubliceerd")))
+      : [],
+  ]);
   const intake = intakeSchema.safeParse(intakeRow?.data);
-  const content =
-    type === "training"
+  const copy = current ? planSchemaFor(type).safeParse(current.content) : null;
+  const content = copy?.success
+    ? copy.data
+    : type === "training"
       ? emptyTrainingPlan(intake.success ? intake.data.trainingDays : 3)
       : emptyNutritionPlan(intake.success ? estimateTargets(intake.data) : undefined);
 
@@ -50,14 +62,14 @@ export async function createManualPlanAction(formData: FormData) {
     await tx
       .update(plans)
       .set({ status: "vervangen", updatedAt: new Date() })
-      .where(and(eq(plans.userId, userId), eq(plans.type, type), ne(plans.status, "gepubliceerd"), ne(plans.status, "vervangen")));
+      .where(and(eq(plans.userId, userId), eq(plans.type, type), inArray(plans.status, ["genereren", "concept", "fout"])));
     const [row] = await tx
       .insert(plans)
       .values({ userId, type, status: "concept", source: "handmatig", content })
       .returning({ id: plans.id });
     return row.id;
   });
-  redirect(`/admin/schemas/${id}`);
+  redirect(planHref(type, id));
 }
 
 /** Opslaan van Steyns bewerkingen, en optioneel direct publiceren voor de klant. */
@@ -84,17 +96,27 @@ export async function savePlanAction(_prev: FormState, formData: FormData): Prom
   const content = parsed.data;
   if ("days" in content) content.daysPerWeek = content.days.length;
 
+  // Wanneer de klant toe is aan een nieuw schema. Bij publiceren of wijzigen moet die datum na vandaag liggen.
   const now = new Date();
+  const today = zonedParts(now).day;
+  const requested = formData.get("renewOn");
+  let renewOn = isValidDay(requested) ? requested : plan.renewOn;
+  if (renewOn && renewOn <= today && (intent === "publiceren" || renewOn !== plan.renewOn)) {
+    return { error: "Kies bij “Nieuw schema op” een datum na vandaag." };
+  }
+  if (renewOn && renewOn > addDays(today, 366)) return { error: "Kies voor het volgende schema een datum binnen een jaar." };
+  if (!renewOn && intent === "publiceren") renewOn = defaultRenewOn(plan.type, today, "durationWeeks" in content ? content.durationWeeks : null);
+
   if (intent === "publiceren") {
     await db.transaction(async (tx) => {
       await tx
         .update(plans)
         .set({ status: "vervangen", updatedAt: now })
         .where(and(eq(plans.userId, plan.userId), eq(plans.type, plan.type), eq(plans.status, "gepubliceerd"), ne(plans.id, id)));
-      await tx.update(plans).set({ content, status: "gepubliceerd", publishedAt: now, updatedAt: now }).where(eq(plans.id, id));
+      await tx.update(plans).set({ content, renewOn, status: "gepubliceerd", publishedAt: now, updatedAt: now }).where(eq(plans.id, id));
     });
   } else {
-    await db.update(plans).set({ content, updatedAt: now }).where(eq(plans.id, id));
+    await db.update(plans).set({ content, renewOn, updatedAt: now }).where(eq(plans.id, id));
   }
 
   revalidatePath("/admin", "layout");

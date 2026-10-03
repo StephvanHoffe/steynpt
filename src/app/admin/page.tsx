@@ -1,20 +1,27 @@
 import { and, asc, count, eq, gt, gte, isNotNull, isNull, lt } from "drizzle-orm";
 import { alias } from "drizzle-orm/sqlite-core";
-import { ArrowRight, CalendarDays, CalendarPlus, CheckCircle2, ClipboardCheck, Gift, Inbox, UserPlus } from "lucide-react";
+import { ArrowRight, CalendarDays, CalendarPlus, CheckCircle2, ClipboardCheck, Dumbbell, Gift, Inbox, Salad, UserPlus } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { agendaHref, typeColor } from "@/components/admin/calendar/shared";
+import { GROUP_TONE } from "@/components/admin/plans/stage";
 import { ADMIN_PAGE, AdminPageHeader } from "@/components/admin/ui";
 import { markReferralRewardAction } from "@/lib/actions/admin";
 import { adminCounts } from "@/lib/admin";
 import { addDays, formatDayLong, formatTime, getAgendaLocation, getAppointmentType, zonedParts, zonedTimeToUtc } from "@/lib/agenda";
 import { startOfWeek } from "@/lib/agenda-calendar";
 import { requireAdmin } from "@/lib/auth";
-import { appointments, checkIns, db, users } from "@/lib/db";
+import { appointments, checkIns, db, PLAN_TYPES, users } from "@/lib/db";
+import type { StageGroup } from "@/lib/plans/pipeline";
+import { loadPlanPipeline } from "@/lib/plans/pipeline-server";
+import { PLAN_SECTION } from "@/lib/plans/sections";
 import { REFERRAL } from "@/lib/referral-program";
 import { isoWeekKey } from "@/lib/weeks";
 
 export const metadata: Metadata = { title: "Overzicht" };
+
+const PLAN_ICON = { training: Dumbbell, voeding: Salad };
+const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
 
 const longDate = new Intl.DateTimeFormat("nl-NL", { weekday: "long", day: "numeric", month: "long", timeZone: "Europe/Amsterdam" });
 
@@ -34,8 +41,9 @@ export default async function AdminOverviewPage() {
   const weekEnd = zonedTimeToUtc(addDays(startOfWeek(today), 7), "00:00");
 
   const withClient = { a: appointments, firstName: users.firstName, lastName: users.lastName, phone: users.phone };
-  const [counts, todays, upcoming, rewardsDue, [week], [active], [newMembers], [checks]] = await Promise.all([
+  const [counts, pipeline, todays, upcoming, rewardsDue, [week], [active], [newMembers], [checks]] = await Promise.all([
     adminCounts(),
+    loadPlanPipeline(),
     db
       .select(withClient)
       .from(appointments)
@@ -64,9 +72,15 @@ export default async function AdminOverviewPage() {
   ]);
 
   const todo = [
-    { n: counts.schemas, href: "/admin/schemas", icon: ClipboardCheck, one: "schema te controleren", many: "schema's te controleren" },
+    ...PLAN_TYPES.map((type) => ({
+      n: pipeline.counts[type].controleren,
+      href: `${PLAN_SECTION[type].href}?fase=controleren`,
+      icon: ClipboardCheck,
+      one: `${PLAN_SECTION[type].one} te controleren`,
+      many: `${PLAN_SECTION[type].title.toLowerCase()} te controleren`,
+    })),
     { n: counts.requests, href: "/admin/aanvragen", icon: Inbox, one: "nieuwe contactaanvraag", many: "nieuwe contactaanvragen" },
-    { n: counts.applied, href: "/admin/leden?status=aangevraagd", icon: UserPlus, one: "lid wacht op een intake", many: "leden wachten op een intake" },
+    { n: counts.applied, href: "/admin/leden?status=aangevraagd", icon: UserPlus, one: "lid heeft coaching aangevraagd", many: "leden hebben coaching aangevraagd" },
   ].filter((t) => t.n > 0);
 
   const stats = [
@@ -87,6 +101,60 @@ export default async function AdminOverviewPage() {
           </Link>
         }
       />
+
+      {/* Schema's: wie wacht, wie is binnenkort aan de beurt en wie heeft een actief schema */}
+      <div className="mb-6 grid gap-4 lg:grid-cols-2">
+        {PLAN_TYPES.map((type) => {
+          const section = PLAN_SECTION[type];
+          const c = pipeline.counts[type];
+          const Icon = PLAN_ICON[type];
+          const href = (fase: StageGroup) => `${section.href}?fase=${fase}`;
+          const tiles = [
+            { fase: "wacht" as const, n: c.wacht, text: plural(c.wacht, "wacht op een nieuw schema", "wachten op een nieuw schema"), alert: c.wacht > 0 },
+            { fase: "binnenkort" as const, n: c.binnenkort, text: plural(c.binnenkort, "krijgt de komende week een nieuw schema", "krijgen de komende week een nieuw schema") },
+            { fase: "actief" as const, n: c.actief, text: plural(c.actief, "heeft een actief schema", "hebben een actief schema") },
+          ];
+          const extra = [
+            c.controleren > 0 && { fase: "controleren" as const, text: `${c.controleren} te controleren` },
+            c.intake > 0 && { fase: "intake" as const, text: `${c.intake} ${plural(c.intake, "wacht", "wachten")} nog op de intake` },
+            c.pauze > 0 && { fase: "pauze" as const, text: `${c.pauze} gepauzeerd` },
+          ].filter((e) => e !== false);
+          return (
+            <section key={type} aria-labelledby={`overzicht-${type}`} className="card overflow-hidden">
+              <div className="flex items-center justify-between gap-3 border-b border-line px-5 py-3.5">
+                <h2 id={`overzicht-${type}`} className="flex items-center gap-2 font-semibold">
+                  <Icon className="size-5 text-muted" aria-hidden="true" /> {section.title}
+                </h2>
+                <Link href={section.href} className="text-sm font-semibold text-accent hover:underline">
+                  Alle klanten
+                </Link>
+              </div>
+              <ul className="grid grid-cols-3 divide-x divide-line">
+                {tiles.map((t) => (
+                  <li key={t.fase}>
+                    <Link href={href(t.fase)} className="block h-full px-4 py-4 hover:bg-surface sm:px-5">
+                      <span className={`flex items-center gap-2 text-3xl font-semibold tabular-nums ${t.alert ? "text-danger" : ""}`}>
+                        <span className={`size-2 rounded-full ${GROUP_TONE[t.fase].dot}`} aria-hidden="true" />
+                        {t.n}
+                      </span>
+                      <span className="mt-1 block text-sm leading-snug text-muted">{t.text}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              {extra.length > 0 && (
+                <p className="flex flex-wrap gap-x-4 gap-y-1 border-t border-line bg-[#f6f7f8] px-5 py-2.5 text-sm">
+                  {extra.map((e) => (
+                    <Link key={e.fase} href={href(e.fase)} className="text-muted hover:text-ink hover:underline">
+                      {e.text}
+                    </Link>
+                  ))}
+                </p>
+              )}
+            </section>
+          );
+        })}
+      </div>
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
         {/* Vandaag */}

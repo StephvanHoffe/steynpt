@@ -125,6 +125,8 @@ export const plans = sqliteTable(
       .notNull()
       .default(sql`(unixepoch())`),
     publishedAt: integer("published_at", { mode: "timestamp" }),
+    // Dag (YYYY-MM-DD, Amsterdam) waarop de klant toe is aan een nieuw schema.
+    renewOn: text("renew_on"),
   },
   (t) => [index("plans_user_idx").on(t.userId, t.type, t.status)],
 );

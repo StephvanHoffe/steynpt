@@ -1,5 +1,5 @@
-import { and, asc, desc, eq, gt } from "drizzle-orm";
-import { CalendarPlus, Info, LineChart, Trash2 } from "lucide-react";
+import { and, asc, eq, gt } from "drizzle-orm";
+import { CalendarPlus, Dumbbell, LineChart, Salad, Trash2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -8,23 +8,25 @@ import { ADMIN_PAGE, AdminPageHeader, CoachingBadge } from "@/components/admin/u
 import { agendaHref } from "@/components/admin/calendar/shared";
 import { MeasurementForm } from "@/components/progress/MeasurementForm";
 import { ProgressOverview } from "@/components/progress/ProgressOverview";
-import { GenerateForms } from "@/components/plans/GenerateForms";
+import { formatPlanDay, StageBadge } from "@/components/admin/plans/stage";
 import { IntakePanel } from "@/components/plans/IntakePanel";
-import { PLAN_STATUS, PLAN_TYPE_LABEL, isStuck } from "@/components/plans/labels";
+import { PLAN_TYPE_LABEL } from "@/components/plans/labels";
 import { requireAdmin } from "@/lib/auth";
 import { formatDayLong, formatTime, getAgendaLocation, getAppointmentType, zonedParts } from "@/lib/agenda";
 import { deleteMeasurementAction } from "@/lib/actions/progress";
-import { appointments, db, intakes, measurements, PLAN_TYPES, plans, users } from "@/lib/db";
+import { appointments, db, intakes, measurements, PLAN_TYPES, users } from "@/lib/db";
 import { intakeSchema } from "@/lib/intake";
-import { aiConfigured } from "@/lib/plans/generate";
+import { relativeDay } from "@/lib/plans/pipeline";
+import { loadPlanPipeline } from "@/lib/plans/pipeline-server";
+import { newPlanHref, planHref } from "@/lib/plans/sections";
 import { formatNumber, MEASUREMENT_FIELDS } from "@/lib/progress";
 import { REFERRAL } from "@/lib/referral-program";
 import { getOnlinePlan, GOALS } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Lid" };
-export const maxDuration = 300;
 
-const dateFmt = new Intl.DateTimeFormat("nl-NL", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Amsterdam" });
+const PLAN_ICON = { training: Dumbbell, voeding: Salad };
+const shortFmt = new Intl.DateTimeFormat("nl-NL", { day: "numeric", month: "short", timeZone: "Europe/Amsterdam" });
 const sinceFmt = new Intl.DateTimeFormat("nl-NL", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Amsterdam" });
 
 export default async function MemberPage({ params }: PageProps<"/admin/leden/[id]">) {
@@ -34,9 +36,9 @@ export default async function MemberPage({ params }: PageProps<"/admin/leden/[id
   if (!member) notFound();
 
   const now = new Date();
-  const [[intakeRow], memberPlans, rows, upcoming, [inviter]] = await Promise.all([
+  const [[intakeRow], pipeline, rows, upcoming, [inviter]] = await Promise.all([
     db.select().from(intakes).where(eq(intakes.userId, id)),
-    db.select().from(plans).where(eq(plans.userId, id)).orderBy(desc(plans.createdAt)),
+    loadPlanPipeline(id),
     db.select().from(measurements).where(eq(measurements.userId, id)).orderBy(asc(measurements.measuredAt)),
     db
       .select()
@@ -48,7 +50,7 @@ export default async function MemberPage({ params }: PageProps<"/admin/leden/[id
       : Promise.resolve([] as { firstName: string; lastName: string }[]),
   ]);
   const intake = intakeSchema.safeParse(intakeRow?.data);
-  const aiEnabled = aiConfigured();
+  const { today } = pipeline;
 
   return (
     <div className={ADMIN_PAGE}>
@@ -88,13 +90,6 @@ export default async function MemberPage({ params }: PageProps<"/admin/leden/[id
         </p>
       )}
 
-      {!aiEnabled && (
-        <p className="mb-6 flex gap-2 rounded-xl bg-white p-4 text-sm">
-          <Info className="size-5 shrink-0" aria-hidden="true" />
-          AI staat uit: stel ANTHROPIC_API_KEY in om concepten automatisch te laten maken. Je kunt schema&apos;s wel zelf opstellen.
-        </p>
-      )}
-
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_24rem]">
         <div className="grid min-w-0 grid-cols-1 content-start gap-6">
           <section className="card p-6" aria-labelledby="coaching">
@@ -106,44 +101,55 @@ export default async function MemberPage({ params }: PageProps<"/admin/leden/[id
             </div>
           </section>
 
-          {PLAN_TYPES.map((type) => {
-            const list = memberPlans.filter((p) => p.type === type);
-            const hasOpen = list.some((p) => p.status === "genereren" || p.status === "concept");
-            return (
-              <section key={type} className="card p-6" aria-labelledby={`type-${type}`}>
-                <h2 id={`type-${type}`} className="text-lg font-semibold">
-                  {PLAN_TYPE_LABEL[type]}
-                </h2>
-                {list.length === 0 ? (
-                  <p className="mt-3 text-sm text-muted">Nog geen schema.</p>
-                ) : (
-                  <ul className="mt-4 divide-y divide-line">
-                    {list.map((p) => {
-                      const status = isStuck(p.status, p.updatedAt) ? { label: "Vastgelopen", tone: "bg-danger/10 text-danger" } : PLAN_STATUS[p.status];
-                      return (
-                        <li key={p.id} className="flex flex-wrap items-center justify-between gap-3 py-3 text-sm">
-                          <span>
-                            <Link href={`/admin/schemas/${p.id}`} className="font-semibold underline decoration-accent underline-offset-4">
-                              Versie #{p.id}
-                            </Link>
-                            <span className="ml-2 text-muted">
-                              {dateFmt.format(p.createdAt)} · {p.source === "ai" ? "AI-concept" : "handmatig"}
-                            </span>
+          <section className="card p-6" aria-labelledby="schemas">
+            <h2 id="schemas" className="text-lg font-semibold">
+              Schema&apos;s
+            </h2>
+            <ul className="mt-3 divide-y divide-line">
+              {PLAN_TYPES.map((type) => {
+                const row = pipeline.rows[type][0];
+                const Icon = PLAN_ICON[type];
+                const open = row?.open ? planHref(type, row.open.id) : null;
+                return (
+                  <li key={type} className="flex flex-wrap items-center gap-x-4 gap-y-2 py-3.5">
+                    <Icon className="size-5 shrink-0 text-muted" aria-hidden="true" />
+                    <div className="min-w-0 flex-1">
+                      <p className="flex flex-wrap items-center gap-2 font-semibold">
+                        {PLAN_TYPE_LABEL[type]} {row && <StageBadge stage={row.stage} coachingStatus={member.coachingStatus} />}
+                      </p>
+                      <p className="text-sm text-muted">
+                        {row?.current ? `${row.current.title || "Schema"} · sinds ${shortFmt.format(row.current.publishedAt)}` : "Nog geen schema"}
+                        {row?.dueOn && (
+                          <span className={row.dueOn <= today && row.stage !== "pauze" ? "text-danger" : ""}>
+                            {" "}
+                            · nieuw schema {formatPlanDay(row.dueOn)} ({relativeDay(today, row.dueOn)})
                           </span>
-                          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${status.tone}`}>{status.label}</span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-                {!hasOpen && (
-                  <div className="mt-5 border-t border-line pt-5">
-                    <GenerateForms userId={member.id} type={type} aiEnabled={aiEnabled} hasIntake={intake.success} />
-                  </div>
-                )}
-              </section>
-            );
-          })}
+                        )}
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {open ? (
+                        <Link href={open} className="btn btn-sm btn-primary">
+                          {row?.stage === "controleren" ? "Controleren" : "Concept openen"}
+                        </Link>
+                      ) : (
+                        <>
+                          {row?.current && (
+                            <Link href={planHref(type, row.current.id)} className="btn btn-sm btn-outline">
+                              Bekijken
+                            </Link>
+                          )}
+                          <Link href={newPlanHref(type, member.id)} className="btn btn-sm btn-outline">
+                            Nieuw schema
+                          </Link>
+                        </>
+                      )}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
 
           <section id="metingen-blok" className="card scroll-mt-20 p-6" aria-labelledby="metingen">
             <h2 id="metingen" className="scroll-mt-20 text-lg font-semibold">
