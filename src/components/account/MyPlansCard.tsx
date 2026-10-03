@@ -52,7 +52,7 @@ export function MyPlansCard({
             const scheduled = plans.find((p) => p.type === type && p.status === "gepland" && p.startsOn);
             const wanted = intake.wants.includes(type);
             let status: string;
-            if (scheduled) status = `${published ? "Je nieuwe schema" : "Je schema"} staat klaar vanaf ${dateFmt.format(new Date(`${scheduled.startsOn}T12:00:00Z`))}.`;
+            if (scheduled) status = `Je nieuwe schema staat klaar vanaf ${dateFmt.format(new Date(`${scheduled.startsOn}T12:00:00Z`))}.`;
             else if (published) status = pending ? "Er komt binnenkort een vernieuwde versie." : `Klaar sinds ${published.publishedAt ? dateFmt.format(published.publishedAt) : "kort"}.`;
             else if (pending) status = "Wordt gemaakt en daarna door Steyn gecontroleerd.";
             else if (!wanted) status = "Niet aangevraagd in je intake.";
