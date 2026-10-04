@@ -27,7 +27,7 @@ De vormgeving is zakelijk zwart-wit met één accentkleur (petrol, `#0b6f78`) en
 
 **Mijn omgeving (klant)**
 
-- Registreren (`/registreren`), inloggen (`/inloggen`), uitloggen, profiel bewerken, wachtwoord wijzigen en account verwijderen.
+- Registreren (`/registreren`), inloggen (`/inloggen`) met tweestapsverificatie, uitloggen, profiel bewerken, wachtwoord wijzigen en account verwijderen. Zie [Beveiliging](#beveiliging).
 - Dashboard (`/account`) met volgende afspraak, schema's, voortgang (grafieken van de laatste metingen), coachingstatus, bericht van Steyn, wekelijkse check-in met reeks ("3 weken op rij") en de vriendenactie.
 - Agenda (`/account/agenda`): afspraak boeken in drie stappen (type, locatie, dag en tijd), komende afspraken bekijken, afzeggen en per afspraak een `.ics`-bestand downloaden voor de eigen agenda.
 - Voortgang (`/account/voortgang`): alle metingen in grafieken en een tabel.
@@ -117,6 +117,27 @@ De teksten en kortingen staan in `src/lib/referral-program.ts`. Het puntensystee
 
 Een klant zonder online coaching kan de intake wel invullen; Steyn kan dan via *Nieuw trainingsschema* of *Nieuw voedingsschema* zelf een concept laten maken. Er geldt een limiet van 6 automatische concepten per klant per dag.
 
+## Beveiliging
+
+**Tweestapsverificatie (verplicht voor iedereen, ook voor Steyn)**
+
+Inloggen gaat in twee stappen: eerst e-mailadres en wachtwoord, dan een code van 6 cijfers uit een authenticator-app (Google Authenticator, Microsoft Authenticator, de Wachtwoorden-app op de iPhone, 1Password …). Er is geen sms of e-mail voor nodig.
+
+- **Instellen:** direct na het registreren, en voor bestaande accounts bij de eerstvolgende keer inloggen (`/inloggen/verificatie`). Je scant een QR-code (of typt de sleutel over) en bevestigt met de eerste code. Daarna krijg je 8 herstelcodes om te bewaren. Pas dan is het account te gebruiken. Sessies van vóór de tweestapsverificatie tellen niet meer.
+- **Herstelcodes:** telefoon niet bij de hand? Elke herstelcode werkt één keer in plaats van de code uit de app. In het profiel maak je nieuwe herstelcodes, of koppel je een nieuwe telefoon.
+- **Beveiliging van de codes:** een code werkt maar één keer en 30 seconden voor of na de juiste tijd. Na 5 foute codes moet je opnieuw inloggen met je wachtwoord, en per account zijn maximaal 6 foute codes per uur mogelijk. Alleen de hashes van de herstelcodes worden opgeslagen.
+- **Telefoon en herstelcodes kwijt (klant):** Steyn zet de tweestapsverificatie terug bij het lid, onder *Inloggen en beveiliging*. Het lid wordt overal uitgelogd en koppelt bij de volgende keer inloggen een nieuwe telefoon. Controleer eerst of je echt met het lid zelf spreekt.
+- **Telefoon en herstelcodes kwijt (Steyn):** op de server `npm run auth:reset-2fa -- steyn@steynpt.nl`. Steyn koppelt dan bij het inloggen opnieuw een telefoon.
+
+**Wachtwoord om de 8 weken**
+
+- Een week van tevoren verschijnt een melding in Mijn omgeving en in het beheer.
+- Is het wachtwoord ouder dan 8 weken, dan stuurt elke pagina door naar `/wachtwoord-vernieuwen`. Daar kies je een nieuw wachtwoord: minimaal 8 tekens en niet hetzelfde als het huidige.
+- Na een nieuw wachtwoord word je op andere apparaten uitgelogd.
+- De termijn staat in `src/lib/totp.ts` (`PASSWORD_MAX_AGE_DAYS`). Bestaande accounts kregen bij de update 8 weken vanaf dat moment.
+
+In de demo zijn de twee voorbeeldaccounts (inloggen met één klik) uitgezonderd; een nieuw account in de demo doorloopt de tweestapsverificatie wel.
+
 ## Content aanpassen
 
 | Wat | Waar |
@@ -166,7 +187,7 @@ De site heeft een Node.js-server en een database nodig.
 - **Eigen server of VPS** (bijvoorbeeld met een persistente schijf): `npm ci && npm run db:migrate && npm run build && npm start`. De SQLite-database staat in `data/`; maak daar back-ups van.
 - **Vercel of andere serverless hosting**: gebruik een [Turso](https://turso.tech)-database. Zet `DATABASE_URL=libsql://…` en `DATABASE_AUTH_TOKEN`, en draai `npm run db:migrate` één keer tegen die database.
 
-Zet `NEXT_PUBLIC_SITE_URL` op het echte domein, zodat de uitnodigingslinks kloppen. Draai na elke update `npm run db:migrate`. Deze versie voegt de tabellen voor agenda en metingen toe en verwijdert de puntentabellen.
+Zet `NEXT_PUBLIC_SITE_URL` op het echte domein, zodat de uitnodigingslinks kloppen. Draai na elke update `npm run db:migrate`. De laatste migratie voegt de tweestapsverificatie toe: iedereen, ook Steyn, koppelt bij de eerstvolgende keer inloggen een authenticator-app.
 
 ## Demo online zetten
 
@@ -177,7 +198,7 @@ Met `DEMO_MODE=1` draait de site als demo:
 - De database wordt gevuld met voorbeeldklanten, afspraken, metingen, schema's, check-ins en contactaanvragen. De datums zijn relatief aan vandaag.
 - De AI draait altijd in testmodus, dus er zijn geen kosten.
 - De site is niet vindbaar in zoekmachines.
-- De twee demo-accounts kunnen niet worden verwijderd of van wachtwoord wisselen.
+- De twee demo-accounts kunnen niet worden verwijderd of van wachtwoord wisselen, en hebben geen tweestapsverificatie nodig.
 
 **Op Render (gratis):**
 

@@ -5,8 +5,8 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { hashPassword, requireUser, SESSION_COOKIE_NAME, verifyPassword } from "../auth";
-import { appointments, checkIns, db, intakes, measurements, plans, sessions, users } from "../db";
+import { endOtherSessions, getCurrentUser, hashPassword, requireUser, safeNextPath, SESSION_COOKIE_NAME, verifyPassword } from "../auth";
+import { appointments, checkIns, db, intakes, loginChallenges, measurements, plans, recoveryCodes, sessions, users } from "../db";
 import { isDemoAccount } from "../demo";
 import { checkInStreak, isoWeekKey } from "../weeks";
 import { getOnlinePlan, GOALS } from "../site";
@@ -88,10 +88,11 @@ const passwordSchema = z
     password: z.string().min(8, "Kies een wachtwoord van minimaal 8 tekens").max(200),
     confirm: z.string(),
   })
-  .refine((d) => d.password === d.confirm, { message: "De wachtwoorden komen niet overeen", path: ["confirm"] });
+  .refine((d) => d.password === d.confirm, { message: "De wachtwoorden komen niet overeen", path: ["confirm"] })
+  .refine((d) => d.password !== d.current, { message: "Kies een ander wachtwoord dan je huidige", path: ["password"] });
 
-export async function changePasswordAction(_prev: FormState, formData: FormData): Promise<FormState> {
-  const user = await requireUser("/account/profiel");
+/** Nieuw wachtwoord opslaan: de termijn van 8 weken begint opnieuw en andere apparaten worden uitgelogd. */
+async function setNewPassword(user: { id: string; email: string; passwordHash: string }, formData: FormData): Promise<FormState | null> {
   if (isDemoAccount(user.email)) return { error: "In de demo kun je het wachtwoord van dit voorbeeldaccount niet wijzigen." };
   const parsed = passwordSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { fieldErrors: fieldErrorsFrom(parsed.error.issues) };
@@ -100,9 +101,29 @@ export async function changePasswordAction(_prev: FormState, formData: FormData)
   }
   await db
     .update(users)
-    .set({ passwordHash: await hashPassword(parsed.data.password) })
+    .set({ passwordHash: await hashPassword(parsed.data.password), passwordChangedAt: new Date() })
     .where(eq(users.id, user.id));
-  return { success: "Je wachtwoord is gewijzigd." };
+  await endOtherSessions(user.id);
+  return null;
+}
+
+export async function changePasswordAction(_prev: FormState, formData: FormData): Promise<FormState> {
+  const user = await requireUser("/account/profiel");
+  const failed = await setNewPassword(user, formData);
+  if (failed) return failed;
+  revalidatePath("/", "layout");
+  return { success: "Je wachtwoord is gewijzigd. Op andere apparaten moet je opnieuw inloggen." };
+}
+
+/** Verplicht nieuw wachtwoord na 8 weken (of eerder, vanuit de herinnering). */
+export async function renewPasswordAction(_prev: FormState, formData: FormData): Promise<FormState> {
+  // Hier geen requireUser: die stuurt bij een verlopen wachtwoord juist naar deze pagina.
+  const user = await getCurrentUser();
+  if (!user) redirect("/inloggen");
+  const failed = await setNewPassword(user, formData);
+  if (failed) return failed;
+  revalidatePath("/", "layout");
+  redirect(safeNextPath(formData.get("next"), user.role === "admin" ? "/admin" : "/account"));
 }
 
 export async function requestCoachingAction(_prev: FormState, formData: FormData): Promise<FormState> {
@@ -131,6 +152,8 @@ export async function deleteAccountAction(_prev: FormState, formData: FormData):
   // Expliciet verwijderen, ook als foreign keys op de database uit staan.
   await db.transaction(async (tx) => {
     await tx.delete(sessions).where(eq(sessions.userId, user.id));
+    await tx.delete(loginChallenges).where(eq(loginChallenges.userId, user.id));
+    await tx.delete(recoveryCodes).where(eq(recoveryCodes.userId, user.id));
     await tx.delete(checkIns).where(eq(checkIns.userId, user.id));
     await tx.delete(appointments).where(eq(appointments.userId, user.id));
     await tx.delete(measurements).where(eq(measurements.userId, user.id));

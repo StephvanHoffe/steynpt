@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AdminNav } from "@/components/admin/AdminNav";
 import { LogoMark } from "@/components/Logo";
+import { PasswordReminder } from "@/components/PasswordReminder";
 import { adminCounts } from "@/lib/admin";
 import { getCurrentUser } from "@/lib/auth";
 
@@ -38,6 +39,7 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
           </form>
         </div>
       </header>
+      <PasswordReminder user={user} next="/admin" />
       <div className="flex flex-1 flex-col lg:flex-row">
         <AdminNav counts={counts} />
         <main id="inhoud" className="min-w-0 flex-1">

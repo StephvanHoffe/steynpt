@@ -14,6 +14,7 @@ import { PLAN_TYPE_LABEL } from "@/components/plans/labels";
 import { requireAdmin } from "@/lib/auth";
 import { formatDayLong, formatTime, getAgendaLocation, getAppointmentType, zonedParts } from "@/lib/agenda";
 import { deleteMeasurementAction } from "@/lib/actions/progress";
+import { resetMemberTwoFactorAction } from "@/lib/actions/two-factor";
 import { appointments, db, intakes, measurements, PLAN_TYPES, users } from "@/lib/db";
 import { intakeSchema } from "@/lib/intake";
 import { relativeDay } from "@/lib/plans/pipeline";
@@ -22,6 +23,8 @@ import { newPlanHref, planHref } from "@/lib/plans/sections";
 import { formatNumber, MEASUREMENT_FIELDS } from "@/lib/progress";
 import { REFERRAL } from "@/lib/referral-program";
 import { getOnlinePlan, GOALS } from "@/lib/site";
+import { passwordDaysLeft, passwordExpiresAt } from "@/lib/totp";
+import { remainingRecoveryCodes } from "@/lib/two-factor";
 
 export const metadata: Metadata = { title: "Lid" };
 
@@ -51,6 +54,8 @@ export default async function MemberPage({ params }: PageProps<"/admin/leden/[id
   ]);
   const intake = intakeSchema.safeParse(intakeRow?.data);
   const { today } = pipeline;
+  const codesLeft = member.totpEnabledAt ? await remainingRecoveryCodes(member.id) : 0;
+  const passwordChanged = member.passwordChangedAt ?? member.createdAt;
 
   return (
     <div className={ADMIN_PAGE}>
@@ -241,6 +246,54 @@ export default async function MemberPage({ params }: PageProps<"/admin/leden/[id
               </ul>
             )}
           </section>
+          <section className="card p-6" aria-labelledby="beveiliging">
+            <h2 id="beveiliging" className="text-lg font-semibold">
+              Inloggen en beveiliging
+            </h2>
+            <dl className="mt-3 grid gap-2 text-sm">
+              <div className="flex justify-between gap-3">
+                <dt className="text-muted">Tweestapsverificatie</dt>
+                <dd className="text-right font-medium">
+                  {member.totpEnabledAt ? (
+                    <>
+                      aan sinds {shortFmt.format(member.totpEnabledAt)}
+                      <span className="block font-normal text-muted">
+                        {codesLeft} {codesLeft === 1 ? "herstelcode" : "herstelcodes"} over
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      nog niet ingesteld
+                      <span className="block font-normal text-muted">gebeurt bij de volgende keer inloggen</span>
+                    </>
+                  )}
+                </dd>
+              </div>
+              <div className="flex justify-between gap-3">
+                <dt className="text-muted">Wachtwoord</dt>
+                <dd className="text-right font-medium">
+                  {passwordDaysLeft(passwordChanged) <= 0 ? "verlopen" : `verloopt ${shortFmt.format(passwordExpiresAt(passwordChanged))}`}
+                  <span className="block font-normal text-muted">gewijzigd {shortFmt.format(passwordChanged)}</span>
+                </dd>
+              </div>
+            </dl>
+            {member.totpEnabledAt && (
+              <details className="mt-4 rounded-lg border border-line p-3 text-sm">
+                <summary className="cursor-pointer font-semibold">Tweestapsverificatie resetten…</summary>
+                <p className="mt-2 text-muted">
+                  Alleen als {member.firstName} de telefoon én de herstelcodes kwijt is. {member.firstName} wordt overal uitgelogd en koppelt bij de volgende keer
+                  inloggen een nieuwe telefoon. Controleer eerst of je echt met {member.firstName} zelf spreekt.
+                </p>
+                <form action={resetMemberTwoFactorAction} className="mt-3">
+                  <input type="hidden" name="userId" value={member.id} />
+                  <button type="submit" className="btn btn-sm btn-outline border-danger/40 text-danger hover:border-danger">
+                    Ja, resetten
+                  </button>
+                </form>
+              </details>
+            )}
+          </section>
+
           <section className="card p-6" aria-labelledby="intake">
             <h2 id="intake" className="text-lg font-semibold">Intake</h2>
             <div className="mt-4">

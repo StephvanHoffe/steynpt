@@ -33,7 +33,7 @@ const db = drizzle(client, { schema: s });
 const [klant, steyn] = [DEMO_ACCOUNTS[0], DEMO_ACCOUNTS[1]];
 
 if (process.argv.includes("--reset")) {
-  for (const table of [s.sessions, s.checkIns, s.appointments, s.measurements, s.plans, s.intakes, s.contactRequests, s.availability, s.blockedPeriods, s.settings]) {
+  for (const table of [s.sessions, s.loginChallenges, s.recoveryCodes, s.checkIns, s.appointments, s.measurements, s.plans, s.intakes, s.contactRequests, s.availability, s.blockedPeriods, s.settings]) {
     await db.delete(table);
   }
   await db.update(s.users).set({ referredById: null });
@@ -64,7 +64,7 @@ const password = () => bcrypt.hash(randomBytes(18).toString("base64url"), 10);
 
 async function user(values: Omit<typeof s.users.$inferInsert, "id" | "passwordHash" | "referralCode">) {
   const id = randomUUID();
-  await db.insert(s.users).values({ id, passwordHash: await password(), referralCode: makeReferralCode(values.firstName), ...values });
+  await db.insert(s.users).values({ id, passwordHash: await password(), referralCode: makeReferralCode(values.firstName), passwordChangedAt: now, ...values });
   return id;
 }
 

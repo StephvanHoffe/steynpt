@@ -12,8 +12,10 @@ import {
   hashPassword,
   isAdminEmail,
   isRateLimited,
+  needsTwoFactor,
   registerFailedAttempt,
   safeNextPath,
+  startLoginChallenge,
   verifyPassword,
 } from "../auth";
 import { REFERRAL_COOKIE } from "../constants";
@@ -87,6 +89,7 @@ export async function registerAction(_prev: FormState, formData: FormData): Prom
         referredById: referrer?.id ?? null,
         role: isAdminEmail(data.email) ? "admin" : "member",
         marketingOptIn: data.marketing === "on",
+        passwordChangedAt: new Date(),
       })
       .onConflictDoNothing();
     inserted = result.rowsAffected > 0;
@@ -99,8 +102,9 @@ export async function registerAction(_prev: FormState, formData: FormData): Prom
   if (!inserted) return { error: "Er ging iets mis bij het aanmaken van je account. Probeer het opnieuw.", values };
 
   (await cookies()).delete(REFERRAL_COOKIE);
-  await createSession(id);
-  redirect("/account?welkom=1");
+  // Eerst de tweestapsverificatie instellen, daarna is het account klaar voor gebruik.
+  await startLoginChallenge(id, "/account?welkom=1");
+  redirect("/inloggen/verificatie");
 }
 
 const loginSchema = z.object({
@@ -132,8 +136,14 @@ export async function loginAction(_prev: FormState, formData: FormData): Promise
     await db.update(users).set({ role: "admin" }).where(eq(users.id, user.id));
   }
 
-  await createSession(user.id);
-  redirect(safeNextPath(next));
+  // Tweede stap: de code uit de authenticator-app (of eerst instellen).
+  const target = safeNextPath(next, user.role === "admin" || isAdminEmail(user.email) ? "/admin" : "/account");
+  if (!needsTwoFactor(user)) {
+    await createSession(user.id);
+    redirect(target);
+  }
+  await startLoginChallenge(user.id, target);
+  redirect("/inloggen/verificatie");
 }
 
 /** Alleen in de demoversie: direct inloggen als voorbeeldklant of als Steyn, zonder wachtwoord. */

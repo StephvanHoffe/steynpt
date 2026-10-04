@@ -1,6 +1,7 @@
 import { CalendarDays, LayoutDashboard, LineChart, LogOut, Shield, UserRound } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PasswordReminder } from "@/components/PasswordReminder";
 import { getCurrentUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
@@ -42,6 +43,7 @@ export default async function AccountLayout({ children }: LayoutProps<"/account"
           </form>
         </div>
       </div>
+      <PasswordReminder user={user} next="/account" />
       {children}
     </div>
   );

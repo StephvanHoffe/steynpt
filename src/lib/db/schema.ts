@@ -28,6 +28,12 @@ export const users = sqliteTable(
     marketingOptIn: integer("marketing_opt_in", { mode: "boolean" }).notNull().default(false),
     // Vriendenactie: moment waarop Steyn de korting voor de uitnodiger heeft verrekend.
     referralRewardAt: integer("referral_reward_at", { mode: "timestamp" }),
+    // Wachtwoord moet om de 8 weken vernieuwd worden (src/lib/totp.ts). Leeg = sinds het aanmaken van het account.
+    passwordChangedAt: integer("password_changed_at", { mode: "timestamp" }),
+    // Tweestapsverificatie met een authenticator-app: geheim, moment van instellen en laatst gebruikte tijdstap.
+    totpSecret: text("totp_secret"),
+    totpEnabledAt: integer("totp_enabled_at", { mode: "timestamp" }),
+    totpLastStep: integer("totp_last_step"),
     createdAt: createdAt(),
   },
   (t) => [
@@ -49,6 +55,40 @@ export const sessions = sqliteTable(
     createdAt: createdAt(),
   },
   (t) => [index("sessions_user_idx").on(t.userId)],
+);
+
+// Tussenstap bij het inloggen: wachtwoord klopt, de code uit de authenticator-app nog niet ingevuld.
+export const loginChallenges = sqliteTable(
+  "login_challenges",
+  {
+    // SHA-256 hash van het token in de cookie.
+    id: text("id").primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    next: text("next").notNull().default("/account"),
+    // Nieuw geheim zolang de tweestapsverificatie nog wordt ingesteld.
+    pendingSecret: text("pending_secret"),
+    attempts: integer("attempts").notNull().default(0),
+    expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+    createdAt: createdAt(),
+  },
+  (t) => [index("login_challenges_user_idx").on(t.userId)],
+);
+
+// Eenmalige herstelcodes voor als de telefoon met de app kwijt is (alleen de hash wordt bewaard).
+export const recoveryCodes = sqliteTable(
+  "recovery_codes",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    codeHash: text("code_hash").notNull(),
+    usedAt: integer("used_at", { mode: "timestamp" }),
+    createdAt: createdAt(),
+  },
+  (t) => [index("recovery_codes_user_idx").on(t.userId)],
 );
 
 export const checkIns = sqliteTable(
