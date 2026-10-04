@@ -47,7 +47,7 @@ export default function OverSteynPage() {
             </p>
             <p>
               Ik geef persoonlijke trainingen, maak voedingsplannen op maat, begeleid sporters naar specifieke doelen en geef
-              ademcoaching in groepsverband. Samen werken we aan jouw doelen: binnen, buiten, in de gym, thuis, op kantoor of
+              ademcoaching, 1-op-1 en in groepsverband. Samen werken we aan jouw doelen: binnen, buiten, in de gym, thuis, op kantoor of
               online.
             </p>
             <p>

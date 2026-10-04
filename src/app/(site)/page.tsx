@@ -52,7 +52,7 @@ const services = [
     href: "/ademcoaching",
     icon: Wind,
     title: "Ademcoaching",
-    text: "In groepsverband werken aan rust, focus, herstel en energie. Voor teams, bedrijven en vriendengroepen.",
+    text: "1-op-1 of in groepsverband werken aan rust, focus, herstel en energie. Groepssessies voor teams, bedrijven en vriendengroepen op aanvraag.",
   },
   {
     href: "/voedingscoaching",

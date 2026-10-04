@@ -554,7 +554,7 @@ await db.insert(s.contactRequests).values([
     name: "Eva Smit",
     email: "eva.smit@example.com",
     phone: "06 6789 0123",
-    interest: "ademcoaching",
+    interest: "ademcoaching-groep",
     message: "Wij zoeken ademcoaching voor ons team van 12 personen. Kan dat op locatie in Amsterdam-Zuid?",
     createdAt: daysAgo(0),
   },

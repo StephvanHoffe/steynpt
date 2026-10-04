@@ -48,6 +48,27 @@ export type PriceCard = {
   featured?: boolean;
 };
 
+// Ademcoaching: 1-op-1 een vast tarief, groepssessies op aanvraag.
+export const BREATHWORK_SESSION = {
+  minutes: 90,
+  duration: "1,5 uur",
+  price: "210",
+  features: [
+    "Persoonlijke begeleiding door Steyn",
+    "Afgestemd op jouw vraag: stress, slaap, sport of herstel",
+    "Oefeningen om zelf mee verder te gaan",
+    "Geen ervaring nodig",
+  ],
+};
+
+export const BREATHWORK_PRICE: PriceCard = {
+  name: "Ademsessie 1-op-1",
+  label: "Ademcoaching",
+  price: BREATHWORK_SESSION.price,
+  unit: `per sessie van ${BREATHWORK_SESSION.duration}`,
+  features: BREATHWORK_SESSION.features,
+};
+
 export const PT_PRICES: PriceCard[] = [
   {
     name: "Losse training",
@@ -161,7 +182,8 @@ export const INTERESTS = [
   { id: "online-coaching", label: "Online coaching" },
   { id: "personal-training", label: "Personal training (1-op-1)" },
   { id: "topsport", label: "Begeleiding specifiek doel / topsport" },
-  { id: "ademcoaching", label: "Ademcoaching in groepsverband" },
+  { id: "ademcoaching", label: "Ademsessie 1-op-1" },
+  { id: "ademcoaching-groep", label: "Ademcoaching in groepsverband (op aanvraag)" },
   { id: "voedingscoaching", label: "Voedingsbegeleiding" },
 ];
 

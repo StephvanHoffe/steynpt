@@ -13,7 +13,7 @@ Gebouwd met Next.js 16 (App Router), TypeScript, Tailwind CSS 4 en een SQLite/li
 | Home | `/` |
 | Online coaching (uitgelicht, met pakketten) | `/online-coaching` |
 | Personal training + topsport & specifieke doelen | `/personal-training` |
-| Ademcoaching in groepsverband | `/ademcoaching` |
+| Ademcoaching: 1-op-1 (1,5 uur, € 210) en groepssessies op aanvraag | `/ademcoaching` |
 | Voedingscoaching | `/voedingscoaching` |
 | Tarieven (zelfde prijzen als de oude site) | `/tarieven` |
 | Over Steyn | `/over-steyn` |
@@ -142,7 +142,7 @@ In de demo zijn de twee voorbeeldaccounts (inloggen met één klik) uitgezonderd
 
 | Wat | Waar |
 | --- | --- |
-| Prijzen, pakketten, locaties, reviews, menu, aankondigingsbalk | `src/lib/site.ts` |
+| Prijzen (ook ademcoaching), pakketten, locaties, reviews, menu, aankondigingsbalk | `src/lib/site.ts` |
 | Afspraaktypes, duur, locaties en boekingsregels | `src/lib/agenda.ts` |
 | Vriendenactie (kortingen en teksten) | `src/lib/referral-program.ts` |
 | Meetwaarden en grenzen | `src/lib/progress.ts` |
@@ -220,7 +220,6 @@ DEMO_MODE=1 npm run demo:start   # http://localhost:3000
 ## Nog te bevestigen
 
 - **Prijzen online coaching** (Start € 79, Pro € 129, Performance € 199 per maand) zijn een voorstel. Bestaande diensten hebben dezelfde prijzen als de oude site.
-- **Ademcoaching** staat op "tarief op aanvraag".
 - **Vriendenactie** (50% korting voor beide) is een voorstel.
 - **Afspraaktypes, duur en boekingsregels** (12 uur vooraf, afzeggen tot 24 uur, 6 weken vooruit) zijn voorstellen.
 - Online betalen zit er nog niet in. Na een aanmelding plant Steyn een intake en zet het lid daarna in `/admin` op *actief*. Een betaalkoppeling (bijvoorbeeld Mollie) kan later worden toegevoegd.

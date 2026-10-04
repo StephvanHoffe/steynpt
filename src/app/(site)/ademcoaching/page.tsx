@@ -1,14 +1,14 @@
-import { ArrowRight, Battery, Brain, Building2, Moon, Trophy, Users, Wind } from "lucide-react";
+import { ArrowRight, Battery, Brain, Building2, Clock, Moon, Trophy, User, Users } from "lucide-react";
 import type { Metadata } from "next";
 import { CtaBand } from "@/components/CtaBand";
 import { Faq } from "@/components/Faq";
 import { PageHero } from "@/components/PageHero";
 import { ButtonLink, CheckList, SectionHeading } from "@/components/ui";
+import { BREATHWORK_SESSION } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Ademcoaching in groepsverband",
-  description:
-    "Ademcoaching in groepsverband door Steyn van Leeuwen. Voor bedrijven, sportteams en vriendengroepen: minder stress, betere focus, beter herstel en meer energie.",
+  title: "Ademcoaching 1-op-1 en in groepsverband",
+  description: `Ademcoaching door Steyn van Leeuwen in Amsterdam: een 1-op-1 ademsessie van ${BREATHWORK_SESSION.duration} voor € ${BREATHWORK_SESSION.price}, of een groepssessie op aanvraag voor bedrijven, sportteams en vriendengroepen.`,
 };
 
 const benefits = [
@@ -26,8 +26,12 @@ const groups = [
 
 const faq = [
   {
-    q: "Hoe groot kan een groep zijn?",
-    a: "Een sessie werkt het best met kleine tot middelgrote groepen. Neem contact op, dan stemmen we de opzet af op jullie groepsgrootte en locatie.",
+    q: "Hoe lang duurt een 1-op-1 ademsessie en wat kost het?",
+    a: `Een 1-op-1 ademsessie duurt ${BREATHWORK_SESSION.duration} en kost € ${BREATHWORK_SESSION.price},-. In die tijd is er ruimte voor uitleg, oefenen en een langere begeleide ademsessie.`,
+  },
+  {
+    q: "Hoe werkt een groepssessie?",
+    a: "Groepssessies zijn op aanvraag. Neem contact op, dan stemmen we de opzet, duur en prijs af op jullie groepsgrootte en locatie. Een sessie werkt het best met kleine tot middelgrote groepen.",
   },
   {
     q: "Heb ik ervaring nodig?",
@@ -47,18 +51,21 @@ export default function AdemcoachingPage() {
   return (
     <>
       <PageHero
-        eyebrow="Ademcoaching in groepsverband"
+        eyebrow="Ademcoaching 1-op-1 en in groepsverband"
         title={
           <>
             Adem in. <span className="text-accent">Kom tot rust.</span> Presteer beter.
           </>
         }
-        intro="Je ademhaling is het krachtigste gereedschap dat je altijd bij je hebt. In een begeleide groepssessie leer je hoe je met je adem stress verlaagt, je focus vergroot en sneller herstelt."
+        intro={`Je ademhaling is het krachtigste gereedschap dat je altijd bij je hebt. In een persoonlijke ademsessie van ${BREATHWORK_SESSION.duration} leer je hoe je met je adem stress verlaagt, je focus vergroot en sneller herstelt. Met je team of groep kan het ook: groepssessies zijn op aanvraag.`}
         image="/images/steyn-team-gym.jpg"
         imageAlt="Steyn met sporters in de studio"
       >
-        <ButtonLink href="/contact">
-          Vraag een groepssessie aan <ArrowRight className="size-4" aria-hidden="true" />
+        <ButtonLink href="/contact?onderwerp=ademcoaching">
+          Plan een ademsessie <ArrowRight className="size-4" aria-hidden="true" />
+        </ButtonLink>
+        <ButtonLink href="/contact?onderwerp=ademcoaching-groep" variant="outline">
+          Groepssessie aanvragen
         </ButtonLink>
       </PageHero>
 
@@ -82,14 +89,62 @@ export default function AdemcoachingPage() {
       </section>
 
       <section className="bg-surface py-20 lg:py-28">
-        <div className="container-site grid gap-14 lg:grid-cols-2">
-          <div>
-            <SectionHeading eyebrow="Een sessie" title="Zo ziet een groepssessie eruit" />
-            <ol className="mt-10 space-y-6">
+        <div className="container-site">
+          <SectionHeading eyebrow="Twee vormen" title="1-op-1 of met je groep" />
+          <div className="mt-12 grid gap-5 lg:grid-cols-2">
+            <article className="flex flex-col rounded-xl border border-ink bg-white p-7 ring-1 ring-ink sm:p-9">
+              <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-accent">
+                <User className="size-4" aria-hidden="true" /> 1-op-1
+              </p>
+              <h3 className="display mt-2 text-3xl">Ademsessie 1-op-1</h3>
+              <p className="mt-6 flex items-baseline gap-1">
+                <span className="text-lg font-semibold">€</span>
+                <span className="display text-6xl">{BREATHWORK_SESSION.price}</span>
+                <span className="text-lg font-semibold text-muted">,-</span>
+                <span className="ml-1 text-sm text-muted">per sessie</span>
+              </p>
+              <p className="mt-2 flex items-center gap-2 text-sm font-medium">
+                <Clock className="size-4 text-accent" aria-hidden="true" /> {BREATHWORK_SESSION.duration}
+              </p>
+              <div className="mt-6 flex-1">
+                <CheckList items={BREATHWORK_SESSION.features} />
+              </div>
+              <ButtonLink href="/contact?onderwerp=ademcoaching" variant="ink" className="mt-8">
+                Plan een ademsessie
+              </ButtonLink>
+            </article>
+
+            <article className="flex flex-col rounded-xl border border-line bg-white p-7 sm:p-9">
+              <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+                <Users className="size-4" aria-hidden="true" /> In groepsverband
+              </p>
+              <h3 className="display mt-2 text-3xl">Groepssessie</h3>
+              <p className="display mt-6 text-4xl">Op aanvraag</p>
+              <p className="mt-2 text-sm text-muted">Opzet, duur en tarief stemmen we af op jullie groepsgrootte en locatie.</p>
+              <ul className="mt-6 grid flex-1 content-start gap-4">
+                {groups.map(({ icon: Icon, title, text }) => (
+                  <li key={title} className="flex gap-4">
+                    <Icon className="size-6 shrink-0 text-accent" aria-hidden="true" />
+                    <span>
+                      <span className="block font-semibold">{title}</span>
+                      <span className="mt-0.5 block text-sm text-muted">{text}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <ButtonLink href="/contact?onderwerp=ademcoaching-groep" variant="outline" className="mt-8">
+                Vraag een groepssessie aan
+              </ButtonLink>
+            </article>
+          </div>
+
+          <div className="mt-16 max-w-3xl">
+            <h3 className="display text-2xl">Zo ziet een sessie eruit</h3>
+            <ol className="mt-8 grid gap-6 sm:grid-cols-2">
               {[
                 ["Uitleg", "Wat gebeurt er in je lichaam als je ademt, en waarom werkt dit?"],
                 ["Oefenen", "Basistechnieken voor ontspanning, focus en energie die je overal kunt toepassen."],
-                ["Begeleide ademsessie", "Een langere sessie waarin Steyn de groep stap voor stap begeleidt."],
+                ["Begeleide ademsessie", "Een langere sessie waarin Steyn je stap voor stap begeleidt."],
                 ["Meenemen", "Je gaat naar huis met concrete oefeningen voor je dagelijks leven of sport."],
               ].map(([title, text], i) => (
                 <li key={title} className="flex gap-5">
@@ -104,23 +159,6 @@ export default function AdemcoachingPage() {
               ))}
             </ol>
           </div>
-          <div className="grid content-start gap-4">
-            {groups.map(({ icon: Icon, title, text }) => (
-              <div key={title} className="card-soft flex gap-5 p-6">
-                <Icon className="size-7 shrink-0 text-accent" aria-hidden="true" />
-                <span>
-                  <span className="block text-lg font-semibold">{title}</span>
-                  <span className="mt-1 block text-muted">{text}</span>
-                </span>
-              </div>
-            ))}
-            <div className="flex items-center gap-4 rounded-xl bg-accent-tint p-6 text-ink">
-              <Wind className="size-8 shrink-0" aria-hidden="true" />
-              <p className="font-semibold">
-                Tarief op aanvraag, afhankelijk van groepsgrootte en locatie.
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -128,17 +166,24 @@ export default function AdemcoachingPage() {
         <div>
           <SectionHeading eyebrow="Veelgestelde vragen" title="Goed om te weten" />
           <div className="mt-8">
-            <CheckList items={["Geen ervaring nodig", "Op locatie, in de studio of buiten", "Voor teams vanaf 3 personen"]} />
+            <CheckList
+              items={[
+                `1-op-1: ${BREATHWORK_SESSION.duration} voor € ${BREATHWORK_SESSION.price},-`,
+                "Groepssessies op aanvraag, vanaf 3 personen",
+                "Geen ervaring nodig",
+                "Op locatie, in de studio of buiten",
+              ]}
+            />
           </div>
         </div>
         <Faq items={faq} />
       </section>
 
       <CtaBand
-        title="Plan een sessie voor je groep"
-        text="Vertel ons over je team of groep, dan stellen we een sessie op maat voor."
-        primary={{ href: "/contact", label: "Vraag een sessie aan" }}
-        secondary={{ href: "/online-coaching", label: "Bekijk online coaching" }}
+        title="Plan je ademsessie"
+        text="Kom voor een persoonlijke sessie, of vertel ons over je team of groep, dan stellen we een groepssessie op maat voor."
+        primary={{ href: "/contact?onderwerp=ademcoaching", label: "Plan een 1-op-1 sessie" }}
+        secondary={{ href: "/contact?onderwerp=ademcoaching-groep", label: "Groepssessie aanvragen" }}
       />
     </>
   );
