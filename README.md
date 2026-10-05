@@ -206,7 +206,7 @@ Zet je e-mailadres in `ADMIN_EMAILS` (komma-gescheiden voor meerdere). Wie zich 
 
 De site heeft een Node.js-server en een database nodig.
 
-- **Eigen server of VPS** (bijvoorbeeld met een persistente schijf): `npm ci && npm run db:migrate && npm run build && npm start`. De SQLite-database staat in `data/`; maak daar back-ups van.
+- **Vimexx (of een andere VPS)**: volg het stappenplan in [docs/live-zetten-vimexx.md](docs/live-zetten-vimexx.md). De gewone webhosting van Vimexx kan geen Node.js draaien; de site komt op een VPS met Caddy (HTTPS), een systemd-service, dagelijkse back-ups (`npm run db:backup`) en een deploy-script dat bij een fout automatisch de vorige versie terugzet (`deploy/`).
 - **Vercel of andere serverless hosting**: gebruik een [Turso](https://turso.tech)-database. Zet `DATABASE_URL=libsql://…` en `DATABASE_AUTH_TOKEN`, en draai `npm run db:migrate` één keer tegen die database.
 
 Zet `NEXT_PUBLIC_SITE_URL` op het echte domein, zodat de uitnodigingslinks kloppen. Draai na elke update `npm run db:migrate`. De laatste migratie voegt de tweestapsverificatie toe: iedereen, ook Steyn, koppelt bij de eerstvolgende keer inloggen een authenticator-app.

@@ -1,0 +1,20 @@
+# Systemd-service voor de site: start bij het opstarten van de server en herstart na een fout.
+# Installeren: sudo cp deploy/steynpt.service /etc/systemd/system/ && sudo systemctl enable steynpt
+# Logboek bekijken: journalctl -u steynpt -f
+[Unit]
+Description=SteynPT website (Next.js)
+After=network.target
+
+[Service]
+Type=simple
+User=steynpt
+Group=steynpt
+# 'current' wijst naar de versie die live staat (zie deploy/deploy.sh). De instellingen staan in .env in die map.
+WorkingDirectory=/srv/steynpt/current
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node node_modules/next/dist/bin/next start -H 127.0.0.1 -p 3000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

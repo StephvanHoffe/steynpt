@@ -1,0 +1,19 @@
+# Caddy: webserver voor de site. Regelt automatisch het HTTPS-certificaat (Let's Encrypt) en stuurt
+# bezoekers door naar de site op poort 3000. Installeren: sudo cp deploy/Caddyfile /etc/caddy/Caddyfile
+# en daarna: sudo systemctl reload caddy
+#
+# Eerst testen op een los adres? Zet tijdelijk 'nieuw.steynpt.nl' in plaats van de twee blokken hieronder:
+#   nieuw.steynpt.nl {
+#   	encode zstd gzip
+#   	reverse_proxy 127.0.0.1:3000
+#   }
+
+www.steynpt.nl {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:3000
+}
+
+# Zonder www: doorsturen naar www, zodat alle links en uitnodigingen hetzelfde adres gebruiken.
+steynpt.nl {
+	redir https://www.steynpt.nl{uri} permanent
+}
