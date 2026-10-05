@@ -104,6 +104,17 @@ final class Texts
         ], self::get('pakketten')['pt']['cards']);
     }
 
+    /** Adres van een agendalocatie; voor Gymbase het adres uit Website-teksten (Op elke pagina › Locatie). */
+    public static function agendaAddress(array $location): string
+    {
+        if ($location['id'] !== 'gymbase') {
+            return $location['address'];
+        }
+        $locatie = self::get('algemeen')['locatie'];
+
+        return "{$locatie['street']}, {$locatie['city']}";
+    }
+
     public static function breathworkPrice(): array
     {
         $adem = self::get('pakketten')['adem'];

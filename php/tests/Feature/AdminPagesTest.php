@@ -120,6 +120,19 @@ class AdminPagesTest extends TestCase
         $this->actingAs($admin)->get('/admin/aanvragen?toon=afgehandeld')->assertOk()->assertSee('Nog niets afgehandeld.');
     }
 
+    public function test_oude_aanvragen_worden_na_12_maanden_verwijderd(): void
+    {
+        $oud = ContactRequest::query()->create(['name' => 'Oud', 'email' => 'oud@example.com', 'interest' => 'personal-training']);
+        $oud->forceFill(['created_at' => now()->subMonths(12)->subDay()])->save();
+        $recent = ContactRequest::query()->create(['name' => 'Recent', 'email' => 'recent@example.com', 'interest' => 'personal-training']);
+        $recent->forceFill(['created_at' => now()->subMonths(11)])->save();
+
+        $this->artisan('model:prune', ['--model' => [ContactRequest::class]])->assertSuccessful();
+
+        $this->assertModelMissing($oud);
+        $this->assertModelExists($recent);
+    }
+
     public function test_agenda_in_alle_weergaven(): void
     {
         $admin = $this->admin();

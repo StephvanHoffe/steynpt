@@ -41,7 +41,7 @@ final class Contact
                             ['max' => 500],
                         ),
                         'tipTitle' => F::line('Tip: vetgedrukt begin', 'Wist je dat', ['max' => 40]),
-                        'tipText' => F::line('Tip: tekst', 'SteynPT ook trainingen op locatie aanbiedt?', ['max' => 160, 'hint' => "Daarna volgt automatisch de tekst 'op locatie' van 'Op elke pagina'."]),
+                        'tipText' => F::line('Tip: tekst', 'SteynPT ook buiten de gym traint?', ['max' => 160, 'hint' => "Daarna volgt automatisch de tekst 'op locatie' van 'Op elke pagina'."]),
                     ],
                     "Adres, reactietijd en Instagram pas je aan onder 'Op elke pagina'.",
                 ),

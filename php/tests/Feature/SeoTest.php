@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\SiteText;
+use App\Site\Texts;
+use App\Support\Agenda;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -29,7 +31,7 @@ class SeoTest extends TestCase
         $html = $this->get('/contact?onderwerp=ademcoaching')->assertOk()
             ->assertSee('<link rel="canonical" href="https://www.steynpt.nl/contact">', false)
             ->assertSee('Contact en gratis kennismaking bij Gymbase in Amsterdam · SteynPT')
-            ->assertSee('Op 3 minuten lopen van het Vondelpark')
+            ->assertSee('Op drie minuten lopen van het Vondelpark')
             ->getContent();
         $graph = collect($this->jsonLd($html)['@graph']);
         $business = $graph->firstWhere('@type', 'LocalBusiness');
@@ -88,5 +90,23 @@ class SeoTest extends TestCase
             $this->get($path)->assertStatus(410)->assertSee('Deze pagina bestaat niet meer');
         }
         $this->get('/shopping')->assertNotFound();
+    }
+
+    public function test_foutpaginas_in_het_nederlands(): void
+    {
+        $this->assertStringContainsString('Te veel pogingen', view('errors.429')->render());
+        $this->assertStringContainsString('Er ging iets mis', view('errors.500')->render());
+        $this->assertStringContainsString('Even onderhoud', view('errors.503')->render());
+
+        // 500 en 503 tonen geen kop en footer: die lezen uit de database, en die kan juist de oorzaak zijn.
+        $this->assertStringNotContainsString('<footer', view('errors.500')->render());
+    }
+
+    public function test_agenda_gebruikt_het_adres_uit_website_teksten(): void
+    {
+        SiteText::query()->create(['key' => 'algemeen.locatie.street', 'value' => json_encode('Kinkerstraat 1'), 'updated_at' => now()]);
+
+        $this->assertSame('Kinkerstraat 1, 1054 JN Amsterdam', Texts::agendaAddress(Agenda::getAgendaLocation('gymbase')));
+        $this->assertSame('Locatie in overleg', Texts::agendaAddress(Agenda::getAgendaLocation('op-locatie')));
     }
 }

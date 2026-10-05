@@ -28,7 +28,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/inloggen">
       intro={<p>Log in voor je afspraken, schema&apos;s, voortgang en check-ins.</p>}
       aside={{
         title: "Blijf in beweging",
-        items: ["Plan je volgende training in de agenda", "Bekijk je voortgang en de feedback van Steyn", "Nodig een vriend uit en krijg samen 50% korting"],
+        items: ["Plan je volgende training in de agenda", "Bekijk je voortgang en de feedback van Steyn", "Nodig een vriend uit en krijg samen korting"],
       }}
     >
       {DEMO_MODE && (

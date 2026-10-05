@@ -46,11 +46,15 @@ final class Privacy
                         ['title' => F::line('Kop', '', ['max' => 100]), 'body' => F::text('Tekst', '', ['max' => 4000, 'paragraphs' => true])],
                         [
                             [
+                                'title' => 'Wie zijn wij?',
+                                'body' => 'SteynPT is de onderneming van Steyn van Leeuwen, personal trainer in Amsterdam. SteynPT is verantwoordelijk voor de verwerking van je persoonsgegevens zoals beschreven in deze verklaring. Heb je een vraag over je privacy of wil je een verzoek doen? Neem contact op via het contactformulier op deze website.',
+                            ],
+                            [
                                 'title' => 'Welke gegevens verwerken we?',
                                 'body' => implode("\n\n", [
                                     'Contactaanvragen: je naam, e-mailadres, (optioneel) telefoonnummer, je interesse en je bericht.',
-                                    'Account: je naam, e-mailadres, telefoonnummer, doel, gekozen pakket en wie je hebt uitgenodigd (vriendenactie).',
-                                    'Afspraken: type, datum, tijd, locatie en je eventuele opmerking. Steyn zet deze afspraken via een beveiligde, geheime link in zijn eigen agenda (bijvoorbeeld Google of Apple Agenda).',
+                                    'Account: je naam, e-mailadres, telefoonnummer, doel, gekozen pakket, door wie je bent uitgenodigd en wie jij hebt uitgenodigd (vriendenactie).',
+                                    'Afspraken: type, datum, tijd, locatie en je eventuele opmerking. Steyn zet deze afspraken, met je naam en contactgegevens, via een beveiligde, geheime link in zijn eigen agenda (bijvoorbeeld Google of Apple Agenda).',
                                     'Metingen: gewicht, vetpercentage, spiermassa en omtrekmaten die Steyn met je bijhoudt. Dit zijn gezondheidsgegevens; je ziet ze zelf in Mijn omgeving.',
                                     'Check-ins: je wekelijkse scores voor energie, slaap en voeding, aantal trainingen, eventueel je gewicht en opmerkingen. Dit zijn gezondheidsgegevens; we verwerken ze alleen met jouw uitdrukkelijke toestemming en uitsluitend voor je coaching.',
                                     'Intake: je doel, geslacht, geboortejaar, lengte, gewicht, activiteit, trainingservaring en -wensen, blessures, eetstijl, allergieën en eventuele medische aandachtspunten. Ook dit zijn gezondheidsgegevens; we gebruiken ze alleen met jouw uitdrukkelijke toestemming en alleen om je trainings- en voedingsschema te maken.',
@@ -74,7 +78,7 @@ final class Privacy
                             ],
                             [
                                 'title' => 'Delen met anderen',
-                                'body' => 'We verkopen je gegevens nooit. We delen ze alleen met partijen die nodig zijn om de website en je coaching te laten werken (zoals hosting en de AI-dienst hierboven), onder passende afspraken.',
+                                'body' => 'We verkopen je gegevens nooit. We delen ze alleen met partijen die nodig zijn om de website en je coaching te laten werken (zoals de hosting, de AI-dienst hierboven en de agenda-app van Steyn), onder passende afspraken.',
                             ],
                             [
                                 'title' => 'Beveiliging',

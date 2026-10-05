@@ -5,7 +5,7 @@ import { PasswordReminder } from "@/components/PasswordReminder";
 import { getCurrentUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
-  title: "Mijn account",
+  title: "Mijn omgeving",
   robots: { index: false },
 };
 

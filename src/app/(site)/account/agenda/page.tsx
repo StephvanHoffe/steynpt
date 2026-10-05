@@ -110,10 +110,11 @@ export default async function AgendaPage({ searchParams }: PageProps<"/account/a
         {type && locations.length === 0 && (
           <p className="flex gap-2 rounded-lg bg-surface p-4 text-sm">
             <Info className="size-5 shrink-0" aria-hidden="true" />
-            Er zijn op dit moment geen tijden beschikbaar voor {type.label.toLowerCase()}.{" "}
+            Er zijn op dit moment geen tijden beschikbaar voor dit soort afspraak.{" "}
             <Link href="/contact" className="font-semibold underline">
               Neem contact op
             </Link>
+            .
           </p>
         )}
 

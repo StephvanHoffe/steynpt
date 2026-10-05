@@ -44,7 +44,7 @@ class AccountTest extends TestCase
 
         $this->actingAs($user)->get('/account?welkom=1')->assertOk()
             ->assertSee('Welkom bij SteynPT, Lisa!')
-            ->assertSee('Online coaching Pro')
+            ->assertSee('online coaching Pro')
             ->assertSee('Vul je intake in voor je persoonlijke schema')
             ->assertSee('78,6')
             ->assertSee('-1,6 kg sinds', false)

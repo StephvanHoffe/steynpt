@@ -31,14 +31,14 @@ final class Agenda
             'label' => 'Personal training',
             'minutes' => 60,
             'locations' => ['gymbase', 'op-locatie'],
-            'description' => '1-op-1 training van 60 minuten.',
+            'description' => '1-op-1-training van 60 minuten.',
         ],
         [
             'id' => 'kennismaking',
             'label' => 'Gratis kennismaking',
             'minutes' => 30,
             'locations' => ['gymbase', 'online'],
-            'description' => 'Kennismaken, je doelen bespreken en een rondleiding.',
+            'description' => 'Kennismaken en je doelen bespreken (bij Gymbase met rondleiding).',
             'maxUpcoming' => 1,
         ],
         [

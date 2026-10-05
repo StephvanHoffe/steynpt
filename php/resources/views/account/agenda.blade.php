@@ -57,7 +57,7 @@
       @if ($type && count($locations) === 0)
         <p class="flex gap-2 rounded-lg bg-surface p-4 text-sm">
           <x-icon name="Info" class="size-5 shrink-0" />
-          Er zijn op dit moment geen tijden beschikbaar voor {{ mb_strtolower($type['label']) }}. <a href="/contact" class="font-semibold underline">Neem contact op</a>
+          Er zijn op dit moment geen tijden beschikbaar voor dit soort afspraak. <a href="/contact" class="font-semibold underline">Neem contact op</a>.
         </p>
       @endif
 
@@ -115,7 +115,7 @@
               <x-form.submit class="btn btn-primary justify-self-start" pending-text="Bezig met boeken…">Afspraak bevestigen</x-form.submit>
             </form>
           @endif
-          <p class="mt-4 text-xs text-muted">{{ $loc['label'] }}: {{ $loc['address'] }}. Afzeggen kan tot {{ Agenda::BOOKING_RULES['cancelUntilHours'] }} uur van tevoren.</p>
+          <p class="mt-4 text-xs text-muted">{{ $loc['label'] }}: {{ \App\Site\Texts::agendaAddress($loc) }}. Afzeggen kan tot {{ Agenda::BOOKING_RULES['cancelUntilHours'] }} uur van tevoren.</p>
         </x-agenda.step>
       @endif
     </section>

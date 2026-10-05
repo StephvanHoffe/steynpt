@@ -116,8 +116,8 @@ final class ContentTest extends TestCase
     {
         $vars = self::defaultVars();
         $filled = Markup::fillVars(self::defaults(Ademcoaching::page()), $vars);
-        $this->assertSame('1-op-1: 1,5 uur voor € 210,-', $filled['faq']['points'][0]);
-        $this->assertMatchesRegularExpression('/duurt 1,5 uur en kost € 210,-/u', $filled['faq']['questions'][0]['a']);
+        $this->assertSame('1-op-1: 1,5 uur voor € 210', $filled['faq']['points'][0]);
+        $this->assertMatchesRegularExpression('/duurt 1,5 uur en kost € 210/u', $filled['faq']['questions'][0]['a']);
         $this->assertSame('{onbekend} blijft', Markup::fillText('{onbekend} blijft', $vars));
         $this->assertSame(['a', 'b'], Markup::placeholdersIn('{a} {b} {a} {Geen}'));
     }

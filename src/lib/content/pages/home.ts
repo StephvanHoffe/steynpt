@@ -14,7 +14,7 @@ export const home = definePage({
       title: title("Titel", "Sterker lichaam.\n*Gezonder* leven.", { max: 80 }),
       intro: text(
         "Introductie",
-        "Ik ben Steyn van Leeuwen, personal trainer en orthomoleculair voedingscoach. Ik help je aan een gezondere leefstijl, begeleid je 1-op-1 naar je specifieke doel en coach sporters naar hun beste prestatie. Vanaf nu ook online, waar je ook bent.",
+        "Ik ben Steyn van Leeuwen, personal trainer en orthomoleculair voedingstherapeut. Ik help je aan een gezondere leefstijl, begeleid je 1-op-1 naar je specifieke doel en coach sporters naar hun beste prestatie. Vanaf nu ook online, waar je ook bent.",
         { max: 500 },
       ),
       primary: line("Eerste knop", "Start online coaching", { max: 40 }),
@@ -25,14 +25,14 @@ export const home = definePage({
         { value: line("Groot", "", { max: 12 }), label: line("Klein eronder", "", { max: 40 }) },
         [
           { value: "1-op-1", label: "persoonlijke aandacht" },
-          { value: "Online", label: "overal coaching" },
-          { value: "24 uur", label: "en Steyn neemt contact op" },
+          { value: "Online", label: "waar je ook bent" },
+          { value: "24 uur", label: "reactietijd" },
           { value: "100%", label: "inzet voor jouw doel" },
         ],
         { fixed: true },
       ),
       badgeLabel: line("Kaartje op de foto: kleine kop", "Nieuw", { max: 20 }),
-      badgeText: line("Kaartje op de foto: tekst", "Online coaching vanaf € {online-vanaf} p/m", { max: 60 }),
+      badgeText: line("Kaartje op de foto: tekst", "Online coaching vanaf € {online-vanaf} per maand", { max: 60 }),
     }),
     diensten: section("Balk met diensten", {
       list: list("Diensten", ["Personal training", "Online coaching", "Ademcoaching", "Voedingscoaching", "Topsport", "Leefstijl"], {
@@ -78,7 +78,7 @@ export const home = definePage({
         card,
         [
           { title: "Online coaching", text: "Schema, voedingsplan en wekelijkse check-ins in je eigen dashboard. Train waar en wanneer jij wilt." },
-          { title: "Personal training", text: "1-op-1 training voor een gezondere leefstijl. Ongeacht jouw doel of sport: SteynPT gaat er 100% voor." },
+          { title: "Personal training", text: "1-op-1-training voor een gezondere leefstijl. Ongeacht jouw doel of sport: SteynPT gaat er 100% voor." },
           { title: "Topsport & specifieke doelen", text: "Sportspecifieke begeleiding, periodisering en blessurepreventie voor sporters die meer willen." },
           {
             title: "Ademcoaching",
@@ -90,7 +90,7 @@ export const home = definePage({
       ),
       onlinePoints: list(
         "Punten bij online coaching",
-        ["Trainings- en voedingsschema op maat", "Wekelijkse check-in met feedback van Steyn", "Afspraken en voortgang in je dashboard", "Vanaf € {online-vanaf} per maand"],
+        ["Trainings- en voedingsschema op maat", "Wekelijkse check-in en maandelijkse evaluatie", "Afspraken en voortgang in je dashboard", "Vanaf € {online-vanaf} per maand"],
         { max: 6, hint: "Eén per regel. Staan in de grote kaart van online coaching." },
       ),
       badge: line("Label op de grote kaart", "Nieuw", { max: 20 }),
@@ -101,7 +101,7 @@ export const home = definePage({
       title: title("Titel", "Hallo, ik ben Steyn van Leeuwen", { max: 100 }),
       intro: text(
         "Introductie",
-        "Full-time personal trainer en voedingscoach, geboren in Hoevelaken en werkzaam in Amsterdam. Door een beginnende hernia van het hockeyen ontdekte ik krachttraining. Daar vond ik mijn passie, en de motivatie om de onduidelijkheid in de fitnesswereld te doorbreken.",
+        "Fulltime personal trainer en voedingscoach, geboren in Hoevelaken en werkzaam in Amsterdam. Door een beginnende hernia van het hockeyen ontdekte ik krachttraining. Daar vond ik mijn passie, en de motivatie om duidelijkheid te brengen in de fitnesswereld.",
         { max: 600 },
       ),
       cardTitle: line("Kaartje op de foto: groot", "15 jaar", { max: 20 }),
@@ -111,13 +111,13 @@ export const home = definePage({
     werkwijze: section("Werkwijze", {
       eyebrow: line("Kleine kop", "Werkwijze", { max: 60 }),
       title: title("Titel", "Van intake tot resultaat", { max: 100 }),
-      intro: text("Introductie", "Of je nu in de gym traint of online: iedere samenwerking volgt dezelfde bewezen aanpak.", { max: 400 }),
+      intro: text("Introductie", "Of je nu in de gym traint of online: iedere samenwerking begint met een intake en een plan op maat.", { max: 400 }),
     }, "De stappen zelf pas je aan onder 'Op elke pagina'."),
     vriendenactie: section("Vriendenactie", {
       eyebrow: line("Kleine kop", "Vriendenactie", { max: 60 }),
-      title: title("Titel", "Breng een vriend mee. *{actie}*", { max: 100 }),
+      title: title("Titel", "Breng een vriend mee. *{actie}.*", { max: 100 }),
       intro: text("Introductie", "Nodig een vriend uit voor online coaching. Je vriend krijgt {vriendkorting}; jij krijgt {jouwkorting} zodra je vriend start.", { max: 400 }),
-      primary: line("Eerste knop", "Maak gratis account", { max: 40 }),
+      primary: line("Eerste knop", "Maak een gratis account aan", { max: 40 }),
       secondary: line("Tweede knop", "Zo werkt het", { max: 40 }),
     }),
     reviews: section("Reviews", {

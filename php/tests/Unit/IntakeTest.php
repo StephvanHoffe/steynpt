@@ -82,20 +82,20 @@ class IntakeTest extends TestCase
         [$data, $errors] = Intake::validate([...self::base(), 'wants' => [], 'birthYear' => 2020, 'trainingDays' => 9]);
         $this->assertNull($data);
         $this->assertNotEmpty($errors);
-        $this->assertSame(['wants' => 'Kies minimaal één schema', 'birthYear' => 'Je moet minimaal 14 jaar zijn', 'trainingDays' => 'Kies hoe vaak je traint'], self::errors(['wants' => [], 'birthYear' => 2020, 'trainingDays' => 9]));
+        $this->assertSame(['wants' => 'Kies minimaal één schema', 'birthYear' => 'Je moet minimaal 14 jaar zijn', 'trainingDays' => 'Kies hoe vaak je per week wilt trainen'], self::errors(['wants' => [], 'birthYear' => 2020, 'trainingDays' => 9]));
     }
 
     public function test_intake_meldingen_per_veld_zoals_zod(): void
     {
         $this->assertSame([
-            'wants' => 'Invalid input: expected array, received undefined',
+            'wants' => 'Maak een geldige keuze',
             'goal' => 'Kies je belangrijkste doel',
             'sex' => 'Maak een keuze',
             'birthYear' => 'Vul je geboortejaar in',
             'heightCm' => 'Vul je lengte in',
             'weightKg' => 'Vul je gewicht in',
             'experience' => 'Kies je ervaring',
-            'trainingDays' => 'Kies hoe vaak je traint',
+            'trainingDays' => 'Kies hoe vaak je per week wilt trainen',
             'sessionMinutes' => 'Kies hoe lang een training mag duren',
             'location' => 'Kies waar je traint',
             'activityLevel' => 'Kies hoe actief je dagelijks bent',
@@ -118,22 +118,22 @@ class IntakeTest extends TestCase
         $this->assertSame('Vul je lengte in', self::errors(['heightCm' => '170,0'])['heightCm'], 'lengte kent geen komma');
         $this->assertSame('Vul je gewicht in', self::errors(['weightKg' => '1,2,3'])['weightKg']);
         $this->assertSame('Vul een geldig gewicht in', self::errors(['weightKg' => '10'])['weightKg']);
-        $this->assertSame('Too small: expected number to be >=35', self::errors(['targetWeightKg' => '10'])['targetWeightKg']);
-        $this->assertSame('Too small: expected number to be >=35', self::errors(['targetWeightKg' => ' '])['targetWeightKg']);
-        $this->assertSame('Too big: expected number to be <=300', self::errors(['targetWeightKg' => '400'])['targetWeightKg']);
+        $this->assertSame('Vul een geldig streefgewicht in', self::errors(['targetWeightKg' => '10'])['targetWeightKg']);
+        $this->assertSame('Vul een geldig streefgewicht in', self::errors(['targetWeightKg' => ' '])['targetWeightKg']);
+        $this->assertSame('Vul een geldig streefgewicht in', self::errors(['targetWeightKg' => '400'])['targetWeightKg']);
         $this->assertSame('Vul een geldig streefgewicht in', self::errors(['targetWeightKg' => 'abc'])['targetWeightKg']);
-        $this->assertSame('Kies hoe vaak je traint', self::errors(['trainingDays' => '2.5'])['trainingDays']);
+        $this->assertSame('Kies hoe vaak je per week wilt trainen', self::errors(['trainingDays' => '2.5'])['trainingDays']);
         $this->assertSame('Kies hoe lang een training mag duren', self::errors(['sessionMinutes' => '50'])['sessionMinutes']);
         $this->assertSame([], self::errors(['sessionMinutes' => ' 45 ']));
         $this->assertSame('Kies het aantal eetmomenten', self::errors(['mealsPerDay' => '7'])['mealsPerDay']);
         $this->assertSame('Maximaal 200 tekens', self::errors(['sport' => str_repeat('x', 201)])['sport']);
         $this->assertSame([], self::errors(['sport' => str_repeat('😀', 200)]), 'lengte in tekens');
-        $this->assertSame('Invalid input: expected string, received number', self::errors(['equipment' => 5])['equipment']);
-        $this->assertSame('Invalid input: expected string, received null', self::errors(['goalDetails' => null])['goalDetails']);
-        $this->assertSame('Invalid input: expected array, received string', self::errors(['wants' => 'training'])['wants']);
-        $this->assertSame('Invalid option: expected one of "training"|"voeding"', self::errors(['wants' => ['x', 'training']])['wants']);
-        $this->assertSame('Invalid input: expected array, received null', self::errors(['allergies' => null])['allergies']);
-        $this->assertStringStartsWith('Invalid option: expected one of "gluten"|"melk"|', self::errors(['allergies' => ['noten', 'kaas']])['allergies']);
+        $this->assertSame('Controleer dit veld', self::errors(['equipment' => 5])['equipment']);
+        $this->assertSame('Controleer dit veld', self::errors(['goalDetails' => null])['goalDetails']);
+        $this->assertSame('Maak een geldige keuze', self::errors(['wants' => 'training'])['wants']);
+        $this->assertSame('Maak een geldige keuze', self::errors(['wants' => ['x', 'training']])['wants']);
+        $this->assertSame('Maak een geldige keuze', self::errors(['allergies' => null])['allergies']);
+        $this->assertSame('Maak een geldige keuze', self::errors(['allergies' => ['noten', 'kaas']])['allergies']);
         $this->assertSame('Kies je belangrijkste doel', self::errors(['goal' => 'x'])['goal']);
     }
 

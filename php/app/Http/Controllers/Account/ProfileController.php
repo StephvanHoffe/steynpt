@@ -40,7 +40,10 @@ class ProfileController extends Controller
             'marketing' => ['nullable', 'in:on'],
         ], [
             'firstName.required' => 'Vul je voornaam in',
+            'firstName.max' => 'Je voornaam mag maximaal 60 tekens hebben',
             'lastName.required' => 'Vul je achternaam in',
+            'lastName.max' => 'Je achternaam mag maximaal 80 tekens hebben',
+            'phone.max' => 'Je telefoonnummer mag maximaal 30 tekens hebben',
             'goal.required' => 'Kies je belangrijkste doel',
             'goal.in' => 'Kies je belangrijkste doel',
         ]);

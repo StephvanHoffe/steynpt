@@ -24,7 +24,7 @@ export const ademcoaching = definePage({
       title: title("Titel", "Kleine verandering, groot effect", { max: 100 }),
       intro: text(
         "Introductie",
-        "Ademcoaching sluit naadloos aan op de SteynPT-visie: een gezonde leefstijl draait niet alleen om trainen en voeding, maar ook om rust en herstel.",
+        "Ademcoaching sluit naadloos aan bij de visie van SteynPT: een gezonde leefstijl draait niet alleen om trainen en voeding, maar ook om rust en herstel.",
         { max: 400 },
       ),
       cards: items(
@@ -32,7 +32,7 @@ export const ademcoaching = definePage({
         "Kaart",
         card,
         [
-          { title: "Rust & focus", text: "Leer je zenuwstelsel kalmeren en helder te blijven onder druk." },
+          { title: "Rust & focus", text: "Leer je zenuwstelsel tot rust te brengen en helder te blijven onder druk." },
           { title: "Beter slapen", text: "Ademtechnieken die je helpen ontspannen en dieper herstellen." },
           { title: "Meer energie", text: "Een efficiëntere ademhaling geeft meer energie gedurende de dag." },
           { title: "Sportprestatie", text: "Verbeter je uithoudingsvermogen, herstel tussen inspanningen en concentratie." },
@@ -59,13 +59,13 @@ export const ademcoaching = definePage({
           [
             { title: "Bedrijven", text: "Een vitaliteitssessie op kantoor of tijdens een teamdag. Werkt direct tegen werkstress." },
             { title: "Sportteams", text: "Ademtraining als onderdeel van warming-up, herstel en mentale voorbereiding." },
-            { title: "Vrienden & groepen", text: "Samen iets nieuws ervaren, binnen in de studio of buiten in het park." },
+            { title: "Vrienden & groepen", text: "Samen iets nieuws ervaren, binnen bij Gymbase of buiten in het park." },
           ],
           { fixed: true },
         ),
         groupButton: line("Groep: knop", "Vraag een groepssessie aan", { max: 40 }),
       },
-      "Naam, prijs, duur en inhoud van de 1-op-1 sessie pas je aan onder 'Prijzen en pakketten'.",
+      "Naam, prijs, duur en inhoud van de 1-op-1-sessie pas je aan onder 'Prijzen en pakketten'.",
     ),
     sessie: section("Zo ziet een sessie eruit", {
       title: title("Titel", "Zo ziet een sessie eruit", { max: 100 }),
@@ -87,7 +87,7 @@ export const ademcoaching = definePage({
       title: title("Titel", "Goed om te weten", { max: 100 }),
       points: list(
         "Opsomming",
-        ["1-op-1: {ademduur} voor € {ademprijs},-", "Groepssessies op aanvraag, vanaf 3 personen", "Geen ervaring nodig", "Op locatie, in de studio of buiten"],
+        ["1-op-1: {ademduur} voor € {ademprijs}", "Groepssessies op aanvraag, vanaf 3 personen", "Geen ervaring nodig", "Op locatie, bij Gymbase of buiten"],
         { max: 8, hint: "Eén punt per regel." },
       ),
       questions: items(
@@ -96,8 +96,8 @@ export const ademcoaching = definePage({
         { q: line("Vraag", "", { max: 160 }), a: text("Antwoord", "", { max: 800 }) },
         [
           {
-            q: "Hoe lang duurt een 1-op-1 ademsessie en wat kost het?",
-            a: "Een 1-op-1 ademsessie duurt {ademduur} en kost € {ademprijs},-. In die tijd is er ruimte voor uitleg, oefenen en een langere begeleide ademsessie.",
+            q: "Hoe lang duurt een 1-op-1-ademsessie en wat kost het?",
+            a: "Een 1-op-1-ademsessie duurt {ademduur} en kost € {ademprijs}. In die tijd is er ruimte voor uitleg, oefenen en een langere begeleide ademsessie.",
           },
           {
             q: "Hoe werkt een groepssessie?",
@@ -108,7 +108,7 @@ export const ademcoaching = definePage({
             q: "Is ademcoaching voor iedereen geschikt?",
             a: "Voor de meeste mensen wel. Ben je zwanger, heb je epilepsie, hart- en vaatziekten of andere medische klachten? Meld het vooraf, dan passen we de oefeningen aan of overleggen we eerst met je arts.",
           },
-          { q: "Waar vindt een sessie plaats?", a: "Bij Gymbase in Amsterdam, bij jullie op kantoor of buiten. Zo lang er rustig ruimte is om te liggen of te zitten." },
+          { q: "Waar vindt een sessie plaats?", a: "Bij Gymbase in Amsterdam, bij jullie op kantoor of buiten, zolang er een rustige plek is om te liggen of te zitten." },
         ],
         { min: 1, max: 15 },
       ),
@@ -116,12 +116,12 @@ export const ademcoaching = definePage({
     afsluiter: ctaSection({
       title: "Plan je ademsessie",
       text: "Kom voor een persoonlijke sessie, of vertel ons over je team of groep, dan stellen we een groepssessie op maat voor.",
-      primary: "Plan een 1-op-1 sessie",
+      primary: "Plan een 1-op-1-sessie",
       secondary: "Groepssessie aanvragen",
     }),
     seo: seoSection(
       "Ademcoaching 1-op-1 en in groepsverband",
-      "Ademcoaching door Steyn van Leeuwen in Amsterdam: een 1-op-1 ademsessie van {ademduur} voor € {ademprijs}, of een groepssessie op aanvraag voor bedrijven, sportteams en vriendengroepen.",
+      "Ademcoaching door Steyn van Leeuwen in Amsterdam: een 1-op-1-ademsessie van {ademduur} voor € {ademprijs}, of een groepssessie op aanvraag voor bedrijven, sportteams en vriendengroepen.",
     ),
   },
 });

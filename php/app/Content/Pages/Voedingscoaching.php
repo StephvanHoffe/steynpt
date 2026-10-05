@@ -66,7 +66,7 @@ final class Voedingscoaching
                 ]),
                 'afsluiter' => F::ctaSection([
                     'title' => 'Ook online mogelijk',
-                    'text' => 'Voedingscoaching is onderdeel van online coaching. Krijg je voedingsplan en wekelijkse feedback gewoon via je dashboard.',
+                    'text' => 'Voedingscoaching is onderdeel van online coaching. Je voeding en je wekelijkse check-ins staan gewoon in je eigen dashboard.',
                     'primary' => 'Bekijk online coaching',
                     'secondary' => 'Gratis kennismaking',
                 ]),

@@ -34,7 +34,7 @@ const registerSchema = z.object({
   goal: z.enum(GOALS.map((g) => g.id) as [string, ...string[]], "Kies je belangrijkste doel"),
   plan: z.string().optional(),
   referralCode: z.string().optional(),
-  terms: z.literal("on", "Je moet akkoord gaan met de privacyverklaring"),
+  terms: z.literal("on", "Geef toestemming om je account aan te maken"),
   marketing: z.literal("on").optional(),
 });
 

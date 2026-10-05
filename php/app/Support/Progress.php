@@ -74,11 +74,11 @@ final class Progress
         if (! array_key_exists('note', $input)) {
             $data['note'] = null;
         } elseif (! is_string($input['note'])) {
-            $add('note', 'Invalid input: expected string, received '.Js::zodType($input['note']), true);
+            $add('note', 'Controleer de notitie', true);
         } else {
             $note = Js::trim($input['note']);
             if (mb_strlen($note, 'UTF-8') > 1000) {
-                $add('note', 'Too big: expected string to have <=1000 characters', false);
+                $add('note', 'De notitie mag maximaal 1000 tekens hebben', false);
             }
             $data['note'] = $note === '' ? null : $note;
         }
@@ -97,8 +97,8 @@ final class Progress
             }
             $n = Js::toNumber($v);
             if (! is_finite($n)) {
-                // Geen enkele optie van de union past: zod meldt dan alleen "Invalid input".
-                $add($key, 'Invalid input', true);
+                // Geen enkele optie van de union past: de melding van de union zelf.
+                $add($key, "{$field['label']}: vul een getal in", true);
 
                 continue;
             }

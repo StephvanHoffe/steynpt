@@ -16,7 +16,7 @@
         <div>
           <p class="eyebrow text-accent">Mijn omgeving</p>
           <h1 class="display display-lg mt-3">Hoi {{ $user->first_name }}</h1>
-          <p class="mt-3 text-muted">{{ $goal ? "Doel: {$goal}" : 'Stel je doel in via je intake' }}{{ $plan ? " · Online coaching {$plan['name']}" : '' }}</p>
+          <p class="mt-3 text-muted">{{ $goal ? "Doel: {$goal}" : 'Stel je doel in via je intake' }}{{ $plan ? " · online coaching {$plan['name']}" : '' }}</p>
         </div>
         <div class="card p-5">
           <p class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted"><x-icon name="CalendarDays" class="size-4" /> Volgende afspraak</p>
@@ -78,7 +78,7 @@
 
         @if ($c === 'aangevraagd')
           <div class="mt-5">
-            <p class="text-muted">Je aanvraag voor <strong class="text-ink">{{ $plan['name'] ?? 'online coaching' }}</strong> is binnen. Dit zijn de volgende stappen:</p>
+            <p class="text-muted">Je aanvraag voor <strong class="text-ink">online coaching{{ isset($plan['name']) ? ' '.$plan['name'] : '' }}</strong> is binnen. Dit zijn de volgende stappen:</p>
             <ol class="mt-5 space-y-3">
               @foreach ([
                   ['done' => true, 'text' => 'Account aangemaakt'],
@@ -97,7 +97,7 @@
         @endif
 
         @if ($c === 'actief')
-          <p class="mt-5 text-muted">Je volgt <strong class="text-ink">Online coaching {{ $plan['name'] ?? '' }}</strong>. Check elke week in, zodat Steyn je plan kan bijsturen.</p>
+          <p class="mt-5 text-muted">Je volgt <strong class="text-ink">online coaching {{ $plan['name'] ?? '' }}</strong>. Check elke week in, zodat Steyn je plan kan bijsturen.</p>
         @endif
 
         @if ($c === 'gepauzeerd')

@@ -20,7 +20,7 @@ export function RequestCoachingForm({ currentPlan, plans }: { currentPlan?: stri
           >
             <input type="radio" name="plan" value={plan.id} defaultChecked={(currentPlan ?? "online-pro") === plan.id} className="sr-only" />
             <span className="font-semibold">{plan.name}</span>
-            <span className="text-sm text-muted">€ {plan.price} p/m</span>
+            <span className="text-sm text-muted">€ {plan.price} per maand</span>
           </label>
         ))}
       </div>

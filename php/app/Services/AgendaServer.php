@@ -7,6 +7,7 @@ use App\Models\Availability;
 use App\Models\BlockedPeriod;
 use App\Models\Setting;
 use App\Models\User;
+use App\Site\Texts;
 use App\Support\Agenda;
 use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
@@ -149,7 +150,7 @@ final class AgendaServer
             'end' => $appointment->ends_at,
             'summary' => $view === 'steyn' ? "{$typeLabel} – {$name}" : "{$typeLabel} met Steyn (SteynPT)",
             'location' => ! $location ? $appointment->location
-                : (in_array($location['id'], ['online', 'op-locatie'], true) ? $location['label'] : "{$location['label']}, {$location['address']}"),
+                : (in_array($location['id'], ['online', 'op-locatie'], true) ? $location['label'] : "{$location['label']}, ".Texts::agendaAddress($location)),
             'description' => $view === 'steyn'
                 ? implode("\n", array_filter([$name, $client->phone ? "Tel: {$client->phone}" : null, "E-mail: {$client->email}", $appointment->note ? "Notitie: {$appointment->note}" : null]))
                 : 'Afzeggen kan tot 24 uur van tevoren via Mijn omgeving op steynpt.nl.',

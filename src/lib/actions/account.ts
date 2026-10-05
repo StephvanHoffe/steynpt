@@ -28,7 +28,7 @@ const checkInSchema = z.object({
   energy: score("energie"),
   sleep: score("slaap"),
   nutrition: score("voeding"),
-  workouts: z.coerce.number().int().min(0, "Aantal trainingen klopt niet").max(21, "Aantal trainingen klopt niet"),
+  workouts: z.coerce.number({ error: "Vul een aantal trainingen in tussen 0 en 21" }).int("Vul een aantal trainingen in tussen 0 en 21").min(0, "Vul een aantal trainingen in tussen 0 en 21").max(21, "Vul een aantal trainingen in tussen 0 en 21"),
   note: z.string().trim().max(1000).optional(),
 });
 
@@ -137,7 +137,7 @@ export async function requestCoachingAction(_prev: FormState, formData: FormData
     .set({ plan: plan.id, coachingStatus: "aangevraagd" })
     .where(eq(users.id, user.id));
   revalidatePath("/account");
-  return { success: `Je aanvraag voor Online coaching ${plan.name} is ontvangen. Steyn neemt binnen 24 uur contact met je op.` };
+  return { success: `Je aanvraag voor online coaching ${plan.name} is ontvangen. Steyn neemt binnen 24 uur contact met je op.` };
 }
 
 export async function deleteAccountAction(_prev: FormState, formData: FormData): Promise<FormState> {

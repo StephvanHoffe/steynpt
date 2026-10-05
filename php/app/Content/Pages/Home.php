@@ -38,7 +38,7 @@ final class Home
                     'title' => F::title('Titel', "Sterker lichaam.\n*Gezonder* leven.", ['max' => 80]),
                     'intro' => F::text(
                         'Introductie',
-                        'Ik ben Steyn van Leeuwen, personal trainer en orthomoleculair voedingscoach. Ik help je aan een gezondere leefstijl, begeleid je 1-op-1 naar je specifieke doel en coach sporters naar hun beste prestatie. Vanaf nu ook online, waar je ook bent.',
+                        'Ik ben Steyn van Leeuwen, personal trainer en orthomoleculair voedingstherapeut. Ik help je aan een gezondere leefstijl, begeleid je 1-op-1 naar je specifieke doel en coach sporters naar hun beste prestatie. Vanaf nu ook online, waar je ook bent.',
                         ['max' => 500],
                     ),
                     'primary' => F::line('Eerste knop', 'Start online coaching', ['max' => 40]),
@@ -49,14 +49,14 @@ final class Home
                         ['value' => F::line('Groot', '', ['max' => 12]), 'label' => F::line('Klein eronder', '', ['max' => 40])],
                         [
                             ['value' => '1-op-1', 'label' => 'persoonlijke aandacht'],
-                            ['value' => 'Online', 'label' => 'overal coaching'],
-                            ['value' => '24 uur', 'label' => 'en Steyn neemt contact op'],
+                            ['value' => 'Online', 'label' => 'waar je ook bent'],
+                            ['value' => '24 uur', 'label' => 'reactietijd'],
                             ['value' => '100%', 'label' => 'inzet voor jouw doel'],
                         ],
                         ['fixed' => true],
                     ),
                     'badgeLabel' => F::line('Kaartje op de foto: kleine kop', 'Nieuw', ['max' => 20]),
-                    'badgeText' => F::line('Kaartje op de foto: tekst', 'Online coaching vanaf € {online-vanaf} p/m', ['max' => 60]),
+                    'badgeText' => F::line('Kaartje op de foto: tekst', 'Online coaching vanaf € {online-vanaf} per maand', ['max' => 60]),
                 ]),
                 'diensten' => F::section('Balk met diensten', [
                     'list' => F::list('Diensten', ['Personal training', 'Online coaching', 'Ademcoaching', 'Voedingscoaching', 'Topsport', 'Leefstijl'], [
@@ -102,7 +102,7 @@ final class Home
                         $card,
                         [
                             ['title' => 'Online coaching', 'text' => 'Schema, voedingsplan en wekelijkse check-ins in je eigen dashboard. Train waar en wanneer jij wilt.'],
-                            ['title' => 'Personal training', 'text' => '1-op-1 training voor een gezondere leefstijl. Ongeacht jouw doel of sport: SteynPT gaat er 100% voor.'],
+                            ['title' => 'Personal training', 'text' => '1-op-1-training voor een gezondere leefstijl. Ongeacht jouw doel of sport: SteynPT gaat er 100% voor.'],
                             ['title' => 'Topsport & specifieke doelen', 'text' => 'Sportspecifieke begeleiding, periodisering en blessurepreventie voor sporters die meer willen.'],
                             [
                                 'title' => 'Ademcoaching',
@@ -114,7 +114,7 @@ final class Home
                     ),
                     'onlinePoints' => F::list(
                         'Punten bij online coaching',
-                        ['Trainings- en voedingsschema op maat', 'Wekelijkse check-in met feedback van Steyn', 'Afspraken en voortgang in je dashboard', 'Vanaf € {online-vanaf} per maand'],
+                        ['Trainings- en voedingsschema op maat', 'Wekelijkse check-in en maandelijkse evaluatie', 'Afspraken en voortgang in je dashboard', 'Vanaf € {online-vanaf} per maand'],
                         ['max' => 6, 'hint' => 'Eén per regel. Staan in de grote kaart van online coaching.'],
                     ),
                     'badge' => F::line('Label op de grote kaart', 'Nieuw', ['max' => 20]),
@@ -125,7 +125,7 @@ final class Home
                     'title' => F::title('Titel', 'Hallo, ik ben Steyn van Leeuwen', ['max' => 100]),
                     'intro' => F::text(
                         'Introductie',
-                        'Full-time personal trainer en voedingscoach, geboren in Hoevelaken en werkzaam in Amsterdam. Door een beginnende hernia van het hockeyen ontdekte ik krachttraining. Daar vond ik mijn passie, en de motivatie om de onduidelijkheid in de fitnesswereld te doorbreken.',
+                        'Fulltime personal trainer en voedingscoach, geboren in Hoevelaken en werkzaam in Amsterdam. Door een beginnende hernia van het hockeyen ontdekte ik krachttraining. Daar vond ik mijn passie, en de motivatie om duidelijkheid te brengen in de fitnesswereld.',
                         ['max' => 600],
                     ),
                     'cardTitle' => F::line('Kaartje op de foto: groot', '15 jaar', ['max' => 20]),
@@ -135,13 +135,13 @@ final class Home
                 'werkwijze' => F::section('Werkwijze', [
                     'eyebrow' => F::line('Kleine kop', 'Werkwijze', ['max' => 60]),
                     'title' => F::title('Titel', 'Van intake tot resultaat', ['max' => 100]),
-                    'intro' => F::text('Introductie', 'Of je nu in de gym traint of online: iedere samenwerking volgt dezelfde bewezen aanpak.', ['max' => 400]),
+                    'intro' => F::text('Introductie', 'Of je nu in de gym traint of online: iedere samenwerking begint met een intake en een plan op maat.', ['max' => 400]),
                 ], "De stappen zelf pas je aan onder 'Op elke pagina'."),
                 'vriendenactie' => F::section('Vriendenactie', [
                     'eyebrow' => F::line('Kleine kop', 'Vriendenactie', ['max' => 60]),
-                    'title' => F::title('Titel', 'Breng een vriend mee. *{actie}*', ['max' => 100]),
+                    'title' => F::title('Titel', 'Breng een vriend mee. *{actie}.*', ['max' => 100]),
                     'intro' => F::text('Introductie', 'Nodig een vriend uit voor online coaching. Je vriend krijgt {vriendkorting}; jij krijgt {jouwkorting} zodra je vriend start.', ['max' => 400]),
-                    'primary' => F::line('Eerste knop', 'Maak gratis account', ['max' => 40]),
+                    'primary' => F::line('Eerste knop', 'Maak een gratis account aan', ['max' => 40]),
                     'secondary' => F::line('Tweede knop', 'Zo werkt het', ['max' => 40]),
                 ]),
                 'reviews' => F::section('Reviews', [

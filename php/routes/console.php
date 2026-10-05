@@ -1,6 +1,7 @@
 <?php
 
 use App\Jobs\GeneratePlan;
+use App\Models\ContactRequest;
 use App\Services\Plans\Schedule as PlanSchedule;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
@@ -21,7 +22,13 @@ Schedule::call(fn () => Artisan::call('steynpt:backup'))
     ->dailyAt('03:15')
     ->timezone('Europe/Amsterdam');
 
-// 3. De database-queue leegmaken: AI-concepten (job GeneratePlan). Een generatie kan minuten duren;
+// 3. Elke nacht contactaanvragen ouder dan 12 maanden verwijderen (zie de privacyverklaring).
+Schedule::call(fn () => Artisan::call('model:prune', ['--model' => [ContactRequest::class]]))
+    ->name('aanvragen-opschonen')
+    ->dailyAt('03:30')
+    ->timezone('Europe/Amsterdam');
+
+// 4. De database-queue leegmaken: AI-concepten (job GeneratePlan). Een generatie kan minuten duren;
 //    withoutOverlapping zorgt dat er maar één worker tegelijk draait (het slot verloopt na 15 minuten als
 //    een worker hard is afgebroken). retry_after van de database-queue (DB_QUEUE_RETRY_AFTER, standaard 600)
 //    is groter dan de time-out, zodat een lange generatie niet nog eens wordt gestart.

@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export function ReferralShare({ url, code, firstName, friendReward }: { url: string; code: string; firstName: string; friendReward: string }) {
   const [copied, setCopied] = useState(false);
-  const message = `Ik train met SteynPT en dat bevalt top! Via mijn link krijg je ${friendReward} bij Steyn: ${url}`;
+  const message = `Ik train bij SteynPT en dat bevalt top! Via mijn link krijg je ${friendReward} bij Steyn: ${url}`;
 
   async function copy() {
     try {

@@ -91,7 +91,7 @@ class DashboardController extends Controller
         $workouts = trim((string) ($values['workouts'] ?? ''));
         $workouts = $workouts === '' ? '0' : $workouts;
         if (! preg_match('/^\d+$/', $workouts) || (int) $workouts > 21) {
-            $errors['workouts'] = 'Aantal trainingen klopt niet';
+            $errors['workouts'] = 'Vul een aantal trainingen in tussen 0 en 21';
         } else {
             $data['workouts'] = (int) $workouts;
         }
@@ -137,6 +137,6 @@ class DashboardController extends Controller
         }
         $user->forceFill(['plan' => $plan['id'], 'coaching_status' => 'aangevraagd'])->save();
 
-        return back()->with('coaching_success', "Je aanvraag voor Online coaching {$plan['name']} is ontvangen. Steyn neemt binnen 24 uur contact met je op.");
+        return back()->with('coaching_success', "Je aanvraag voor online coaching {$plan['name']} is ontvangen. Steyn neemt binnen 24 uur contact met je op.");
     }
 }

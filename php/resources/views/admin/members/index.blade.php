@@ -25,7 +25,7 @@
         @if ($status !== 'alle')<input type="hidden" name="status" value="{{ $status }}">@endif
         <x-icon name="Search" class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted" />
         <label for="zoek" class="sr-only">Zoek op naam, e-mail of telefoon</label>
-        <input id="zoek" name="q" value="{{ $q }}" placeholder="Zoek op naam of e-mail" class="input h-10 pl-9">
+        <input id="zoek" name="q" value="{{ $q }}" placeholder="Zoek op naam, e-mail of telefoon" class="input h-10 pl-9">
       </form>
     </div>
 

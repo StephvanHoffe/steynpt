@@ -34,7 +34,7 @@ final class Intake
     public const EXPERIENCE = [
         ['id' => 'beginner', 'label' => 'Beginner', 'hint' => 'Minder dan een half jaar structureel trainen'],
         ['id' => 'gemiddeld', 'label' => 'Gemiddeld', 'hint' => 'Een half jaar tot twee jaar'],
-        ['id' => 'gevorderd', 'label' => 'Gevorderd', 'hint' => 'Meer dan twee jaar, kent de basisoefeningen goed'],
+        ['id' => 'gevorderd', 'label' => 'Gevorderd', 'hint' => 'Meer dan twee jaar; je kent de basisoefeningen goed'],
     ];
 
     public const SESSION_MINUTES = [30, 45, 60, 75, 90];
@@ -150,15 +150,15 @@ final class Intake
         // targetWeightKg: optioneel; "" telt als niet ingevuld
         if ($has('targetWeightKg') && $input['targetWeightKg'] !== '') {
             $data['targetWeightKg'] = self::number(self::decimalInput($input, 'targetWeightKg'), 'targetWeightKg', $fail, 'Vul een geldig streefgewicht in', null, [
-                [fn ($n) => $n >= 35, 'Too small: expected number to be >=35'],
-                [fn ($n) => $n <= 300, 'Too big: expected number to be <=300'],
+                [fn ($n) => $n >= 35, 'Vul een geldig streefgewicht in'],
+                [fn ($n) => $n <= 300, 'Vul een geldig streefgewicht in'],
             ]);
         }
 
         $data['experience'] = self::enum($input, 'experience', self::ids(self::EXPERIENCE), 'Kies je ervaring', $fail);
-        $data['trainingDays'] = self::number($input, 'trainingDays', $fail, 'Kies hoe vaak je traint', 'Kies hoe vaak je traint', [
-            [fn ($n) => $n >= 1, 'Kies hoe vaak je traint'],
-            [fn ($n) => $n <= 7, 'Kies hoe vaak je traint'],
+        $data['trainingDays'] = self::number($input, 'trainingDays', $fail, 'Kies hoe vaak je per week wilt trainen', 'Kies hoe vaak je per week wilt trainen', [
+            [fn ($n) => $n >= 1, 'Kies hoe vaak je per week wilt trainen'],
+            [fn ($n) => $n <= 7, 'Kies hoe vaak je per week wilt trainen'],
         ]);
         $data['sessionMinutes'] = self::number($input, 'sessionMinutes', $fail, 'Kies hoe lang een training mag duren', null, [
             [fn ($n) => in_array($n, self::SESSION_MINUTES, false), 'Kies hoe lang een training mag duren'],
@@ -198,14 +198,13 @@ final class Intake
     /** z.array(z.enum(ids)) met de standaardmeldingen van zod. */
     private static function enumArray(array $input, string $key, array $ids, callable $fail): ?array
     {
-        $present = array_key_exists($key, $input);
         $value = $input[$key] ?? null;
         if (! is_array($value) || ($value !== [] && ! array_is_list($value))) {
-            $fail($key, 'Invalid input: expected array, received '.Js::zodType($value, $present));
+            $fail($key, 'Maak een geldige keuze');
 
             return null;
         }
-        $message = 'Invalid option: expected one of '.implode('|', array_map(fn ($id) => '"'.$id.'"', $ids));
+        $message = 'Maak een geldige keuze';
         $ok = true;
         foreach ($value as $item) {
             if (! is_string($item) || ! in_array($item, $ids, true)) {
@@ -228,7 +227,7 @@ final class Intake
         }
         $value = $input[$key];
         if (! is_string($value)) {
-            $fail($key, 'Invalid input: expected string, received '.Js::zodType($value));
+            $fail($key, 'Controleer dit veld');
 
             return;
         }

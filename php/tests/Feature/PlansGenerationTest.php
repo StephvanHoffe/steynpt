@@ -285,6 +285,7 @@ class PlansGenerationTest extends TestCase
         $this->artisan('schedule:list')
             ->expectsOutputToContain('schemas-publiceren')
             ->expectsOutputToContain('back-up')
+            ->expectsOutputToContain('aanvragen-opschonen')
             ->expectsOutputToContain('wachtrij')
             ->assertSuccessful();
     }

@@ -61,8 +61,8 @@ class RegisterController extends Controller
             'password.max' => 'Je wachtwoord mag maximaal 200 tekens hebben',
             'goal.required' => 'Kies je belangrijkste doel',
             'goal.in' => 'Kies je belangrijkste doel',
-            'terms.required' => 'Je moet akkoord gaan met de privacyverklaring',
-            'terms.in' => 'Je moet akkoord gaan met de privacyverklaring',
+            'terms.required' => 'Geef toestemming om je account aan te maken',
+            'terms.in' => 'Geef toestemming om je account aan te maken',
         ]);
         $email = strtolower($data['email']);
         $back = fn (array $errors) => back()->withInput($request->except('password'))->withErrors($errors);

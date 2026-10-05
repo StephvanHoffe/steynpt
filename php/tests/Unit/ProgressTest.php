@@ -30,10 +30,10 @@ class ProgressTest extends TestCase
         $this->assertSame(['measuredAt' => 'Kies een datum'], $errors(['measuredAt' => '2026-02-30', 'weight' => '70']));
         $this->assertSame(['measuredAt' => 'Kies een datum'], $errors(['measuredAt' => '2023-02-29', 'weight' => '70']));
         $this->assertSame(['measuredAt' => 'Kies een datum'], $errors(['weight' => '70']), 'ontbrekende datum');
-        $this->assertSame(['weight' => 'Invalid input'], $errors(['measuredAt' => '2026-10-01', 'weight' => 'abc']), 'geen getal: algemene melding van de union');
-        $this->assertSame(['weight' => 'Invalid input', 'bodyFat' => 'Invalid input'], $errors(['measuredAt' => '2026-10-01', 'weight' => '1,2,3', 'bodyFat' => 'Infinity']));
-        $this->assertSame(['measuredAt' => 'Kies een datum', 'note' => 'Invalid input: expected string, received null'], $errors(['measuredAt' => 5, 'weight' => '70', 'note' => null]));
-        $this->assertSame(['note' => 'Too big: expected string to have <=1000 characters'], $errors(['measuredAt' => '2026-10-01', 'weight' => '70', 'note' => str_repeat('x', 1001)]));
+        $this->assertSame(['weight' => 'Gewicht: vul een getal in'], $errors(['measuredAt' => '2026-10-01', 'weight' => 'abc']), 'geen getal: melding van de union');
+        $this->assertSame(['weight' => 'Gewicht: vul een getal in', 'bodyFat' => 'Vetpercentage: vul een getal in'], $errors(['measuredAt' => '2026-10-01', 'weight' => '1,2,3', 'bodyFat' => 'Infinity']));
+        $this->assertSame(['measuredAt' => 'Kies een datum', 'note' => 'Controleer de notitie'], $errors(['measuredAt' => 5, 'weight' => '70', 'note' => null]));
+        $this->assertSame(['note' => 'De notitie mag maximaal 1000 tekens hebben'], $errors(['measuredAt' => '2026-10-01', 'weight' => '70', 'note' => str_repeat('x', 1001)]));
         $this->assertSame([], $errors(['measuredAt' => '2026-10-01', 'weight' => '70', 'note' => str_repeat('😀', 1000)]), 'lengte in tekens, niet in bytes');
         $this->assertSame(['weight' => 'Gewicht lijkt niet te kloppen'], $errors(['measuredAt' => '2026-10-01', 'weight' => true]));
     }

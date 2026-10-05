@@ -18,16 +18,19 @@ export type MeasurementValues = Record<MeasurementKey, number | null>;
 const optionalNumber = (label: string, min: number, max: number) =>
   z.preprocess(
     (v) => (v === undefined || v === null ? null : typeof v === "string" ? (v.trim() === "" ? null : v.replace(",", ".").trim()) : v),
-    z.union([z.null(), z.coerce.number({ error: `${label}: vul een getal in` }).min(min, `${label} lijkt niet te kloppen`).max(max, `${label} lijkt niet te kloppen`)]),
+    z.union(
+      [z.null(), z.coerce.number({ error: `${label}: vul een getal in` }).min(min, `${label} lijkt niet te kloppen`).max(max, `${label} lijkt niet te kloppen`)],
+      { error: `${label}: vul een getal in` },
+    ),
   );
 
 export const measurementSchema = z
   .object({
     measuredAt: z.iso.date("Kies een datum"),
     note: z
-      .string()
+      .string("Controleer de notitie")
       .trim()
-      .max(1000)
+      .max(1000, "De notitie mag maximaal 1000 tekens hebben")
       .optional()
       .transform((v) => v || null),
     ...(Object.fromEntries(MEASUREMENT_FIELDS.map((f) => [f.key, optionalNumber(f.label, f.min, f.max)])) as Record<

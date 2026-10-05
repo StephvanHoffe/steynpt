@@ -43,7 +43,7 @@
                   <x-icon name="Smartphone" class="mr-1 inline size-4" />
                   Op deze telefoon? Voer de sleutel handmatig in
                 </summary>
-                <p class="mt-2 text-muted">Kies in de app voor een sleutel invoeren, met als naam SteynPT:</p>
+                <p class="mt-2 text-muted">Kies in de app voor ‘Sleutel invoeren’ en gebruik als naam SteynPT:</p>
                 <code class="mt-2 block break-all rounded-md bg-surface px-3 py-2 font-mono text-sm tracking-wider" data-totp-secret="{{ $rawSecret }}">{{ $secret }}</code>
               </details>
             </div>

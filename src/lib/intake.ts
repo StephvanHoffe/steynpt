@@ -13,7 +13,7 @@ export const SEXES = [
 export const EXPERIENCE = [
   { id: "beginner", label: "Beginner", hint: "Minder dan een half jaar structureel trainen" },
   { id: "gemiddeld", label: "Gemiddeld", hint: "Een half jaar tot twee jaar" },
-  { id: "gevorderd", label: "Gevorderd", hint: "Meer dan twee jaar, kent de basisoefeningen goed" },
+  { id: "gevorderd", label: "Gevorderd", hint: "Meer dan twee jaar; je kent de basisoefeningen goed" },
 ] as const;
 
 export const SESSION_MINUTES = [30, 45, 60, 75, 90] as const;
@@ -69,7 +69,7 @@ const ids = <T extends readonly { id: string }[]>(list: T) => list.map((i) => i.
 
 const optionalText = (max: number) =>
   z
-    .string()
+    .string("Controleer dit veld")
     .trim()
     .max(max, `Maximaal ${max} tekens`)
     .optional()
@@ -81,7 +81,7 @@ const decimal = (message: string) =>
 const thisYear = new Date().getFullYear();
 
 export const intakeSchema = z.object({
-  wants: z.array(z.enum(ids(PLAN_WANTS))).min(1, "Kies minimaal één schema"),
+  wants: z.array(z.enum(ids(PLAN_WANTS), "Maak een geldige keuze"), "Maak een geldige keuze").min(1, "Kies minimaal één schema"),
   goal: z.enum(GOALS.map((g) => g.id) as [string, ...string[]], "Kies je belangrijkste doel"),
   goalDetails: optionalText(600),
   sex: z.enum(ids(SEXES), "Maak een keuze"),
@@ -93,9 +93,9 @@ export const intakeSchema = z.object({
   heightCm: z.coerce.number({ error: "Vul je lengte in" }).int("Vul je lengte in hele centimeters in").min(120, "Vul je lengte in centimeters in").max(230, "Vul je lengte in centimeters in"),
   weightKg: decimal("Vul je gewicht in").pipe(z.number().min(35, "Vul een geldig gewicht in").max(300, "Vul een geldig gewicht in")),
   targetWeightKg: z
-    .preprocess((v) => (v === "" || v === undefined ? undefined : v), decimal("Vul een geldig streefgewicht in").pipe(z.number().min(35).max(300)).optional()),
+    .preprocess((v) => (v === "" || v === undefined ? undefined : v), decimal("Vul een geldig streefgewicht in").pipe(z.number().min(35, "Vul een geldig streefgewicht in").max(300, "Vul een geldig streefgewicht in")).optional()),
   experience: z.enum(ids(EXPERIENCE), "Kies je ervaring"),
-  trainingDays: z.coerce.number({ error: "Kies hoe vaak je traint" }).int().min(1, "Kies hoe vaak je traint").max(7),
+  trainingDays: z.coerce.number({ error: "Kies hoe vaak je per week wilt trainen" }).int("Kies hoe vaak je per week wilt trainen").min(1, "Kies hoe vaak je per week wilt trainen").max(7, "Kies hoe vaak je per week wilt trainen"),
   sessionMinutes: z.coerce
     .number({ error: "Kies hoe lang een training mag duren" })
     .refine((n) => (SESSION_MINUTES as readonly number[]).includes(n), "Kies hoe lang een training mag duren"),
@@ -105,7 +105,7 @@ export const intakeSchema = z.object({
   injuries: optionalText(800),
   activityLevel: z.enum(ids(ACTIVITY_LEVELS), "Kies hoe actief je dagelijks bent"),
   diet: z.enum(ids(DIETS), "Kies je eetstijl"),
-  allergies: z.array(z.enum(ids(ALLERGIES))).default([]),
+  allergies: z.array(z.enum(ids(ALLERGIES), "Maak een geldige keuze"), "Maak een geldige keuze").default([]),
   allergiesOther: optionalText(400),
   dislikes: optionalText(400),
   mealsPerDay: z.coerce.number({ error: "Kies het aantal eetmomenten" }).int().min(2, "Kies het aantal eetmomenten").max(6),

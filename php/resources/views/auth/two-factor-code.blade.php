@@ -24,7 +24,7 @@
         <x-form.submit pending-text="Controleren…">Inloggen</x-form.submit>
         <button type="button" @click="recovery = !recovery" class="text-sm font-semibold text-ink underline decoration-accent underline-offset-4"
           x-text="recovery ? 'Toch de code uit de app gebruiken' : 'Telefoon niet bij de hand? Gebruik een herstelcode'">Telefoon niet bij de hand? Gebruik een herstelcode</button>
-        <p class="text-center text-xs text-muted">Geen toegang meer tot je app en herstelcodes? <a href="/contact" class="underline">Neem contact op</a>, dan zet Steyn de tweestapsverificatie voor je terug.</p>
+        <p class="text-center text-xs text-muted">Geen toegang meer tot je app en herstelcodes? <a href="/contact" class="underline">Neem contact op</a>, dan zet Steyn je tweestapsverificatie uit, zodat je hem opnieuw kunt instellen.</p>
       @endif
     </form>
   </x-auth-shell>

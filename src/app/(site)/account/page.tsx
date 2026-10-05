@@ -88,7 +88,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
               <h1 className="display display-lg mt-3">Hoi {user.firstName}</h1>
               <p className="mt-3 text-muted">
                 {goal ? `Doel: ${goal}` : "Stel je doel in via je intake"}
-                {plan ? ` · Online coaching ${plan.name}` : ""}
+                {plan ? ` · online coaching ${plan.name}` : ""}
               </p>
             </div>
             <div className="card p-5">
@@ -178,7 +178,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
             {user.coachingStatus === "aangevraagd" && (
               <div className="mt-5">
                 <p className="text-muted">
-                  Je aanvraag voor <strong className="text-ink">{plan?.name ?? "online coaching"}</strong> is binnen. Dit zijn de volgende stappen:
+                  Je aanvraag voor <strong className="text-ink">online coaching{plan ? ` ${plan.name}` : ""}</strong> is binnen. Dit zijn de volgende stappen:
                 </p>
                 <ol className="mt-5 space-y-3">
                   {[
@@ -199,7 +199,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
 
             {user.coachingStatus === "actief" && (
               <p className="mt-5 text-muted">
-                Je volgt <strong className="text-ink">Online coaching {plan?.name}</strong>. Check elke week in, zodat Steyn je plan kan bijsturen.
+                Je volgt <strong className="text-ink">online coaching {plan?.name}</strong>. Check elke week in, zodat Steyn je plan kan bijsturen.
               </p>
             )}
 

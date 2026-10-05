@@ -5,7 +5,7 @@
     <p class="lead mt-3 text-muted">Alle metingen die Steyn met je heeft gedaan, met per onderdeel het verloop sinds je eerste meting.</p>
     <div class="mt-10">
       @if ($rows->isEmpty())
-        <p class="rounded-lg bg-surface p-5 text-sm">Er zijn nog geen metingen. <a href="/account/agenda?type=meting" class="font-semibold underline decoration-accent underline-offset-4">Plan een meting</a></p>
+        <p class="rounded-lg bg-surface p-5 text-sm">Er zijn nog geen metingen. <a href="/account/agenda?type=meting" class="font-semibold underline decoration-accent underline-offset-4">Plan een meting</a>.</p>
       @else
         <x-progress.overview :rows="$rows" :table="true" />
       @endif

@@ -3,7 +3,7 @@
     "hero": {
       "eyebrow": "Personal training · Amsterdam Oud-West & online",
       "title": "Sterker lichaam.\n*Gezonder* leven.",
-      "intro": "Ik ben Steyn van Leeuwen, personal trainer en orthomoleculair voedingscoach. Ik help je aan een gezondere leefstijl, begeleid je 1-op-1 naar je specifieke doel en coach sporters naar hun beste prestatie. Vanaf nu ook online, waar je ook bent.",
+      "intro": "Ik ben Steyn van Leeuwen, personal trainer en orthomoleculair voedingstherapeut. Ik help je aan een gezondere leefstijl, begeleid je 1-op-1 naar je specifieke doel en coach sporters naar hun beste prestatie. Vanaf nu ook online, waar je ook bent.",
       "primary": "Start online coaching",
       "secondary": "Gratis kennismaking",
       "stats": [
@@ -13,11 +13,11 @@
         },
         {
           "value": "Online",
-          "label": "overal coaching"
+          "label": "waar je ook bent"
         },
         {
           "value": "24 uur",
-          "label": "en Steyn neemt contact op"
+          "label": "reactietijd"
         },
         {
           "value": "100%",
@@ -25,7 +25,7 @@
         }
       ],
       "badgeLabel": "Nieuw",
-      "badgeText": "Online coaching vanaf € {online-vanaf} p/m"
+      "badgeText": "Online coaching vanaf € {online-vanaf} per maand"
     },
     "diensten": {
       "list": [
@@ -74,7 +74,7 @@
         },
         {
           "title": "Personal training",
-          "text": "1-op-1 training voor een gezondere leefstijl. Ongeacht jouw doel of sport: SteynPT gaat er 100% voor."
+          "text": "1-op-1-training voor een gezondere leefstijl. Ongeacht jouw doel of sport: SteynPT gaat er 100% voor."
         },
         {
           "title": "Topsport & specifieke doelen",
@@ -91,7 +91,7 @@
       ],
       "onlinePoints": [
         "Trainings- en voedingsschema op maat",
-        "Wekelijkse check-in met feedback van Steyn",
+        "Wekelijkse check-in en maandelijkse evaluatie",
         "Afspraken en voortgang in je dashboard",
         "Vanaf € {online-vanaf} per maand"
       ],
@@ -101,7 +101,7 @@
     "over": {
       "eyebrow": "Ontmoet Steyn",
       "title": "Hallo, ik ben Steyn van Leeuwen",
-      "intro": "Full-time personal trainer en voedingscoach, geboren in Hoevelaken en werkzaam in Amsterdam. Door een beginnende hernia van het hockeyen ontdekte ik krachttraining. Daar vond ik mijn passie, en de motivatie om de onduidelijkheid in de fitnesswereld te doorbreken.",
+      "intro": "Fulltime personal trainer en voedingscoach, geboren in Hoevelaken en werkzaam in Amsterdam. Door een beginnende hernia van het hockeyen ontdekte ik krachttraining. Daar vond ik mijn passie, en de motivatie om duidelijkheid te brengen in de fitnesswereld.",
       "cardTitle": "15 jaar",
       "cardText": "Zo oud was ik toen ik op advies van de fysio begon met krachttraining.",
       "button": "Lees mijn verhaal"
@@ -109,13 +109,13 @@
     "werkwijze": {
       "eyebrow": "Werkwijze",
       "title": "Van intake tot resultaat",
-      "intro": "Of je nu in de gym traint of online: iedere samenwerking volgt dezelfde bewezen aanpak."
+      "intro": "Of je nu in de gym traint of online: iedere samenwerking begint met een intake en een plan op maat."
     },
     "vriendenactie": {
       "eyebrow": "Vriendenactie",
-      "title": "Breng een vriend mee. *{actie}*",
+      "title": "Breng een vriend mee. *{actie}.*",
       "intro": "Nodig een vriend uit voor online coaching. Je vriend krijgt {vriendkorting}; jij krijgt {jouwkorting} zodra je vriend start.",
-      "primary": "Maak gratis account",
+      "primary": "Maak een gratis account aan",
       "secondary": "Zo werkt het"
     },
     "reviews": {
@@ -139,7 +139,7 @@
       "intro": "De persoonlijke aanpak van SteynPT, nu ook online. Een plan op maat, wekelijkse check-ins in je eigen dashboard en een coach die met je meedenkt, waar je ook traint.",
       "primary": "Kies je pakket",
       "secondary": "Gratis account aanmaken",
-      "note": "Intake binnen 24 uur · Je betaalt pas na de intake"
+      "note": "Binnen 24 uur contact voor je intake · Je betaalt pas na de intake"
     },
     "voorWie": {
       "eyebrow": "Voor wie",
@@ -152,7 +152,7 @@
         },
         {
           "title": "Je hebt een volle agenda",
-          "text": "Train wanneer het jou uitkomt, thuis, in de gym of op kantoor."
+          "text": "Train wanneer het jou uitkomt: thuis, in de gym of op kantoor."
         },
         {
           "title": "Je bent veel onderweg",
@@ -174,7 +174,7 @@
         },
         {
           "title": "Intake",
-          "text": "Steyn neemt binnen 24 uur contact op voor een intake via videocall of in de studio."
+          "text": "Steyn neemt binnen 24 uur contact op voor een intake via videocall of bij Gymbase."
         },
         {
           "title": "Jouw plan",
@@ -213,7 +213,7 @@
         },
         {
           "q": "Kan ik online coaching combineren met personal training?",
-          "a": "Zeker. Veel sporters combineren een paar 1-op-1 sessies in Amsterdam met online begeleiding voor de dagen ertussen. Bespreek het tijdens je intake."
+          "a": "Zeker. Veel sporters combineren een paar 1-op-1-sessies in Amsterdam met online begeleiding voor de dagen ertussen. Bespreek het tijdens je intake."
         },
         {
           "q": "Hoe lang duurt een traject?",
@@ -221,7 +221,7 @@
         },
         {
           "q": "Hoe werkt de vriendenactie?",
-          "a": "Iedere klant heeft een persoonlijke uitnodigingslink. Een vriend die zich via die link aanmeldt krijgt {vriendkorting}. Start je vriend, dan krijg jij {jouwkorting}."
+          "a": "Iedere klant heeft een persoonlijke uitnodigingslink. Een vriend die zich via die link aanmeldt, krijgt {vriendkorting}. Start je vriend, dan krijg jij {jouwkorting}."
         }
       ]
     },
@@ -241,7 +241,7 @@
       "eyebrow": "Personal training in Amsterdam Oud-West",
       "title": "1-op-1. *100%* voor jouw doel.",
       "intro": "Ongeacht jouw doel of sport: SteynPT gaat er 100% voor. Met een persoonlijk trainingsplan werken we zo efficiënt mogelijk naar jouw doel toe, met veel energie, aandacht voor de juiste uitvoering en een fijne sfeer. Je traint bij Gymbase aan de Overtoom, op een paar minuten van het Vondelpark, of op een plek die jou uitkomt.",
-      "primary": "Vraag een gratis proefles aan",
+      "primary": "Plan een gratis kennismaking",
       "secondary": "Bekijk de pakketten"
     },
     "leefstijl": {
@@ -261,7 +261,7 @@
     "topsport": {
       "eyebrow": "Specifieke doelen & topsport",
       "title": "Begeleiding voor sporters die *meer* willen",
-      "intro": "Werk je naar een wedstrijd, wil je terugkomen na een blessure of zoek je die laatste procenten? Steyn is gespecialiseerd in het 1-op-1 begeleiden van specifieke doelen en (top)sporters.",
+      "intro": "Werk je naar een wedstrijd, wil je terugkomen na een blessure of zoek je die laatste procenten? Steyn is gespecialiseerd in de 1-op-1-begeleiding van (top)sporters en mensen met een specifiek doel.",
       "cards": [
         {
           "title": "Doelgerichte periodisering",
@@ -273,7 +273,7 @@
         },
         {
           "title": "Blessurepreventie",
-          "text": "Bewegingsassessment en gerichte oefeningen om sterker én heler te blijven."
+          "text": "Bewegingsassessment en gerichte oefeningen om sterker en blessurevrij te blijven."
         },
         {
           "title": "Herstel & ademhaling",
@@ -284,7 +284,7 @@
           "text": "We analyseren je uitvoering en sturen bij, ook tussen de sessies door."
         },
         {
-          "title": "Begeleiding rond je schema",
+          "title": "Past in je seizoen",
           "text": "Afgestemd op trainingen bij je club, wedstrijden en reizen."
         }
       ],
@@ -293,9 +293,9 @@
     },
     "tarieven": {
       "eyebrow": "Tarieven",
-      "title": "1-op-1 pakketten",
-      "intro": "Sport je graag individueel en wil je samen met Steyn alles uit je sessie halen? Kies dan één van de 1-op-1 pakketten.",
-      "button": "Plan een afspraak"
+      "title": "1-op-1-pakketten",
+      "intro": "Train je graag 1-op-1 en wil je samen met Steyn alles uit je sessie halen? Kies dan een van de pakketten.",
+      "button": "Vraag dit pakket aan"
     },
     "reviews": {
       "eyebrow": "Reviews",
@@ -303,7 +303,7 @@
     },
     "afsluiter": {
       "title": "Zin om kennis te maken?",
-      "text": "Plan een gratis proefles of kennismaking. We ontvangen je graag bij Gymbase.",
+      "text": "Plan een gratis kennismaking. We ontvangen je graag bij Gymbase.",
       "primary": "Gratis kennismaking",
       "secondary": "Of start online"
     },
@@ -323,11 +323,11 @@
     "voordelen": {
       "eyebrow": "Wat het je oplevert",
       "title": "Kleine verandering, groot effect",
-      "intro": "Ademcoaching sluit naadloos aan op de SteynPT-visie: een gezonde leefstijl draait niet alleen om trainen en voeding, maar ook om rust en herstel.",
+      "intro": "Ademcoaching sluit naadloos aan bij de visie van SteynPT: een gezonde leefstijl draait niet alleen om trainen en voeding, maar ook om rust en herstel.",
       "cards": [
         {
           "title": "Rust & focus",
-          "text": "Leer je zenuwstelsel kalmeren en helder te blijven onder druk."
+          "text": "Leer je zenuwstelsel tot rust te brengen en helder te blijven onder druk."
         },
         {
           "title": "Beter slapen",
@@ -364,7 +364,7 @@
         },
         {
           "title": "Vrienden & groepen",
-          "text": "Samen iets nieuws ervaren, binnen in de studio of buiten in het park."
+          "text": "Samen iets nieuws ervaren, binnen bij Gymbase of buiten in het park."
         }
       ],
       "groupButton": "Vraag een groepssessie aan"
@@ -394,15 +394,15 @@
       "eyebrow": "Veelgestelde vragen",
       "title": "Goed om te weten",
       "points": [
-        "1-op-1: {ademduur} voor € {ademprijs},-",
+        "1-op-1: {ademduur} voor € {ademprijs}",
         "Groepssessies op aanvraag, vanaf 3 personen",
         "Geen ervaring nodig",
-        "Op locatie, in de studio of buiten"
+        "Op locatie, bij Gymbase of buiten"
       ],
       "questions": [
         {
-          "q": "Hoe lang duurt een 1-op-1 ademsessie en wat kost het?",
-          "a": "Een 1-op-1 ademsessie duurt {ademduur} en kost € {ademprijs},-. In die tijd is er ruimte voor uitleg, oefenen en een langere begeleide ademsessie."
+          "q": "Hoe lang duurt een 1-op-1-ademsessie en wat kost het?",
+          "a": "Een 1-op-1-ademsessie duurt {ademduur} en kost € {ademprijs}. In die tijd is er ruimte voor uitleg, oefenen en een langere begeleide ademsessie."
         },
         {
           "q": "Hoe werkt een groepssessie?",
@@ -418,19 +418,19 @@
         },
         {
           "q": "Waar vindt een sessie plaats?",
-          "a": "Bij Gymbase in Amsterdam, bij jullie op kantoor of buiten. Zo lang er rustig ruimte is om te liggen of te zitten."
+          "a": "Bij Gymbase in Amsterdam, bij jullie op kantoor of buiten, zolang er een rustige plek is om te liggen of te zitten."
         }
       ]
     },
     "afsluiter": {
       "title": "Plan je ademsessie",
       "text": "Kom voor een persoonlijke sessie, of vertel ons over je team of groep, dan stellen we een groepssessie op maat voor.",
-      "primary": "Plan een 1-op-1 sessie",
+      "primary": "Plan een 1-op-1-sessie",
       "secondary": "Groepssessie aanvragen"
     },
     "seo": {
       "title": "Ademcoaching 1-op-1 en in groepsverband",
-      "description": "Ademcoaching door Steyn van Leeuwen in Amsterdam: een 1-op-1 ademsessie van {ademduur} voor € {ademprijs}, of een groepssessie op aanvraag voor bedrijven, sportteams en vriendengroepen."
+      "description": "Ademcoaching door Steyn van Leeuwen in Amsterdam: een 1-op-1-ademsessie van {ademduur} voor € {ademprijs}, of een groepssessie op aanvraag voor bedrijven, sportteams en vriendengroepen."
     }
   },
   "voedingscoaching": {
@@ -467,7 +467,7 @@
     },
     "afsluiter": {
       "title": "Ook online mogelijk",
-      "text": "Voedingscoaching is onderdeel van online coaching. Krijg je voedingsplan en wekelijkse feedback gewoon via je dashboard.",
+      "text": "Voedingscoaching is onderdeel van online coaching. Je voeding en je wekelijkse check-ins staan gewoon in je eigen dashboard.",
       "primary": "Bekijk online coaching",
       "secondary": "Gratis kennismaking"
     },
@@ -485,7 +485,7 @@
     },
     "menu": {
       "online": "Online coaching",
-      "pt": "1-op-1 training",
+      "pt": "1-op-1-training",
       "adem": "Ademcoaching"
     },
     "online": {
@@ -494,11 +494,11 @@
       "intro": "Maandelijkse begeleiding met je eigen dashboard, wekelijkse check-ins en je metingen in één overzicht."
     },
     "pt": {
-      "eyebrow": "1-op-1 trainingen",
+      "eyebrow": "1-op-1-trainingen",
       "title": "Personal training",
-      "intro": "Sport je graag als individu en wil je samen met Steyn alles uit je sessie halen? Kies dan één van onze 1-op-1 pakketten.",
-      "button": "Plan een afspraak",
-      "note": "* Prijs per uur. Duo-trainingen: € 15,- toeslag per sessie."
+      "intro": "Train je graag 1-op-1 en wil je samen met Steyn alles uit je sessie halen? Kies dan een van de pakketten.",
+      "button": "Vraag dit pakket aan",
+      "note": ""
     },
     "adem": {
       "eyebrow": "1-op-1 en in groepsverband",
@@ -508,7 +508,7 @@
       "groupLabel": "In groepsverband",
       "groupTitle": "Groepssessie",
       "groupPrice": "Op aanvraag",
-      "groupText": "Opzet, duur en tarief stemmen we af op jullie groepsgrootte en locatie. Voor bedrijven, sportteams en vriendengroepen.",
+      "groupText": "Opzet, duur en tarief stemmen we af op jullie groepsgrootte en locatie.",
       "groupButton": "Vraag een groepssessie aan",
       "moreLink": "Meer over ademcoaching"
     },
@@ -525,19 +525,19 @@
     "hero": {
       "eyebrow": "Kom alles te weten",
       "title": "Over *Steyn*",
-      "intro": "Full-time personal trainer en voedingscoach. Geboren in Hoevelaken, werkzaam in Amsterdam, en elke dag nog aan het doorleren.",
+      "intro": "Fulltime personal trainer en voedingscoach. Geboren in Hoevelaken, werkzaam in Amsterdam, en elke dag nog aan het doorleren.",
       "primary": "Vraag een kennismaking aan"
     },
     "verhaal": {
       "eyebrow": "Mijn verhaal",
       "title": "Van hernia naar passie",
-      "body": "Ik ben Steyn van Leeuwen, full-time personal trainer en voedingscoach. Ik ben geboren in Hoevelaken en nu werkzaam als PT in Amsterdam. Toen ik 15 was begon ik met fitness: door een beginnende hernia in mijn onderrug, als gevolg van het hockeyen, begon ik op aanraden van de fysio met krachttraining.\n\nIk vond hierin mijn passie en kwam er al snel achter dat er veel onduidelijkheid is in de fitnesswereld: iedereen vindt er iets anders van. Daar is mijn interesse begonnen. Ik heb meerdere opleidingen gevolgd in personal training en voeding, en ik blijf elke dag doorleren.\n\nIk geef persoonlijke trainingen, maak voedingsplannen op maat, begeleid sporters naar specifieke doelen en geef ademcoaching, 1-op-1 en in groepsverband. Samen werken we aan jouw doelen: binnen, buiten, in de gym, thuis, op kantoor of online.\n\nWil je serieus aan de slag met je gezondheid en weten wat ik voor je kan betekenen? Neem dan contact met mij op!",
+      "body": "Ik ben Steyn van Leeuwen, fulltime personal trainer en voedingscoach. Ik ben geboren in Hoevelaken en nu werkzaam als PT in Amsterdam. Toen ik 15 was, begon ik met krachttraining: door het hockeyen had ik een beginnende hernia in mijn onderrug, en de fysiotherapeut raadde het me aan.\n\nIk vond hierin mijn passie en kwam er al snel achter dat er veel onduidelijkheid is in de fitnesswereld: iedereen vindt er iets anders van. Daar is mijn interesse begonnen. Ik heb meerdere opleidingen gevolgd in personal training en voeding, en ik blijf elke dag doorleren.\n\nIk geef persoonlijke trainingen, maak voedingsplannen op maat, begeleid sporters naar specifieke doelen en geef ademcoaching, 1-op-1 en in groepsverband. Samen werken we aan jouw doelen: binnen, buiten, in de gym, thuis, op kantoor of online.\n\nWil je serieus aan de slag met je gezondheid en weten wat ik voor je kan betekenen? Neem dan contact met mij op!",
       "expertisesTitle": "Expertises"
     },
     "werkwijze": {
       "eyebrow": "Werkwijze",
       "title": "Zo werken we samen",
-      "intro": "Ik coach je niet alleen tijdens de trainingen. Ook daarbuiten hebben we contactmomenten om je gezondheid naar een hoger level te tillen."
+      "intro": "Ik coach je niet alleen tijdens de trainingen. Ook daarbuiten hebben we contactmomenten om je gezondheid naar een hoger niveau te tillen."
     },
     "afsluiter": {
       "title": "Leuk om eens kennis te maken!",
@@ -547,7 +547,7 @@
     },
     "seo": {
       "title": "Over Steyn van Leeuwen, personal trainer in Amsterdam",
-      "description": "Maak kennis met Steyn van Leeuwen: full-time personal trainer, voedingscoach en orthomoleculair voedingstherapeut in Amsterdam."
+      "description": "Maak kennis met Steyn van Leeuwen: fulltime personal trainer, voedingscoach en orthomoleculair voedingstherapeut in Amsterdam."
     }
   },
   "vriend-uitnodigen": {
@@ -591,7 +591,7 @@
       "title": "Leuk om eens *kennis* te maken!",
       "intro": "We nodigen je graag uit bij Gymbase voor een gratis kennismaking. We vertellen je meer over onze werkwijze, geven je een rondleiding en horen graag meer over jouw verwachtingen en doelen.",
       "tipTitle": "Wist je dat",
-      "tipText": "SteynPT ook trainingen op locatie aanbiedt?"
+      "tipText": "SteynPT ook buiten de gym traint?"
     },
     "formulier": {
       "title": "Vraag een kennismaking aan",
@@ -611,8 +611,12 @@
     "onderdelen": {
       "sections": [
         {
+          "title": "Wie zijn wij?",
+          "body": "SteynPT is de onderneming van Steyn van Leeuwen, personal trainer in Amsterdam. SteynPT is verantwoordelijk voor de verwerking van je persoonsgegevens zoals beschreven in deze verklaring. Heb je een vraag over je privacy of wil je een verzoek doen? Neem contact op via het contactformulier op deze website."
+        },
+        {
           "title": "Welke gegevens verwerken we?",
-          "body": "Contactaanvragen: je naam, e-mailadres, (optioneel) telefoonnummer, je interesse en je bericht.\n\nAccount: je naam, e-mailadres, telefoonnummer, doel, gekozen pakket en wie je hebt uitgenodigd (vriendenactie).\n\nAfspraken: type, datum, tijd, locatie en je eventuele opmerking. Steyn zet deze afspraken via een beveiligde, geheime link in zijn eigen agenda (bijvoorbeeld Google of Apple Agenda).\n\nMetingen: gewicht, vetpercentage, spiermassa en omtrekmaten die Steyn met je bijhoudt. Dit zijn gezondheidsgegevens; je ziet ze zelf in Mijn omgeving.\n\nCheck-ins: je wekelijkse scores voor energie, slaap en voeding, aantal trainingen, eventueel je gewicht en opmerkingen. Dit zijn gezondheidsgegevens; we verwerken ze alleen met jouw uitdrukkelijke toestemming en uitsluitend voor je coaching.\n\nIntake: je doel, geslacht, geboortejaar, lengte, gewicht, activiteit, trainingservaring en -wensen, blessures, eetstijl, allergieën en eventuele medische aandachtspunten. Ook dit zijn gezondheidsgegevens; we gebruiken ze alleen met jouw uitdrukkelijke toestemming en alleen om je trainings- en voedingsschema te maken."
+          "body": "Contactaanvragen: je naam, e-mailadres, (optioneel) telefoonnummer, je interesse en je bericht.\n\nAccount: je naam, e-mailadres, telefoonnummer, doel, gekozen pakket, door wie je bent uitgenodigd en wie jij hebt uitgenodigd (vriendenactie).\n\nAfspraken: type, datum, tijd, locatie en je eventuele opmerking. Steyn zet deze afspraken, met je naam en contactgegevens, via een beveiligde, geheime link in zijn eigen agenda (bijvoorbeeld Google of Apple Agenda).\n\nMetingen: gewicht, vetpercentage, spiermassa en omtrekmaten die Steyn met je bijhoudt. Dit zijn gezondheidsgegevens; je ziet ze zelf in Mijn omgeving.\n\nCheck-ins: je wekelijkse scores voor energie, slaap en voeding, aantal trainingen, eventueel je gewicht en opmerkingen. Dit zijn gezondheidsgegevens; we verwerken ze alleen met jouw uitdrukkelijke toestemming en uitsluitend voor je coaching.\n\nIntake: je doel, geslacht, geboortejaar, lengte, gewicht, activiteit, trainingservaring en -wensen, blessures, eetstijl, allergieën en eventuele medische aandachtspunten. Ook dit zijn gezondheidsgegevens; we gebruiken ze alleen met jouw uitdrukkelijke toestemming en alleen om je trainings- en voedingsschema te maken."
         },
         {
           "title": "Gebruik van AI voor je schema",
@@ -628,7 +632,7 @@
         },
         {
           "title": "Delen met anderen",
-          "body": "We verkopen je gegevens nooit. We delen ze alleen met partijen die nodig zijn om de website en je coaching te laten werken (zoals hosting en de AI-dienst hierboven), onder passende afspraken."
+          "body": "We verkopen je gegevens nooit. We delen ze alleen met partijen die nodig zijn om de website en je coaching te laten werken (zoals de hosting, de AI-dienst hierboven en de agenda-app van Steyn), onder passende afspraken."
         },
         {
           "title": "Beveiliging",
@@ -653,7 +657,7 @@
     "aankondiging": {
       "show": true,
       "label": "Nieuw",
-      "text": "Nieuw: online coaching. Nodig een vriend uit en krijg samen 50% korting",
+      "text": "Online coaching: nodig een vriend uit. {actie}.",
       "href": "/vriend-uitnodigen"
     },
     "vriendenactie": {
@@ -717,7 +721,7 @@
     },
     "expertises": {
       "list": [
-        "Personal Trainer",
+        "Personal trainer",
         "Orthomoleculair voedingstherapeut",
         "Leefstijl- en vitaliteitscoaching",
         "Ademcoaching",
@@ -732,19 +736,19 @@
       "street": "Overtoom 371-w",
       "city": "1054 JN Amsterdam",
       "area": "Amsterdam Oud-West",
-      "directions": "Op 3 minuten lopen van het Vondelpark. Tram 1 stopt om de hoek, bij de halte Rhijnvis Feithstraat.",
+      "directions": "Op drie minuten lopen van het Vondelpark. Tram 1 stopt om de hoek, bij de halte Rhijnvis Feithstraat.",
       "onLocationTitle": "Op locatie",
       "onLocation": "Naast onze vaste locatie Gymbase komen we ook op locatie: in jouw favoriete park of in de kantine van je werk.",
       "onlineTitle": "Online",
       "online": "Met online coaching train je waar en wanneer jij wilt, met Steyn altijd binnen handbereik.",
-      "responseTime": "Ik streef ernaar om binnen 24 uur contact met je op te nemen.",
+      "responseTime": "We streven ernaar om binnen 24 uur contact met je op te nemen.",
       "instagramHandle": "@bigtimesteyn",
       "instagramUrl": "https://www.instagram.com/bigtimesteyn/"
     },
     "footer": {
-      "intro": "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam Oud-West en online.",
+      "intro": "Personal training, voedingscoaching en ademcoaching in Amsterdam Oud-West. Online coaching waar je ook bent.",
       "extra": "Op locatie & online",
-      "copyright": "SteynPT · Personal Training Amsterdam"
+      "copyright": "SteynPT · Personal training Amsterdam"
     }
   },
   "pakketten": {
@@ -771,7 +775,7 @@
             "Alles uit Start",
             "Persoonlijk voedingsplan (macro's & micro's)",
             "Wekelijkse feedback van Steyn op je check-in",
-            "Contact via chat op werkdagen",
+            "Tussentijds contact op werkdagen",
             "Schema-updates wanneer jij ze nodig hebt"
           ],
           "featured": true
@@ -800,17 +804,17 @@
           "unit": "per uur",
           "features": [
             "Verbeter je gezondheid",
-            "Flexibele uren",
-            "Stap-voor-stap aanpak",
+            "Flexibele tijden",
+            "Stap voor stap naar je doel",
             "Op maat gemaakt"
           ],
-          "note": "Duo-training: € 15,- toeslag per sessie",
+          "note": "Duo-training: € 15 toeslag per sessie",
           "featured": false
         },
         {
-          "label": "10× 1-op-1 training",
+          "label": "10× 1-op-1-training",
           "name": "Introductiepakket",
-          "price": "1050",
+          "price": "1.050",
           "unit": "",
           "features": [
             "Intakegesprek",
@@ -822,9 +826,9 @@
           "featured": false
         },
         {
-          "label": "20× 1-op-1 training",
+          "label": "20× 1-op-1-training",
           "name": "Gezondheidspakket",
-          "price": "2000",
+          "price": "2.000",
           "unit": "",
           "features": [
             "Intakegesprek",
@@ -837,9 +841,9 @@
           "featured": true
         },
         {
-          "label": "40× 1-op-1 training",
+          "label": "40× 1-op-1-training",
           "name": "Lifechanger-pakket",
-          "price": "3800",
+          "price": "3.800",
           "unit": "",
           "features": [
             "Intakegesprek",

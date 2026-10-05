@@ -74,7 +74,7 @@ export default async function MembersPage({ searchParams }: PageProps<"/admin/le
           <label htmlFor="zoek" className="sr-only">
             Zoek op naam, e-mail of telefoon
           </label>
-          <input id="zoek" name="q" defaultValue={q} placeholder="Zoek op naam of e-mail" className="input h-10 pl-9" />
+          <input id="zoek" name="q" defaultValue={q} placeholder="Zoek op naam, e-mail of telefoon" className="input h-10 pl-9" />
         </form>
       </div>
 

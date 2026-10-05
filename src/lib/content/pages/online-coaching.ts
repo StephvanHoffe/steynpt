@@ -18,7 +18,7 @@ export const onlineCoaching = definePage({
       ),
       primary: line("Eerste knop", "Kies je pakket", { max: 40 }),
       secondary: line("Tweede knop", "Gratis account aanmaken", { max: 40 }),
-      note: line("Kleine tekst onder de knoppen", "Intake binnen 24 uur · Je betaalt pas na de intake", { max: 120, optional: true }),
+      note: line("Kleine tekst onder de knoppen", "Binnen 24 uur contact voor je intake · Je betaalt pas na de intake", { max: 120, optional: true }),
     }),
     voorWie: section("Voor wie", {
       eyebrow: line("Kleine kop", "Voor wie", { max: 60 }),
@@ -30,7 +30,7 @@ export const onlineCoaching = definePage({
         card,
         [
           { title: "Je traint zelfstandig", text: "Je wilt een plan dat écht bij jou past en iemand die meekijkt." },
-          { title: "Je hebt een volle agenda", text: "Train wanneer het jou uitkomt, thuis, in de gym of op kantoor." },
+          { title: "Je hebt een volle agenda", text: "Train wanneer het jou uitkomt: thuis, in de gym of op kantoor." },
           { title: "Je bent veel onderweg", text: "Je coaching reist met je mee, waar je ook bent." },
           { title: "Je hebt een specifiek doel", text: "Wedstrijd, seizoen of persoonlijk record: we plannen ernaartoe." },
         ],
@@ -46,7 +46,7 @@ export const onlineCoaching = definePage({
         card,
         [
           { title: "Account aanmaken", text: "Kies je pakket en maak in twee minuten je gratis account aan." },
-          { title: "Intake", text: "Steyn neemt binnen 24 uur contact op voor een intake via videocall of in de studio." },
+          { title: "Intake", text: "Steyn neemt binnen 24 uur contact op voor een intake via videocall of bij Gymbase." },
           { title: "Jouw plan", text: "Je ontvangt je trainingsschema en voedingsplan, afgestemd op jouw doel en agenda." },
           { title: "Check-in & bijsturen", text: "Elke week check je in via je dashboard. Steyn stuurt bij en houdt je metingen bij." },
         ],
@@ -92,7 +92,7 @@ export const onlineCoaching = definePage({
           },
           {
             q: "Kan ik online coaching combineren met personal training?",
-            a: "Zeker. Veel sporters combineren een paar 1-op-1 sessies in Amsterdam met online begeleiding voor de dagen ertussen. Bespreek het tijdens je intake.",
+            a: "Zeker. Veel sporters combineren een paar 1-op-1-sessies in Amsterdam met online begeleiding voor de dagen ertussen. Bespreek het tijdens je intake.",
           },
           {
             q: "Hoe lang duurt een traject?",
@@ -100,7 +100,7 @@ export const onlineCoaching = definePage({
           },
           {
             q: "Hoe werkt de vriendenactie?",
-            a: "Iedere klant heeft een persoonlijke uitnodigingslink. Een vriend die zich via die link aanmeldt krijgt {vriendkorting}. Start je vriend, dan krijg jij {jouwkorting}.",
+            a: "Iedere klant heeft een persoonlijke uitnodigingslink. Een vriend die zich via die link aanmeldt, krijgt {vriendkorting}. Start je vriend, dan krijg jij {jouwkorting}.",
           },
         ],
         { min: 1, max: 15 },

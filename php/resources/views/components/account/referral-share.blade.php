@@ -1,6 +1,6 @@
 @props(['url', 'code', 'firstName', 'friendReward'])
 @php
-    $message = "Ik train met SteynPT en dat bevalt top! Via mijn link krijg je {$friendReward} bij Steyn: {$url}";
+    $message = "Ik train bij SteynPT en dat bevalt top! Via mijn link krijg je {$friendReward} bij Steyn: {$url}";
     $enc = fn (string $s) => \App\Support\Js::encodeURIComponent($s);
 @endphp
 <div x-data="{

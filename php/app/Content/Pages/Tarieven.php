@@ -44,7 +44,7 @@ final class Tarieven
                     'Snelmenu',
                     [
                         'online' => F::line('Online coaching', 'Online coaching', ['max' => 30]),
-                        'pt' => F::line('Personal training', '1-op-1 training', ['max' => 30]),
+                        'pt' => F::line('Personal training', '1-op-1-training', ['max' => 30]),
                         'adem' => F::line('Ademcoaching', 'Ademcoaching', ['max' => 30]),
                     ],
                     'De knoppen onder de titel die naar elk blok springen.',
@@ -55,15 +55,15 @@ final class Tarieven
                     'intro' => F::text('Introductie', 'Maandelijkse begeleiding met je eigen dashboard, wekelijkse check-ins en je metingen in één overzicht.', ['max' => 400]),
                 ]),
                 'pt' => F::section('Personal training', [
-                    'eyebrow' => F::line('Kleine kop', '1-op-1 trainingen', ['max' => 60]),
+                    'eyebrow' => F::line('Kleine kop', '1-op-1-trainingen', ['max' => 60]),
                     'title' => F::title('Titel', 'Personal training', ['max' => 100]),
                     'intro' => F::text(
                         'Introductie',
-                        'Sport je graag als individu en wil je samen met Steyn alles uit je sessie halen? Kies dan één van onze 1-op-1 pakketten.',
+                        'Train je graag 1-op-1 en wil je samen met Steyn alles uit je sessie halen? Kies dan een van de pakketten.',
                         ['max' => 400],
                     ),
-                    'button' => F::line('Knop onder elk pakket', 'Plan een afspraak', ['max' => 40]),
-                    'note' => F::line('Kleine tekst onder de pakketten', '* Prijs per uur. Duo-trainingen: € 15,- toeslag per sessie.', ['max' => 200, 'optional' => true]),
+                    'button' => F::line('Knop onder elk pakket', 'Vraag dit pakket aan', ['max' => 40]),
+                    'note' => F::line('Kleine tekst onder de pakketten', '', ['max' => 200, 'optional' => true]),
                 ]),
                 'adem' => F::section('Ademcoaching', [
                     'eyebrow' => F::line('Kleine kop', '1-op-1 en in groepsverband', ['max' => 60]),
@@ -79,7 +79,7 @@ final class Tarieven
                     'groupPrice' => F::line('Groep: prijs', 'Op aanvraag', ['max' => 30]),
                     'groupText' => F::text(
                         'Groep: tekst',
-                        'Opzet, duur en tarief stemmen we af op jullie groepsgrootte en locatie. Voor bedrijven, sportteams en vriendengroepen.',
+                        'Opzet, duur en tarief stemmen we af op jullie groepsgrootte en locatie.',
                         ['max' => 300],
                     ),
                     'groupButton' => F::line('Groep: knop', 'Vraag een groepssessie aan', ['max' => 40]),

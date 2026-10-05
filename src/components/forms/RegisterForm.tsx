@@ -31,7 +31,7 @@ export function RegisterForm({
       <FormAlert error={state.error} />
 
       <fieldset>
-        <legend className="label">Kies je online coaching pakket</legend>
+        <legend className="label">Kies je pakket voor online coaching</legend>
         <div className="grid gap-2.5 sm:grid-cols-2">
           {[...plans.map((p) => ({ id: p.id, title: p.name, sub: `€ ${p.price} per maand` })), { id: "", title: "Nog niet", sub: "Eerst rondkijken" }].map((option) => (
             <label
@@ -89,11 +89,11 @@ export function RegisterForm({
         <label className="flex gap-3">
           <input type="checkbox" name="terms" defaultChecked={v.terms === "on"} className="mt-0.5 size-4 shrink-0 accent-ink" required />
           <span>
-            Ik ga akkoord met de{" "}
+            Ik heb de{" "}
             <Link href="/privacy" target="_blank" className="font-semibold underline">
               privacyverklaring
             </Link>{" "}
-            en geef toestemming om mijn check-in gegevens (zoals gewicht) te gebruiken voor mijn coaching.
+            gelezen en geef toestemming om mijn check-ins en metingen (zoals mijn gewicht) te gebruiken voor mijn coaching.
           </span>
         </label>
         {e.terms && <p className="field-error">{e.terms}</p>}

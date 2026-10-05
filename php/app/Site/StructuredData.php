@@ -114,7 +114,7 @@ final class StructuredData
             '@type' => 'Person',
             '@id' => $ids['person'],
             'name' => 'Steyn van Leeuwen',
-            'jobTitle' => 'Personal trainer en orthomoleculair voedingscoach',
+            'jobTitle' => 'Personal trainer en orthomoleculair voedingstherapeut',
             'url' => "{$base}/over-steyn",
             'image' => "{$base}/images/steyn-headshot.jpg",
             'worksFor' => ['@id' => $ids['business']],

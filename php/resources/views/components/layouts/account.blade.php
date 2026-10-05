@@ -12,7 +12,7 @@
         $links[] = ['href' => '/admin', 'icon' => 'Shield', 'label' => 'Beheer'];
     }
 @endphp
-<x-layouts.site :title="$title ?? 'Mijn account'" :noindex="true">
+<x-layouts.site :title="$title ?? 'Mijn omgeving'" :noindex="true">
   <div class="bg-paper">
     <div class="border-b border-line bg-white print:hidden">
       <div class="container-site flex items-center justify-between gap-4 overflow-x-auto py-2">

@@ -64,7 +64,7 @@ export function LoginCodeForm() {
             <Link href="/contact" className="underline">
               Neem contact op
             </Link>
-            , dan zet Steyn de tweestapsverificatie voor je terug.
+            , dan zet Steyn je tweestapsverificatie uit, zodat je hem opnieuw kunt instellen.
           </p>
         </>
       )}
@@ -162,7 +162,7 @@ export function TwoFactorSetupForm({ qr, secret }: { qr: string; secret: string 
                 <Smartphone className="mr-1 inline size-4" aria-hidden="true" />
                 Op deze telefoon? Voer de sleutel handmatig in
               </summary>
-              <p className="mt-2 text-muted">Kies in de app voor een sleutel invoeren, met als naam SteynPT:</p>
+              <p className="mt-2 text-muted">Kies in de app voor ‘Sleutel invoeren’ en gebruik als naam SteynPT:</p>
               <code className="mt-2 block break-all rounded-md bg-surface px-3 py-2 font-mono text-sm tracking-wider" data-totp-secret={secret.replace(/\s/g, "")}>
                 {secret}
               </code>

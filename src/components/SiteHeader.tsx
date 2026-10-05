@@ -70,10 +70,10 @@ export function SiteHeader({ announcement }: { announcement: Announcement }) {
             <Link
               href="/account"
               className="hidden items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium text-ink/80 transition-colors hover:text-ink sm:inline-flex"
-              aria-label="Mijn account"
+              aria-label="Mijn omgeving"
             >
               <User className="size-4" aria-hidden="true" />
-              <span className="xl:hidden 2xl:inline">Mijn account</span>
+              <span className="xl:hidden 2xl:inline">Mijn omgeving</span>
             </Link>
             <Link href="/online-coaching" className="btn btn-primary btn-sm hidden sm:inline-flex">
               Start online coaching
@@ -134,7 +134,7 @@ export function SiteHeader({ announcement }: { announcement: Announcement }) {
                 Start online coaching
               </Link>
               <Link href="/account" className="btn btn-outline">
-                <User className="size-4" aria-hidden="true" /> Mijn account
+                <User className="size-4" aria-hidden="true" /> Mijn omgeving
               </Link>
             </div>
           </nav>

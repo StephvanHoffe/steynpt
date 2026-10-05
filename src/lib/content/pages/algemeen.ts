@@ -13,7 +13,7 @@ export const algemeen = definePage({
       {
         show: check("Balk tonen", true),
         label: line("Label", "Nieuw", { max: 20, optional: true, hint: "Het kleine gekleurde woord ervoor. Leeg laten mag." }),
-        text: line("Tekst", "Nieuw: online coaching. Nodig een vriend uit en krijg samen 50% korting", { max: 120 }),
+        text: line("Tekst", "Online coaching: nodig een vriend uit. {actie}.", { max: 120 }),
         href: link("Linkt naar", "/vriend-uitnodigen"),
       },
       "De zwarte balk boven het menu, op elke pagina.",
@@ -95,7 +95,7 @@ export const algemeen = definePage({
       {
         list: list(
           "Expertises",
-          ["Personal Trainer", "Orthomoleculair voedingstherapeut", "Leefstijl- en vitaliteitscoaching", "Ademcoaching", "Powerliften", "Boksen", "CrossFit", "Sportspecifieke training"],
+          ["Personal trainer", "Orthomoleculair voedingstherapeut", "Leefstijl- en vitaliteitscoaching", "Ademcoaching", "Powerliften", "Boksen", "CrossFit", "Sportspecifieke training"],
           { hint: "Eén per regel. Op de homepage en bij Over Steyn." },
         ),
       },
@@ -107,7 +107,7 @@ export const algemeen = definePage({
         street: line("Straat en huisnummer", LOCATIONS[0].street, { max: 80, hint: "De routeknop naar Google Maps gebruikt dit adres." }),
         city: line("Postcode en plaats", LOCATIONS[0].city, { max: 80 }),
         area: line("Buurt", "Amsterdam Oud-West", { max: 60, hint: "Onder het adres, en voor Google." }),
-        directions: text("Bereikbaarheid", "Op 3 minuten lopen van het Vondelpark. Tram 1 stopt om de hoek, bij de halte Rhijnvis Feithstraat.", {
+        directions: text("Bereikbaarheid", "Op drie minuten lopen van het Vondelpark. Tram 1 stopt om de hoek, bij de halte Rhijnvis Feithstraat.", {
           max: 200,
           hint: "Op de homepage en de contactpagina.",
         }),
@@ -119,7 +119,7 @@ export const algemeen = definePage({
         ),
         onlineTitle: line("Kop 'online'", "Online", { max: 40 }),
         online: text("Tekst 'online'", "Met online coaching train je waar en wanneer jij wilt, met Steyn altijd binnen handbereik.", { max: 300 }),
-        responseTime: line("Reactietijd", "Ik streef ernaar om binnen 24 uur contact met je op te nemen.", { max: 120, hint: "Op de contactpagina." }),
+        responseTime: line("Reactietijd", "We streven ernaar om binnen 24 uur contact met je op te nemen.", { max: 120, hint: "Op de contactpagina." }),
         instagramHandle: line("Instagram-naam", SITE.instagram.handle, { max: 40 }),
         instagramUrl: url("Instagram-link", SITE.instagram.url),
       },
@@ -128,9 +128,9 @@ export const algemeen = definePage({
     footer: section(
       "Footer",
       {
-        intro: text("Tekst onder het logo", "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam Oud-West en online.", { max: 200 }),
+        intro: text("Tekst onder het logo", "Personal training, voedingscoaching en ademcoaching in Amsterdam Oud-West. Online coaching waar je ook bent.", { max: 200 }),
         extra: line("Regel onder de locatie", "Op locatie & online", { max: 60, optional: true }),
-        copyright: line("Onderste regel", "SteynPT · Personal Training Amsterdam", { max: 80, hint: "Het © en het jaartal komen er automatisch voor." }),
+        copyright: line("Onderste regel", "SteynPT · Personal training Amsterdam", { max: 80, hint: "Het © en het jaartal komen er automatisch voor." }),
       },
       "Het zwarte blok helemaal onderaan elke pagina.",
     ),

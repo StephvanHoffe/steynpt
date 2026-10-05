@@ -38,7 +38,7 @@
           @if (session('contact_success'))
             <div class="space-y-4">
               <x-form.alert :success="session('contact_success')" />
-              <p class="text-sm text-muted">Benieuwd naar online coaching? Maak alvast je gratis account aan, dan sta je direct klaar.</p>
+              <p class="text-sm text-muted">Benieuwd naar online coaching? <a href="/registreren" class="font-semibold underline">Maak alvast je gratis account aan</a>, dan sta je direct klaar.</p>
             </div>
           @else
             <form method="post" action="/contact" class="grid gap-5" novalidate>
@@ -48,7 +48,7 @@
                 <x-form.field label="E-mailadres" name="email" type="email" autocomplete="email" required />
                 <x-form.field label="Telefoonnummer" name="phone" type="tel" autocomplete="tel" hint="Optioneel, dan bellen we je" />
               </div>
-              <x-form.select label="Ik wil een gratis kennismaking voor" name="interest" :options="\App\Site\Site::INTERESTS" placeholder="Maak een keuze" :value="$defaultInterest" required />
+              <x-form.select label="Waar heb je interesse in?" name="interest" :options="\App\Site\Site::INTERESTS" placeholder="Maak een keuze" :value="$defaultInterest" required />
               <div>
                 <label for="f-message" class="label">Bericht <span class="font-normal text-muted">(optioneel)</span></label>
                 <textarea id="f-message" name="message" class="input" placeholder="Vertel kort over je doel of vraag">{{ old('message') }}</textarea>

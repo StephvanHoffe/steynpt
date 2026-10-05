@@ -1,6 +1,7 @@
 "use client";
 
 import { Send } from "lucide-react";
+import Link from "next/link";
 import { useActionState } from "react";
 import { contactAction } from "@/lib/actions/contact";
 import type { FormState } from "@/lib/actions/types";
@@ -17,7 +18,11 @@ export function ContactForm({ defaultInterest }: { defaultInterest?: string }) {
       <div className="space-y-4">
         <FormAlert success={state.success} />
         <p className="text-sm text-muted">
-          Benieuwd naar online coaching? Maak alvast je gratis account aan, dan sta je direct klaar.
+          Benieuwd naar online coaching?{" "}
+          <Link href="/registreren" className="font-semibold underline">
+            Maak alvast je gratis account aan
+          </Link>
+          , dan sta je direct klaar.
         </p>
       </div>
     );
@@ -32,7 +37,7 @@ export function ContactForm({ defaultInterest }: { defaultInterest?: string }) {
         <Field label="Telefoonnummer" name="phone" type="tel" autoComplete="tel" defaultValue={v.phone} error={e.phone} hint="Optioneel, dan bellen we je" />
       </div>
       <SelectField
-        label="Ik wil een gratis kennismaking voor"
+        label="Waar heb je interesse in?"
         name="interest"
         options={INTERESTS}
         placeholder="Maak een keuze"

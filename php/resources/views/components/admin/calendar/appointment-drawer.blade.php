@@ -43,7 +43,7 @@
         <dt><x-icon name="MapPin" class="size-5 text-muted" /><span class="sr-only">Waar</span></dt>
         <dd>
           <span class="block font-semibold">{{ $location['label'] ?? $a->location }}</span>
-          @if ($location)<span class="text-muted">{{ $location['address'] }}</span>@endif
+          @if ($location)<span class="text-muted">{{ \App\Site\Texts::agendaAddress($location) }}</span>@endif
         </dd>
       </div>
       <div class="flex gap-3">

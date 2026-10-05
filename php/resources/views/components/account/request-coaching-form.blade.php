@@ -10,7 +10,7 @@
         <label class="flex cursor-pointer flex-col rounded-xl border-[1.5px] border-line bg-white p-4 transition-colors has-[:checked]:border-ink has-[:checked]:bg-surface">
           <input type="radio" name="plan" value="{{ $plan['id'] }}" @checked(($currentPlan ?? 'online-pro') === $plan['id']) class="sr-only">
           <span class="font-semibold">{{ $plan['name'] }}</span>
-          <span class="text-sm text-muted">€ {{ $plan['price'] }} p/m</span>
+          <span class="text-sm text-muted">€ {{ $plan['price'] }} per maand</span>
         </label>
       @endforeach
     </div>

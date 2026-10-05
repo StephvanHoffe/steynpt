@@ -49,8 +49,8 @@ describe("automatische waarden", () => {
 
   it("worden ingevuld in teksten, opsommingen en lijsten", () => {
     const filled = fillVars(pageDefaults(ademcoaching), vars);
-    assert.equal(filled.faq.points[0], "1-op-1: 1,5 uur voor € 210,-");
-    assert.match(filled.faq.questions[0].a, /duurt 1,5 uur en kost € 210,-/);
+    assert.equal(filled.faq.points[0], "1-op-1: 1,5 uur voor € 210");
+    assert.match(filled.faq.questions[0].a, /duurt 1,5 uur en kost € 210\./);
     assert.equal(fillText("{onbekend} blijft", vars), "{onbekend} blijft");
     assert.deepEqual(placeholdersIn("{a} {b} {a} {Geen}"), ["a", "b"]);
   });

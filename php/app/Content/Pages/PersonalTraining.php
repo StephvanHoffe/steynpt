@@ -28,7 +28,7 @@ final class PersonalTraining
             'slug' => 'personal-training',
             'title' => 'Personal training',
             'path' => '/personal-training',
-            'description' => '1-op-1 training, topsport en de PT-pakketten.',
+            'description' => '1-op-1-training, topsport en de PT-pakketten.',
             'sections' => [
                 'hero' => F::section('Bovenaan', [
                     'eyebrow' => F::line('Kleine kop', 'Personal training in Amsterdam Oud-West', ['max' => 60]),
@@ -38,7 +38,7 @@ final class PersonalTraining
                         'Ongeacht jouw doel of sport: SteynPT gaat er 100% voor. Met een persoonlijk trainingsplan werken we zo efficiënt mogelijk naar jouw doel toe, met veel energie, aandacht voor de juiste uitvoering en een fijne sfeer. Je traint bij Gymbase aan de Overtoom, op een paar minuten van het Vondelpark, of op een plek die jou uitkomt.',
                         ['max' => 500],
                     ),
-                    'primary' => F::line('Eerste knop', 'Vraag een gratis proefles aan', ['max' => 40]),
+                    'primary' => F::line('Eerste knop', 'Plan een gratis kennismaking', ['max' => 40]),
                     'secondary' => F::line('Tweede knop', 'Bekijk de pakketten', ['max' => 40]),
                 ]),
                 'leefstijl' => F::section('Gezondere leefstijl', [
@@ -68,7 +68,7 @@ final class PersonalTraining
                     'title' => F::title('Titel', 'Begeleiding voor sporters die *meer* willen', ['max' => 100]),
                     'intro' => F::text(
                         'Introductie',
-                        'Werk je naar een wedstrijd, wil je terugkomen na een blessure of zoek je die laatste procenten? Steyn is gespecialiseerd in het 1-op-1 begeleiden van specifieke doelen en (top)sporters.',
+                        'Werk je naar een wedstrijd, wil je terugkomen na een blessure of zoek je die laatste procenten? Steyn is gespecialiseerd in de 1-op-1-begeleiding van (top)sporters en mensen met een specifiek doel.',
                         ['max' => 500],
                     ),
                     'cards' => F::items(
@@ -78,10 +78,10 @@ final class PersonalTraining
                         [
                             ['title' => 'Doelgerichte periodisering', 'text' => 'Een plan dat toewerkt naar jouw wedstrijd, seizoen of moment suprême.'],
                             ['title' => 'Sportspecifieke kracht', 'text' => 'Kracht, snelheid en explosiviteit vertaald naar jouw sport.'],
-                            ['title' => 'Blessurepreventie', 'text' => 'Bewegingsassessment en gerichte oefeningen om sterker én heler te blijven.'],
+                            ['title' => 'Blessurepreventie', 'text' => 'Bewegingsassessment en gerichte oefeningen om sterker en blessurevrij te blijven.'],
                             ['title' => 'Herstel & ademhaling', 'text' => 'Slaap, voeding en ademtechnieken voor optimaal herstel en focus onder druk.'],
                             ['title' => 'Techniekanalyse', 'text' => 'We analyseren je uitvoering en sturen bij, ook tussen de sessies door.'],
-                            ['title' => 'Begeleiding rond je schema', 'text' => 'Afgestemd op trainingen bij je club, wedstrijden en reizen.'],
+                            ['title' => 'Past in je seizoen', 'text' => 'Afgestemd op trainingen bij je club, wedstrijden en reizen.'],
                         ],
                         ['fixed' => true],
                     ),
@@ -92,13 +92,13 @@ final class PersonalTraining
                     'Tarieven',
                     [
                         'eyebrow' => F::line('Kleine kop', 'Tarieven', ['max' => 60]),
-                        'title' => F::title('Titel', '1-op-1 pakketten', ['max' => 100]),
+                        'title' => F::title('Titel', '1-op-1-pakketten', ['max' => 100]),
                         'intro' => F::text(
                             'Introductie',
-                            'Sport je graag individueel en wil je samen met Steyn alles uit je sessie halen? Kies dan één van de 1-op-1 pakketten.',
+                            'Train je graag 1-op-1 en wil je samen met Steyn alles uit je sessie halen? Kies dan een van de pakketten.',
                             ['max' => 400],
                         ),
-                        'button' => F::line('Knop onder elk pakket', 'Plan een afspraak', ['max' => 40]),
+                        'button' => F::line('Knop onder elk pakket', 'Vraag dit pakket aan', ['max' => 40]),
                     ],
                     "De pakketten zelf pas je aan onder 'Prijzen en pakketten'.",
                 ),
@@ -108,7 +108,7 @@ final class PersonalTraining
                 ]),
                 'afsluiter' => F::ctaSection([
                     'title' => 'Zin om kennis te maken?',
-                    'text' => 'Plan een gratis proefles of kennismaking. We ontvangen je graag bij Gymbase.',
+                    'text' => 'Plan een gratis kennismaking. We ontvangen je graag bij Gymbase.',
                     'primary' => 'Gratis kennismaking',
                     'secondary' => 'Of start online',
                 ]),

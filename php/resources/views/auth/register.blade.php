@@ -17,7 +17,7 @@
       <x-form.alert :error="session('error')" />
 
       <fieldset>
-        <legend class="label">Kies je online coaching pakket</legend>
+        <legend class="label">Kies je pakket voor online coaching</legend>
         <div class="grid gap-2.5 sm:grid-cols-2">
           @foreach ($options as $option)
             <label class="flex cursor-pointer items-center gap-3 rounded-xl border-[1.5px] border-line bg-white p-4 transition-colors has-[:checked]:border-ink has-[:checked]:bg-surface has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent">
@@ -47,7 +47,7 @@
       <div class="space-y-3 rounded-xl bg-surface p-4 text-sm">
         <label class="flex gap-3">
           <input type="checkbox" name="terms" @checked(old('terms') === 'on') class="mt-0.5 size-4 shrink-0 accent-ink" required>
-          <span>Ik ga akkoord met de <a href="/privacy" target="_blank" class="font-semibold underline">privacyverklaring</a> en geef toestemming om mijn check-in gegevens (zoals gewicht) te gebruiken voor mijn coaching.</span>
+          <span>Ik heb de <a href="/privacy" target="_blank" class="font-semibold underline">privacyverklaring</a> gelezen en geef toestemming om mijn check-ins en metingen (zoals mijn gewicht) te gebruiken voor mijn coaching.</span>
         </label>
         @error('terms')<p class="field-error">{{ $message }}</p>@enderror
         <label class="flex gap-3">

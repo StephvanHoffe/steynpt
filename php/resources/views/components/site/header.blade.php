@@ -37,9 +37,9 @@
       </nav>
 
       <div class="flex items-center gap-2">
-        <a href="/account" class="hidden items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium text-ink/80 transition-colors hover:text-ink sm:inline-flex" aria-label="Mijn account">
+        <a href="/account" class="hidden items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium text-ink/80 transition-colors hover:text-ink sm:inline-flex" aria-label="Mijn omgeving">
           <x-icon name="User" class="size-4" />
-          <span class="xl:hidden 2xl:inline">Mijn account</span>
+          <span class="xl:hidden 2xl:inline">Mijn omgeving</span>
         </a>
         <a href="/online-coaching" class="btn btn-primary btn-sm hidden sm:inline-flex">Start online coaching</a>
         <button type="button" @click="open = true" class="grid size-11 place-items-center rounded-full border border-line bg-white xl:hidden"
@@ -80,7 +80,7 @@
       <div class="mt-8 grid gap-3">
         <a href="/online-coaching" class="btn btn-primary">Start online coaching</a>
         <a href="/account" class="btn btn-outline">
-          <x-icon name="User" class="size-4" /> Mijn account
+          <x-icon name="User" class="size-4" /> Mijn omgeving
         </a>
       </div>
     </nav>

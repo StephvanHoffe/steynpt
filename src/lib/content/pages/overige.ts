@@ -43,7 +43,7 @@ export const voedingscoaching = definePage({
     }),
     afsluiter: ctaSection({
       title: "Ook online mogelijk",
-      text: "Voedingscoaching is onderdeel van online coaching. Krijg je voedingsplan en wekelijkse feedback gewoon via je dashboard.",
+      text: "Voedingscoaching is onderdeel van online coaching. Je voeding en je wekelijkse check-ins staan gewoon in je eigen dashboard.",
       primary: "Bekijk online coaching",
       secondary: "Gratis kennismaking",
     }),
@@ -74,7 +74,7 @@ export const tarieven = definePage({
       "Snelmenu",
       {
         online: line("Online coaching", "Online coaching", { max: 30 }),
-        pt: line("Personal training", "1-op-1 training", { max: 30 }),
+        pt: line("Personal training", "1-op-1-training", { max: 30 }),
         adem: line("Ademcoaching", "Ademcoaching", { max: 30 }),
       },
       "De knoppen onder de titel die naar elk blok springen.",
@@ -85,15 +85,15 @@ export const tarieven = definePage({
       intro: text("Introductie", "Maandelijkse begeleiding met je eigen dashboard, wekelijkse check-ins en je metingen in één overzicht.", { max: 400 }),
     }),
     pt: section("Personal training", {
-      eyebrow: line("Kleine kop", "1-op-1 trainingen", { max: 60 }),
+      eyebrow: line("Kleine kop", "1-op-1-trainingen", { max: 60 }),
       title: title("Titel", "Personal training", { max: 100 }),
       intro: text(
         "Introductie",
-        "Sport je graag als individu en wil je samen met Steyn alles uit je sessie halen? Kies dan één van onze 1-op-1 pakketten.",
+        "Train je graag 1-op-1 en wil je samen met Steyn alles uit je sessie halen? Kies dan een van de pakketten.",
         { max: 400 },
       ),
-      button: line("Knop onder elk pakket", "Plan een afspraak", { max: 40 }),
-      note: line("Kleine tekst onder de pakketten", "* Prijs per uur. Duo-trainingen: € 15,- toeslag per sessie.", { max: 200, optional: true }),
+      button: line("Knop onder elk pakket", "Vraag dit pakket aan", { max: 40 }),
+      note: line("Kleine tekst onder de pakketten", "", { max: 200, optional: true }),
     }),
     adem: section("Ademcoaching", {
       eyebrow: line("Kleine kop", "1-op-1 en in groepsverband", { max: 60 }),
@@ -109,7 +109,7 @@ export const tarieven = definePage({
       groupPrice: line("Groep: prijs", "Op aanvraag", { max: 30 }),
       groupText: text(
         "Groep: tekst",
-        "Opzet, duur en tarief stemmen we af op jullie groepsgrootte en locatie. Voor bedrijven, sportteams en vriendengroepen.",
+        "Opzet, duur en tarief stemmen we af op jullie groepsgrootte en locatie.",
         { max: 300 },
       ),
       groupButton: line("Groep: knop", "Vraag een groepssessie aan", { max: 40 }),
@@ -137,7 +137,7 @@ export const overSteyn = definePage({
       title: title("Titel", "Over *Steyn*", { max: 80 }),
       intro: text(
         "Introductie",
-        "Full-time personal trainer en voedingscoach. Geboren in Hoevelaken, werkzaam in Amsterdam, en elke dag nog aan het doorleren.",
+        "Fulltime personal trainer en voedingscoach. Geboren in Hoevelaken, werkzaam in Amsterdam, en elke dag nog aan het doorleren.",
         { max: 500 },
       ),
       primary: line("Knop", "Vraag een kennismaking aan", { max: 40 }),
@@ -148,7 +148,7 @@ export const overSteyn = definePage({
       body: text(
         "Tekst",
         [
-          "Ik ben Steyn van Leeuwen, full-time personal trainer en voedingscoach. Ik ben geboren in Hoevelaken en nu werkzaam als PT in Amsterdam. Toen ik 15 was begon ik met fitness: door een beginnende hernia in mijn onderrug, als gevolg van het hockeyen, begon ik op aanraden van de fysio met krachttraining.",
+          "Ik ben Steyn van Leeuwen, fulltime personal trainer en voedingscoach. Ik ben geboren in Hoevelaken en nu werkzaam als PT in Amsterdam. Toen ik 15 was, begon ik met krachttraining: door het hockeyen had ik een beginnende hernia in mijn onderrug, en de fysiotherapeut raadde het me aan.",
           "Ik vond hierin mijn passie en kwam er al snel achter dat er veel onduidelijkheid is in de fitnesswereld: iedereen vindt er iets anders van. Daar is mijn interesse begonnen. Ik heb meerdere opleidingen gevolgd in personal training en voeding, en ik blijf elke dag doorleren.",
           "Ik geef persoonlijke trainingen, maak voedingsplannen op maat, begeleid sporters naar specifieke doelen en geef ademcoaching, 1-op-1 en in groepsverband. Samen werken we aan jouw doelen: binnen, buiten, in de gym, thuis, op kantoor of online.",
           "Wil je serieus aan de slag met je gezondheid en weten wat ik voor je kan betekenen? Neem dan contact met mij op!",
@@ -164,7 +164,7 @@ export const overSteyn = definePage({
         title: title("Titel", "Zo werken we samen", { max: 100 }),
         intro: text(
           "Introductie",
-          "Ik coach je niet alleen tijdens de trainingen. Ook daarbuiten hebben we contactmomenten om je gezondheid naar een hoger level te tillen.",
+          "Ik coach je niet alleen tijdens de trainingen. Ook daarbuiten hebben we contactmomenten om je gezondheid naar een hoger niveau te tillen.",
           { max: 400 },
         ),
       },
@@ -178,7 +178,7 @@ export const overSteyn = definePage({
     }),
     seo: seoSection(
       "Over Steyn van Leeuwen, personal trainer in Amsterdam",
-      "Maak kennis met Steyn van Leeuwen: full-time personal trainer, voedingscoach en orthomoleculair voedingstherapeut in Amsterdam.",
+      "Maak kennis met Steyn van Leeuwen: fulltime personal trainer, voedingscoach en orthomoleculair voedingstherapeut in Amsterdam.",
     ),
   },
 });
@@ -255,7 +255,7 @@ export const contact = definePage({
           { max: 500 },
         ),
         tipTitle: line("Tip: vetgedrukt begin", "Wist je dat", { max: 40 }),
-        tipText: line("Tip: tekst", "SteynPT ook trainingen op locatie aanbiedt?", { max: 160, hint: "Daarna volgt automatisch de tekst 'op locatie' van 'Op elke pagina'." }),
+        tipText: line("Tip: tekst", "SteynPT ook buiten de gym traint?", { max: 160, hint: "Daarna volgt automatisch de tekst 'op locatie' van 'Op elke pagina'." }),
       },
       "Adres, reactietijd en Instagram pas je aan onder 'Op elke pagina'.",
     ),
@@ -292,11 +292,15 @@ export const privacy = definePage({
         { title: line("Kop", "", { max: 100 }), body: text("Tekst", "", { max: 4000, paragraphs: true }) },
         [
           {
+            title: "Wie zijn wij?",
+            body: "SteynPT is de onderneming van Steyn van Leeuwen, personal trainer in Amsterdam. SteynPT is verantwoordelijk voor de verwerking van je persoonsgegevens zoals beschreven in deze verklaring. Heb je een vraag over je privacy of wil je een verzoek doen? Neem contact op via het contactformulier op deze website.",
+          },
+          {
             title: "Welke gegevens verwerken we?",
             body: [
               "Contactaanvragen: je naam, e-mailadres, (optioneel) telefoonnummer, je interesse en je bericht.",
-              "Account: je naam, e-mailadres, telefoonnummer, doel, gekozen pakket en wie je hebt uitgenodigd (vriendenactie).",
-              "Afspraken: type, datum, tijd, locatie en je eventuele opmerking. Steyn zet deze afspraken via een beveiligde, geheime link in zijn eigen agenda (bijvoorbeeld Google of Apple Agenda).",
+              "Account: je naam, e-mailadres, telefoonnummer, doel, gekozen pakket, door wie je bent uitgenodigd en wie jij hebt uitgenodigd (vriendenactie).",
+              "Afspraken: type, datum, tijd, locatie en je eventuele opmerking. Steyn zet deze afspraken, met je naam en contactgegevens, via een beveiligde, geheime link in zijn eigen agenda (bijvoorbeeld Google of Apple Agenda).",
               "Metingen: gewicht, vetpercentage, spiermassa en omtrekmaten die Steyn met je bijhoudt. Dit zijn gezondheidsgegevens; je ziet ze zelf in Mijn omgeving.",
               "Check-ins: je wekelijkse scores voor energie, slaap en voeding, aantal trainingen, eventueel je gewicht en opmerkingen. Dit zijn gezondheidsgegevens; we verwerken ze alleen met jouw uitdrukkelijke toestemming en uitsluitend voor je coaching.",
               "Intake: je doel, geslacht, geboortejaar, lengte, gewicht, activiteit, trainingservaring en -wensen, blessures, eetstijl, allergieën en eventuele medische aandachtspunten. Ook dit zijn gezondheidsgegevens; we gebruiken ze alleen met jouw uitdrukkelijke toestemming en alleen om je trainings- en voedingsschema te maken.",
@@ -320,7 +324,7 @@ export const privacy = definePage({
           },
           {
             title: "Delen met anderen",
-            body: "We verkopen je gegevens nooit. We delen ze alleen met partijen die nodig zijn om de website en je coaching te laten werken (zoals hosting en de AI-dienst hierboven), onder passende afspraken.",
+            body: "We verkopen je gegevens nooit. We delen ze alleen met partijen die nodig zijn om de website en je coaching te laten werken (zoals de hosting, de AI-dienst hierboven en de agenda-app van Steyn), onder passende afspraken.",
           },
           {
             title: "Beveiliging",
