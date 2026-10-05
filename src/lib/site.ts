@@ -24,6 +24,9 @@ export const NAV: { href: string; label: string; highlight?: boolean; desktop?: 
 // Standaardadres; Steyn past het aan in het beheer onder Website-teksten.
 export const LOCATIONS = [{ name: "Gymbase", street: "Overtoom 371-w", city: "1054 JN Amsterdam" }];
 
+/** Telefoonnummer voor een tel:-link: alleen cijfers en een + vooraan ("020 123 4567" → "0201234567"). */
+export const telHref = (phone: string) => (phone.trim().startsWith("+") ? "+" : "") + phone.replace(/\D+/g, "");
+
 /** Routelink naar Google Maps voor een adres. */
 export const mapsUrl = (street: string, city: string) =>
   `https://maps.google.com/?q=${encodeURIComponent(`${street}, ${city}`).replace(/%20/g, "+").replace(/%2C/g, ",")}`;

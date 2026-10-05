@@ -30,7 +30,7 @@ class SeoTest extends TestCase
     {
         $html = $this->get('/contact?onderwerp=ademcoaching')->assertOk()
             ->assertSee('<link rel="canonical" href="https://www.steynpt.nl/contact">', false)
-            ->assertSee('Contact en gratis kennismaking bij Gymbase in Amsterdam · SteynPT')
+            ->assertSee('Contact en gratis kennismaking bij Gymbase Amsterdam · SteynPT')
             ->assertSee('Op drie minuten lopen van het Vondelpark')
             ->getContent();
         $graph = collect($this->jsonLd($html)['@graph']);
@@ -108,5 +108,51 @@ class SeoTest extends TestCase
 
         $this->assertSame('Kinkerstraat 1, 1054 JN Amsterdam', Texts::agendaAddress(Agenda::getAgendaLocation('gymbase')));
         $this->assertSame('Locatie in overleg', Texts::agendaAddress(Agenda::getAgendaLocation('op-locatie')));
+    }
+
+    public function test_zoekterm_in_de_h1_en_veelgestelde_vragen_bij_personal_training_en_voeding(): void
+    {
+        foreach (['/personal-training' => 'Personal training in Amsterdam Oud-West', '/voedingscoaching' => 'Voedingscoach in Amsterdam Oud-West'] as $path => $eyebrow) {
+            $html = $this->get($path)->assertOk()->getContent();
+            $this->assertSame(1, preg_match('#<h1[^>]*>(.*?)</h1>#s', $html, $m), "precies één H1 op {$path}");
+            $this->assertStringContainsString($eyebrow, strip_tags($m[1]));
+            $page = collect($this->jsonLd($html)['@graph'])->last();
+            $this->assertContains('FAQPage', (array) $page['@type']);
+            $this->assertGreaterThanOrEqual(5, count($page['mainEntity']));
+        }
+    }
+
+    public function test_telefoon_en_e_mail_alleen_als_ze_zijn_ingevuld(): void
+    {
+        $html = $this->get('/contact')->assertOk()->assertDontSee('tel:', false)->getContent();
+        $this->assertArrayNotHasKey('telephone', collect($this->jsonLd($html)['@graph'])->firstWhere('@type', 'LocalBusiness'));
+
+        SiteText::query()->create(['key' => 'algemeen.locatie.phone', 'value' => json_encode('06 12 34 56 78'), 'updated_at' => now()]);
+        SiteText::query()->create(['key' => 'algemeen.locatie.email', 'value' => json_encode('info@steynpt.nl'), 'updated_at' => now()]);
+        Texts::flush(); // in de test loopt alles in één proces; op de server is elk verzoek nieuw
+        $html = $this->get('/contact')->assertOk()
+            ->assertSee('href="tel:0612345678"', false)
+            ->assertSee('href="mailto:info@steynpt.nl"', false)
+            ->getContent();
+        $business = collect($this->jsonLd($html)['@graph'])->firstWhere('@type', 'LocalBusiness');
+        $this->assertSame('06 12 34 56 78', $business['telephone']);
+        $this->assertSame('info@steynpt.nl', $business['email']);
+    }
+
+    public function test_sitemap_met_datum_van_de_laatste_wijziging(): void
+    {
+        SiteText::query()->create(['key' => 'privacy.intro.title', 'value' => json_encode('Privacy'), 'updated_at' => '2030-01-02 10:00:00']);
+        $xml = $this->get('/sitemap.xml')->assertOk()->getContent();
+        $this->assertSame(10, substr_count($xml, '<lastmod>'));
+        $this->assertStringContainsString("<loc>https://www.steynpt.nl/privacy</loc>\n<lastmod>2030-01-02</lastmod>", $xml);
+        $this->assertStringNotContainsString("<loc>https://www.steynpt.nl/contact</loc>\n<lastmod>2030-01-02</lastmod>", $xml);
+    }
+
+    public function test_fotos_met_lichtere_webp_versies(): void
+    {
+        $this->get('/')->assertOk()
+            ->assertSee('type="image/webp"', false)
+            ->assertSee('/images/steyn-glimlach.480w.webp 480w', false)
+            ->assertSee('src="'.asset('images/steyn-glimlach.jpg').'"', false);
     }
 }

@@ -15,8 +15,7 @@
     <x-logo-mark class="pointer-events-none absolute -right-20 top-10 hidden h-[640px] w-auto opacity-[0.035] lg:block" />
     <div class="container-site grid items-center gap-12 pb-16 pt-12 lg:grid-cols-[1.3fr_1fr] lg:pb-24 lg:pt-20">
       <div class="animate-rise">
-        <p class="eyebrow text-accent">{{ $t['hero']['eyebrow'] }}</p>
-        <h1 class="display display-xl mt-6">{{ \App\View\Rich::html($t['hero']['title']) }}</h1>
+        <x-hero-heading :eyebrow="$t['hero']['eyebrow']" :title="$t['hero']['title']" gap="mt-6" />
         <p class="lead mt-7 max-w-xl text-ink/75">{{ $t['hero']['intro'] }}</p>
         <div class="mt-9 flex flex-col gap-3 sm:flex-row">
           <x-button-link href="/online-coaching">{{ $t['hero']['primary'] }} <x-icon name="ArrowRight" class="size-4" /></x-button-link>
@@ -37,8 +36,8 @@
 
       <div class="relative mx-auto w-full max-w-md lg:max-w-none">
         <div class="absolute -inset-3 rounded-2xl border border-line" aria-hidden="true"></div>
-        <img src="{{ asset('images/steyn-glimlach.jpg') }}" alt="Steyn van Leeuwen lacht tijdens een intakegesprek" width="900" height="1350" fetchpriority="high" decoding="async"
-          class="relative aspect-[4/5] w-full rounded-xl object-cover">
+        <x-photo src="/images/steyn-glimlach.jpg" alt="Steyn van Leeuwen lacht tijdens een intakegesprek" width="900" height="1350" :priority="true" sizes="(min-width: 1024px) 40vw, 90vw"
+          class="relative aspect-[4/5] w-full rounded-xl object-cover" />
         <a href="/online-coaching" class="absolute -bottom-6 left-4 right-4 flex items-center justify-between gap-4 rounded-2xl bg-accent-tint p-4 text-ink shadow-xl transition-transform hover:-translate-y-0.5 sm:left-auto sm:right-[-1rem] sm:w-72">
           <span>
             <span class="block text-[11px] font-bold uppercase tracking-wider">{{ $t['hero']['badgeLabel'] }}</span>
@@ -124,8 +123,8 @@
   <section class="bg-surface py-20 lg:py-28">
     <div class="container-site grid items-center gap-14 lg:grid-cols-2">
       <div class="relative">
-        <img src="{{ asset('images/steyn-coaching-dumbbell.jpg') }}" alt="Steyn begeleidt een sporter bij een dumbbell press" width="900" height="1350" loading="lazy" decoding="async"
-          class="aspect-[4/5] w-full rounded-xl object-cover lg:max-w-lg">
+        <x-photo src="/images/steyn-coaching-dumbbell.jpg" alt="Steyn begeleidt een sporter bij een dumbbell press" width="900" height="1350" sizes="(min-width: 1024px) 512px, 90vw"
+          class="aspect-[4/5] w-full rounded-xl object-cover lg:max-w-lg" />
         <div class="absolute -bottom-6 right-0 max-w-[16rem] rounded-2xl bg-paper p-5 text-ink shadow-xl sm:right-6 lg:right-0">
           <p class="display text-4xl">{{ $t['over']['cardTitle'] }}</p>
           <p class="mt-1 text-sm text-muted">{{ $t['over']['cardText'] }}</p>

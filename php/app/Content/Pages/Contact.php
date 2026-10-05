@@ -33,7 +33,7 @@ final class Contact
                 'hero' => F::section(
                     'Bovenaan',
                     [
-                        'eyebrow' => F::line('Kleine kop', 'Kom direct met Steyn in contact', ['max' => 60]),
+                        'eyebrow' => F::line('Kleine kop', 'Gratis kennismaking bij Gymbase in Amsterdam', ['max' => 60]),
                         'title' => F::title('Titel', 'Leuk om eens *kennis* te maken!', ['max' => 80]),
                         'intro' => F::text(
                             'Introductie',
@@ -50,7 +50,7 @@ final class Contact
                     'intro' => F::text('Introductie', 'Vul je gegevens in, dan nemen we contact met je op om een moment te plannen.', ['max' => 300]),
                 ]),
                 'seo' => F::seoSection(
-                    'Contact en gratis kennismaking bij Gymbase in Amsterdam',
+                    'Contact en gratis kennismaking bij Gymbase Amsterdam',
                     'Vraag een gratis kennismaking aan. Je bent welkom bij Gymbase, Overtoom 371-w in Amsterdam Oud-West: vlak bij het Vondelpark, tram 1 om de hoek.',
                 ),
             ],

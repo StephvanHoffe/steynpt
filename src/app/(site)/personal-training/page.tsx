@@ -2,6 +2,7 @@ import { Activity, ArrowRight, CalendarRange, HeartPulse, ShieldCheck, Target, V
 import type { Metadata } from "next";
 import Image from "next/image";
 import { CtaBand } from "@/components/CtaBand";
+import { Faq } from "@/components/Faq";
 import { PageHero } from "@/components/PageHero";
 import { PriceCard } from "@/components/PriceCard";
 import { Reviews } from "@/components/Reviews";
@@ -87,7 +88,7 @@ export default async function PersonalTrainingPage() {
         <SectionHeading eyebrow={t.tarieven.eyebrow} title={<Rich text={t.tarieven.title} />} intro={t.tarieven.intro} />
         <div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {prices.map((card, i) => (
-            <PriceCard key={i} card={card} cta={t.tarieven.button} />
+            <PriceCard key={i} card={card} cta={t.tarieven.button} href="/contact?onderwerp=personal-training" />
           ))}
         </div>
       </section>
@@ -98,6 +99,13 @@ export default async function PersonalTrainingPage() {
           <div className="mt-12">
             <Reviews />
           </div>
+        </div>
+      </section>
+
+      <section className="container-site py-20 lg:py-28">
+        <SectionHeading eyebrow={t.faq.eyebrow} title={<Rich text={t.faq.title} />} />
+        <div className="mt-10 max-w-4xl">
+          <Faq items={t.faq.questions} />
         </div>
       </section>
 

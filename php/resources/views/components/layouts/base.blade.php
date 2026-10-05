@@ -9,7 +9,7 @@
     'faq' => null,
 ])
 @php
-    $defaultTitle = 'SteynPT · Personal trainer in Amsterdam Oud-West & online coaching';
+    $defaultTitle = 'SteynPT · Personal training en online coaching in Amsterdam';
     $fullTitle = $title === null ? $defaultTitle : ($absoluteTitle ? $title : str_replace('%s', $title, $titleTemplate));
     $description ??= \App\Content\Defaults::SITE['description'];
     $siteUrl = rtrim(config('app.url'), '/');
@@ -45,6 +45,17 @@
     @endunless
     <link rel="icon" href="{{ asset('icon.jpg') }}" type="image/jpeg">
     <link rel="apple-touch-icon" href="{{ asset('apple-icon.png') }}">
+    {{-- De twee lettertypen boven in beeld meteen ophalen, zodat de koppen niet verspringen (sneller scherm voor Google). --}}
+    @foreach (['archivo/files/archivo-latin-wdth-normal.woff2', 'inter/files/inter-latin-wght-normal.woff2'] as $font)
+        @php
+            try {
+                $fontUrl = \Illuminate\Support\Facades\Vite::asset("node_modules/@fontsource-variable/{$font}");
+            } catch (\Throwable) {
+                $fontUrl = null;
+            }
+        @endphp
+        @if ($fontUrl)<link rel="preload" href="{{ $fontUrl }}" as="font" type="font/woff2" crossorigin>@endif
+    @endforeach
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="flex min-h-dvh flex-col">

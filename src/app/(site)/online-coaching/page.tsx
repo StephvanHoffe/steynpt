@@ -11,6 +11,7 @@ import { ButtonLink, SectionHeading } from "@/components/ui";
 import { algemeen, onlineCoaching } from "@/lib/content/registry";
 import { getTexts } from "@/lib/content/texts";
 import { resolveInvitation } from "@/lib/referral";
+import { HeroHeading } from "@/components/HeroHeading";
 
 const AUDIENCE_ICONS = [Dumbbell, Briefcase, Plane, Trophy];
 
@@ -36,10 +37,7 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
                 {invitation.firstName} nodigt je uit: je krijgt {shared.vriendenactie.friendReward}
               </p>
             )}
-            <p className="eyebrow text-accent">{t.hero.eyebrow}</p>
-            <h1 className="display display-xl mt-5">
-              <Rich text={t.hero.title} />
-            </h1>
+            <HeroHeading eyebrow={t.hero.eyebrow} title={<Rich text={t.hero.title} />} />
             <p className="lead mt-6 max-w-xl text-ink/75">{t.hero.intro}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="#pakketten">

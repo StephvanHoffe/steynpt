@@ -437,7 +437,7 @@
             "title": {
               "kind": "line",
               "label": "Paginatitel",
-              "default": "SteynPT · Personal trainer in Amsterdam Oud-West & online coaching",
+              "default": "SteynPT · Personal training en online coaching in Amsterdam",
               "max": 90,
               "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
             },
@@ -785,14 +785,14 @@
             "title": {
               "kind": "line",
               "label": "Paginatitel",
-              "default": "Online coaching",
+              "default": "Online personal trainer: schema en voeding op maat",
               "max": 90,
               "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
             },
             "description": {
               "kind": "text",
               "label": "Omschrijving",
-              "default": "Online coaching door Steyn van Leeuwen: trainingsschema en voedingsplan op maat, wekelijkse check-ins in je eigen dashboard en persoonlijke bijsturing. Nodig een vriend uit en krijg samen korting.",
+              "default": "Online coaching door personal trainer Steyn van Leeuwen: schema en voeding op maat en wekelijkse check-ins in je eigen dashboard. Vanaf € {online-vanaf} per maand.",
               "max": 300,
               "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
             }
@@ -1015,6 +1015,71 @@
               "default": "Resultaat dat blijft",
               "rich": true,
               "max": 100
+            }
+          }
+        },
+        "faq": {
+          "title": "Veelgestelde vragen",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Veelgestelde vragen",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Vragen over personal training in Amsterdam",
+              "rich": true,
+              "max": 100
+            },
+            "questions": {
+              "kind": "items",
+              "label": "Vragen",
+              "itemLabel": "Vraag",
+              "fields": {
+                "q": {
+                  "kind": "line",
+                  "label": "Vraag",
+                  "default": "",
+                  "max": 160
+                },
+                "a": {
+                  "kind": "text",
+                  "label": "Antwoord",
+                  "default": "",
+                  "max": 800
+                }
+              },
+              "default": [
+                {
+                  "q": "Wat kost een personal trainer bij SteynPT?",
+                  "a": "Dat hangt af van hoeveel trainingen je neemt. Je kiest een losse training of een pakket van 10, 20 of 40 trainingen; hoe groter het pakket, hoe voordeliger per training. Alle prijzen staan hierboven en op de tarievenpagina."
+                },
+                {
+                  "q": "Waar vinden de trainingen plaats?",
+                  "a": "Bij Gymbase aan de Overtoom in Amsterdam Oud-West, op een paar minuten lopen van het Vondelpark. Liever op een andere plek? Dan trainen we op locatie, bijvoorbeeld in het park of op je werk."
+                },
+                {
+                  "q": "Is de kennismaking echt gratis?",
+                  "a": "Ja. In een gratis kennismaking van een half uur bespreken we je doelen en je achtergrond, en krijg je een rondleiding bij Gymbase. Daarna beslis je zelf of je wilt starten."
+                },
+                {
+                  "q": "Ik heb nog nooit in een gym getraind. Is personal training iets voor mij?",
+                  "a": "Zeker. Steyn stemt je trainingsplan af op jouw niveau en let op de juiste uitvoering, zodat je veilig en met vertrouwen begint. Train je al jaren of heb je een specifiek sportdoel, dan krijg je net zo goed een plan op maat."
+                },
+                {
+                  "q": "Kan ik met z'n tweeën trainen?",
+                  "a": "Ja, duo-training kan. Je traint dan samen met een vriend, partner of collega, tegen een toeslag per sessie. Je vindt die bij de tarieven."
+                },
+                {
+                  "q": "Kan ik personal training combineren met online coaching?",
+                  "a": "Ja. Veel sporters combineren een paar 1-op-1-trainingen bij Gymbase met online coaching voor de dagen ertussen. Zo heb je ook buiten de trainingen een plan en een coach die meekijkt."
+                }
+              ],
+              "min": 1,
+              "max": 15
             }
           }
         },
@@ -1443,7 +1508,7 @@
             "description": {
               "kind": "text",
               "label": "Omschrijving",
-              "default": "Ademcoaching door Steyn van Leeuwen in Amsterdam: een 1-op-1-ademsessie van {ademduur} voor € {ademprijs}, of een groepssessie op aanvraag voor bedrijven, sportteams en vriendengroepen.",
+              "default": "Ademcoaching in Amsterdam door Steyn van Leeuwen: een 1-op-1-ademsessie van {ademduur} voor € {ademprijs}, of een groepssessie voor bedrijven en sportteams.",
               "max": 300,
               "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
             }
@@ -1463,7 +1528,7 @@
             "eyebrow": {
               "kind": "line",
               "label": "Kleine kop",
-              "default": "Alles over voedingscoaching",
+              "default": "Voedingscoach in Amsterdam Oud-West",
               "max": 60
             },
             "title": {
@@ -1568,6 +1633,67 @@
             }
           }
         },
+        "faq": {
+          "title": "Veelgestelde vragen",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Veelgestelde vragen",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Vragen over voedingscoaching",
+              "rich": true,
+              "max": 100
+            },
+            "questions": {
+              "kind": "items",
+              "label": "Vragen",
+              "itemLabel": "Vraag",
+              "fields": {
+                "q": {
+                  "kind": "line",
+                  "label": "Vraag",
+                  "default": "",
+                  "max": 160
+                },
+                "a": {
+                  "kind": "text",
+                  "label": "Antwoord",
+                  "default": "",
+                  "max": 800
+                }
+              },
+              "default": [
+                {
+                  "q": "Wat doet een orthomoleculair voedingstherapeut?",
+                  "a": "Een orthomoleculair voedingstherapeut kijkt niet alleen naar calorieën en macronutriënten (eiwitten, koolhydraten en vetten), maar ook naar micronutriënten zoals vitamines en mineralen. Zo werken we aan je doel én aan hoe je je voelt."
+                },
+                {
+                  "q": "Hoe verloopt voedingscoaching?",
+                  "a": "We beginnen met een intake en een analyse van je eetpatroon. Daarna krijg je een voedingsplan op maat. Met tussentijdse metingen zien we wat werkt en sturen we bij."
+                },
+                {
+                  "q": "Moet ik een streng dieet volgen?",
+                  "a": "Nee. Geen crashdiëten, maar een plan dat past bij jouw leven en dat je volhoudt. Stap voor stap verbeteren we je voeding."
+                },
+                {
+                  "q": "Kan voedingscoaching ook online?",
+                  "a": "Ja. Voedingscoaching is onderdeel van online coaching: je voeding en je wekelijkse check-ins staan in je eigen dashboard. Woon je in Amsterdam, dan kun je ook langskomen bij Gymbase in Oud-West."
+                },
+                {
+                  "q": "Ik heb een medische aandoening. Is voedingscoaching dan geschikt?",
+                  "a": "Voedingscoaching vervangt geen behandeling door je arts. Gebruik je medicijnen of heb je een aandoening, vertel het dan tijdens de intake. Waar nodig stemmen we het plan af met je arts."
+                }
+              ],
+              "min": 1,
+              "max": 15
+            }
+          }
+        },
         "afsluiter": {
           "title": "Afsluiter onderaan",
           "hint": "Het zwarte blok onderaan de pagina.",
@@ -1632,7 +1758,7 @@
             "eyebrow": {
               "kind": "line",
               "label": "Kleine kop",
-              "default": "Prijzen en pakketten",
+              "default": "Personal training en coaching in Amsterdam",
               "max": 60
             },
             "title": {
@@ -1859,7 +1985,7 @@
             "eyebrow": {
               "kind": "line",
               "label": "Kleine kop",
-              "default": "Kom alles te weten",
+              "default": "Personal trainer in Amsterdam",
               "max": 60
             },
             "title": {
@@ -2129,7 +2255,7 @@
             "description": {
               "kind": "text",
               "label": "Omschrijving",
-              "default": "Nodig een vriend uit voor online coaching bij SteynPT. {actie}: je vriend krijgt {vriendkorting}, jij {jouwkorting}.",
+              "default": "Nodig een vriend uit voor online coaching bij SteynPT. {actie}: je vriend krijgt {vriendkorting}.",
               "max": 300,
               "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
             }
@@ -2150,7 +2276,7 @@
             "eyebrow": {
               "kind": "line",
               "label": "Kleine kop",
-              "default": "Kom direct met Steyn in contact",
+              "default": "Gratis kennismaking bij Gymbase in Amsterdam",
               "max": 60
             },
             "title": {
@@ -2206,7 +2332,7 @@
             "title": {
               "kind": "line",
               "label": "Paginatitel",
-              "default": "Contact en gratis kennismaking bij Gymbase in Amsterdam",
+              "default": "Contact en gratis kennismaking bij Gymbase Amsterdam",
               "max": 90,
               "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
             },
@@ -2615,6 +2741,22 @@
               "default": "Op drie minuten lopen van het Vondelpark. Tram 1 stopt om de hoek, bij de halte Rhijnvis Feithstraat.",
               "max": 200,
               "hint": "Op de homepage en de contactpagina."
+            },
+            "phone": {
+              "kind": "line",
+              "label": "Telefoonnummer",
+              "default": "",
+              "max": 30,
+              "optional": true,
+              "hint": "Leeg laten mag. Op de contactpagina, in de footer en voor Google; gebruik overal precies hetzelfde als in je Google Bedrijfsprofiel."
+            },
+            "email": {
+              "kind": "line",
+              "label": "E-mailadres",
+              "default": "",
+              "max": 120,
+              "optional": true,
+              "hint": "Leeg laten mag. Op de contactpagina, in de footer en voor Google; gebruik overal precies hetzelfde als in je Google Bedrijfsprofiel."
             },
             "onLocationTitle": {
               "kind": "line",
@@ -4463,7 +4605,7 @@
             "intro": "Bij Gymbase aan de Overtoom in Amsterdam Oud-West, op jouw favoriete plek of volledig online."
           },
           "seo": {
-            "title": "SteynPT · Personal trainer in Amsterdam Oud-West & online coaching",
+            "title": "SteynPT · Personal training en online coaching in Amsterdam",
             "description": "Personal trainer bij Gymbase aan de Overtoom in Amsterdam Oud-West, vlak bij het Vondelpark. 1-op-1 training, online coaching, voedingscoaching en ademcoaching."
           }
         }
@@ -4566,8 +4708,8 @@
             "secondary": "Gratis kennismaking"
           },
           "seo": {
-            "title": "Online coaching",
-            "description": "Online coaching door Steyn van Leeuwen: trainingsschema en voedingsplan op maat, wekelijkse check-ins in je eigen dashboard en persoonlijke bijsturing. Nodig een vriend uit en krijg samen korting."
+            "title": "Online personal trainer: schema en voeding op maat",
+            "description": "Online coaching door personal trainer Steyn van Leeuwen: schema en voeding op maat en wekelijkse check-ins in je eigen dashboard. Vanaf € {online-vanaf} per maand."
           }
         }
       },
@@ -4665,6 +4807,8 @@
             "city": "1054 JN Amsterdam",
             "area": "Amsterdam Oud-West",
             "directions": "Op drie minuten lopen van het Vondelpark. Tram 1 stopt om de hoek, bij de halte Rhijnvis Feithstraat.",
+            "phone": "",
+            "email": "",
             "onLocationTitle": "Op locatie",
             "onLocation": "Naast onze vaste locatie Gymbase komen we ook op locatie: in jouw favoriete park of in de kantine van je werk.",
             "onlineTitle": "Online",

@@ -8,7 +8,7 @@ export const voedingscoaching = definePage({
   description: "Voedingsbegeleiding, waarbij Steyn helpt en hoe er gemeten wordt.",
   sections: {
     hero: section("Bovenaan", {
-      eyebrow: line("Kleine kop", "Alles over voedingscoaching", { max: 60 }),
+      eyebrow: line("Kleine kop", "Voedingscoach in Amsterdam Oud-West", { max: 60 }),
       title: title("Titel", "Voeding die *werkt* voor jou", { max: 80 }),
       intro: text(
         "Introductie",
@@ -41,6 +41,38 @@ export const voedingscoaching = definePage({
         { max: 8, hint: "Eén punt per regel." },
       ),
     }),
+    faq: section("Veelgestelde vragen", {
+      eyebrow: line("Kleine kop", "Veelgestelde vragen", { max: 60 }),
+      title: title("Titel", "Vragen over voedingscoaching", { max: 100 }),
+      questions: items(
+        "Vragen",
+        "Vraag",
+        { q: line("Vraag", "", { max: 160 }), a: text("Antwoord", "", { max: 800 }) },
+        [
+          {
+            q: "Wat doet een orthomoleculair voedingstherapeut?",
+            a: "Een orthomoleculair voedingstherapeut kijkt niet alleen naar calorieën en macronutriënten (eiwitten, koolhydraten en vetten), maar ook naar micronutriënten zoals vitamines en mineralen. Zo werken we aan je doel én aan hoe je je voelt.",
+          },
+          {
+            q: "Hoe verloopt voedingscoaching?",
+            a: "We beginnen met een intake en een analyse van je eetpatroon. Daarna krijg je een voedingsplan op maat. Met tussentijdse metingen zien we wat werkt en sturen we bij.",
+          },
+          {
+            q: "Moet ik een streng dieet volgen?",
+            a: "Nee. Geen crashdiëten, maar een plan dat past bij jouw leven en dat je volhoudt. Stap voor stap verbeteren we je voeding.",
+          },
+          {
+            q: "Kan voedingscoaching ook online?",
+            a: "Ja. Voedingscoaching is onderdeel van online coaching: je voeding en je wekelijkse check-ins staan in je eigen dashboard. Woon je in Amsterdam, dan kun je ook langskomen bij Gymbase in Oud-West.",
+          },
+          {
+            q: "Ik heb een medische aandoening. Is voedingscoaching dan geschikt?",
+            a: "Voedingscoaching vervangt geen behandeling door je arts. Gebruik je medicijnen of heb je een aandoening, vertel het dan tijdens de intake. Waar nodig stemmen we het plan af met je arts.",
+          },
+        ],
+        { min: 1, max: 15 },
+      ),
+    }),
     afsluiter: ctaSection({
       title: "Ook online mogelijk",
       text: "Voedingscoaching is onderdeel van online coaching. Je voeding en je wekelijkse check-ins staan gewoon in je eigen dashboard.",
@@ -61,7 +93,7 @@ export const tarieven = definePage({
   description: "De koppen en uitleg op de tarievenpagina. De prijzen zelf staan onder 'Prijzen en pakketten'.",
   sections: {
     hero: section("Bovenaan", {
-      eyebrow: line("Kleine kop", "Prijzen en pakketten", { max: 60 }),
+      eyebrow: line("Kleine kop", "Personal training en coaching in Amsterdam", { max: 60 }),
       title: title("Titel", "Tarieven", { max: 80 }),
       intro: text(
         "Introductie",
@@ -133,7 +165,7 @@ export const overSteyn = definePage({
   description: "Het verhaal van Steyn en de werkwijze.",
   sections: {
     hero: section("Bovenaan", {
-      eyebrow: line("Kleine kop", "Kom alles te weten", { max: 60 }),
+      eyebrow: line("Kleine kop", "Personal trainer in Amsterdam", { max: 60 }),
       title: title("Titel", "Over *Steyn*", { max: 80 }),
       intro: text(
         "Introductie",
@@ -234,7 +266,7 @@ export const vriendUitnodigen = definePage({
       primary: "Bekijk online coaching",
       secondary: "Gratis kennismaking",
     }),
-    seo: seoSection("Vriend uitnodigen", "Nodig een vriend uit voor online coaching bij SteynPT. {actie}: je vriend krijgt {vriendkorting}, jij {jouwkorting}."),
+    seo: seoSection("Vriend uitnodigen", "Nodig een vriend uit voor online coaching bij SteynPT. {actie}: je vriend krijgt {vriendkorting}."),
   },
 });
 
@@ -247,7 +279,7 @@ export const contact = definePage({
     hero: section(
       "Bovenaan",
       {
-        eyebrow: line("Kleine kop", "Kom direct met Steyn in contact", { max: 60 }),
+        eyebrow: line("Kleine kop", "Gratis kennismaking bij Gymbase in Amsterdam", { max: 60 }),
         title: title("Titel", "Leuk om eens *kennis* te maken!", { max: 80 }),
         intro: text(
           "Introductie",
@@ -264,7 +296,7 @@ export const contact = definePage({
       intro: text("Introductie", "Vul je gegevens in, dan nemen we contact met je op om een moment te plannen.", { max: 300 }),
     }),
     seo: seoSection(
-      "Contact en gratis kennismaking bij Gymbase in Amsterdam",
+      "Contact en gratis kennismaking bij Gymbase Amsterdam",
       "Vraag een gratis kennismaking aan. Je bent welkom bij Gymbase, Overtoom 371-w in Amsterdam Oud-West: vlak bij het Vondelpark, tram 1 om de hoek.",
     ),
   },

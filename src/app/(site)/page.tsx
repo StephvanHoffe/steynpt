@@ -23,6 +23,7 @@ import { Rich } from "@/components/content/Rich";
 import { ButtonLink, CheckList, SectionHeading } from "@/components/ui";
 import { algemeen, home } from "@/lib/content/registry";
 import { getTexts } from "@/lib/content/texts";
+import { HeroHeading } from "@/components/HeroHeading";
 
 // Links en iconen horen vast bij de kaarten; de teksten komen uit het tekstbeheer (zelfde volgorde).
 const SERVICES = [
@@ -50,10 +51,7 @@ export default async function HomePage() {
         <LogoMark className="pointer-events-none absolute -right-20 top-10 hidden h-[640px] w-auto opacity-[0.035] lg:block" />
         <div className="container-site grid items-center gap-12 pb-16 pt-12 lg:grid-cols-[1.3fr_1fr] lg:pb-24 lg:pt-20">
           <div className="animate-rise">
-            <p className="eyebrow text-accent">{t.hero.eyebrow}</p>
-            <h1 className="display display-xl mt-6">
-              <Rich text={t.hero.title} />
-            </h1>
+            <HeroHeading eyebrow={t.hero.eyebrow} title={<Rich text={t.hero.title} />} gap="mt-6" />
             <p className="lead mt-7 max-w-xl text-ink/75">{t.hero.intro}</p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="/online-coaching">

@@ -111,6 +111,8 @@ export const algemeen = definePage({
           max: 200,
           hint: "Op de homepage en de contactpagina.",
         }),
+        phone: line("Telefoonnummer", "", { max: 30, optional: true, hint: "Leeg laten mag. Op de contactpagina, in de footer en voor Google; gebruik overal precies hetzelfde als in je Google Bedrijfsprofiel." }),
+        email: line("E-mailadres", "", { max: 120, optional: true, hint: "Leeg laten mag. Op de contactpagina, in de footer en voor Google; gebruik overal precies hetzelfde als in je Google Bedrijfsprofiel." }),
         onLocationTitle: line("Kop 'op locatie'", "Op locatie", { max: 40 }),
         onLocation: text(
           "Tekst 'op locatie'",

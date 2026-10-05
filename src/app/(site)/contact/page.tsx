@@ -1,11 +1,12 @@
-import { Clock, MapPin, TramFront } from "lucide-react";
+import { Clock, Mail, MapPin, Phone, TramFront } from "lucide-react";
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { Rich } from "@/components/content/Rich";
 import { InstagramIcon } from "@/components/icons";
 import { algemeen, contact } from "@/lib/content/registry";
 import { getTexts } from "@/lib/content/texts";
-import { INTERESTS, mapsUrl } from "@/lib/site";
+import { INTERESTS, mapsUrl, telHref } from "@/lib/site";
+import { HeroHeading } from "@/components/HeroHeading";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { seo } = await getTexts(contact);
@@ -21,10 +22,7 @@ export default async function ContactPage({ searchParams }: PageProps<"/contact"
     <section className="hero-soft">
       <div className="container-site grid gap-12 py-16 lg:grid-cols-[1fr_1.1fr] lg:py-24">
         <div className="animate-rise">
-          <p className="eyebrow text-accent">{t.hero.eyebrow}</p>
-          <h1 className="display display-xl mt-5">
-            <Rich text={t.hero.title} />
-          </h1>
+          <HeroHeading eyebrow={t.hero.eyebrow} title={<Rich text={t.hero.title} />} />
           <p className="lead mt-6 max-w-xl text-ink/75">{t.hero.intro}</p>
           <p className="mt-8 flex items-center gap-3 text-ink/85">
             <Clock className="size-5 text-accent" aria-hidden="true" />
@@ -52,6 +50,27 @@ export default async function ContactPage({ searchParams }: PageProps<"/contact"
                 <TramFront className="size-5 text-accent" aria-hidden="true" />
                 <p className="mt-3 font-semibold">Bereikbaarheid</p>
                 <p className="mt-1 text-sm text-muted">{locatie.directions}</p>
+              </div>
+            )}
+            {(locatie.phone || locatie.email) && (
+              <div className="card-soft p-5 sm:col-span-2">
+                <p className="font-semibold">Direct contact</p>
+                <ul className="mt-2 space-y-1.5 text-sm text-muted">
+                  {locatie.phone && (
+                    <li>
+                      <a href={`tel:${telHref(locatie.phone)}`} className="inline-flex items-center gap-2 hover:text-ink">
+                        <Phone className="size-4 text-accent" aria-hidden="true" /> {locatie.phone}
+                      </a>
+                    </li>
+                  )}
+                  {locatie.email && (
+                    <li>
+                      <a href={`mailto:${locatie.email}`} className="inline-flex items-center gap-2 hover:text-ink">
+                        <Mail className="size-4 text-accent" aria-hidden="true" /> {locatie.email}
+                      </a>
+                    </li>
+                  )}
+                </ul>
               </div>
             )}
           </div>

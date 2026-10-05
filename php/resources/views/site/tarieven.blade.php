@@ -29,7 +29,7 @@
     <x-section-heading :eyebrow="$t['pt']['eyebrow']" :title="$t['pt']['title']" :intro="$t['pt']['intro']" />
     <div class="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
       @foreach (\App\Site\Texts::ptPrices() as $card)
-        <x-price-card :card="$card" :cta="$t['pt']['button']" />
+        <x-price-card :card="$card" :cta="$t['pt']['button']" href="/contact?onderwerp=personal-training" />
       @endforeach
     </div>
     @if ($t['pt']['note'] !== '')<p class="mt-6 text-sm text-muted">{{ $t['pt']['note'] }}</p>@endif

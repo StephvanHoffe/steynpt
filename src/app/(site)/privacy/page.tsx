@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Paragraphs, Rich } from "@/components/content/Rich";
 import { privacy } from "@/lib/content/registry";
 import { getTexts } from "@/lib/content/texts";
+import { HeroHeading } from "@/components/HeroHeading";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { seo } = await getTexts(privacy);
@@ -13,10 +14,7 @@ export default async function PrivacyPage() {
   const t = await getTexts(privacy);
   return (
     <div className="container-site max-w-3xl py-16 lg:py-24">
-      <p className="eyebrow text-muted">{t.intro.eyebrow}</p>
-      <h1 className="display display-lg mt-4">
-        <Rich text={t.intro.title} />
-      </h1>
+      <HeroHeading eyebrow={t.intro.eyebrow} title={<Rich text={t.intro.title} />} size="lg" eyebrowClass="text-muted" gap="mt-4" />
       <p className="lead mt-6 text-muted">{t.intro.intro}</p>
       <div className="mt-12 space-y-10">
         {t.onderdelen.sections.map((s, i) => (

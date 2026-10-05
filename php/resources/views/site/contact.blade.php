@@ -3,8 +3,7 @@
   <section class="hero-soft">
     <div class="container-site grid gap-12 py-16 lg:grid-cols-[1fr_1.1fr] lg:py-24">
       <div class="animate-rise">
-        <p class="eyebrow text-accent">{{ $t['hero']['eyebrow'] }}</p>
-        <h1 class="display display-xl mt-5">{{ \App\View\Rich::html($t['hero']['title']) }}</h1>
+        <x-hero-heading :eyebrow="$t['hero']['eyebrow']" :title="$t['hero']['title']" />
         <p class="lead mt-6 max-w-xl text-ink/75">{{ $t['hero']['intro'] }}</p>
         <p class="mt-8 flex items-center gap-3 text-ink/85">
           <x-icon name="Clock" class="size-5 text-accent" />
@@ -22,6 +21,19 @@
               <x-icon name="TramFront" class="size-5 text-accent" />
               <p class="mt-3 font-semibold">Bereikbaarheid</p>
               <p class="mt-1 text-sm text-muted">{{ $locatie['directions'] }}</p>
+            </div>
+          @endif
+          @if ($locatie['phone'] !== '' || $locatie['email'] !== '')
+            <div class="card-soft p-5 sm:col-span-2">
+              <p class="font-semibold">Direct contact</p>
+              <ul class="mt-2 space-y-1.5 text-sm text-muted">
+                @if ($locatie['phone'] !== '')
+                  <li><a href="tel:{{ \App\Site\Site::telHref($locatie['phone']) }}" class="inline-flex items-center gap-2 hover:text-ink"><x-icon name="Phone" class="size-4 text-accent" /> {{ $locatie['phone'] }}</a></li>
+                @endif
+                @if ($locatie['email'] !== '')
+                  <li><a href="mailto:{{ $locatie['email'] }}" class="inline-flex items-center gap-2 hover:text-ink"><x-icon name="Mail" class="size-4 text-accent" /> {{ $locatie['email'] }}</a></li>
+                @endif
+              </ul>
             </div>
           @endif
         </div>

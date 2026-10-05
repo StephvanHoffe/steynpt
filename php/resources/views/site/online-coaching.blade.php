@@ -11,8 +11,8 @@
           <p class="mb-6 inline-flex items-center gap-2 rounded-full bg-accent-tint px-4 py-2 text-sm font-semibold text-ink">
             <x-icon name="Gift" class="size-4" />
             {{ $invitation['firstName'] }} nodigt je uit: je krijgt {{ $shared['vriendenactie']['friendReward'] }}
-          </p>@endif<p class="eyebrow text-accent">{{ $t['hero']['eyebrow'] }}</p>
-        <h1 class="display display-xl mt-5">{{ \App\View\Rich::html($t['hero']['title']) }}</h1>
+          </p>@endif
+        <x-hero-heading :eyebrow="$t['hero']['eyebrow']" :title="$t['hero']['title']" />
         <p class="lead mt-6 max-w-xl text-ink/75">{{ $t['hero']['intro'] }}</p>
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
           <x-button-link href="#pakketten">{{ $t['hero']['primary'] }} <x-icon name="ArrowRight" class="size-4" /></x-button-link>

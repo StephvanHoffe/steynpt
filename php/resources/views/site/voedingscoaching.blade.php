@@ -1,4 +1,4 @@
-<x-layouts.site :title="$t['seo']['title']" :description="$t['seo']['description']">
+<x-layouts.site :title="$t['seo']['title']" :description="$t['seo']['description']" :faq="$t['faq']['questions']">
   <x-page-hero :eyebrow="$t['hero']['eyebrow']" :title="$t['hero']['title']" :intro="$t['hero']['intro']" image="/images/steyn-intake.jpg" image-alt="Steyn tijdens een voedingsgesprek">
     <x-button-link href="/contact">{{ $t['hero']['primary'] }} <x-icon name="ArrowRight" class="size-4" /></x-button-link>
   </x-page-hero>
@@ -16,13 +16,18 @@
 
   <section class="bg-surface">
     <div class="grid lg:grid-cols-2">
-      <img src="{{ asset('images/meting-huidplooi.jpg') }}" alt="Huidplooimeting met een caliper" width="1400" height="933" loading="lazy" decoding="async"
-        class="h-full max-h-[560px] w-full object-cover">
+      <x-photo src="/images/meting-huidplooi.jpg" alt="Huidplooimeting met een caliper" width="1400" height="933" sizes="(min-width: 1024px) 50vw, 100vw"
+        class="h-full max-h-[560px] w-full object-cover" />
       <div class="px-4 py-16 sm:px-10 lg:px-16 lg:py-24">
         <x-section-heading :eyebrow="$t['meten']['eyebrow']" :title="$t['meten']['title']" :intro="$t['meten']['intro']" />
         <div class="mt-8"><x-check-list :items="$t['meten']['points']" /></div>
       </div>
     </div>
+  </section>
+
+  <section class="container-site py-20 lg:py-28">
+    <x-section-heading :eyebrow="$t['faq']['eyebrow']" :title="$t['faq']['title']" />
+    <div class="mt-10 max-w-4xl"><x-faq :items="$t['faq']['questions']" /></div>
   </section>
 
   <x-cta-band :title="$t['afsluiter']['title']" :text="$t['afsluiter']['text']"

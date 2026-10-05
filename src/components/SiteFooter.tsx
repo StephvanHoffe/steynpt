@@ -2,7 +2,7 @@ import { ArrowUpRight, MapPin } from "lucide-react";
 import Link from "next/link";
 import { algemeen } from "@/lib/content/registry";
 import { getTexts } from "@/lib/content/texts";
-import { mapsUrl } from "@/lib/site";
+import { mapsUrl, telHref } from "@/lib/site";
 import { InstagramIcon } from "./icons";
 import { Logo } from "./Logo";
 
@@ -88,6 +88,20 @@ export async function SiteFooter() {
                   </span>
                 </a>
               </li>
+              {locatie.phone && (
+                <li>
+                  <a href={`tel:${telHref(locatie.phone)}`} className="text-white/80 transition-colors hover:text-white">
+                    {locatie.phone}
+                  </a>
+                </li>
+              )}
+              {locatie.email && (
+                <li>
+                  <a href={`mailto:${locatie.email}`} className="text-white/80 transition-colors hover:text-white">
+                    {locatie.email}
+                  </a>
+                </li>
+              )}
               {footer.extra && <li className="text-white/65">{footer.extra}</li>}
             </ul>
           </div>

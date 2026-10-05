@@ -84,6 +84,12 @@ final class StructuredData
             'image' => ["{$base}/images/steyn-glimlach.jpg", "{$base}/images/steyn-headshot.jpg"],
             'address' => $address,
         ];
+        if (($locatie['phone'] ?? '') !== '') {
+            $business['telephone'] = trim($locatie['phone']);
+        }
+        if (($locatie['email'] ?? '') !== '') {
+            $business['email'] = trim($locatie['email']);
+        }
         if (trim($locatie['street']) === self::GYMBASE_GEO['street']) {
             $business['geo'] = ['@type' => 'GeoCoordinates', 'latitude' => self::GYMBASE_GEO['latitude'], 'longitude' => self::GYMBASE_GEO['longitude']];
             $business['hasMap'] = Site::mapsUrl($locatie['street'], $locatie['city']);

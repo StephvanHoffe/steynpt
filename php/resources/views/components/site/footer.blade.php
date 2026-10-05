@@ -60,6 +60,12 @@
               <span class="mt-1 block text-white/65">{{ $locatie['street'] }}<br>{{ $locatie['city'] }}</span>
             </a>
           </li>
+          @if ($locatie['phone'] !== '')
+            <li><a href="tel:{{ \App\Site\Site::telHref($locatie['phone']) }}" class="text-white/80 transition-colors hover:text-white">{{ $locatie['phone'] }}</a></li>
+          @endif
+          @if ($locatie['email'] !== '')
+            <li><a href="mailto:{{ $locatie['email'] }}" class="text-white/80 transition-colors hover:text-white">{{ $locatie['email'] }}</a></li>
+          @endif
           @if ($footer['extra'] !== '')
             <li class="text-white/65">{{ $footer['extra'] }}</li>
           @endif

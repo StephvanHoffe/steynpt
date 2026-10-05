@@ -27,7 +27,7 @@ export default async function AdemcoachingPage() {
         title={<Rich text={t.hero.title} />}
         intro={t.hero.intro}
         image="/images/steyn-team-gym.jpg"
-        imageAlt="Steyn met sporters in de studio"
+        imageAlt="Steyn met sporters bij Gymbase in Amsterdam"
       >
         <ButtonLink href="/contact?onderwerp=ademcoaching">
           {t.hero.primary} <ArrowRight className="size-4" aria-hidden="true" />

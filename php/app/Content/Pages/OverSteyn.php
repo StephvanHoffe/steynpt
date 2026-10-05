@@ -31,7 +31,7 @@ final class OverSteyn
             'description' => 'Het verhaal van Steyn en de werkwijze.',
             'sections' => [
                 'hero' => F::section('Bovenaan', [
-                    'eyebrow' => F::line('Kleine kop', 'Kom alles te weten', ['max' => 60]),
+                    'eyebrow' => F::line('Kleine kop', 'Personal trainer in Amsterdam', ['max' => 60]),
                     'title' => F::title('Titel', 'Over *Steyn*', ['max' => 80]),
                     'intro' => F::text(
                         'Introductie',

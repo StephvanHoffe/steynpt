@@ -1,5 +1,5 @@
 @php $topsportIcons = ['Target', 'Activity', 'ShieldCheck', 'HeartPulse', 'Video', 'CalendarRange']; @endphp
-<x-layouts.site :title="$t['seo']['title']" :description="$t['seo']['description']">
+<x-layouts.site :title="$t['seo']['title']" :description="$t['seo']['description']" :faq="$t['faq']['questions']">
   <x-page-hero :eyebrow="$t['hero']['eyebrow']" :title="$t['hero']['title']" :intro="$t['hero']['intro']" image="/images/steyn-deadlift-portret.jpg" image-alt="Steyn coacht een sporter tijdens de deadlift">
     <x-button-link href="/contact">{{ $t['hero']['primary'] }} <x-icon name="ArrowRight" class="size-4" /></x-button-link>
     <x-button-link href="#tarieven" variant="outline">{{ $t['hero']['secondary'] }}</x-button-link>
@@ -20,8 +20,8 @@
     <div class="container-site">
       <div class="grid items-end gap-10 lg:grid-cols-[1.3fr_1fr]">
         <x-section-heading :eyebrow="$t['topsport']['eyebrow']" :title="$t['topsport']['title']" :intro="$t['topsport']['intro']" />
-        <img src="{{ asset('images/steyn-roeien.jpg') }}" alt="Steyn coacht een sporter op de roeimachine" width="1400" height="1014" loading="lazy" decoding="async"
-          class="hidden aspect-[4/3] w-full max-w-md justify-self-end rounded-xl object-cover lg:block">
+        <x-photo src="/images/steyn-roeien.jpg" alt="Steyn coacht een sporter op de roeimachine" width="1400" height="1014" sizes="448px"
+          class="hidden aspect-[4/3] w-full max-w-md justify-self-end rounded-xl object-cover lg:block" />
       </div>
       <div class="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         @foreach ($t['topsport']['cards'] as $i => $card)
@@ -43,7 +43,7 @@
     <x-section-heading :eyebrow="$t['tarieven']['eyebrow']" :title="$t['tarieven']['title']" :intro="$t['tarieven']['intro']" />
     <div class="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
       @foreach (\App\Site\Texts::ptPrices() as $card)
-        <x-price-card :card="$card" :cta="$t['tarieven']['button']" />
+        <x-price-card :card="$card" :cta="$t['tarieven']['button']" href="/contact?onderwerp=personal-training" />
       @endforeach
     </div>
   </section>
@@ -53,6 +53,11 @@
       <x-section-heading :eyebrow="$t['reviews']['eyebrow']" :title="$t['reviews']['title']" />
       <div class="mt-12"><x-reviews /></div>
     </div>
+  </section>
+
+  <section class="container-site py-20 lg:py-28">
+    <x-section-heading :eyebrow="$t['faq']['eyebrow']" :title="$t['faq']['title']" />
+    <div class="mt-10 max-w-4xl"><x-faq :items="$t['faq']['questions']" /></div>
   </section>
 
   <x-cta-band :title="$t['afsluiter']['title']" :text="$t['afsluiter']['text']"

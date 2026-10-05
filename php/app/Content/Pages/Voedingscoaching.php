@@ -31,7 +31,7 @@ final class Voedingscoaching
             'description' => 'Voedingsbegeleiding, waarbij Steyn helpt en hoe er gemeten wordt.',
             'sections' => [
                 'hero' => F::section('Bovenaan', [
-                    'eyebrow' => F::line('Kleine kop', 'Alles over voedingscoaching', ['max' => 60]),
+                    'eyebrow' => F::line('Kleine kop', 'Voedingscoach in Amsterdam Oud-West', ['max' => 60]),
                     'title' => F::title('Titel', 'Voeding die *werkt* voor jou', ['max' => 80]),
                     'intro' => F::text(
                         'Introductie',
@@ -62,6 +62,38 @@ final class Voedingscoaching
                         'Opsomming',
                         ['Intake en analyse van je eetpatroon', 'Voedingsplan op maat', 'Tussentijdse metingen en bijsturing', 'Onderdeel van elk PT- en online pakket'],
                         ['max' => 8, 'hint' => 'Eén punt per regel.'],
+                    ),
+                ]),
+                'faq' => F::section('Veelgestelde vragen', [
+                    'eyebrow' => F::line('Kleine kop', 'Veelgestelde vragen', ['max' => 60]),
+                    'title' => F::title('Titel', 'Vragen over voedingscoaching', ['max' => 100]),
+                    'questions' => F::items(
+                        'Vragen',
+                        'Vraag',
+                        ['q' => F::line('Vraag', '', ['max' => 160]), 'a' => F::text('Antwoord', '', ['max' => 800])],
+                        [
+                            [
+                                'q' => 'Wat doet een orthomoleculair voedingstherapeut?',
+                                'a' => 'Een orthomoleculair voedingstherapeut kijkt niet alleen naar calorieën en macronutriënten (eiwitten, koolhydraten en vetten), maar ook naar micronutriënten zoals vitamines en mineralen. Zo werken we aan je doel én aan hoe je je voelt.',
+                            ],
+                            [
+                                'q' => 'Hoe verloopt voedingscoaching?',
+                                'a' => 'We beginnen met een intake en een analyse van je eetpatroon. Daarna krijg je een voedingsplan op maat. Met tussentijdse metingen zien we wat werkt en sturen we bij.',
+                            ],
+                            [
+                                'q' => 'Moet ik een streng dieet volgen?',
+                                'a' => 'Nee. Geen crashdiëten, maar een plan dat past bij jouw leven en dat je volhoudt. Stap voor stap verbeteren we je voeding.',
+                            ],
+                            [
+                                'q' => 'Kan voedingscoaching ook online?',
+                                'a' => 'Ja. Voedingscoaching is onderdeel van online coaching: je voeding en je wekelijkse check-ins staan in je eigen dashboard. Woon je in Amsterdam, dan kun je ook langskomen bij Gymbase in Oud-West.',
+                            ],
+                            [
+                                'q' => 'Ik heb een medische aandoening. Is voedingscoaching dan geschikt?',
+                                'a' => 'Voedingscoaching vervangt geen behandeling door je arts. Gebruik je medicijnen of heb je een aandoening, vertel het dan tijdens de intake. Waar nodig stemmen we het plan af met je arts.',
+                            ],
+                        ],
+                        ['min' => 1, 'max' => 15],
                     ),
                 ]),
                 'afsluiter' => F::ctaSection([

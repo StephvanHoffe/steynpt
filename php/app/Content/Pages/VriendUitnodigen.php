@@ -75,7 +75,7 @@ final class VriendUitnodigen
                     'primary' => 'Bekijk online coaching',
                     'secondary' => 'Gratis kennismaking',
                 ]),
-                'seo' => F::seoSection('Vriend uitnodigen', 'Nodig een vriend uit voor online coaching bij SteynPT. {actie}: je vriend krijgt {vriendkorting}, jij {jouwkorting}.'),
+                'seo' => F::seoSection('Vriend uitnodigen', 'Nodig een vriend uit voor online coaching bij SteynPT. {actie}: je vriend krijgt {vriendkorting}.'),
             ],
         ];
     }

@@ -145,7 +145,7 @@ final class Ademcoaching
                 ]),
                 'seo' => F::seoSection(
                     'Ademcoaching 1-op-1 en in groepsverband',
-                    'Ademcoaching door Steyn van Leeuwen in Amsterdam: een 1-op-1-ademsessie van {ademduur} voor € {ademprijs}, of een groepssessie op aanvraag voor bedrijven, sportteams en vriendengroepen.',
+                    'Ademcoaching in Amsterdam door Steyn van Leeuwen: een 1-op-1-ademsessie van {ademduur} voor € {ademprijs}, of een groepssessie voor bedrijven en sportteams.',
                 ),
             ],
         ];

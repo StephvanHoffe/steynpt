@@ -129,6 +129,6 @@ export const home = definePage({
       title: title("Titel", "Trainen waar het jou uitkomt", { max: 100 }),
       intro: text("Introductie", "Bij Gymbase aan de Overtoom in Amsterdam Oud-West, op jouw favoriete plek of volledig online.", { max: 400 }),
     }),
-    seo: seoSection("SteynPT · Personal trainer in Amsterdam Oud-West & online coaching", SITE.description),
+    seo: seoSection("SteynPT · Personal training en online coaching in Amsterdam", SITE.description),
   },
 });

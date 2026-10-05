@@ -1,7 +1,6 @@
 <x-layouts.site :title="$t['seo']['title']" :description="$t['seo']['description']">
   <div class="container-site max-w-3xl py-16 lg:py-24">
-    <p class="eyebrow text-muted">{{ $t['intro']['eyebrow'] }}</p>
-    <h1 class="display display-lg mt-4">{{ \App\View\Rich::html($t['intro']['title']) }}</h1>
+    <x-hero-heading :eyebrow="$t['intro']['eyebrow']" :title="$t['intro']['title']" size="lg" eyebrow-class="text-muted" gap="mt-4" />
     <p class="lead mt-6 text-muted">{{ $t['intro']['intro'] }}</p>
     <div class="mt-12 space-y-10">
       @foreach ($t['onderdelen']['sections'] as $s)

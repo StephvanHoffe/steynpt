@@ -53,7 +53,7 @@ export default async function TarievenPage() {
         <SectionHeading eyebrow={t.pt.eyebrow} title={<Rich text={t.pt.title} />} intro={t.pt.intro} />
         <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {ptPrices.map((card, i) => (
-            <PriceCard key={i} card={card} cta={t.pt.button} />
+            <PriceCard key={i} card={card} cta={t.pt.button} href="/contact?onderwerp=personal-training" />
           ))}
         </div>
         {t.pt.note && <p className="mt-6 text-sm text-muted">{t.pt.note}</p>}

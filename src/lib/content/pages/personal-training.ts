@@ -82,6 +82,42 @@ export const personalTraining = definePage({
       eyebrow: line("Kleine kop", "Reviews", { max: 60 }),
       title: title("Titel", "Resultaat dat blijft", { max: 100 }),
     }),
+    faq: section("Veelgestelde vragen", {
+      eyebrow: line("Kleine kop", "Veelgestelde vragen", { max: 60 }),
+      title: title("Titel", "Vragen over personal training in Amsterdam", { max: 100 }),
+      questions: items(
+        "Vragen",
+        "Vraag",
+        { q: line("Vraag", "", { max: 160 }), a: text("Antwoord", "", { max: 800 }) },
+        [
+          {
+            q: "Wat kost een personal trainer bij SteynPT?",
+            a: "Dat hangt af van hoeveel trainingen je neemt. Je kiest een losse training of een pakket van 10, 20 of 40 trainingen; hoe groter het pakket, hoe voordeliger per training. Alle prijzen staan hierboven en op de tarievenpagina.",
+          },
+          {
+            q: "Waar vinden de trainingen plaats?",
+            a: "Bij Gymbase aan de Overtoom in Amsterdam Oud-West, op een paar minuten lopen van het Vondelpark. Liever op een andere plek? Dan trainen we op locatie, bijvoorbeeld in het park of op je werk.",
+          },
+          {
+            q: "Is de kennismaking echt gratis?",
+            a: "Ja. In een gratis kennismaking van een half uur bespreken we je doelen en je achtergrond, en krijg je een rondleiding bij Gymbase. Daarna beslis je zelf of je wilt starten.",
+          },
+          {
+            q: "Ik heb nog nooit in een gym getraind. Is personal training iets voor mij?",
+            a: "Zeker. Steyn stemt je trainingsplan af op jouw niveau en let op de juiste uitvoering, zodat je veilig en met vertrouwen begint. Train je al jaren of heb je een specifiek sportdoel, dan krijg je net zo goed een plan op maat.",
+          },
+          {
+            q: "Kan ik met z'n tweeën trainen?",
+            a: "Ja, duo-training kan. Je traint dan samen met een vriend, partner of collega, tegen een toeslag per sessie. Je vindt die bij de tarieven.",
+          },
+          {
+            q: "Kan ik personal training combineren met online coaching?",
+            a: "Ja. Veel sporters combineren een paar 1-op-1-trainingen bij Gymbase met online coaching voor de dagen ertussen. Zo heb je ook buiten de trainingen een plan en een coach die meekijkt.",
+          },
+        ],
+        { min: 1, max: 15 },
+      ),
+    }),
     afsluiter: ctaSection({
       title: "Zin om kennis te maken?",
       text: "Plan een gratis kennismaking. We ontvangen je graag bij Gymbase.",

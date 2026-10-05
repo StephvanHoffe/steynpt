@@ -137,8 +137,8 @@ final class OnlineCoaching
                     'secondary' => 'Gratis kennismaking',
                 ]),
                 'seo' => F::seoSection(
-                    'Online coaching',
-                    'Online coaching door Steyn van Leeuwen: trainingsschema en voedingsplan op maat, wekelijkse check-ins in je eigen dashboard en persoonlijke bijsturing. Nodig een vriend uit en krijg samen korting.',
+                    'Online personal trainer: schema en voeding op maat',
+                    'Online coaching door personal trainer Steyn van Leeuwen: schema en voeding op maat en wekelijkse check-ins in je eigen dashboard. Vanaf € {online-vanaf} per maand.',
                 ),
             ],
         ];

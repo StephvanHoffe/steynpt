@@ -27,3 +27,19 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Snelheid (telt mee voor Google): tekst gecomprimeerd versturen, en vaste bestanden laten bewaren door de browser.
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_headers.c>
+    # CSS, JavaScript en lettertypen staan in /build met een versiecode in de naam: een jaar bewaren mag.
+    <FilesMatch "\.(css|js|woff2)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    # Foto's en logo's: een maand.
+    <FilesMatch "\.(jpe?g|png|webp|avif|svg|ico)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+</IfModule>

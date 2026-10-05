@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { CtaBand } from "@/components/CtaBand";
+import { Faq } from "@/components/Faq";
 import { PageHero } from "@/components/PageHero";
 import { Paragraphs, Rich } from "@/components/content/Rich";
 import { ButtonLink, CheckList, SectionHeading } from "@/components/ui";
@@ -60,6 +61,13 @@ export default async function VoedingscoachingPage() {
               <CheckList items={t.meten.points} />
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="container-site py-20 lg:py-28">
+        <SectionHeading eyebrow={t.faq.eyebrow} title={<Rich text={t.faq.title} />} />
+        <div className="mt-10 max-w-4xl">
+          <Faq items={t.faq.questions} />
         </div>
       </section>
 

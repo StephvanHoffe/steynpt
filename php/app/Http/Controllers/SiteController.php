@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Content\Registry;
 use App\Models\ContactRequest;
+use App\Models\SiteText;
 use App\Site\Invitation;
 use App\Site\Site;
 use App\Site\Texts;
@@ -12,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use ReflectionClass;
+use Throwable;
 
 /** De openbare pagina's van de website. De teksten komen uit Website-teksten (App\Site\Texts). */
 class SiteController extends Controller
@@ -108,16 +112,53 @@ class SiteController extends Controller
     {
         $url = Site::url();
         // Zelfde adressen als de canonical-links op de pagina's; inloggen en registreren staan op noindex.
-        $pages = [
+        $priorities = [
             '/' => '1', '/personal-training' => '0.9', '/online-coaching' => '0.9', '/contact' => '0.8', '/ademcoaching' => '0.8',
             '/voedingscoaching' => '0.8', '/tarieven' => '0.7', '/over-steyn' => '0.7', '/vriend-uitnodigen' => '0.5', '/privacy' => '0.3',
         ];
+        $lastModified = self::lastModified();
         $xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n".'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'."\n";
-        foreach ($pages as $path => $priority) {
-            $xml .= "<url>\n<loc>{$url}{$path}</loc>\n<changefreq>monthly</changefreq>\n<priority>{$priority}</priority>\n</url>\n";
+        foreach ($priorities as $path => $priority) {
+            $lastmod = isset($lastModified[$path]) ? '<lastmod>'.date('Y-m-d', $lastModified[$path])."</lastmod>\n" : '';
+            $xml .= "<url>\n<loc>{$url}{$path}</loc>\n{$lastmod}<changefreq>monthly</changefreq>\n<priority>{$priority}</priority>\n</url>\n";
         }
         $xml .= '</urlset>';
 
         return response($xml, 200, ['Content-Type' => 'application/xml']);
+    }
+
+    /**
+     * Per pagina het moment van de laatste wijziging (voor <lastmod>): het sjabloon, de standaardteksten of een tekst
+     * die Steyn in het beheer heeft aangepast. Teksten van 'Op elke pagina' en 'Prijzen en pakketten' tellen overal mee.
+     *
+     * @return array<string, int> pad => Unix-tijd
+     */
+    private static function lastModified(): array
+    {
+        $stored = [];
+        try {
+            foreach (SiteText::query()->get(['key', 'updated_at']) as $text) {
+                $slug = strstr((string) $text->key, '.', true) ?: (string) $text->key;
+                $time = $text->updated_at?->getTimestamp() ?? 0;
+                $stored[$slug] = max($stored[$slug] ?? 0, $time);
+            }
+        } catch (Throwable) {
+            // Zonder database: alleen de bestanden.
+        }
+        $shared = max($stored['algemeen'] ?? 0, $stored['pakketten'] ?? 0);
+
+        $times = [];
+        foreach (Registry::SITE_PAGES as $class) {
+            $page = $class::page();
+            $view = resource_path("views/site/{$page['slug']}.blade.php");
+            $times[$page['path']] = max(
+                is_file($view) ? (int) filemtime($view) : 0,
+                (int) filemtime((string) (new ReflectionClass($class))->getFileName()),
+                $stored[$page['slug']] ?? 0,
+                $shared,
+            );
+        }
+
+        return $times;
     }
 }

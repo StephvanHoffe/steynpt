@@ -153,7 +153,7 @@ final class Home
                     'title' => F::title('Titel', 'Trainen waar het jou uitkomt', ['max' => 100]),
                     'intro' => F::text('Introductie', 'Bij Gymbase aan de Overtoom in Amsterdam Oud-West, op jouw favoriete plek of volledig online.', ['max' => 400]),
                 ]),
-                'seo' => F::seoSection('SteynPT · Personal trainer in Amsterdam Oud-West & online coaching', Defaults::SITE['description']),
+                'seo' => F::seoSection('SteynPT · Personal training en online coaching in Amsterdam', Defaults::SITE['description']),
             ],
         ];
     }

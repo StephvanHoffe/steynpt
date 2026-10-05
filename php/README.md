@@ -46,3 +46,4 @@ Met `ADMIN_EMAILS=jouw@adres.nl` in `.env` word je beheerder zodra je een accoun
 | `php artisan steynpt:reset-2fa <e-mail>` | Noodgeval: tweestapsverificatie van een account uitzetten. |
 | `php artisan schedule:list` | Wat de cronjob doet en wanneer. |
 | `bash deploy/maak-pakket.sh` | Installatiepakket maken in `dist/`. |
+| `node php/deploy/maak-webp.mjs` | Na een nieuwe foto in `public/images`: lichtere WebP-versies maken (vanuit de hoofdmap; `<x-photo>` gebruikt ze vanzelf). |

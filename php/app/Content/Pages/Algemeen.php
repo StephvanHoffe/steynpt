@@ -134,6 +134,8 @@ final class Algemeen
                             'max' => 200,
                             'hint' => 'Op de homepage en de contactpagina.',
                         ]),
+                        'phone' => F::line('Telefoonnummer', '', ['max' => 30, 'optional' => true, 'hint' => 'Leeg laten mag. Op de contactpagina, in de footer en voor Google; gebruik overal precies hetzelfde als in je Google Bedrijfsprofiel.']),
+                        'email' => F::line('E-mailadres', '', ['max' => 120, 'optional' => true, 'hint' => 'Leeg laten mag. Op de contactpagina, in de footer en voor Google; gebruik overal precies hetzelfde als in je Google Bedrijfsprofiel.']),
                         'onLocationTitle' => F::line("Kop 'op locatie'", 'Op locatie', ['max' => 40]),
                         'onLocation' => F::text(
                             "Tekst 'op locatie'",

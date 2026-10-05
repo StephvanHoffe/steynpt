@@ -72,4 +72,12 @@ final class Site
     {
         return is_string($next) && str_starts_with($next, '/') && ! str_starts_with($next, '//') ? $next : $fallback;
     }
+
+    /** Telefoonnummer voor een tel:-link: alleen cijfers en een + vooraan ("020 123 4567" → "0201234567"). */
+    public static function telHref(string $phone): string
+    {
+        $phone = trim($phone);
+
+        return (str_starts_with($phone, '+') ? '+' : '').preg_replace('/\D+/', '', $phone);
+    }
 }

@@ -31,7 +31,7 @@ final class Tarieven
             'description' => "De koppen en uitleg op de tarievenpagina. De prijzen zelf staan onder 'Prijzen en pakketten'.",
             'sections' => [
                 'hero' => F::section('Bovenaan', [
-                    'eyebrow' => F::line('Kleine kop', 'Prijzen en pakketten', ['max' => 60]),
+                    'eyebrow' => F::line('Kleine kop', 'Personal training en coaching in Amsterdam', ['max' => 60]),
                     'title' => F::title('Titel', 'Tarieven', ['max' => 80]),
                     'intro' => F::text(
                         'Introductie',

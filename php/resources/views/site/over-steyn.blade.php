@@ -9,7 +9,7 @@
       <div class="prose-site lead mt-6 text-muted">{{ \App\View\Rich::paragraphs($t['verhaal']['body']) }}</div>
     </div>
     <div class="space-y-5">
-      <img src="{{ asset('images/steyn-deadlift.jpg') }}" alt="Steyn coacht een sporter bij de deadlift" width="500" height="500" loading="lazy" decoding="async" class="aspect-square w-full rounded-xl object-cover">
+      <x-photo src="/images/steyn-deadlift.jpg" alt="Steyn coacht een sporter bij de deadlift" width="500" height="500" sizes="(min-width: 1024px) 500px, 90vw" class="aspect-square w-full rounded-xl object-cover" />
       <div class="card p-7">
         <h3 class="display text-2xl">{{ $t['verhaal']['expertisesTitle'] }}</h3>
         <ul class="mt-5 flex flex-wrap gap-2">
