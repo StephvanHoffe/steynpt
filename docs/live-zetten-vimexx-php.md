@@ -2,6 +2,8 @@
 
 Dit stappenplan zet de nieuwe SteynPT-site online op **www.steynpt.nl** met een gewoon **Vimexx-webhostingpakket** (bijvoorbeeld *Webhosting Basic*). Daarvoor is de site in PHP gebouwd (map `php/`, Laravel). Je hebt dus géén VPS nodig.
 
+Om uit te printen of door te sturen staat hetzelfde plan in de huisstijl in [SteynPT - Stappenplan website online.pdf](SteynPT%20-%20Stappenplan%20website%20online.pdf) (bron: `docs/stappenplan-pdf/`).
+
 Het plan bestaat uit twee fases:
 
 - **Fase 1 – Klaarzetten** (± 1 uur). De huidige website blijft al die tijd gewoon online.

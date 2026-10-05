@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<!--
+  Bron van "docs/SteynPT - Stappenplan website online.pdf" (huisstijl SteynPT).
+  Opnieuw maken: eerst "npm install" in php/ (voor de lettertypes), dan dit bestand openen in Chrome →
+  Afdrukken → Opslaan als PDF, papierformaat A4, marges Standaard, "Achtergrondafbeeldingen" aan.
+  De inhoud volgt docs/live-zetten-vimexx-php.md; pas beide aan als er iets verandert.
+-->
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Stappenplan: de nieuwe website online zetten · SteynPT</title>
+<style>
+  @font-face { font-family: "Archivo Variable"; font-weight: 100 900; font-stretch: 62% 125%; src: url(../../php/node_modules/@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2) format("woff2-variations"); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face { font-family: "Archivo Variable"; font-weight: 100 900; font-stretch: 62% 125%; src: url(../../php/node_modules/@fontsource-variable/archivo/files/archivo-latin-ext-wdth-normal.woff2) format("woff2-variations"); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face { font-family: "Inter Variable"; font-weight: 100 900; src: url(../../php/node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2) format("woff2-variations"); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face { font-family: "Inter Variable"; font-weight: 100 900; src: url(../../php/node_modules/@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2) format("woff2-variations"); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+2C60-2C7F,U+A720-A7FF; }
+
+  /* Huisstijl SteynPT (zelfde tokens als de website) */
+  :root {
+    --ink: #111315; --paper: #ffffff; --surface: #f4f5f6; --line: #e2e5e8; --muted: #5b6168;
+    --accent: #0b6f78; --accent-soft: #8cc3c8; --accent-tint: #e6f2f3; --danger: #b42318; --danger-tint: #fbeeec;
+    --display: "Archivo Variable", "Inter Variable", sans-serif;
+    --sans: "Inter Variable", sans-serif;
+    --mono: "DejaVu Sans Mono", "Liberation Mono", ui-monospace, monospace;
+  }
+  @page {
+    size: A4; margin: 17mm 17mm 19mm;
+    @bottom-left { content: "SteynPT · De nieuwe website online zetten"; font-family: "Inter Variable", sans-serif; font-size: 7pt; color: #5b6168; }
+    @bottom-right { content: counter(page) " / " counter(pages); font-family: "Inter Variable", sans-serif; font-size: 7pt; color: #5b6168; }
+  }
+  @page :first { margin: 0; @bottom-left { content: none; } @bottom-right { content: none; } }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; font-family: var(--sans); color: var(--ink); font-size: 9.6pt; line-height: 1.55; }
+  p { margin: 0; }
+  p + p { margin-top: 2.2mm; }
+  strong { font-weight: 650; }
+  a { color: var(--accent); text-decoration: none; }
+
+  .display { font-family: var(--display); font-weight: 650; letter-spacing: -0.025em; line-height: 1.04; margin: 0; }
+  .accent { color: var(--accent); }
+  .eyebrow { display: flex; align-items: center; gap: 2.4mm; font-size: 7pt; font-weight: 650; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin: 0; }
+  .eyebrow::before { content: ""; width: 6mm; height: 0.5mm; background: currentColor; }
+  .muted { color: var(--muted); }
+
+  /* Voorpagina */
+  .cover { width: 210mm; height: 297mm; display: flex; flex-direction: column; break-after: page; }
+  .cover-top { background: var(--ink); color: #fff; padding: 20mm 18mm 18mm; position: relative; overflow: hidden; flex: 0 0 auto; }
+  .cover-top .mark { position: absolute; right: -14mm; bottom: -30mm; height: 135mm; opacity: 0.07; }
+  .cover-top .logo { height: 15mm; display: block; }
+  .cover-top .eyebrow { color: var(--accent-soft); margin-top: 26mm; }
+  .cover-top h1 { font-size: 40pt; margin-top: 6mm; max-width: 150mm; }
+  .cover-top h1 .accent { color: var(--accent-soft); }
+  .cover-top .lead { font-size: 11.5pt; line-height: 1.6; color: rgba(255,255,255,0.78); margin-top: 7mm; max-width: 140mm; }
+  .cover-bottom { padding: 13mm 18mm 0; flex: 1; display: flex; flex-direction: column; }
+  .phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; }
+  .phase-card { border: 0.3mm solid var(--line); border-radius: 3mm; padding: 5mm; }
+  .phase-card.featured { border-color: var(--ink); }
+  .phase-card .k { font-size: 7pt; font-weight: 650; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+  .phase-card h3 { font-family: var(--display); font-weight: 650; letter-spacing: -0.02em; font-size: 14pt; margin: 1.5mm 0 0; }
+  .phase-card .time { font-size: 8.5pt; color: var(--muted); margin-top: 0.5mm; }
+  .phase-card p.d { margin-top: 2.5mm; font-size: 8.8pt; }
+  .flow { margin-top: 9mm; }
+  .flow h2 { font-size: 12pt; }
+  .flow-row { display: grid; grid-template-columns: 1fr 6mm 1fr 6mm 1.5fr; align-items: center; margin-top: 4mm; }
+  .node { border: 0.3mm solid var(--line); border-radius: 2.5mm; padding: 3.2mm 3.6mm; background: #fff; }
+  .node.dark { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .node .t { font-weight: 650; font-size: 9pt; }
+  .node .s { font-size: 7.8pt; color: var(--muted); margin-top: 0.4mm; }
+  .node.dark .s { color: rgba(255,255,255,0.7); }
+  .node ul { margin: 1.6mm 0 0; padding: 0; list-style: none; font-size: 7.8pt; color: rgba(255,255,255,0.85); }
+  .node li { padding-left: 3mm; position: relative; }
+  .node li::before { content: ""; position: absolute; left: 0; top: 1.5mm; width: 1.2mm; height: 1.2mm; border-radius: 50%; background: var(--accent-soft); }
+  .arrow { text-align: center; color: var(--accent); font-weight: 700; }
+  .cover-meta { margin-top: auto; padding: 6mm 0 12mm; border-top: 0.3mm solid var(--line); display: flex; justify-content: space-between; font-size: 8pt; color: var(--muted); }
+
+  /* Inhoud */
+  h2.section { font-size: 20pt; margin: 0 0 4mm; }
+  .intro { font-size: 10.5pt; line-height: 1.6; color: var(--muted); margin-bottom: 6mm; max-width: 160mm; }
+  .block { margin-top: 8mm; }
+  .block > .display { font-size: 13pt; margin-bottom: 3mm; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+  th, td { text-align: left; vertical-align: top; padding: 2.4mm 3mm; border-bottom: 0.3mm solid var(--line); }
+  th { font-size: 7pt; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 650; background: var(--surface); border-bottom: 0; }
+  td:first-child { font-weight: 650; white-space: nowrap; width: 1%; }
+  td.code { font-family: var(--mono); font-size: 8pt; font-weight: 400; }
+
+  .phase-banner { background: var(--ink); color: #fff; border-radius: 3mm; padding: 7mm 8mm; position: relative; overflow: hidden; margin-bottom: 6mm; break-inside: avoid; }
+  .phase-banner .mark { position: absolute; right: -4mm; top: -10mm; height: 48mm; opacity: 0.08; }
+  .phase-banner .eyebrow { color: var(--accent-soft); }
+  .phase-banner h2 { font-size: 24pt; margin-top: 2.5mm; }
+  .phase-banner p { color: rgba(255,255,255,0.78); margin-top: 2mm; font-size: 10pt; max-width: 135mm; }
+  .page-break { break-before: page; }
+  .flow-section { margin-top: 10mm; }
+  .phase-banner, .step h3, .block > .display, h2.section { break-after: avoid; }
+  tr { break-inside: avoid; }
+  .block { break-inside: avoid; }
+  .block.long { break-inside: auto; }
+
+  .step { display: grid; grid-template-columns: 9mm 1fr; gap: 4mm; padding: 5mm 0; border-top: 0.3mm solid var(--line); break-inside: avoid; }
+  .step:first-of-type { border-top: 0; }
+  .num { width: 8mm; height: 8mm; border-radius: 1.6mm; background: var(--ink); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 9.5pt; font-family: var(--display); }
+  .step h3 { font-family: var(--display); font-weight: 650; letter-spacing: -0.02em; font-size: 13pt; margin: 0.6mm 0 2mm; }
+  .step .where { font-size: 8pt; color: var(--muted); margin: -1mm 0 2.4mm; }
+  ol.sub { margin: 2mm 0 0; padding-left: 5mm; }
+  ol.sub li + li { margin-top: 1.4mm; }
+  .menu { font-weight: 650; }
+  .en { color: var(--muted); font-style: italic; font-weight: 400; }
+
+  pre { font-family: var(--mono); font-size: 8pt; line-height: 1.55; background: var(--surface); border: 0.3mm solid var(--line); border-radius: 2mm; padding: 3mm 3.5mm; margin: 2.6mm 0 0; white-space: pre-wrap; word-break: break-word; break-inside: avoid; }
+  pre .c { color: var(--muted); }
+  .ph { color: var(--accent); font-weight: 700; }
+  code { font-family: var(--mono); font-size: 8.2pt; background: var(--surface); border: 0.3mm solid var(--line); border-radius: 1mm; padding: 0.1mm 1mm; }
+
+  .note { margin-top: 3mm; padding: 3mm 4mm; border-radius: 2mm; background: var(--accent-tint); font-size: 8.8pt; break-inside: avoid; }
+  .note.warn { background: var(--danger-tint); }
+  .note strong:first-child { color: var(--accent); }
+  .note.warn strong:first-child { color: var(--danger); }
+
+  .callout { border: 0.4mm solid var(--ink); border-radius: 3mm; padding: 5mm 6mm; margin-top: 6mm; break-inside: avoid; }
+  .callout h3 { font-family: var(--display); font-weight: 650; font-size: 13pt; letter-spacing: -0.02em; margin: 0 0 2mm; }
+  .callout.danger { border-color: var(--danger); }
+  .callout.danger h3 { color: var(--danger); }
+
+  .checks { list-style: none; padding: 0; margin: 2mm 0 0; }
+  .checks li { position: relative; padding-left: 6.5mm; }
+  .checks li + li { margin-top: 1.6mm; }
+  .checks li::before { content: ""; position: absolute; left: 0; top: 0.9mm; width: 3.6mm; height: 3.6mm; border-radius: 50%; background: var(--accent-tint); }
+  .checks li::after { content: ""; position: absolute; left: 1.15mm; top: 1.9mm; width: 1.3mm; height: 0.8mm; border-left: 0.45mm solid var(--accent); border-bottom: 0.45mm solid var(--accent); transform: rotate(-45deg); }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+  .sources { font-size: 8.4pt; color: var(--muted); }
+  .sources li + li { margin-top: 1mm; }
+</style>
+</head>
+<body>
+
+<!-- ============ Voorpagina ============ -->
+<section class="cover">
+  <div class="cover-top">
+    <img class="mark" src="../../php/public/brand/steynpt-mark-white.png" alt="">
+    <img class="logo" src="../../php/public/brand/steynpt-logo-white.png" alt="SteynPT">
+    <p class="eyebrow">Stappenplan · Vimexx-webhosting</p>
+    <h1 class="display">De nieuwe website <span class="accent">online</span> zetten</h1>
+    <p class="lead">Van de huidige site naar de nieuwe SteynPT-website op www.steynpt.nl, op een gewoon Vimexx-webhostingpakket. Zonder VPS: de site draait op PHP, met één database en één cronjob. Alle commando's kun je kopiëren en plakken.</p>
+  </div>
+  <div class="cover-bottom">
+    <div class="phases">
+      <div class="phase-card">
+        <div class="k">Fase 1</div>
+        <h3>Klaarzetten</h3>
+        <div class="time">± 1 uur · stap 1–5</div>
+        <p class="d">Alles installeren en instellen. De huidige website blijft al die tijd gewoon online.</p>
+      </div>
+      <div class="phase-card featured">
+        <div class="k">Fase 2</div>
+        <h3>Overstappen</h3>
+        <div class="time">± 15 minuten · stap 6–11</div>
+        <p class="d">De nieuwe site aanzetten, https en inrichten. Met één commando terug naar de oude site.</p>
+      </div>
+      <div class="phase-card">
+        <div class="k">Daarna</div>
+        <h3>Bijhouden</h3>
+        <div class="time">als het nodig is</div>
+        <p class="d">Een nieuwe versie zetten, back-ups en wat je doet als er iets misgaat.</p>
+      </div>
+    </div>
+
+    <div class="flow">
+      <p class="eyebrow">Zo werkt het straks</p>
+      <div class="flow-row">
+        <div class="node"><div class="t">Bezoeker</div><div class="s">telefoon of computer</div></div>
+        <div class="arrow">→</div>
+        <div class="node"><div class="t">www.steynpt.nl</div><div class="s">domein bij Vimexx</div></div>
+        <div class="arrow">→</div>
+        <div class="node dark">
+          <div class="t">Vimexx-webhosting</div>
+          <div class="s">DirectAdmin · PHP 8.3</div>
+          <ul>
+            <li>de nieuwe site (map <em>steynpt</em>)</li>
+            <li>MySQL-database</li>
+            <li>cronjob elke minuut: AI-concepten, ingeplande schema's, nachtelijke back-up</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-meta">
+      <span>SteynPT · Personal Training Amsterdam</span>
+      <span>Versie 5 oktober 2026</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Voorbereiding ============ -->
+<section>
+  <p class="eyebrow">Voor je begint</p>
+  <h2 class="display section" style="margin-top:3mm">Wat je nodig hebt</h2>
+  <table>
+    <tr><th>Wat</th><th>Toelichting</th></tr>
+    <tr><td>Hostingpakket</td><td>Vimexx-webhosting met DirectAdmin, PHP 8.3, een MySQL-database, SSH en cronjobs (zit allemaal in <em>Webhosting Basic</em>), plus de inloggegevens voor DirectAdmin en Mijn Vimexx.</td></tr>
+    <tr><td>Het pakket</td><td>Het bestand <code>steynpt-php-&lt;datum&gt;.zip</code> (27 MB). Daar zit de hele site in; op de hosting is alleen PHP nodig.</td></tr>
+    <tr><td>Terminal</td><td>Voor SSH. Op Mac: <em>Terminal</em>. Op Windows: <em>PowerShell</em>, <em>Windows Terminal</em> of PuTTY.</td></tr>
+    <tr><td>Authenticator-app</td><td>Voor Steyn, bijvoorbeeld Google Authenticator, Microsoft Authenticator of 1Password. Inloggen gaat met tweestapsverificatie.</td></tr>
+    <tr><td>API-sleutel <span class="muted" style="font-weight:400">(mag later)</span></td><td>Voor de AI-schema's: Steyn maakt zelf een sleutel aan op platform.claude.com en zet daar een maandlimiet. Zonder sleutel werkt alles; Steyn maakt de schema's dan zelf.</td></tr>
+  </table>
+
+  <div class="two block">
+    <div>
+      <h3 class="display" style="font-size:13pt;margin-bottom:2.5mm">Zo lees je dit stappenplan</h3>
+      <ul class="checks">
+        <li><span class="ph">GEBRUIKER</span> staat voor je DirectAdmin-gebruikersnaam. Vervang dat overal door je eigen naam.</li>
+        <li>Grijze blokken zijn commando's: kopieer ze en plak ze in de terminal. Tekst na <code>#</code> is uitleg en hoef je niet over te nemen.</li>
+        <li>Menunamen in DirectAdmin staan er in het Nederlands én <span class="en">Engels</span>, want dat verschilt per instelling.</li>
+      </ul>
+    </div>
+    <div class="callout" style="margin-top:0">
+      <h3>Waar staat de huidige site?</h3>
+      <p>Draait de huidige (WordPress-)site op ditzelfde Vimexx-pakket, dan verander je niets aan het domein: in stap 8 wissel je alleen de map.</p>
+      <p>Staat de huidige site ergens anders, of heb je een nieuw pakket? Dan zet je in stap 9 ook het domein om.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Fase 1 ============ -->
+<section class="flow-section">
+  <div class="phase-banner">
+    <img class="mark" src="../../php/public/brand/steynpt-mark-white.png" alt="">
+    <p class="eyebrow">Fase 1 · ± 1 uur</p>
+    <h2 class="display">Klaarzetten</h2>
+    <p>Niets in deze fase raakt de huidige website. Je kunt dit dus op je gemak doen, ook verdeeld over meerdere momenten.</p>
+  </div>
+
+  <div class="step">
+    <div class="num">1</div>
+    <div>
+      <h3>SSH aanzetten en inloggen</h3>
+      <ol class="sub">
+        <li>In DirectAdmin: <span class="menu">Geavanceerde functies → SSH-Keys</span> <span class="en">(Advanced Features)</span> en zet rechtsboven <strong>SSH aan</strong>.</li>
+        <li>Verbind vanaf je computer. Het wachtwoord is je DirectAdmin-wachtwoord. Wijst het domein nog niet naar Vimexx, gebruik dan het IP-adres van het pakket in plaats van <code>steynpt.nl</code>.</li>
+      </ol>
+<pre>ssh <span class="ph">GEBRUIKER</span>@steynpt.nl -p 7685</pre>
+      <ol class="sub" start="3">
+        <li>Controleer PHP 8.3 en zet het als standaard voor deze sessie:</li>
+      </ol>
+<pre>/opt/alt/php83/usr/bin/php -v        <span class="c"># moet "PHP 8.3" tonen</span>
+alias php=/opt/alt/php83/usr/bin/php <span class="c"># zodat "php" in deze sessie PHP 8.3 is</span></pre>
+      <div class="note"><strong>Let op:</strong> log je later opnieuw in via SSH, typ dan eerst weer die <code>alias</code>-regel.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">2</div>
+    <div>
+      <h3>Database aanmaken</h3>
+      <ol class="sub">
+        <li>In DirectAdmin: <span class="menu">MySQL-beheer → Nieuwe database maken</span> <span class="en">(MySQL Management)</span>.</li>
+        <li>Kies een naam (bijv. <code>steynpt</code>) en laat DirectAdmin een sterk wachtwoord maken.</li>
+        <li>Noteer de <strong>databasenaam</strong>, <strong>gebruikersnaam</strong> en <strong>wachtwoord</strong>. De namen beginnen met <span class="ph">GEBRUIKER</span>_.</li>
+      </ol>
+      <div class="note"><strong>Tip:</strong> laat een eventuele WordPress-database staan. Dat is je terugvaloptie.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">3</div>
+    <div>
+      <h3>Het pakket uploaden en uitpakken</h3>
+      <ol class="sub">
+        <li>In DirectAdmin: <span class="menu">Bestandsbeheer</span> <span class="en">(File Manager)</span> → ga naar <code>domains/steynpt.nl/</code> (de map waar ook <code>public_html</code> in staat) en upload het zip-bestand.</li>
+        <li>Pak het uit via SSH (of met <em>Uitpakken</em> in Bestandsbeheer):</li>
+      </ol>
+<pre>cd ~/domains/steynpt.nl
+unzip -q steynpt-php-*.zip   <span class="c"># maakt de map steynpt/</span>
+rm steynpt-php-*.zip</pre>
+      <p style="margin-top:2.4mm" class="muted">De map <code>public_html</code> (de huidige site) blijft nog ongemoeid.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">4</div>
+    <div>
+      <h3>Instellingen invullen (.env)</h3>
+<pre>cd ~/domains/steynpt.nl/steynpt
+cp .env.example .env
+nano .env</pre>
+      <p style="margin-top:2.6mm">Vul deze regels in; de rest kan blijven staan.</p>
+      <table style="margin-top:2mm">
+        <tr><th>Instelling</th><th>Waarde</th></tr>
+        <tr><td class="code">APP_URL</td><td><code>https://www.steynpt.nl</code></td></tr>
+        <tr><td class="code">DB_DATABASE<br>DB_USERNAME<br>DB_PASSWORD</td><td>De gegevens uit stap 2. <code>DB_HOST=localhost</code> laat je staan.</td></tr>
+        <tr><td class="code">ADMIN_EMAILS</td><td><code>steyn@steynpt.nl</code>: dit adres wordt automatisch beheerder.</td></tr>
+        <tr><td class="code">ANTHROPIC_API_KEY</td><td>De sleutel van platform.claude.com (mag ook later).</td></tr>
+      </table>
+      <p style="margin-top:2.6mm">Opslaan in nano: <code>Ctrl+O</code>, <code>Enter</code>, <code>Ctrl+X</code>. Daarna:</p>
+<pre>php artisan key:generate --force   <span class="c"># geheime sleutel voor sessies en versleuteling</span>
+php artisan migrate --force        <span class="c"># tabellen aanmaken</span>
+php artisan optimize               <span class="c"># instellingen en pagina's voorbereiden</span></pre>
+      <div class="note"><strong>Onthoud:</strong> pas je later iets aan in <code>.env</code>, draai dan opnieuw <code>php artisan optimize</code>. Anders blijft de oude instelling actief.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">5</div>
+    <div>
+      <h3>Cronjob instellen</h3>
+      <p>Eén cronjob doet alles wat op de achtergrond moet: AI-concepten maken, ingeplande schema's op hun startdag zichtbaar maken en elke nacht een back-up van de database.</p>
+      <ol class="sub">
+        <li>In DirectAdmin: <span class="menu">Geavanceerde functies → Cronjobs</span> <span class="en">(Advanced Features)</span>.</li>
+        <li>Vul bij alle tijdvelden <code>*</code> in (= elke minuut) en vink <strong>Prevent Email</strong> aan.</li>
+        <li>Gebruik als commando:</li>
+      </ol>
+<pre>cd /home/<span class="ph">GEBRUIKER</span>/domains/steynpt.nl/steynpt &amp;&amp; /opt/alt/php83/usr/bin/php artisan schedule:run &gt;/dev/null 2&gt;&amp;1</pre>
+      <div class="note"><strong>Eén regel:</strong> dit commando past hier niet op één regel, maar moet in DirectAdmin wel als één regel, met spaties ertussen.</div>
+      <p style="margin-top:2.6mm">Controleer na een minuut of twee via SSH:</p>
+<pre>cd ~/domains/steynpt.nl/steynpt
+php artisan schedule:list    <span class="c"># drie taken: schemas-publiceren, back-up, wachtrij</span>
+php artisan steynpt:backup   <span class="c"># moet "Back-up gemaakt" melden</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Fase 2 ============ -->
+<section class="flow-section">
+  <div class="phase-banner">
+    <img class="mark" src="../../php/public/brand/steynpt-mark-white.png" alt="">
+    <p class="eyebrow">Fase 2 · ± 15 minuten</p>
+    <h2 class="display">Overstappen</h2>
+    <p>Kies een rustig moment. De site is hooguit een paar minuten niet bereikbaar, en je kunt altijd terug naar de oude site.</p>
+  </div>
+
+  <div class="step">
+    <div class="num">6</div>
+    <div>
+      <h3>Een kopie van de huidige site</h3>
+      <p>Maak in DirectAdmin een back-up van het account: <span class="menu">Back-up maken / herstellen → Back-up maken</span> <span class="en">(Create/Restore Backups)</span>. Of download in elk geval de map <code>public_html</code>. De oude site blijft daarnaast als map <code>public_html-oud</code> op de hosting staan.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">7</div>
+    <div>
+      <h3>PHP 8.3 aanzetten</h3>
+      <p>Vimexx kiest de PHP-versie per domein met een <code>.htaccess</code>-bestand. Maak in <span class="menu">Bestandsbeheer</span> in <code>domains/steynpt.nl/</code> (náást <code>public_html</code>, niet erin) een bestand <code>.htaccess</code> met:</p>
+<pre>&lt;FilesMatch "\.(php|phtml)$"&gt;
+    SetHandler application/x-lsphp83
+&lt;/FilesMatch&gt;</pre>
+      <p style="margin-top:2.4mm" class="muted">Staat daar al een <code>.htaccess</code>? Zet deze regels dan bovenaan en laat de rest staan.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">8</div>
+    <div>
+      <h3>De nieuwe site aanzetten</h3>
+      <p>Laat <code>public_html</code> naar de nieuwe site wijzen. Zo installeert Vimexx zelf ook Laravel-sites. Via SSH:</p>
+<pre>cd ~/domains/steynpt.nl
+mv public_html public_html-oud     <span class="c"># de oude site bewaren</span>
+ln -s steynpt/public public_html    <span class="c"># de nieuwe site aanzetten</span>
+ls -l public_html                  <span class="c"># toont: public_html -&gt; steynpt/public</span></pre>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">9</div>
+    <div>
+      <h3>Domein omzetten <span class="muted" style="font-weight:500;font-size:10pt">(alleen als dat nodig is)</span></h3>
+      <p>Draaide de oude site al op dit pakket? Sla deze stap dan over: www.steynpt.nl toont nu de nieuwe site.</p>
+      <p>Stond de oude site ergens anders, zet dan in <span class="menu">Mijn Vimexx → Mijn domeinen → steynpt.nl → DNS</span> de A-records van <code>steynpt.nl</code> en <code>www</code> op het IP-adres van het hostingpakket (te vinden in DirectAdmin bij de accountinformatie). Laat de MX-records (e-mail) ongemoeid. Meestal is de wijziging binnen een uur zichtbaar.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">10</div>
+    <div>
+      <h3>HTTPS</h3>
+      <p>De site werkt alleen via https: inloggen gebruikt beveiligde cookies.</p>
+      <ol class="sub">
+        <li>In DirectAdmin: <span class="menu">SSL-certificaten</span> <span class="en">(SSL Certificates)</span>. Is er al een geldig certificaat voor <code>steynpt.nl</code> en <code>www.steynpt.nl</code>, dan is dat genoeg. Anders: kies <strong>Let's Encrypt</strong> voor beide namen.</li>
+        <li>Zet bij <span class="menu">Domeinbeheer → steynpt.nl</span> <span class="en">(Domain Setup)</span> het vinkje <strong>Forceer SSL met https-omleiding</strong> <span class="en">(Force SSL with https redirect)</span> aan.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">11</div>
+    <div>
+      <h3>Controleren en inrichten</h3>
+      <ul class="checks">
+        <li>Open <strong>https://www.steynpt.nl</strong> en klik een paar pagina's door. Een oud adres als <code>/over-steynpt</code> stuurt door naar de nieuwe pagina.</li>
+        <li>Steyn maakt via <strong>Account aanmaken</strong> het account <code>steyn@steynpt.nl</code> aan (wordt automatisch beheerder) en koppelt de authenticator-app. <strong>Bewaar de herstelcodes</strong> op een veilige plek.</li>
+        <li><span class="menu">Beheer → Instellingen</span>: beschikbaarheid voor de agenda instellen en de iCal-link in de agenda-app van Steyn zetten.</li>
+        <li><span class="menu">Beheer → Website-teksten</span>: teksten en prijzen nalopen.</li>
+        <li>Proef als klant: maak een tweede account aan, boek een afspraak en zeg hem weer af.</li>
+        <li>Optioneel: meld <code>https://www.steynpt.nl/sitemap.xml</code> aan bij Google Search Console.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout danger">
+    <h3>Terug naar de oude site</h3>
+    <p>Gaat er bij het overstappen iets mis, zet dan via SSH de oude site terug:</p>
+<pre>cd ~/domains/steynpt.nl
+rm public_html                    <span class="c"># verwijdert alleen de koppeling, niet de nieuwe site</span>
+mv public_html-oud public_html</pre>
+    <p style="margin-top:2.4mm">Haal ook de regels uit stap 7 weer uit <code>domains/steynpt.nl/.htaccess</code> als de oude site een andere PHP-versie nodig had. Werkt alles wel, dan kun je na een paar weken <code>public_html-oud</code> en de oude WordPress-database verwijderen.</p>
+  </div>
+</section>
+
+<!-- ============ Daarna ============ -->
+<section class="flow-section">
+  <p class="eyebrow">Daarna</p>
+  <h2 class="display section" style="margin-top:3mm">Bijhouden</h2>
+
+  <div class="block long" style="margin-top:4mm">
+    <h3 class="display">Een nieuwe versie zetten</h3>
+    <p>Upload het nieuwe <code>steynpt-php-&lt;datum&gt;.zip</code> naar <code>domains/steynpt.nl/</code> en voer via SSH uit:</p>
+<pre>alias php=/opt/alt/php83/usr/bin/php
+cd ~/domains/steynpt.nl
+php steynpt/artisan steynpt:backup                   <span class="c"># eerst een back-up</span>
+unzip -q steynpt-php-*.zip -d nieuw &amp;&amp; rm steynpt-php-*.zip
+cp steynpt/.env nieuw/steynpt/.env
+cp -a steynpt/storage/backups/. nieuw/steynpt/storage/backups/
+mv steynpt steynpt-vorige &amp;&amp; mv nieuw/steynpt steynpt &amp;&amp; rmdir nieuw
+cd steynpt &amp;&amp; php artisan migrate --force &amp;&amp; php artisan optimize</pre>
+    <p style="margin-top:2.4mm"><code>public_html</code> blijft naar <code>steynpt/public</code> wijzen, dus de nieuwe versie staat direct online. Gaat er iets mis, zet dan de vorige versie terug:</p>
+<pre>cd ~/domains/steynpt.nl &amp;&amp; mv steynpt steynpt-kapot &amp;&amp; mv steynpt-vorige steynpt</pre>
+  </div>
+
+  <div class="block">
+    <h3 class="display">Back-ups</h3>
+    <ul class="checks">
+      <li>Elke nacht om 03:15 maakt de cronjob een back-up van de database in <code>steynpt/storage/backups/</code>. Back-ups worden 30 dagen bewaard. Handmatig: <code>php artisan steynpt:backup</code>.</li>
+      <li>Download af en toe een back-up naar je eigen computer, via Bestandsbeheer.</li>
+      <li>Terugzetten: <code>gunzip -c storage/backups/steynpt-&lt;datum&gt;.sql.gz | mysql -u DB_GEBRUIKER -p DB_NAAM</code></li>
+    </ul>
+  </div>
+
+  <div class="block long">
+    <h3 class="display">Als er iets misgaat</h3>
+    <table>
+      <tr><th>Probleem</th><th>Oplossing</th></tr>
+      <tr><td>Melding over de PHP-versie of een lege pagina</td><td>Controleer stap 7 (<code>.htaccess</code> naast <code>public_html</code>) en stap 8 (<code>ls -l public_html</code>).</td></tr>
+      <tr><td>"Er ging iets mis" (500)</td><td>Kijk in <code>steynpt/storage/logs/</code> (laatste bestand). Zet nooit <code>APP_DEBUG=true</code> op de live site.</td></tr>
+      <tr><td>Inloggen lukt niet<br>(pagina verlopen)</td><td>Controleer of de site via https draait (stap 10) en of <code>APP_URL</code> met <code>https://</code> begint. Draai daarna <code>php artisan optimize</code>.</td></tr>
+      <tr><td>AI-concept blijft op<br>"AI is bezig" staan</td><td>Controleer de cronjob (stap 5) met <code>php artisan schedule:list</code>. Draait die wel, vraag Vimexx dan of uitgaande verbindingen naar api.anthropic.com zijn toegestaan. Na tien minuten kan Steyn opnieuw laten genereren.</td></tr>
+      <tr><td>Telefoon én herstelcodes kwijt</td><td>Via SSH: <code>php artisan steynpt:reset-2fa steyn@steynpt.nl</code>. Bij de volgende keer inloggen koppelt Steyn een nieuwe telefoon.</td></tr>
+    </table>
+  </div>
+
+  <div class="block">
+    <h3 class="display" style="font-size:11pt">Handleidingen van Vimexx</h3>
+    <ul class="sources">
+      <li>SSH-toegang inschakelen: vimexx.nl/help/ssh-toegang-inschakelen</li>
+      <li>PHP-versie per domeinnaam: vimexx.com/help/hoe-stel-ik-de-php-versie-per-domeinnaam-in</li>
+      <li>Cronjob aanmaken: vimexx.nl/help/hoe-maak-ik-een-cronjob-aan</li>
+      <li>Laravel installeren: vimexx.nl/help/hoe-installeer-ik-het-laravel-framework-op-mijn-website</li>
+    </ul>
+  </div>
+</section>
+
+</body>
+</html>
