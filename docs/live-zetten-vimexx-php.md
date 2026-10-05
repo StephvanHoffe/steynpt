@@ -22,7 +22,7 @@ bezoeker ──▶ www.steynpt.nl ──▶ Vimexx-webhosting (DirectAdmin)
 | | |
 | --- | --- |
 | **Hostingpakket** | Vimexx-webhosting met DirectAdmin, PHP 8.3, een MySQL-database, SSH en cronjobs (zit allemaal in *Webhosting Basic*), plus je inloggegevens voor DirectAdmin en Mijn Vimexx. |
-| **Het pakket** | Het bestand `steynpt-php-<datum>.zip` (27 MB). Daar zit alles in; op de hosting is alleen PHP nodig. Een nieuw pakket maak je met `bash deploy/maak-pakket.sh` in de map `php/` (daarvoor zijn PHP 8.3, Composer en Node.js nodig). |
+| **Het pakket** | Het bestand `steynpt-php-<datum>.zip` (28 MB). Daar zit alles in; op de hosting is alleen PHP nodig. Een nieuw pakket maak je met `bash deploy/maak-pakket.sh` in de map `php/` (daarvoor zijn PHP 8.3, Composer en Node.js nodig). |
 | **Terminal** | Voor SSH. Op Mac: *Terminal*. Op Windows: *PowerShell* of *Windows Terminal* (of PuTTY). |
 | **Authenticator-app** | Voor Steyn, bijvoorbeeld Google Authenticator, Microsoft Authenticator of 1Password. Inloggen gaat met tweestapsverificatie. |
 | **API-sleutel** (mag later) | Voor de AI-schema's: Steyn maakt zelf een sleutel aan op [platform.claude.com](https://platform.claude.com) en zet daar een maandlimiet. Zonder sleutel werkt alles, alleen maakt Steyn de schema's dan zelf. |
@@ -106,7 +106,7 @@ php artisan optimize                 # instellingen, routes en pagina's voorbere
 
 ## Stap 5. Cronjob
 
-Eén cronjob doet alles wat op de achtergrond moet: AI-concepten maken, ingeplande schema's op hun startdag zichtbaar maken en elke nacht een back-up van de database.
+Eén cronjob doet alles wat op de achtergrond moet: AI-concepten maken, ingeplande schema's op hun startdag zichtbaar maken, elke nacht een back-up van de database en contactaanvragen ouder dan 12 maanden opruimen (zoals de privacyverklaring belooft).
 
 In DirectAdmin: **Geavanceerde functies** (*Advanced Features*) **→ Cronjobs** ([uitleg van Vimexx](https://www.vimexx.nl/help/hoe-maak-ik-een-cronjob-aan)). Vul bij alle tijdvelden `*` in (= elke minuut), vink **Prevent Email** aan, en gebruik als commando:
 
@@ -119,7 +119,7 @@ Alles draait binnen dit ene PHP-proces; de hosting hoeft geen andere programma's
 Controle (na een minuut of twee, via SSH):
 
 ```bash
-cd ~/domains/steynpt.nl/steynpt && php artisan schedule:list   # drie taken: schemas-publiceren, back-up en wachtrij
+cd ~/domains/steynpt.nl/steynpt && php artisan schedule:list   # vier taken: schemas-publiceren, back-up, aanvragen-opschonen en wachtrij
 php artisan steynpt:backup                                     # maakt nu meteen een back-up; moet "Back-up gemaakt" melden
 ```
 
