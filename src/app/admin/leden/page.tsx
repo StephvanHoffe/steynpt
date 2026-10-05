@@ -6,7 +6,7 @@ import { ADMIN_PAGE, AdminPageHeader, COACHING_LABEL, CoachingBadge, EmptyState 
 import { formatDayShort, formatTime } from "@/lib/agenda";
 import { requireAdmin } from "@/lib/auth";
 import { appointments, checkIns, COACHING_STATUSES, type CoachingStatus, db, users } from "@/lib/db";
-import { getOnlinePlan } from "@/lib/site";
+import { onlinePlanNames } from "@/lib/content/texts";
 
 export const metadata: Metadata = { title: "Leden" };
 
@@ -20,7 +20,8 @@ export default async function MembersPage({ searchParams }: PageProps<"/admin/le
   const status = (COACHING_STATUSES as readonly string[]).includes(String(sp.status)) ? (sp.status as CoachingStatus) : "alle";
   const now = new Date();
 
-  const [all, next, lastCheckIn] = await Promise.all([
+  const [planName, all, next, lastCheckIn] = await Promise.all([
+    onlinePlanNames(),
     db.select().from(users).where(eq(users.role, "member")).orderBy(asc(users.firstName), asc(users.lastName)),
     db
       .select({ userId: appointments.userId, startsAt: appointments.startsAt })
@@ -110,7 +111,7 @@ export default async function MembersPage({ searchParams }: PageProps<"/admin/le
                     <td className="px-4 py-3">
                       <span className="flex flex-wrap items-center gap-2">
                         <CoachingBadge status={m.coachingStatus} />
-                        {m.plan && <span className="text-muted">{getOnlinePlan(m.plan)?.name}</span>}
+                        {m.plan && <span className="text-muted">{planName(m.plan)}</span>}
                       </span>
                     </td>
                     <td className="px-4 py-3 tabular-nums">{nextAt ? `${formatDayShort(nextAt)}, ${formatTime(nextAt)}` : <span className="text-muted">–</span>}</td>

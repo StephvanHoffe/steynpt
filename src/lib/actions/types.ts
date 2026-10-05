@@ -21,3 +21,12 @@ export function fieldErrorsFrom(issues: { path: PropertyKey[]; message: string }
   }
   return fieldErrors;
 }
+
+/** Resultaat van het opslaan van website-teksten. `saved`: de opgeschoonde teksten, die het bewerkscherm overneemt. */
+export type SiteTextsState = {
+  error?: string;
+  success?: string;
+  fieldErrors?: Record<string, string>;
+  saved?: Record<string, Record<string, unknown>>;
+  savedAt?: number;
+};

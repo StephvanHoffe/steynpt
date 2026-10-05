@@ -2,11 +2,10 @@
 
 import { Check, Copy, Mail, MessageCircle, Share2 } from "lucide-react";
 import { useState } from "react";
-import { REFERRAL } from "@/lib/referral-program";
 
-export function ReferralShare({ url, code, firstName }: { url: string; code: string; firstName: string }) {
+export function ReferralShare({ url, code, firstName, friendReward }: { url: string; code: string; firstName: string; friendReward: string }) {
   const [copied, setCopied] = useState(false);
-  const message = `Ik train met SteynPT en dat bevalt top! Via mijn link krijg je ${REFERRAL.friendReward} bij Steyn: ${url}`;
+  const message = `Ik train met SteynPT en dat bevalt top! Via mijn link krijg je ${friendReward} bij Steyn: ${url}`;
 
   async function copy() {
     try {

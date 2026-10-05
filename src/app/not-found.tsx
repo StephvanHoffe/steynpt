@@ -1,12 +1,12 @@
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ButtonLink } from "@/components/ui";
-import { SITE } from "@/lib/site";
+import { getAnnouncement } from "@/lib/content/texts";
 
-export default function NotFound() {
+export default async function NotFound() {
   return (
     <>
-      <SiteHeader announcement={SITE.announcement} />
+      <SiteHeader announcement={await getAnnouncement()} />
       <main id="inhoud" className="flex-1 overflow-x-clip">
     <section className="hero-soft">
       <div className="container-site py-28 text-center lg:py-40">

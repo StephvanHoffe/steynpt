@@ -1,65 +1,65 @@
 import { Clock, MapPin } from "lucide-react";
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { Rich } from "@/components/content/Rich";
 import { InstagramIcon } from "@/components/icons";
-import { LOCATIONS, ON_LOCATION, SITE, INTERESTS } from "@/lib/site";
+import { algemeen, contact } from "@/lib/content/registry";
+import { getTexts } from "@/lib/content/texts";
+import { INTERESTS, mapsUrl } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Contact & gratis kennismaking",
-  description:
-    "Vraag een gratis kennismaking aan bij SteynPT. We nodigen je graag uit bij Gymbase aan de Overtoom in Amsterdam.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getTexts(contact);
+  return { title: seo.title, description: seo.description };
+}
 
 export default async function ContactPage({ searchParams }: PageProps<"/contact">) {
   const { onderwerp } = await searchParams;
   const defaultInterest = INTERESTS.some((i) => i.id === onderwerp) ? (onderwerp as string) : undefined;
+  const [t, { locatie }] = await Promise.all([getTexts(contact), getTexts(algemeen)]);
 
   return (
     <section className="hero-soft">
       <div className="container-site grid gap-12 py-16 lg:grid-cols-[1fr_1.1fr] lg:py-24">
         <div className="animate-rise">
-          <p className="eyebrow text-accent">Kom direct met Steyn in contact</p>
+          <p className="eyebrow text-accent">{t.hero.eyebrow}</p>
           <h1 className="display display-xl mt-5">
-            Leuk om eens <span className="text-accent">kennis</span> te maken!
+            <Rich text={t.hero.title} />
           </h1>
-          <p className="lead mt-6 max-w-xl text-ink/75">
-            We nodigen je graag uit bij Gymbase voor een gratis kennismaking. We vertellen je meer over onze
-            werkwijze, geven je een rondleiding en horen graag meer over jouw verwachtingen en doelen.
-          </p>
+          <p className="lead mt-6 max-w-xl text-ink/75">{t.hero.intro}</p>
           <p className="mt-8 flex items-center gap-3 text-ink/85">
             <Clock className="size-5 text-accent" aria-hidden="true" />
-            {SITE.responseTime}
+            {locatie.responseTime}
           </p>
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {LOCATIONS.map((loc) => (
-              <a key={loc.name} href={loc.maps} target="_blank" rel="noopener noreferrer" className="card-soft block p-5 transition-colors hover:border-accent/60">
-                <MapPin className="size-5 text-accent" aria-hidden="true" />
-                <p className="mt-3 font-semibold">{loc.name}</p>
-                <p className="mt-1 text-sm text-muted">
-                  {loc.street}
-                  <br />
-                  {loc.city}
-                </p>
-              </a>
-            ))}
+            <a href={mapsUrl(locatie.street, locatie.city)} target="_blank" rel="noopener noreferrer" className="card-soft block p-5 transition-colors hover:border-accent/60">
+              <MapPin className="size-5 text-accent" aria-hidden="true" />
+              <p className="mt-3 font-semibold">{locatie.name}</p>
+              <p className="mt-1 text-sm text-muted">
+                {locatie.street}
+                <br />
+                {locatie.city}
+              </p>
+            </a>
           </div>
           <p className="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-            <strong className="text-ink">Wist je dat</strong> SteynPT ook trainingen op locatie aanbiedt? {ON_LOCATION}
+            <strong className="text-ink">{t.hero.tipTitle}</strong> {t.hero.tipText} {locatie.onLocation}
           </p>
           <a
-            href={SITE.instagram.url}
+            href={locatie.instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-ink hover:text-accent"
           >
-            <InstagramIcon className="size-4" /> Volg {SITE.instagram.handle} op Instagram
+            <InstagramIcon className="size-4" /> Volg {locatie.instagramHandle} op Instagram
           </a>
         </div>
 
         <div className="rounded-xl bg-paper p-6 text-ink sm:p-10">
-          <h2 className="display display-sm">Vraag een kennismaking aan</h2>
-          <p className="mt-2 text-sm text-muted">Vul je gegevens in, dan nemen we contact met je op om een moment te plannen.</p>
+          <h2 className="display display-sm">
+            <Rich text={t.formulier.title} />
+          </h2>
+          <p className="mt-2 text-sm text-muted">{t.formulier.intro}</p>
           <div className="relative mt-8">
             <ContactForm defaultInterest={defaultInterest} />
           </div>

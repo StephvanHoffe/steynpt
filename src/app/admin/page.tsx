@@ -15,7 +15,8 @@ import { appointments, checkIns, db, PLAN_TYPES, users } from "@/lib/db";
 import type { StageGroup } from "@/lib/plans/pipeline";
 import { loadPlanPipeline } from "@/lib/plans/pipeline-server";
 import { PLAN_SECTION } from "@/lib/plans/sections";
-import { REFERRAL } from "@/lib/referral-program";
+import { algemeen } from "@/lib/content/registry";
+import { getTexts } from "@/lib/content/texts";
 import { isoWeekKey } from "@/lib/weeks";
 
 export const metadata: Metadata = { title: "Overzicht" };
@@ -41,7 +42,8 @@ export default async function AdminOverviewPage() {
   const weekEnd = zonedTimeToUtc(addDays(startOfWeek(today), 7), "00:00");
 
   const withClient = { a: appointments, firstName: users.firstName, lastName: users.lastName, phone: users.phone };
-  const [counts, pipeline, todays, upcoming, rewardsDue, [week], [active], [newMembers], [checks]] = await Promise.all([
+  const [{ vriendenactie }, counts, pipeline, todays, upcoming, rewardsDue, [week], [active], [newMembers], [checks]] = await Promise.all([
+    getTexts(algemeen),
     adminCounts(),
     loadPlanPipeline(),
     db
@@ -254,7 +256,7 @@ export default async function AdminOverviewPage() {
                   </span>
                   <span className="flex-1 text-sm">
                     Vriendenkorting verrekenen: <strong>{r.referrerFirst} {r.referrerLast}</strong> bracht {r.firstName} {r.lastName} aan
-                    <span className="block text-xs text-muted">{REFERRAL.referrerReward}</span>
+                    <span className="block text-xs text-muted">{vriendenactie.referrerReward}</span>
                   </span>
                   <form action={markReferralRewardAction}>
                     <input type="hidden" name="friendId" value={r.id} />

@@ -6,57 +6,24 @@ import { DashboardPreview } from "@/components/DashboardPreview";
 import { Faq } from "@/components/Faq";
 import { OnlinePlans } from "@/components/OnlinePlans";
 import { ReferralSteps } from "@/components/ReferralSteps";
+import { Rich } from "@/components/content/Rich";
 import { ButtonLink, SectionHeading } from "@/components/ui";
-import { REFERRAL } from "@/lib/referral-program";
+import { algemeen, onlineCoaching } from "@/lib/content/registry";
+import { getTexts } from "@/lib/content/texts";
 import { resolveInvitation } from "@/lib/referral";
 
-export const metadata: Metadata = {
-  title: "Online coaching",
-  description:
-    "Online coaching door Steyn van Leeuwen: trainingsschema en voedingsplan op maat, wekelijkse check-ins in je eigen dashboard en persoonlijke bijsturing. Nodig een vriend uit en krijg samen korting.",
-};
+const AUDIENCE_ICONS = [Dumbbell, Briefcase, Plane, Trophy];
 
-const audiences = [
-  { icon: Dumbbell, title: "Je traint zelfstandig", text: "Je wilt een plan dat écht bij jou past en iemand die meekijkt." },
-  { icon: Briefcase, title: "Je hebt een volle agenda", text: "Train wanneer het jou uitkomt, thuis, in de gym of op kantoor." },
-  { icon: Plane, title: "Je bent veel onderweg", text: "Je coaching reist met je mee, waar je ook bent." },
-  { icon: Trophy, title: "Je hebt een specifiek doel", text: "Wedstrijd, seizoen of persoonlijk record: we plannen ernaartoe." },
-];
-
-const steps = [
-  { title: "Account aanmaken", text: "Kies je pakket en maak in twee minuten je gratis account aan." },
-  { title: "Intake", text: "Steyn neemt binnen 24 uur contact op voor een intake via videocall of in de studio." },
-  { title: "Jouw plan", text: "Je ontvangt je trainingsschema en voedingsplan, afgestemd op jouw doel en agenda." },
-  { title: "Check-in & bijsturen", text: "Elke week check je in via je dashboard. Steyn stuurt bij en houdt je metingen bij." },
-];
-
-const faq = [
-  {
-    q: "Heb ik een sportschool nodig?",
-    a: "Nee. Je schema wordt afgestemd op de plek waar jij traint: in de gym, thuis met beperkt materiaal of buiten.",
-  },
-  {
-    q: "Hoe snel hoor ik iets na mijn aanmelding?",
-    a: "Steyn streeft ernaar om binnen 24 uur contact met je op te nemen om de intake in te plannen. Je betaalt pas als je na de intake besluit te starten.",
-  },
-  {
-    q: "Kan ik online coaching combineren met personal training?",
-    a: "Zeker. Veel sporters combineren een paar 1-op-1 sessies in Amsterdam met online begeleiding voor de dagen ertussen. Bespreek het tijdens je intake.",
-  },
-  {
-    q: "Hoe lang duurt een traject?",
-    a: "Dat stemmen we af op jouw doel. Voor blijvend resultaat adviseert Steyn om minimaal drie maanden te rekenen.",
-  },
-  {
-    q: "Hoe werkt de vriendenactie?",
-    a: `Iedere klant heeft een persoonlijke uitnodigingslink. Een vriend die zich via die link aanmeldt krijgt ${REFERRAL.friendReward}. Start je vriend, dan krijg jij ${REFERRAL.referrerReward}.`,
-  },
-];
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getTexts(onlineCoaching);
+  return { title: seo.title, description: seo.description };
+}
 
 export default async function OnlineCoachingPage({ searchParams }: PageProps<"/online-coaching">) {
   const { uitnodiging } = await searchParams;
-  const invitation = await resolveInvitation(uitnodiging);
+  const [invitation, t, shared] = await Promise.all([resolveInvitation(uitnodiging), getTexts(onlineCoaching), getTexts(algemeen)]);
   const ref = invitation?.code ?? null;
+  const audiences = t.voorWie.cards.map((c, i) => ({ ...c, icon: AUDIENCE_ICONS[i] }));
 
   return (
     <>
@@ -66,44 +33,33 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
             {invitation && (
               <p className="mb-6 inline-flex items-center gap-2 rounded-full bg-accent-tint px-4 py-2 text-sm font-semibold text-ink">
                 <Gift className="size-4" aria-hidden="true" />
-                {invitation.firstName} nodigt je uit: je krijgt {REFERRAL.friendReward}
+                {invitation.firstName} nodigt je uit: je krijgt {shared.vriendenactie.friendReward}
               </p>
             )}
-            <p className="eyebrow text-accent">Nieuw · Online coaching</p>
+            <p className="eyebrow text-accent">{t.hero.eyebrow}</p>
             <h1 className="display display-xl mt-5">
-              Jouw coach.
-              <br />
-              <span className="text-accent">Altijd</span> en overal.
+              <Rich text={t.hero.title} />
             </h1>
-            <p className="lead mt-6 max-w-xl text-ink/75">
-              De persoonlijke aanpak van SteynPT, nu ook online. Een plan op maat, wekelijkse check-ins in je eigen
-              dashboard en een coach die met je meedenkt, waar je ook traint.
-            </p>
+            <p className="lead mt-6 max-w-xl text-ink/75">{t.hero.intro}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="#pakketten">
-                Kies je pakket <ArrowRight className="size-4" aria-hidden="true" />
+                {t.hero.primary} <ArrowRight className="size-4" aria-hidden="true" />
               </ButtonLink>
               <ButtonLink href={`/registreren${ref ? `?ref=${ref}` : ""}`} variant="outline">
-                Gratis account aanmaken
+                {t.hero.secondary}
               </ButtonLink>
             </div>
-            <p className="mt-5 text-sm text-muted">
-              Intake binnen 24 uur · Je betaalt pas na de intake
-            </p>
+            {t.hero.note && <p className="mt-5 text-sm text-muted">{t.hero.note}</p>}
           </div>
           <DashboardPreview />
         </div>
       </section>
 
       <section className="container-site py-20 lg:py-28">
-        <SectionHeading
-          eyebrow="Voor wie"
-          title="Gemaakt voor sporters die verder willen"
-          intro="Of je nu net begint of al jaren traint: online coaching geeft je structuur, kennis en een stok achter de deur."
-        />
+        <SectionHeading eyebrow={t.voorWie.eyebrow} title={<Rich text={t.voorWie.title} />} intro={t.voorWie.intro} />
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {audiences.map(({ icon: Icon, title, text }) => (
-            <div key={title} className="card p-6">
+          {audiences.map(({ icon: Icon, title, text }, i) => (
+            <div key={i} className="card p-6">
               <span className="grid size-11 place-items-center rounded-xl bg-accent-tint text-accent">
                 <Icon className="size-5" aria-hidden="true" />
               </span>
@@ -116,10 +72,10 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
 
       <section className="bg-surface py-20 lg:py-28">
         <div className="container-site">
-          <SectionHeading eyebrow="Zo werkt het" title="In vier stappen van start" />
+          <SectionHeading eyebrow={t.stappen.eyebrow} title={<Rich text={t.stappen.title} />} />
           <ol className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {steps.map((step, i) => (
-              <li key={step.title} className="relative rounded-xl bg-paper p-7">
+            {t.stappen.steps.map((step, i) => (
+              <li key={i} className="relative rounded-xl bg-paper p-7">
                 <span className="display grid size-12 place-items-center rounded-full bg-ink text-2xl text-white">{i + 1}</span>
                 <h3 className="display mt-6 text-2xl">{step.title}</h3>
                 <p className="mt-3 text-[15px] leading-relaxed text-muted">{step.text}</p>
@@ -131,20 +87,14 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
 
       <section id="pakketten" className="scroll-mt-28 bg-surface py-20 lg:py-28">
         <div className="container-site">
-          <SectionHeading
-           
-            align="center"
-            eyebrow="Pakketten"
-            title="Kies wat bij jou past"
-            intro="Alle pakketten inclusief persoonlijk dashboard, wekelijkse check-ins en je metingen in één overzicht."
-          />
+          <SectionHeading align="center" eyebrow={t.pakketten.eyebrow} title={<Rich text={t.pakketten.title} />} intro={t.pakketten.intro} />
           <div className="mt-14">
             <OnlinePlans referral={ref} />
           </div>
           <p className="mt-8 text-center text-sm text-muted">
-            Liever eerst kennismaken?{" "}
+            {t.pakketten.note}{" "}
             <Link href="/contact" className="font-semibold text-ink underline decoration-accent underline-offset-4">
-              Plan een gratis kennismaking
+              {t.pakketten.noteLink}
             </Link>
           </p>
         </div>
@@ -152,29 +102,26 @@ export default async function OnlineCoachingPage({ searchParams }: PageProps<"/o
 
       <section className="container-site grid gap-14 py-20 lg:grid-cols-2 lg:items-center lg:py-28">
         <div>
-          <SectionHeading
-            eyebrow="Vriendenactie"
-            title={REFERRAL.headline}
-            intro="Samen trainen is leuker en houdt je allebei scherp. Nodig een vriend uit via je persoonlijke link in Mijn omgeving."
-          />
+          <SectionHeading eyebrow={t.vriendenactie.eyebrow} title={<Rich text={t.vriendenactie.title} />} intro={t.vriendenactie.intro} />
           <ButtonLink href="/vriend-uitnodigen" variant="outline" className="mt-8">
-            Voorwaarden en uitleg
+            {t.vriendenactie.button}
           </ButtonLink>
         </div>
         <ReferralSteps />
       </section>
 
       <section className="container-site pb-8">
-        <SectionHeading eyebrow="Veelgestelde vragen" title="Goed om te weten" />
+        <SectionHeading eyebrow={t.faq.eyebrow} title={<Rich text={t.faq.title} />} />
         <div className="mt-10 max-w-4xl">
-          <Faq items={faq} />
+          <Faq items={t.faq.questions} />
         </div>
       </section>
 
       <CtaBand
-        title="Start vandaag nog"
-        text="Maak je gratis account aan, kies je pakket en Steyn neemt binnen 24 uur contact met je op."
-        primary={{ href: `/registreren${ref ? `?ref=${ref}` : ""}`, label: "Account aanmaken" }}
+        title={t.afsluiter.title}
+        text={t.afsluiter.text}
+        primary={{ href: `/registreren${ref ? `?ref=${ref}` : ""}`, label: t.afsluiter.primary }}
+        secondary={{ href: "/contact", label: t.afsluiter.secondary }}
       />
     </>
   );

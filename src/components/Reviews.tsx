@@ -1,11 +1,13 @@
 import { Quote } from "lucide-react";
-import { REVIEWS } from "@/lib/site";
+import { algemeen } from "@/lib/content/registry";
+import { getTexts } from "@/lib/content/texts";
 
-export function Reviews() {
+export async function Reviews() {
+  const { reviews } = (await getTexts(algemeen)).reviews;
   return (
     <div className="grid gap-5 md:grid-cols-2">
-      {REVIEWS.map((r) => (
-        <figure key={r.name} className="card flex flex-col p-8">
+      {reviews.map((r, i) => (
+        <figure key={i} className="card flex flex-col p-8">
           <Quote className="size-8 text-accent" aria-hidden="true" />
           <blockquote className="mt-5 flex-1 text-xl leading-snug font-medium text-pretty">“{r.quote}”</blockquote>
           <figcaption className="mt-6 flex items-center gap-3 border-t border-line pt-5">

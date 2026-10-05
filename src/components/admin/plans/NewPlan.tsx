@@ -9,7 +9,7 @@ import { aiConfigured } from "@/lib/plans/generate";
 import { STAGES, relativeDay } from "@/lib/plans/pipeline";
 import { loadPlanPipeline } from "@/lib/plans/pipeline-server";
 import { PLAN_SECTION, planHref } from "@/lib/plans/sections";
-import { getOnlinePlan } from "@/lib/site";
+import { onlinePlanName } from "@/lib/content/texts";
 import { MemberPicker, type PickerGroup } from "./MemberPicker";
 import { NewPlanForm } from "./NewPlanForm";
 import { formatPlanDayLong, StageBadge } from "./stage";
@@ -54,6 +54,7 @@ export async function NewPlan({ type, searchParams }: { type: PlanType; searchPa
       db.select({ plan: users.plan, coachingStatus: users.coachingStatus }).from(users).where(eq(users.id, member.id)),
     ]);
     const row = rows[type][0];
+    const planName = await onlinePlanName(full?.plan);
     const intake = intakeSchema.safeParse(intakeRow?.data);
     const ai = aiConfigured();
     // Standaard start het nieuwe schema waar het huidige ophoudt (of op de al ingeplande dag).
@@ -69,7 +70,7 @@ export async function NewPlan({ type, searchParams }: { type: PlanType; searchPa
                 {name(member)}
               </Link>
               {row && <StageBadge stage={row.stage} coachingStatus={full?.coachingStatus} />}
-              {getOnlinePlan(full?.plan) && <span className="text-sm text-muted">Online {getOnlinePlan(full?.plan)!.name}</span>}
+              {planName && <span className="text-sm text-muted">Online {planName}</span>}
             </div>
             <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
               <div>

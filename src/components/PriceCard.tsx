@@ -1,8 +1,11 @@
 import { Check } from "lucide-react";
 import Link from "next/link";
+import { pakketten } from "@/lib/content/registry";
+import { getTexts } from "@/lib/content/texts";
 import type { PriceCard as PriceCardType } from "@/lib/site";
 
-export function PriceCard({ card, cta = "Plan een afspraak", href = "/contact" }: { card: PriceCardType; cta?: string; href?: string }) {
+export async function PriceCard({ card, cta, href = "/contact" }: { card: PriceCardType; cta: string; href?: string }) {
+  const { labels } = await getTexts(pakketten);
   const featured = card.featured;
   return (
     <article
@@ -12,7 +15,7 @@ export function PriceCard({ card, cta = "Plan een afspraak", href = "/contact" }
     >
       {featured && (
         <span className="absolute -top-3 left-7 rounded bg-ink px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">
-          Meest gekozen
+          {labels.featured}
         </span>
       )}
       <p className={`text-xs font-semibold uppercase tracking-[0.14em] ${featured ? "text-accent" : "text-muted"}`}>{card.label}</p>
@@ -24,8 +27,8 @@ export function PriceCard({ card, cta = "Plan een afspraak", href = "/contact" }
         {card.unit && <span className="ml-1 text-sm text-muted">{card.unit}</span>}
       </p>
       <ul className="mt-6 flex-1 space-y-2.5 text-sm">
-        {card.features.map((f) => (
-          <li key={f} className="flex gap-2.5">
+        {card.features.map((f, i) => (
+          <li key={i} className="flex gap-2.5">
             <Check className="mt-0.5 size-4 shrink-0 text-accent" strokeWidth={2.5} aria-hidden="true" />
             <span className="text-ink/85">{f}</span>
           </li>

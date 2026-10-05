@@ -1,5 +1,6 @@
-// Centrale content van SteynPT. Prijzen van bestaande diensten zijn
-// overgenomen van de vorige website (steynpt.nl) en ongewijzigd.
+// Centrale gegevens van SteynPT. Prijzen van bestaande diensten zijn overgenomen van de vorige website (steynpt.nl).
+// Pakketten, prijzen en adres zijn hier de standaardwaarden: Steyn past ze aan in het beheer onder Website-teksten
+// (src/lib/content). Toon ze op de site daarom via src/lib/content/texts.ts, niet rechtstreeks vanuit dit bestand.
 
 export const SITE = {
   name: "SteynPT",
@@ -7,12 +8,6 @@ export const SITE = {
   description:
     "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam. 1-op-1 begeleiding voor een gezondere leefstijl, specifieke doelen en topsporters.",
   instagram: { url: "https://www.instagram.com/bigtimesteyn/", handle: "@bigtimesteyn" },
-  responseTime: "Ik streef ernaar om binnen 24 uur contact met je op te nemen.",
-  // Balk bovenaan de site; zet op null om hem te verbergen.
-  announcement: { text: "Nieuw: online coaching. Nodig een vriend uit en krijg samen 50% korting", href: "/vriend-uitnodigen" } as {
-    text: string;
-    href: string;
-  } | null,
 };
 
 // `desktop: false` = alleen in het mobiele menu en de footer.
@@ -26,17 +21,12 @@ export const NAV: { href: string; label: string; highlight?: boolean; desktop?: 
   { href: "/over-steyn", label: "Over Steyn" },
 ];
 
-export const LOCATIONS = [
-  {
-    name: "Gymbase",
-    street: "Overtoom 371-w",
-    city: "1054 JN Amsterdam",
-    maps: "https://maps.google.com/?q=Overtoom+371-w,+1054+JN+Amsterdam",
-  },
-];
+// Standaardadres; Steyn past het aan in het beheer onder Website-teksten.
+export const LOCATIONS = [{ name: "Gymbase", street: "Overtoom 371-w", city: "1054 JN Amsterdam" }];
 
-export const ON_LOCATION =
-  "Naast onze vaste locatie Gymbase komen we ook op locatie: in jouw favoriete park of in de kantine van je werk.";
+/** Routelink naar Google Maps voor een adres. */
+export const mapsUrl = (street: string, city: string) =>
+  `https://maps.google.com/?q=${encodeURIComponent(`${street}, ${city}`).replace(/%20/g, "+").replace(/%2C/g, ",")}`;
 
 export type PriceCard = {
   name: string;
@@ -59,14 +49,6 @@ export const BREATHWORK_SESSION = {
     "Oefeningen om zelf mee verder te gaan",
     "Geen ervaring nodig",
   ],
-};
-
-export const BREATHWORK_PRICE: PriceCard = {
-  name: "Ademsessie 1-op-1",
-  label: "Ademcoaching",
-  price: BREATHWORK_SESSION.price,
-  unit: `per sessie van ${BREATHWORK_SESSION.duration}`,
-  features: BREATHWORK_SESSION.features,
 };
 
 export const PT_PRICES: PriceCard[] = [
@@ -120,8 +102,7 @@ export type OnlinePlan = {
   featured?: boolean;
 };
 
-// Online coaching is nieuw; deze prijzen zijn een voorstel en kunnen hier
-// centraal worden aangepast.
+// Online coaching is nieuw; deze prijzen zijn een voorstel. De id's zijn vast (ze staan bij leden opgeslagen).
 export const ONLINE_PLANS: OnlinePlan[] = [
   {
     id: "online-start",
@@ -165,6 +146,7 @@ export const ONLINE_PLANS: OnlinePlan[] = [
   },
 ];
 
+/** Bestaat dit pakket? Voor controle van een id; toon naam en prijs via src/lib/content/texts.ts (aanpasbaar in het beheer). */
 export function getOnlinePlan(id: string | null | undefined) {
   return ONLINE_PLANS.find((p) => p.id === id);
 }
@@ -185,47 +167,4 @@ export const INTERESTS = [
   { id: "ademcoaching", label: "Ademsessie 1-op-1" },
   { id: "ademcoaching-groep", label: "Ademcoaching in groepsverband (op aanvraag)" },
   { id: "voedingscoaching", label: "Voedingsbegeleiding" },
-];
-
-export const REVIEWS = [
-  {
-    quote: "Steyn heeft mij geleerd dat het niet alleen gaat om afvallen, maar om bewustwording van je leefstijl.",
-    name: "Miranda 'd Weegman",
-    role: "Operatieassistente",
-  },
-  {
-    quote: "Ik ben al jaren bezig met afvallen maar bleef altijd rond hetzelfde gewicht. Sinds ik met Steyn train behaal ik eindelijk resultaat.",
-    name: "Steve van Maanen",
-    role: "Bakker",
-  },
-];
-
-export const EXPERTISE = [
-  "Personal Trainer",
-  "Orthomoleculair voedingstherapeut",
-  "Leefstijl- en vitaliteitscoaching",
-  "Ademcoaching",
-  "Powerliften",
-  "Boksen",
-  "CrossFit",
-  "Sportspecifieke training",
-];
-
-export const METHOD_STEPS = [
-  {
-    title: "Intake",
-    text: "We beginnen met een gesprek over jouw doelen, je achtergrond en wat je tot nu toe hebt geprobeerd.",
-  },
-  {
-    title: "Nulmeting",
-    text: "We wegen, meten en bewegen: zo zien we precies waar we aan moeten werken.",
-  },
-  {
-    title: "Plan op maat",
-    text: "Je krijgt een persoonlijk schema en voedingsplan met de ideale balans in macro- en micronutriënten.",
-  },
-  {
-    title: "Coaching",
-    text: "Ook buiten de trainingen hebben we contact. We sturen bij tot je doel bereikt is, en daarna.",
-  },
 ];

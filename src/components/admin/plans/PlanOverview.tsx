@@ -6,7 +6,7 @@ import { siteOrigin } from "@/lib/origin";
 import { SOON_DAYS, STAGE_GROUPS, STAGES, relativeDay, type StageGroup } from "@/lib/plans/pipeline";
 import { loadPlanPipeline, type PipelineRow } from "@/lib/plans/pipeline-server";
 import { newPlanHref, PLAN_SECTION, planHref } from "@/lib/plans/sections";
-import { getOnlinePlan } from "@/lib/site";
+import { onlinePlanNames } from "@/lib/content/texts";
 import { formatPlanDay, GROUP_TONE, StageBadge } from "./stage";
 
 const sinceFmt = new Intl.DateTimeFormat("nl-NL", { day: "numeric", month: "short", timeZone: "Europe/Amsterdam" });
@@ -67,7 +67,7 @@ export async function PlanOverview({ type, searchParams }: { type: PlanType; sea
   const section = PLAN_SECTION[type];
   const q = typeof searchParams.q === "string" ? searchParams.q.trim() : "";
   const fase = isGroup(searchParams.fase) ? searchParams.fase : null;
-  const [{ today, rows: all }, origin] = await Promise.all([loadPlanPipeline(), siteOrigin()]);
+  const [{ today, rows: all }, origin, planName] = await Promise.all([loadPlanPipeline(), siteOrigin(), onlinePlanNames()]);
 
   const needle = q.toLowerCase();
   const searched = all[type].filter((r) => !needle || `${r.member.firstName} ${r.member.lastName} ${r.member.email}`.toLowerCase().includes(needle));
@@ -175,7 +175,7 @@ export async function PlanOverview({ type, searchParams }: { type: PlanType; sea
                       <Link href={`/admin/leden/${r.member.id}`} className="block truncate font-semibold hover:underline">
                         {r.member.firstName} {r.member.lastName}
                       </Link>
-                      <span className="block truncate text-xs text-muted">{getOnlinePlan(r.member.plan)?.name ? `Online ${getOnlinePlan(r.member.plan)!.name}` : r.member.email}</span>
+                      <span className="block truncate text-xs text-muted">{planName(r.member.plan) ? `Online ${planName(r.member.plan)}` : r.member.email}</span>
                     </td>
                     <td className="px-4 py-3">
                       <StageBadge stage={r.stage} coachingStatus={r.member.coachingStatus} />

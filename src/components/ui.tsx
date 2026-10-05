@@ -40,8 +40,8 @@ export function ButtonLink({
 export function CheckList({ items }: { items: string[] }) {
   return (
     <ul className="space-y-3">
-      {items.map((item) => (
-        <li key={item} className="flex gap-3">
+      {items.map((item, i) => (
+        <li key={i} className="flex gap-3">
           <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-accent-tint text-accent">
             <Check className="size-3" strokeWidth={3} aria-hidden="true" />
           </span>

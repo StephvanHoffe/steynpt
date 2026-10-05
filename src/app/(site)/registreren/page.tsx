@@ -4,7 +4,8 @@ import { AuthShell } from "@/components/AuthShell";
 import { RegisterForm } from "@/components/forms/RegisterForm";
 import { getCurrentUser } from "@/lib/auth";
 import { resolveInvitation } from "@/lib/referral";
-import { REFERRAL } from "@/lib/referral-program";
+import { algemeen } from "@/lib/content/registry";
+import { getOnlinePlans, getTexts } from "@/lib/content/texts";
 import { getOnlinePlan } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 export default async function RegisterPage({ searchParams }: PageProps<"/registreren">) {
   if (await getCurrentUser()) redirect("/account");
   const { plan, ref } = await searchParams;
-  const invitation = await resolveInvitation(ref);
+  const [invitation, plans, { vriendenactie }] = await Promise.all([resolveInvitation(ref), getOnlinePlans(), getTexts(algemeen)]);
   const planId = typeof plan === "string" && getOnlinePlan(plan) ? plan : undefined;
 
   return (
@@ -27,7 +28,7 @@ export default async function RegisterPage({ searchParams }: PageProps<"/registr
           {invitation && (
             <>
               {" "}
-              Omdat {invitation.firstName} je uitnodigde, krijg je <strong className="text-ink">{REFERRAL.friendReward}</strong>.
+              Omdat {invitation.firstName} je uitnodigde, krijg je <strong className="text-ink">{vriendenactie.friendReward}</strong>.
             </>
           )}
         </p>
@@ -43,7 +44,13 @@ export default async function RegisterPage({ searchParams }: PageProps<"/registr
         ],
       }}
     >
-      <RegisterForm plan={planId} referralCode={invitation?.code} inviterName={invitation?.firstName} />
+      <RegisterForm
+        plan={planId}
+        plans={plans.map(({ id, name, price }) => ({ id, name, price }))}
+        friendReward={vriendenactie.friendReward}
+        referralCode={invitation?.code}
+        inviterName={invitation?.firstName}
+      />
     </AuthShell>
   );
 }

@@ -33,7 +33,7 @@ const db = drizzle(client, { schema: s });
 const [klant, steyn] = [DEMO_ACCOUNTS[0], DEMO_ACCOUNTS[1]];
 
 if (process.argv.includes("--reset")) {
-  for (const table of [s.sessions, s.loginChallenges, s.recoveryCodes, s.checkIns, s.appointments, s.measurements, s.plans, s.intakes, s.contactRequests, s.availability, s.blockedPeriods, s.settings]) {
+  for (const table of [s.sessions, s.loginChallenges, s.recoveryCodes, s.checkIns, s.appointments, s.measurements, s.plans, s.intakes, s.contactRequests, s.availability, s.blockedPeriods, s.settings, s.siteTexts]) {
     await db.delete(table);
   }
   await db.update(s.users).set({ referredById: null });

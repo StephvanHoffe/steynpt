@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarDays, Dumbbell, Inbox, LayoutDashboard, Salad, Settings2, Users } from "lucide-react";
+import { CalendarDays, Dumbbell, FileText, Inbox, LayoutDashboard, Salad, Settings2, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -13,6 +13,7 @@ const ITEMS = [
   { href: "/admin/trainingsschemas", label: "Trainingsschema's", icon: Dumbbell, badge: "training" as const },
   { href: "/admin/voedingsschemas", label: "Voedingsschema's", icon: Salad, badge: "voeding" as const },
   { href: "/admin/aanvragen", label: "Aanvragen", icon: Inbox, badge: "requests" as const },
+  { href: "/admin/teksten", label: "Website-teksten", icon: FileText },
   { href: "/admin/agenda/instellingen", label: "Instellingen", icon: Settings2 },
 ];
 

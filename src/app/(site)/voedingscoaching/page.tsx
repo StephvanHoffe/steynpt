@@ -3,59 +3,43 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
+import { Paragraphs, Rich } from "@/components/content/Rich";
 import { ButtonLink, CheckList, SectionHeading } from "@/components/ui";
+import { voedingscoaching } from "@/lib/content/registry";
+import { getTexts } from "@/lib/content/texts";
 
-export const metadata: Metadata = {
-  title: "Voedingscoaching",
-  description:
-    "Voedingscoaching door orthomoleculair voedingstherapeut Steyn van Leeuwen. Bij afvallen, aankomen, darmklachten, energie en meer. Een gericht voedingsplan op maat.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getTexts(voedingscoaching);
+  return { title: seo.title, description: seo.description };
+}
 
-const complaints = [
-  "Afvallen of aankomen",
-  "Darmklachten",
-  "Verhoogd cholesterol",
-  "Verhoogde bloeddruk",
-  "Acne",
-  "Weinig energie",
-];
-
-export default function VoedingscoachingPage() {
+export default async function VoedingscoachingPage() {
+  const t = await getTexts(voedingscoaching);
   return (
     <>
       <PageHero
-        eyebrow="Alles over voedingscoaching"
-        title={
-          <>
-            Voeding die <span className="text-accent">werkt</span> voor jou
-          </>
-        }
-        intro="Aan de hand van jouw doelen maak ik een gericht voedingsplan voor je. Stap voor stap verbeteren we je voeding en je gezondheid. Orthomoleculaire, leefstijl- en vitaliteitscoaching."
+        eyebrow={t.hero.eyebrow}
+        title={<Rich text={t.hero.title} />}
+        intro={t.hero.intro}
         image="/images/steyn-intake.jpg"
         imageAlt="Steyn tijdens een voedingsgesprek"
       >
         <ButtonLink href="/contact">
-          Vraag een gratis kennismaking aan <ArrowRight className="size-4" aria-hidden="true" />
+          {t.hero.primary} <ArrowRight className="size-4" aria-hidden="true" />
         </ButtonLink>
       </PageHero>
 
       <section className="container-site grid gap-14 py-20 lg:grid-cols-2 lg:py-28">
         <div>
-          <SectionHeading eyebrow="Voedingsbegeleiding" title="De juiste balans in macro's én micro's" />
+          <SectionHeading eyebrow={t.begeleiding.eyebrow} title={<Rich text={t.begeleiding.title} />} />
           <div className="prose-site lead mt-6 text-muted">
-            <p>
-              Ik ben orthomoleculair voedingstherapeut en help je aan de juiste balans in macro- en micronutriënten. Geen
-              crashdiëten, maar een plan dat past bij jouw leven en dat je volhoudt.
-            </p>
-            <p>
-              Wil je afvallen, aankomen of heb je klachten? Door je voeding aan te passen kunnen we samen veel bereiken.
-            </p>
+            <Paragraphs text={t.begeleiding.body} />
           </div>
         </div>
         <div className="card self-start p-8">
-          <h3 className="display text-2xl">Ik help je onder andere bij</h3>
+          <h3 className="display text-2xl">{t.begeleiding.cardTitle}</h3>
           <div className="mt-6">
-            <CheckList items={complaints} />
+            <CheckList items={t.begeleiding.cardList} />
           </div>
         </div>
       </section>
@@ -71,24 +55,19 @@ export default function VoedingscoachingPage() {
             className="h-full max-h-[560px] w-full object-cover"
           />
           <div className="px-4 py-16 sm:px-10 lg:px-16 lg:py-24">
-            <SectionHeading
-             
-              eyebrow="Meten is weten"
-              title="Resultaat dat je kunt zien"
-              intro="We starten met een nulmeting en meten tussentijds je voortgang, zodat we precies weten wat werkt."
-            />
+            <SectionHeading eyebrow={t.meten.eyebrow} title={<Rich text={t.meten.title} />} intro={t.meten.intro} />
             <div className="mt-8">
-              <CheckList items={["Intake en analyse van je eetpatroon", "Voedingsplan op maat", "Tussentijdse metingen en bijsturing", "Onderdeel van elk PT- en online pakket"]} />
+              <CheckList items={t.meten.points} />
             </div>
           </div>
         </div>
       </section>
 
       <CtaBand
-        title="Ook online mogelijk"
-        text="Voedingscoaching is onderdeel van online coaching. Krijg je voedingsplan en wekelijkse feedback gewoon via je dashboard."
-        primary={{ href: "/online-coaching", label: "Bekijk online coaching" }}
-        secondary={{ href: "/contact", label: "Gratis kennismaking" }}
+        title={t.afsluiter.title}
+        text={t.afsluiter.text}
+        primary={{ href: "/online-coaching", label: t.afsluiter.primary }}
+        secondary={{ href: "/contact", label: t.afsluiter.secondary }}
       />
     </>
   );

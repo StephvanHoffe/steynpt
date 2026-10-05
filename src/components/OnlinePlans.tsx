@@ -1,11 +1,13 @@
 import { Check } from "lucide-react";
 import Link from "next/link";
-import { ONLINE_PLANS } from "@/lib/site";
+import { pakketten } from "@/lib/content/registry";
+import { getOnlinePlans, getTexts } from "@/lib/content/texts";
 
-export function OnlinePlans({ referral }: { referral?: string | null }) {
+export async function OnlinePlans({ referral }: { referral?: string | null }) {
+  const [plans, { labels }] = await Promise.all([getOnlinePlans(), getTexts(pakketten)]);
   return (
     <div className="grid gap-5 lg:grid-cols-3">
-      {ONLINE_PLANS.map((plan) => {
+      {plans.map((plan) => {
         const featured = plan.featured;
         const href = `/registreren?plan=${plan.id}${referral ? `&ref=${encodeURIComponent(referral)}` : ""}`;
         return (
@@ -15,7 +17,7 @@ export function OnlinePlans({ referral }: { referral?: string | null }) {
           >
             {featured && (
               <span className="absolute -top-3 left-7 rounded bg-ink px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">
-                Meest gekozen
+                {labels.featured}
               </span>
             )}
             <h3 className="display text-4xl">{plan.name}</h3>
@@ -26,8 +28,8 @@ export function OnlinePlans({ referral }: { referral?: string | null }) {
               <span className={`ml-1 text-sm ${featured ? "text-ink/80" : "text-muted"}`}>per maand</span>
             </p>
             <ul className="mt-6 flex-1 space-y-2.5 text-sm">
-              {plan.features.map((f) => (
-                <li key={f} className="flex gap-2.5">
+              {plan.features.map((f, i) => (
+                <li key={i} className="flex gap-2.5">
                   <Check className="mt-0.5 size-4 shrink-0 text-accent" strokeWidth={2.5} aria-hidden="true" />
                   <span>{f}</span>
                 </li>

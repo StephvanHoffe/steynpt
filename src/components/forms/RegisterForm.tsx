@@ -5,11 +5,22 @@ import Link from "next/link";
 import { useActionState } from "react";
 import { registerAction } from "@/lib/actions/auth";
 import type { FormState } from "@/lib/actions/types";
-import { REFERRAL } from "@/lib/referral-program";
-import { GOALS, ONLINE_PLANS } from "@/lib/site";
+import { GOALS, type OnlinePlan } from "@/lib/site";
 import { Field, FormAlert, SelectField, SubmitButton } from "./fields";
 
-export function RegisterForm({ plan, referralCode, inviterName }: { plan?: string; referralCode?: string; inviterName?: string }) {
+export function RegisterForm({
+  plan,
+  plans,
+  friendReward,
+  referralCode,
+  inviterName,
+}: {
+  plan?: string;
+  plans: Pick<OnlinePlan, "id" | "name" | "price">[];
+  friendReward: string;
+  referralCode?: string;
+  inviterName?: string;
+}) {
   const [state, action] = useActionState<FormState, FormData>(registerAction, {});
   const v = state.values ?? {};
   const e = state.fieldErrors ?? {};
@@ -22,7 +33,7 @@ export function RegisterForm({ plan, referralCode, inviterName }: { plan?: strin
       <fieldset>
         <legend className="label">Kies je online coaching pakket</legend>
         <div className="grid gap-2.5 sm:grid-cols-2">
-          {[...ONLINE_PLANS.map((p) => ({ id: p.id, title: p.name, sub: `€ ${p.price} per maand` })), { id: "", title: "Nog niet", sub: "Eerst rondkijken" }].map((option) => (
+          {[...plans.map((p) => ({ id: p.id, title: p.name, sub: `€ ${p.price} per maand` })), { id: "", title: "Nog niet", sub: "Eerst rondkijken" }].map((option) => (
             <label
               key={option.id || "geen"}
               className="flex cursor-pointer items-center gap-3 rounded-xl border-[1.5px] border-line bg-white p-4 transition-colors has-[:checked]:border-ink has-[:checked]:bg-surface has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent"
@@ -71,7 +82,7 @@ export function RegisterForm({ plan, referralCode, inviterName }: { plan?: strin
         error={e.referralCode}
         placeholder="Bijv. LISA-7K2Q"
         autoCapitalize="characters"
-        hint={inviterName ? `Uitgenodigd door ${inviterName}: je krijgt ${REFERRAL.friendReward}` : "Optioneel, van een vriend die al traint bij SteynPT"}
+        hint={inviterName ? `Uitgenodigd door ${inviterName}: je krijgt ${friendReward}` : "Optioneel, van een vriend die al traint bij SteynPT"}
       />
 
       <div className="space-y-3 rounded-xl bg-surface p-4 text-sm">

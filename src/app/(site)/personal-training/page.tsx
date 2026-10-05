@@ -5,74 +5,49 @@ import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
 import { PriceCard } from "@/components/PriceCard";
 import { Reviews } from "@/components/Reviews";
+import { Paragraphs, Rich } from "@/components/content/Rich";
 import { ButtonLink, CheckList, SectionHeading } from "@/components/ui";
-import { PT_PRICES } from "@/lib/site";
+import { personalTraining } from "@/lib/content/registry";
+import { getPtPrices, getTexts } from "@/lib/content/texts";
 
-export const metadata: Metadata = {
-  title: "Personal training",
-  description:
-    "1-op-1 personal training in Amsterdam met Steyn van Leeuwen. Voor een gezondere leefstijl, specifieke doelen en topsporters. Bij Gymbase of op locatie.",
-};
+const TOPSPORT_ICONS = [Target, Activity, ShieldCheck, HeartPulse, Video, CalendarRange];
 
-const topsport = [
-  { icon: Target, title: "Doelgerichte periodisering", text: "Een plan dat toewerkt naar jouw wedstrijd, seizoen of moment suprême." },
-  { icon: Activity, title: "Sportspecifieke kracht", text: "Kracht, snelheid en explosiviteit vertaald naar jouw sport." },
-  { icon: ShieldCheck, title: "Blessurepreventie", text: "Bewegingsassessment en gerichte oefeningen om sterker én heler te blijven." },
-  { icon: HeartPulse, title: "Herstel & ademhaling", text: "Slaap, voeding en ademtechnieken voor optimaal herstel en focus onder druk." },
-  { icon: Video, title: "Techniekanalyse", text: "We analyseren je uitvoering en sturen bij, ook tussen de sessies door." },
-  { icon: CalendarRange, title: "Begeleiding rond je schema", text: "Afgestemd op trainingen bij je club, wedstrijden en reizen." },
-];
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getTexts(personalTraining);
+  return { title: seo.title, description: seo.description };
+}
 
-export default function PersonalTrainingPage() {
+export default async function PersonalTrainingPage() {
+  const [t, prices] = await Promise.all([getTexts(personalTraining), getPtPrices()]);
+  const topsport = t.topsport.cards.map((c, i) => ({ ...c, icon: TOPSPORT_ICONS[i] }));
   return (
     <>
       <PageHero
-        eyebrow="Alles over personal training"
-        title={
-          <>
-            1-op-1. <span className="text-accent">100%</span> voor jouw doel.
-          </>
-        }
-        intro="Ongeacht jouw doel of sport: SteynPT gaat er 100% voor. Met een persoonlijk trainingsplan werken we zo efficiënt mogelijk naar jouw doel toe, met veel energie, aandacht voor de juiste uitvoering en een fijne sfeer."
+        eyebrow={t.hero.eyebrow}
+        title={<Rich text={t.hero.title} />}
+        intro={t.hero.intro}
         image="/images/steyn-deadlift-portret.jpg"
         imageAlt="Steyn coacht een sporter tijdens de deadlift"
       >
         <ButtonLink href="/contact">
-          Vraag een gratis proefles aan <ArrowRight className="size-4" aria-hidden="true" />
+          {t.hero.primary} <ArrowRight className="size-4" aria-hidden="true" />
         </ButtonLink>
         <ButtonLink href="#tarieven" variant="outline">
-          Bekijk de pakketten
+          {t.hero.secondary}
         </ButtonLink>
       </PageHero>
 
       <section className="container-site grid gap-14 py-20 lg:grid-cols-2 lg:py-28">
         <div>
-          <SectionHeading eyebrow="Voor een gezondere leefstijl" title="Een duidelijk plan, samen uitgevoerd" />
+          <SectionHeading eyebrow={t.leefstijl.eyebrow} title={<Rich text={t.leefstijl.title} />} />
           <div className="prose-site lead mt-6 text-muted">
-            <p>
-              Ik maak een gepersonaliseerd trainingsplan voor je, zodat we zo efficiënt mogelijk naar je doel toewerken. Met
-              een duidelijk en overzichtelijk plan weet je precies wat je te wachten staat en wat je moet doen om jouw doel
-              te bereiken.
-            </p>
-            <p>
-              Naast ervaring in krachttraining heb ik een achtergrond in powerliften, boksen, CrossFit en sportspecifieke
-              training. Samen maken we, indien gewenst, een mooie combinatie om jouw doel te bereiken.
-            </p>
+            <Paragraphs text={t.leefstijl.body} />
           </div>
         </div>
         <div className="card self-start p-8">
-          <h3 className="display text-2xl">Altijd inbegrepen</h3>
+          <h3 className="display text-2xl">{t.leefstijl.cardTitle}</h3>
           <div className="mt-6">
-            <CheckList
-              items={[
-                "Intakegesprek over je doelen en achtergrond",
-                "Nulmeting: wegen, meten en bewegen",
-                "Persoonlijk trainingsschema",
-                "Voedingsadvies op basis van jouw doel",
-                "Contactmomenten ook buiten de trainingen",
-                "Trainen bij Gymbase of op locatie",
-              ]}
-            />
+            <CheckList items={t.leefstijl.cardList} />
           </div>
         </div>
       </section>
@@ -80,16 +55,7 @@ export default function PersonalTrainingPage() {
       <section id="topsport" className="scroll-mt-28 bg-surface py-20 lg:py-28">
         <div className="container-site">
           <div className="grid items-end gap-10 lg:grid-cols-[1.3fr_1fr]">
-            <SectionHeading
-             
-              eyebrow="Specifieke doelen & topsport"
-              title={
-                <>
-                  Begeleiding voor sporters die <span className="text-accent">meer</span> willen
-                </>
-              }
-              intro="Werk je naar een wedstrijd, wil je terugkomen na een blessure of zoek je die laatste procenten? Steyn is gespecialiseerd in het 1-op-1 begeleiden van specifieke doelen en (top)sporters."
-            />
+            <SectionHeading eyebrow={t.topsport.eyebrow} title={<Rich text={t.topsport.title} />} intro={t.topsport.intro} />
             <Image
               src="/images/steyn-roeien.jpg"
               alt="Steyn coacht een sporter op de roeimachine"
@@ -100,8 +66,8 @@ export default function PersonalTrainingPage() {
             />
           </div>
           <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {topsport.map(({ icon: Icon, title, text }) => (
-              <div key={title} className="card-soft p-7">
+            {topsport.map(({ icon: Icon, title, text }, i) => (
+              <div key={i} className="card-soft p-7">
                 <Icon className="size-7 text-accent" aria-hidden="true" />
                 <h3 className="mt-5 text-lg font-semibold">{title}</h3>
                 <p className="mt-2 text-[15px] leading-relaxed text-muted">{text}</p>
@@ -109,30 +75,26 @@ export default function PersonalTrainingPage() {
             ))}
           </div>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="/contact">Bespreek jouw doel</ButtonLink>
+            <ButtonLink href="/contact">{t.topsport.primary}</ButtonLink>
             <ButtonLink href="/online-coaching" variant="outline">
-              Combineer met online coaching
+              {t.topsport.secondary}
             </ButtonLink>
           </div>
         </div>
       </section>
 
       <section id="tarieven" className="container-site scroll-mt-28 py-20 lg:py-28">
-        <SectionHeading
-          eyebrow="Tarieven"
-          title="1-op-1 pakketten"
-          intro="Sport je graag individueel en wil je samen met Steyn alles uit je sessie halen? Kies dan één van de 1-op-1 pakketten."
-        />
+        <SectionHeading eyebrow={t.tarieven.eyebrow} title={<Rich text={t.tarieven.title} />} intro={t.tarieven.intro} />
         <div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {PT_PRICES.map((card) => (
-            <PriceCard key={card.name} card={card} />
+          {prices.map((card, i) => (
+            <PriceCard key={i} card={card} cta={t.tarieven.button} />
           ))}
         </div>
       </section>
 
       <section className="bg-surface py-20 lg:py-28">
         <div className="container-site">
-          <SectionHeading eyebrow="Reviews" title="Resultaat dat blijft" />
+          <SectionHeading eyebrow={t.reviews.eyebrow} title={<Rich text={t.reviews.title} />} />
           <div className="mt-12">
             <Reviews />
           </div>
@@ -140,10 +102,10 @@ export default function PersonalTrainingPage() {
       </section>
 
       <CtaBand
-        title="Zin om kennis te maken?"
-        text="Plan een gratis proefles of kennismaking. We ontvangen je graag bij Gymbase."
-        primary={{ href: "/contact", label: "Gratis kennismaking" }}
-        secondary={{ href: "/online-coaching", label: "Of start online" }}
+        title={t.afsluiter.title}
+        text={t.afsluiter.text}
+        primary={{ href: "/contact", label: t.afsluiter.primary }}
+        secondary={{ href: "/online-coaching", label: t.afsluiter.secondary }}
       />
     </>
   );

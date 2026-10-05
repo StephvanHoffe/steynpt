@@ -4,10 +4,11 @@ import { ArrowRight, Menu, User, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import type { Announcement } from "@/lib/content/texts";
 import { NAV } from "@/lib/site";
 import { Logo } from "./Logo";
 
-export function SiteHeader({ announcement }: { announcement: { text: string; href: string } | null }) {
+export function SiteHeader({ announcement }: { announcement: Announcement }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -29,7 +30,9 @@ export function SiteHeader({ announcement }: { announcement: { text: string; hre
           href={announcement.href}
           className="group block bg-ink px-4 py-2 text-center text-[13px] font-medium text-white"
         >
-          <span className="mr-2 rounded bg-accent px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-white">Nieuw</span>
+          {announcement.label && (
+            <span className="mr-2 rounded bg-accent px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-white">{announcement.label}</span>
+          )}
           {announcement.text}
           <ArrowRight className="ml-1 inline size-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
         </Link>

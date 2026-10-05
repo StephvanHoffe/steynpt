@@ -12,8 +12,9 @@ import { requireUser } from "@/lib/auth";
 import { appointments, checkIns, db, intakes, measurements, plans, users, type CoachingStatus } from "@/lib/db";
 import { intakeSchema } from "@/lib/intake";
 import { siteOrigin } from "@/lib/origin";
-import { REFERRAL } from "@/lib/referral-program";
-import { getOnlinePlan, GOALS } from "@/lib/site";
+import { algemeen } from "@/lib/content/registry";
+import { getOnlinePlans, getTexts } from "@/lib/content/texts";
+import { GOALS } from "@/lib/site";
 import { checkInStreak, isoWeekKey } from "@/lib/weeks";
 import { activateDuePlans } from "@/lib/plans/schedule";
 
@@ -57,7 +58,8 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
   const week = isoWeekKey(now);
   const checkedInThisWeek = myCheckIns.some((c) => c.week === week);
   const streak = checkInStreak(myCheckIns.map((c) => c.week));
-  const plan = getOnlinePlan(user.plan);
+  const [onlinePlans, { vriendenactie }] = await Promise.all([getOnlinePlans(), getTexts(algemeen)]);
+  const plan = onlinePlans.find((p) => p.id === user.plan);
   const goal = GOALS.find((g) => g.id === user.goal)?.label;
   const referralUrl = `${await siteOrigin()}/r/${user.referralCode}`;
   const status = STATUS[user.coachingStatus];
@@ -165,7 +167,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
                     : "Zin om weer te beginnen? Kies je pakket, dan plannen we een nieuwe intake."}
                 </p>
                 <div className="mt-5">
-                  <RequestCoachingForm currentPlan={user.plan} />
+                  <RequestCoachingForm currentPlan={user.plan} plans={onlinePlans.map(({ id, name, price }) => ({ id, name, price }))} />
                 </div>
                 <Link href="/online-coaching#pakketten" className="mt-3 inline-block text-sm font-semibold underline decoration-accent underline-offset-4">
                   Vergelijk de pakketten
@@ -296,10 +298,10 @@ export default async function DashboardPage({ searchParams }: PageProps<"/accoun
               <Users className="size-6" aria-hidden="true" /> Vriend uitnodigen
             </h2>
             <p className="mt-2 text-sm text-muted">
-              {REFERRAL.headline}: je vriend krijgt {REFERRAL.friendReward}, jij {REFERRAL.referrerReward} zodra je vriend start.
+              {vriendenactie.headline}: je vriend krijgt {vriendenactie.friendReward}, jij {vriendenactie.referrerReward} zodra je vriend start.
             </p>
             <div className="mt-5">
-              <ReferralShare url={referralUrl} code={user.referralCode} firstName={user.firstName} />
+              <ReferralShare url={referralUrl} code={user.referralCode} firstName={user.firstName} friendReward={vriendenactie.friendReward} />
             </div>
             {friends.length > 0 && (
               <ul className="mt-5 divide-y divide-line border-t border-line text-sm">

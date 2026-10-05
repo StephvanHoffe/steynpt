@@ -1,6 +1,8 @@
 import { ArrowUpRight, MapPin } from "lucide-react";
 import Link from "next/link";
-import { LOCATIONS, SITE } from "@/lib/site";
+import { algemeen } from "@/lib/content/registry";
+import { getTexts } from "@/lib/content/texts";
+import { mapsUrl } from "@/lib/site";
 import { InstagramIcon } from "./icons";
 import { Logo } from "./Logo";
 
@@ -36,22 +38,21 @@ const columns = [
   },
 ];
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const { footer, locatie } = await getTexts(algemeen);
   return (
     <footer className="bg-ink text-white print:hidden">
       <div className="container-site grid gap-12 py-16 lg:grid-cols-[1fr_2.3fr] lg:py-20">
         <div>
           <Logo variant="light" className="h-20 w-auto" />
-          <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/65">
-            Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam.
-          </p>
+          <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/65">{footer.intro}</p>
           <a
-            href={SITE.instagram.url}
+            href={locatie.instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-6 inline-flex items-center gap-2 rounded-lg border border-white/20 px-4 py-2 text-sm font-medium transition-colors hover:border-white"
           >
-            <InstagramIcon className="size-4" /> Volg {SITE.instagram.handle}
+            <InstagramIcon className="size-4" /> Volg {locatie.instagramHandle}
           </a>
         </div>
 
@@ -73,30 +74,30 @@ export function SiteFooter() {
           <div>
             <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-white/50">Locaties</h2>
             <ul className="mt-4 space-y-4 text-sm">
-              {LOCATIONS.map((loc) => (
-                <li key={loc.name}>
-                  <a href={loc.maps} target="_blank" rel="noopener noreferrer" className="group block">
-                    <span className="flex items-center gap-1.5 font-semibold">
-                      <MapPin className="size-3.5 text-accent-soft" aria-hidden="true" />
-                      {loc.name}
-                      <ArrowUpRight className="size-3.5 opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true" />
-                    </span>
-                    <span className="mt-1 block text-white/65">
-                      {loc.street}
-                      <br />
-                      {loc.city}
-                    </span>
-                  </a>
-                </li>
-              ))}
-              <li className="text-white/65">Op locatie &amp; online</li>
+              <li>
+                <a href={mapsUrl(locatie.street, locatie.city)} target="_blank" rel="noopener noreferrer" className="group block">
+                  <span className="flex items-center gap-1.5 font-semibold">
+                    <MapPin className="size-3.5 text-accent-soft" aria-hidden="true" />
+                    {locatie.name}
+                    <ArrowUpRight className="size-3.5 opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true" />
+                  </span>
+                  <span className="mt-1 block text-white/65">
+                    {locatie.street}
+                    <br />
+                    {locatie.city}
+                  </span>
+                </a>
+              </li>
+              {footer.extra && <li className="text-white/65">{footer.extra}</li>}
             </ul>
           </div>
         </div>
       </div>
       <div className="border-t border-white/10">
         <div className="container-site flex flex-col gap-3 py-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} SteynPT · Personal Training Amsterdam</p>
+          <p>
+            © {new Date().getFullYear()} {footer.copyright}
+          </p>
           <div className="flex gap-5">
             <Link href="/privacy" className="hover:text-white">
               Privacyverklaring

@@ -21,8 +21,9 @@ import { relativeDay } from "@/lib/plans/pipeline";
 import { loadPlanPipeline } from "@/lib/plans/pipeline-server";
 import { newPlanHref, planHref } from "@/lib/plans/sections";
 import { formatNumber, MEASUREMENT_FIELDS } from "@/lib/progress";
-import { REFERRAL } from "@/lib/referral-program";
-import { getOnlinePlan, GOALS } from "@/lib/site";
+import { algemeen } from "@/lib/content/registry";
+import { getTexts, onlinePlanName } from "@/lib/content/texts";
+import { GOALS } from "@/lib/site";
 import { passwordDaysLeft, passwordExpiresAt } from "@/lib/totp";
 import { remainingRecoveryCodes } from "@/lib/two-factor";
 
@@ -39,7 +40,9 @@ export default async function MemberPage({ params }: PageProps<"/admin/leden/[id
   if (!member) notFound();
 
   const now = new Date();
-  const [[intakeRow], pipeline, rows, upcoming, [inviter]] = await Promise.all([
+  const [planName, { vriendenactie }, [intakeRow], pipeline, rows, upcoming, [inviter]] = await Promise.all([
+    onlinePlanName(member.plan),
+    getTexts(algemeen),
     db.select().from(intakes).where(eq(intakes.userId, id)),
     loadPlanPipeline(id),
     db.select().from(measurements).where(eq(measurements.userId, id)).orderBy(asc(measurements.measuredAt)),
@@ -65,7 +68,7 @@ export default async function MemberPage({ params }: PageProps<"/admin/leden/[id
         description={
           <span className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
             <CoachingBadge status={member.coachingStatus} />
-            {member.plan && <span className="font-medium text-ink">{getOnlinePlan(member.plan)?.name}</span>}
+            {member.plan && <span className="font-medium text-ink">{planName}</span>}
             <a href={`mailto:${member.email}`} className="hover:text-ink hover:underline">
               {member.email}
             </a>
@@ -91,7 +94,7 @@ export default async function MemberPage({ params }: PageProps<"/admin/leden/[id
       />
       {inviter && (
         <p className="mb-6 inline-flex rounded-lg bg-accent-tint px-3 py-2 text-sm">
-          Uitgenodigd door {inviter.firstName} {inviter.lastName}: krijgt {REFERRAL.friendReward}.
+          Uitgenodigd door {inviter.firstName} {inviter.lastName}: krijgt {vriendenactie.friendReward}.
         </p>
       )}
 

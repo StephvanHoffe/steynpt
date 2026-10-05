@@ -3,7 +3,7 @@ import Link from "next/link";
 import { formatDayLong, formatTime, getAgendaLocation, getAppointmentType } from "@/lib/agenda";
 import { cancelAppointmentAction } from "@/lib/actions/agenda";
 import type { Appointment, CoachingStatus } from "@/lib/db";
-import { getOnlinePlan } from "@/lib/site";
+import { onlinePlanName } from "@/lib/content/texts";
 import { CoachingBadge } from "../ui";
 import { CloseOnEscape } from "./CloseOnEscape";
 import { typeColor } from "./shared";
@@ -11,7 +11,7 @@ import { typeColor } from "./shared";
 type Client = { id: string; firstName: string; lastName: string; email: string; phone: string | null; coachingStatus: CoachingStatus; plan: string | null };
 
 /** Paneel met alle gegevens van één afspraak, met annuleren en verplaatsen. */
-export function AppointmentDrawer({
+export async function AppointmentDrawer({
   appointment: a,
   client,
   closeHref,
@@ -89,7 +89,7 @@ export function AppointmentDrawer({
               </Link>
               <span className="flex flex-wrap items-center gap-2">
                 <CoachingBadge status={client.coachingStatus} />
-                {client.plan && <span className="text-xs text-muted">{getOnlinePlan(client.plan)?.name}</span>}
+                {client.plan && <span className="text-xs text-muted">{await onlinePlanName(client.plan)}</span>}
               </span>
               {client.phone && (
                 <a href={`tel:${client.phone.replace(/\s/g, "")}`} className="inline-flex items-center gap-1.5 text-ink hover:underline">

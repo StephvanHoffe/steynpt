@@ -245,6 +245,17 @@ export const settings = sqliteTable("settings", {
   value: text("value").notNull(),
 });
 
+// Teksten van de website die Steyn in het beheer heeft aangepast (src/lib/content). Sleutel: pagina.onderdeel.veld,
+// waarde als JSON. Staat een tekst hier niet in, dan toont de site de standaardtekst uit de code.
+export const siteTexts = sqliteTable("site_texts", {
+  key: text("key").primaryKey(),
+  value: text("value").notNull(),
+  updatedById: text("updated_by_id").references(() => users.id, { onDelete: "set null" }),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .notNull()
+    .default(sql`(unixepoch())`),
+});
+
 export type Measurement = typeof measurements.$inferSelect;
 export type Appointment = typeof appointments.$inferSelect;
 export type AvailabilityWindow = typeof availability.$inferSelect;

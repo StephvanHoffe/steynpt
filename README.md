@@ -42,6 +42,7 @@ Het beheer heeft een eigen opmaak met een zijbalk (op de telefoon een balk boven
 - `/admin/leden`: alle leden met zoeken en filteren op coachingstatus, volgende afspraak en laatste check-in. Per lid (`/admin/leden/[id]`): coachingstatus en bericht, de status van beide schema's, metingen, komende afspraken en de intake.
 - `/admin/trainingsschemas` en `/admin/voedingsschemas`: per schematype alle klanten met de fase waarin ze zitten, het huidige schema en wanneer ze toe zijn aan een nieuw schema. Filteren per fase en zoeken op naam. Via *Nieuw trainingsschema* (`…/nieuw`) maak je een schema: je kiest de startdatum en begint met een AI-concept, een kopie van het huidige schema of leeg. Een schema bekijken, bewerken en publiceren gaat via `…/[id]`. Oude links naar `/admin/schemas` worden doorgestuurd.
 - `/admin/aanvragen`: contactaanvragen, open of afgehandeld.
+- `/admin/teksten` Website-teksten: alle teksten van de website aanpassen, zonder code. Zie [Website-teksten](#website-teksten).
 - `/admin/agenda/instellingen`: beschikbaarheid per week, vrije dagen en de koppeling met Google of Apple Agenda.
 
 ## Agenda
@@ -80,7 +81,27 @@ Elke klant heeft een persoonlijke link (`/r/CODE`) en code, te delen via WhatsAp
 - De uitnodiger krijgt 50% korting op een maand online coaching zodra de vriend start (coachingstatus *actief*).
 - In `/admin` staat een lijst *Vriendenkorting te verrekenen*. Na het verwerken in de factuur klikt Steyn op *Verrekend*; de klant ziet de status in het dashboard.
 
-De teksten en kortingen staan in `src/lib/referral-program.ts`. Het puntensysteem (Rewards) is verwijderd.
+De naam van de actie, de kortingen en de drie stappen past Steyn aan in het beheer onder *Website-teksten → Op elke pagina* (standaardwaarden in `src/lib/referral-program.ts`). Het puntensysteem (Rewards) is verwijderd.
+
+## Website-teksten
+
+Onder **Website-teksten** in het beheer (`/admin/teksten`) past Steyn de teksten van de site aan: per pagina (homepage, online coaching, personal training, ademcoaching, voedingscoaching, tarieven, Over Steyn, vriendenactie, contact en privacy) en voor wat op meerdere pagina's staat:
+
+- **Op elke pagina**: de balk bovenaan (tekst, label, link, aan/uit), de vriendenactie, de standaard afsluiter, reviews, werkwijze, expertises, adres en contact, en de footer.
+- **Prijzen en pakketten**: namen, prijzen en inhoud van de online pakketten, de PT-pakketten (toevoegen, verwijderen, volgorde, "Meest gekozen") en de ademsessie 1-op-1.
+
+Opslaan is direct zichtbaar op de site. Per pagina ook de titel en omschrijving voor Google.
+
+Hoe het werkt:
+
+- In titels geven `*sterretjes*` de accentkleur en begint Enter een nieuwe regel. In lange teksten begint een lege regel een nieuwe alinea; in opsommingen staat elk punt op een eigen regel.
+- **Automatische waarden** zoals `{ademprijs}`, `{ademduur}`, `{online-vanaf}`, `{actie}`, `{vriendkorting}` en `{jouwkorting}` worden overal ingevuld. Verander je de prijs van de ademsessie, dan klopt hij meteen in de introductie, de veelgestelde vragen, de tarieven en de omschrijving voor Google. Het bewerkscherm laat zien hoe de tekst op de site wordt.
+- Elke tekst heeft een standaardtekst (de tekst uit de code). Met *Standaardtekst* zet je één veld terug, of alles op een pagina. Een teruggezette tekst wordt niet meer opgeslagen.
+- Bij opslaan wordt alles gecontroleerd: geen lege verplichte velden, maximale lengte, geldige bedragen en alleen bekende automatische waarden. Wijzigingen die nog niet zijn opgeslagen zie je per veld, en de pagina waarschuwt als je weggaat zonder op te slaan. Ctrl+S slaat op.
+
+Technisch: aangepaste teksten staan in de tabel `site_texts` (sleutel `pagina.onderdeel.veld`, waarde als JSON). Welke teksten er zijn, met hun standaardtekst, staat in `src/lib/content/pages/`. Een nieuwe tekst aanpasbaar maken: voeg een veld toe aan de pagina in dat register en lees hem op de pagina met `getTexts(...)` (`src/lib/content/texts.ts`). Een opgeslagen waarde die niet meer past bij het veld wordt genegeerd, en als de database niet bereikbaar is, toont de site de standaardteksten. De openbare pagina's worden daarom per bezoek opgebouwd in plaats van vooraf bij het bouwen.
+
+Niet via het beheer: het menu, de knoppen in de kop, de onderwerpen van het contactformulier, foto's en de teksten in Mijn omgeving en bij het inloggen.
 
 ## Trainings- en voedingsschema's met AI
 
@@ -142,9 +163,10 @@ In de demo zijn de twee voorbeeldaccounts (inloggen met één klik) uitgezonderd
 
 | Wat | Waar |
 | --- | --- |
-| Prijzen (ook ademcoaching), pakketten, locaties, reviews, menu, aankondigingsbalk | `src/lib/site.ts` |
+| Teksten, prijzen, pakketten, reviews, adres, aankondigingsbalk | In het beheer onder *Website-teksten* (standaardteksten in `src/lib/content/pages/`) |
+| Menu, pakket-id's, doelen en onderwerpen van het contactformulier | `src/lib/site.ts` |
 | Afspraaktypes, duur, locaties en boekingsregels | `src/lib/agenda.ts` |
-| Vriendenactie (kortingen en teksten) | `src/lib/referral-program.ts` |
+| Vriendenactie: code-opbouw (teksten en kortingen staan in het beheer) | `src/lib/referral-program.ts` |
 | Meetwaarden en grenzen | `src/lib/progress.ts` |
 | Intakevragen en berekening richtwaarden | `src/lib/intake.ts` |
 | Instructies voor de AI | `src/lib/plans/prompt.ts` |
@@ -199,6 +221,7 @@ Met `DEMO_MODE=1` draait de site als demo:
 - De AI draait altijd in testmodus, dus er zijn geen kosten.
 - De site is niet vindbaar in zoekmachines.
 - De twee demo-accounts kunnen niet worden verwijderd of van wachtwoord wisselen, en hebben geen tweestapsverificatie nodig.
+- Wie als Steyn inlogt, kan ook de website-teksten aanpassen. Die zijn dan voor alle bezoekers van de demo te zien, tot de demo opnieuw start en alles weer de standaardtekst is.
 
 **Op Render (gratis):**
 
