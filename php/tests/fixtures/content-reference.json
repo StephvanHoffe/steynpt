@@ -1,0 +1,5431 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "title": "Homepage",
+      "path": "/",
+      "description": "De eerste pagina van de site.",
+      "sections": {
+        "hero": {
+          "title": "Bovenaan",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Personal training · Amsterdam & online",
+              "max": 80
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Sterker lichaam.\n*Gezonder* leven.",
+              "rich": true,
+              "max": 80
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Ik ben Steyn van Leeuwen, personal trainer en orthomoleculair voedingscoach. Ik help je aan een gezondere leefstijl, begeleid je 1-op-1 naar je specifieke doel en coach sporters naar hun beste prestatie. Vanaf nu ook online, waar je ook bent.",
+              "max": 500
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Eerste knop",
+              "default": "Start online coaching",
+              "max": 40
+            },
+            "secondary": {
+              "kind": "line",
+              "label": "Tweede knop",
+              "default": "Gratis kennismaking",
+              "max": 40
+            },
+            "stats": {
+              "kind": "items",
+              "label": "Kerncijfers",
+              "itemLabel": "Kerncijfer",
+              "fields": {
+                "value": {
+                  "kind": "line",
+                  "label": "Groot",
+                  "default": "",
+                  "max": 12
+                },
+                "label": {
+                  "kind": "line",
+                  "label": "Klein eronder",
+                  "default": "",
+                  "max": 40
+                }
+              },
+              "default": [
+                {
+                  "value": "1-op-1",
+                  "label": "persoonlijke aandacht"
+                },
+                {
+                  "value": "Online",
+                  "label": "overal coaching"
+                },
+                {
+                  "value": "24 uur",
+                  "label": "en Steyn neemt contact op"
+                },
+                {
+                  "value": "100%",
+                  "label": "inzet voor jouw doel"
+                }
+              ],
+              "fixed": true
+            },
+            "badgeLabel": {
+              "kind": "line",
+              "label": "Kaartje op de foto: kleine kop",
+              "default": "Nieuw",
+              "max": 20
+            },
+            "badgeText": {
+              "kind": "line",
+              "label": "Kaartje op de foto: tekst",
+              "default": "Online coaching vanaf € {online-vanaf} p/m",
+              "max": 60
+            }
+          }
+        },
+        "diensten": {
+          "title": "Balk met diensten",
+          "fields": {
+            "list": {
+              "kind": "list",
+              "label": "Diensten",
+              "default": [
+                "Personal training",
+                "Online coaching",
+                "Ademcoaching",
+                "Voedingscoaching",
+                "Topsport",
+                "Leefstijl"
+              ],
+              "max": 8,
+              "hint": "Eén per regel. De smalle balk onder de foto."
+            }
+          }
+        },
+        "online": {
+          "title": "Online coaching",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Nieuw bij SteynPT",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Online coaching. *Jouw coach*, altijd en overal.",
+              "rich": true,
+              "max": 100,
+              "hint": "Tussen *sterretjes* krijgt de tekst een markering."
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Dezelfde persoonlijke aanpak als in de gym, nu in je eigen online dashboard. Je krijgt een plan op maat, checkt wekelijks in en Steyn stuurt bij. Ideaal als je zelfstandig traint, veel reist of naast je PT-sessies extra begeleiding wilt.",
+              "max": 500
+            },
+            "features": {
+              "kind": "items",
+              "label": "Kenmerken",
+              "itemLabel": "Kenmerk",
+              "fields": {
+                "title": {
+                  "kind": "line",
+                  "label": "Titel",
+                  "default": "",
+                  "max": 60
+                },
+                "text": {
+                  "kind": "text",
+                  "label": "Tekst",
+                  "default": "",
+                  "max": 300
+                }
+              },
+              "default": [
+                {
+                  "title": "Schema op maat",
+                  "text": "Afgestemd op je doel, niveau en agenda."
+                },
+                {
+                  "title": "Voedingsplan",
+                  "text": "De juiste balans in macro- en micronutriënten."
+                },
+                {
+                  "title": "Check-ins & metingen",
+                  "text": "Je voortgang overzichtelijk in je dashboard."
+                },
+                {
+                  "title": "Direct contact",
+                  "text": "Steyn stuurt bij waar nodig."
+                }
+              ],
+              "fixed": true
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Eerste knop",
+              "default": "Bekijk de pakketten",
+              "max": 40
+            },
+            "secondary": {
+              "kind": "line",
+              "label": "Tweede knop",
+              "default": "Gratis account aanmaken",
+              "max": 40
+            }
+          }
+        },
+        "aanbod": {
+          "title": "Aanbod",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Aanbod",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Eén coach, alles voor jouw doel",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Met een breed scala aan opleidingen en jarenlange ervaring durft Steyn iedereen een garantie op resultaat te geven. Ben jij er klaar voor?",
+              "max": 400
+            },
+            "button": {
+              "kind": "line",
+              "label": "Knop",
+              "default": "Alle tarieven",
+              "max": 40
+            },
+            "services": {
+              "kind": "items",
+              "label": "Diensten",
+              "itemLabel": "Dienst",
+              "fields": {
+                "title": {
+                  "kind": "line",
+                  "label": "Titel",
+                  "default": "",
+                  "max": 60
+                },
+                "text": {
+                  "kind": "text",
+                  "label": "Tekst",
+                  "default": "",
+                  "max": 300
+                }
+              },
+              "default": [
+                {
+                  "title": "Online coaching",
+                  "text": "Schema, voedingsplan en wekelijkse check-ins in je eigen dashboard. Train waar en wanneer jij wilt."
+                },
+                {
+                  "title": "Personal training",
+                  "text": "1-op-1 training voor een gezondere leefstijl. Ongeacht jouw doel of sport: SteynPT gaat er 100% voor."
+                },
+                {
+                  "title": "Topsport & specifieke doelen",
+                  "text": "Sportspecifieke begeleiding, periodisering en blessurepreventie voor sporters die meer willen."
+                },
+                {
+                  "title": "Ademcoaching",
+                  "text": "1-op-1 of in groepsverband werken aan rust, focus, herstel en energie. Groepssessies voor teams, bedrijven en vriendengroepen op aanvraag."
+                },
+                {
+                  "title": "Voedingscoaching",
+                  "text": "Bij afvallen en aankomen. Orthomoleculaire, leefstijl- en vitaliteitscoaching."
+                }
+              ],
+              "fixed": true,
+              "hint": "Vaste volgorde: online coaching, personal training, topsport, ademcoaching, voedingscoaching. Elke kaart linkt naar zijn eigen pagina."
+            },
+            "onlinePoints": {
+              "kind": "list",
+              "label": "Punten bij online coaching",
+              "default": [
+                "Trainings- en voedingsschema op maat",
+                "Wekelijkse check-in met feedback van Steyn",
+                "Afspraken en voortgang in je dashboard",
+                "Vanaf € {online-vanaf} per maand"
+              ],
+              "max": 6,
+              "hint": "Eén per regel. Staan in de grote kaart van online coaching."
+            },
+            "badge": {
+              "kind": "line",
+              "label": "Label op de grote kaart",
+              "default": "Nieuw",
+              "max": 20
+            },
+            "more": {
+              "kind": "line",
+              "label": "Link onder elke kaart",
+              "default": "Lees meer",
+              "max": 30
+            }
+          }
+        },
+        "over": {
+          "title": "Ontmoet Steyn",
+          "hint": "De expertises pas je aan onder 'Op elke pagina'.",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Ontmoet Steyn",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Hallo, ik ben Steyn van Leeuwen",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Full-time personal trainer en voedingscoach, geboren in Hoevelaken en werkzaam in Amsterdam. Door een beginnende hernia van het hockeyen ontdekte ik krachttraining. Daar vond ik mijn passie, en de motivatie om de onduidelijkheid in de fitnesswereld te doorbreken.",
+              "max": 600
+            },
+            "cardTitle": {
+              "kind": "line",
+              "label": "Kaartje op de foto: groot",
+              "default": "15 jaar",
+              "max": 20
+            },
+            "cardText": {
+              "kind": "text",
+              "label": "Kaartje op de foto: tekst",
+              "default": "Zo oud was ik toen ik op advies van de fysio begon met krachttraining.",
+              "max": 160
+            },
+            "button": {
+              "kind": "line",
+              "label": "Knop",
+              "default": "Lees mijn verhaal",
+              "max": 40
+            }
+          }
+        },
+        "werkwijze": {
+          "title": "Werkwijze",
+          "hint": "De stappen zelf pas je aan onder 'Op elke pagina'.",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Werkwijze",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Van intake tot resultaat",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Of je nu in de gym traint of online: iedere samenwerking volgt dezelfde bewezen aanpak.",
+              "max": 400
+            }
+          }
+        },
+        "vriendenactie": {
+          "title": "Vriendenactie",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Vriendenactie",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Breng een vriend mee. *{actie}*",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Nodig een vriend uit voor online coaching. Je vriend krijgt {vriendkorting}; jij krijgt {jouwkorting} zodra je vriend start.",
+              "max": 400
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Eerste knop",
+              "default": "Maak gratis account",
+              "max": 40
+            },
+            "secondary": {
+              "kind": "line",
+              "label": "Tweede knop",
+              "default": "Zo werkt het",
+              "max": 40
+            }
+          }
+        },
+        "reviews": {
+          "title": "Reviews",
+          "hint": "De reviews zelf pas je aan onder 'Op elke pagina'.",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Reviews",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Wat sporters zeggen",
+              "rich": true,
+              "max": 100
+            }
+          }
+        },
+        "locaties": {
+          "title": "Locaties",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Bezoek ons",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Trainen waar het jou uitkomt",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Bij Gymbase in Amsterdam, op jouw favoriete plek of volledig online.",
+              "max": 400
+            }
+          }
+        },
+        "seo": {
+          "title": "Zoekmachines",
+          "hint": "Niet zichtbaar op de pagina zelf.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Paginatitel",
+              "default": "SteynPT · Personal training, online coaching & ademcoaching in Amsterdam",
+              "max": 90,
+              "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
+            },
+            "description": {
+              "kind": "text",
+              "label": "Omschrijving",
+              "default": "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam. 1-op-1 begeleiding voor een gezondere leefstijl, specifieke doelen en topsporters.",
+              "max": 300,
+              "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
+            }
+          }
+        }
+      }
+    },
+    {
+      "slug": "online-coaching",
+      "title": "Online coaching",
+      "path": "/online-coaching",
+      "description": "Uitleg, stappen, pakketten en veelgestelde vragen over online coaching.",
+      "sections": {
+        "hero": {
+          "title": "Bovenaan",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Nieuw · Online coaching",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Jouw coach.\n*Altijd* en overal.",
+              "rich": true,
+              "max": 80
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "De persoonlijke aanpak van SteynPT, nu ook online. Een plan op maat, wekelijkse check-ins in je eigen dashboard en een coach die met je meedenkt, waar je ook traint.",
+              "max": 500
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Eerste knop",
+              "default": "Kies je pakket",
+              "max": 40
+            },
+            "secondary": {
+              "kind": "line",
+              "label": "Tweede knop",
+              "default": "Gratis account aanmaken",
+              "max": 40
+            },
+            "note": {
+              "kind": "line",
+              "label": "Kleine tekst onder de knoppen",
+              "default": "Intake binnen 24 uur · Je betaalt pas na de intake",
+              "max": 120,
+              "optional": true
+            }
+          }
+        },
+        "voorWie": {
+          "title": "Voor wie",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Voor wie",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Gemaakt voor sporters die verder willen",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Of je nu net begint of al jaren traint: online coaching geeft je structuur, kennis en een stok achter de deur.",
+              "max": 400
+            },
+            "cards": {
+              "kind": "items",
+              "label": "Kaarten",
+              "itemLabel": "Kaart",
+              "fields": {
+                "title": {
+                  "kind": "line",
+                  "label": "Titel",
+                  "default": "",
+                  "max": 60
+                },
+                "text": {
+                  "kind": "text",
+                  "label": "Tekst",
+                  "default": "",
+                  "max": 300
+                }
+              },
+              "default": [
+                {
+                  "title": "Je traint zelfstandig",
+                  "text": "Je wilt een plan dat écht bij jou past en iemand die meekijkt."
+                },
+                {
+                  "title": "Je hebt een volle agenda",
+                  "text": "Train wanneer het jou uitkomt, thuis, in de gym of op kantoor."
+                },
+                {
+                  "title": "Je bent veel onderweg",
+                  "text": "Je coaching reist met je mee, waar je ook bent."
+                },
+                {
+                  "title": "Je hebt een specifiek doel",
+                  "text": "Wedstrijd, seizoen of persoonlijk record: we plannen ernaartoe."
+                }
+              ],
+              "fixed": true
+            }
+          }
+        },
+        "stappen": {
+          "title": "Zo werkt het",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Zo werkt het",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "In vier stappen van start",
+              "rich": true,
+              "max": 100
+            },
+            "steps": {
+              "kind": "items",
+              "label": "Stappen",
+              "itemLabel": "Stap",
+              "fields": {
+                "title": {
+                  "kind": "line",
+                  "label": "Titel",
+                  "default": "",
+                  "max": 60
+                },
+                "text": {
+                  "kind": "text",
+                  "label": "Tekst",
+                  "default": "",
+                  "max": 300
+                }
+              },
+              "default": [
+                {
+                  "title": "Account aanmaken",
+                  "text": "Kies je pakket en maak in twee minuten je gratis account aan."
+                },
+                {
+                  "title": "Intake",
+                  "text": "Steyn neemt binnen 24 uur contact op voor een intake via videocall of in de studio."
+                },
+                {
+                  "title": "Jouw plan",
+                  "text": "Je ontvangt je trainingsschema en voedingsplan, afgestemd op jouw doel en agenda."
+                },
+                {
+                  "title": "Check-in & bijsturen",
+                  "text": "Elke week check je in via je dashboard. Steyn stuurt bij en houdt je metingen bij."
+                }
+              ],
+              "min": 2,
+              "max": 6
+            }
+          }
+        },
+        "pakketten": {
+          "title": "Pakketten",
+          "hint": "De pakketten zelf (namen, prijzen, inhoud) pas je aan onder 'Prijzen en pakketten'.",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Pakketten",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Kies wat bij jou past",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Alle pakketten inclusief persoonlijk dashboard, wekelijkse check-ins en je metingen in één overzicht.",
+              "max": 400
+            },
+            "note": {
+              "kind": "line",
+              "label": "Tekst onder de pakketten",
+              "default": "Liever eerst kennismaken?",
+              "max": 80
+            },
+            "noteLink": {
+              "kind": "line",
+              "label": "Link onder de pakketten",
+              "default": "Plan een gratis kennismaking",
+              "max": 60
+            }
+          }
+        },
+        "vriendenactie": {
+          "title": "Vriendenactie",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Vriendenactie",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "{actie}",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Samen trainen is leuker en houdt je allebei scherp. Nodig een vriend uit via je persoonlijke link in Mijn omgeving.",
+              "max": 400
+            },
+            "button": {
+              "kind": "line",
+              "label": "Knop",
+              "default": "Voorwaarden en uitleg",
+              "max": 40
+            }
+          }
+        },
+        "faq": {
+          "title": "Veelgestelde vragen",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Veelgestelde vragen",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Goed om te weten",
+              "rich": true,
+              "max": 100
+            },
+            "questions": {
+              "kind": "items",
+              "label": "Vragen",
+              "itemLabel": "Vraag",
+              "fields": {
+                "q": {
+                  "kind": "line",
+                  "label": "Vraag",
+                  "default": "",
+                  "max": 160
+                },
+                "a": {
+                  "kind": "text",
+                  "label": "Antwoord",
+                  "default": "",
+                  "max": 800
+                }
+              },
+              "default": [
+                {
+                  "q": "Heb ik een sportschool nodig?",
+                  "a": "Nee. Je schema wordt afgestemd op de plek waar jij traint: in de gym, thuis met beperkt materiaal of buiten."
+                },
+                {
+                  "q": "Hoe snel hoor ik iets na mijn aanmelding?",
+                  "a": "Steyn streeft ernaar om binnen 24 uur contact met je op te nemen om de intake in te plannen. Je betaalt pas als je na de intake besluit te starten."
+                },
+                {
+                  "q": "Kan ik online coaching combineren met personal training?",
+                  "a": "Zeker. Veel sporters combineren een paar 1-op-1 sessies in Amsterdam met online begeleiding voor de dagen ertussen. Bespreek het tijdens je intake."
+                },
+                {
+                  "q": "Hoe lang duurt een traject?",
+                  "a": "Dat stemmen we af op jouw doel. Voor blijvend resultaat adviseert Steyn om minimaal drie maanden te rekenen."
+                },
+                {
+                  "q": "Hoe werkt de vriendenactie?",
+                  "a": "Iedere klant heeft een persoonlijke uitnodigingslink. Een vriend die zich via die link aanmeldt krijgt {vriendkorting}. Start je vriend, dan krijg jij {jouwkorting}."
+                }
+              ],
+              "min": 1,
+              "max": 15
+            }
+          }
+        },
+        "afsluiter": {
+          "title": "Afsluiter onderaan",
+          "hint": "Het zwarte blok onderaan de pagina.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Start vandaag nog",
+              "max": 80
+            },
+            "text": {
+              "kind": "text",
+              "label": "Tekst",
+              "default": "Maak je gratis account aan, kies je pakket en Steyn neemt binnen 24 uur contact met je op.",
+              "max": 300
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Witte knop",
+              "default": "Account aanmaken",
+              "max": 40
+            },
+            "secondary": {
+              "kind": "line",
+              "label": "Tweede knop",
+              "default": "Gratis kennismaking",
+              "max": 40
+            }
+          }
+        },
+        "seo": {
+          "title": "Zoekmachines",
+          "hint": "Niet zichtbaar op de pagina zelf.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Paginatitel",
+              "default": "Online coaching",
+              "max": 90,
+              "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
+            },
+            "description": {
+              "kind": "text",
+              "label": "Omschrijving",
+              "default": "Online coaching door Steyn van Leeuwen: trainingsschema en voedingsplan op maat, wekelijkse check-ins in je eigen dashboard en persoonlijke bijsturing. Nodig een vriend uit en krijg samen korting.",
+              "max": 300,
+              "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
+            }
+          }
+        }
+      }
+    },
+    {
+      "slug": "personal-training",
+      "title": "Personal training",
+      "path": "/personal-training",
+      "description": "1-op-1 training, topsport en de PT-pakketten.",
+      "sections": {
+        "hero": {
+          "title": "Bovenaan",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Alles over personal training",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "1-op-1. *100%* voor jouw doel.",
+              "rich": true,
+              "max": 80
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Ongeacht jouw doel of sport: SteynPT gaat er 100% voor. Met een persoonlijk trainingsplan werken we zo efficiënt mogelijk naar jouw doel toe, met veel energie, aandacht voor de juiste uitvoering en een fijne sfeer.",
+              "max": 500
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Eerste knop",
+              "default": "Vraag een gratis proefles aan",
+              "max": 40
+            },
+            "secondary": {
+              "kind": "line",
+              "label": "Tweede knop",
+              "default": "Bekijk de pakketten",
+              "max": 40
+            }
+          }
+        },
+        "leefstijl": {
+          "title": "Gezondere leefstijl",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Voor een gezondere leefstijl",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Een duidelijk plan, samen uitgevoerd",
+              "rich": true,
+              "max": 100
+            },
+            "body": {
+              "kind": "text",
+              "label": "Tekst",
+              "default": "Ik maak een gepersonaliseerd trainingsplan voor je, zodat we zo efficiënt mogelijk naar je doel toewerken. Met een duidelijk en overzichtelijk plan weet je precies wat je te wachten staat en wat je moet doen om jouw doel te bereiken.\n\nNaast ervaring in krachttraining heb ik een achtergrond in powerliften, boksen, CrossFit en sportspecifieke training. Samen maken we, indien gewenst, een mooie combinatie om jouw doel te bereiken.",
+              "max": 2000,
+              "paragraphs": true
+            },
+            "cardTitle": {
+              "kind": "line",
+              "label": "Kaart: titel",
+              "default": "Altijd inbegrepen",
+              "max": 60
+            },
+            "cardList": {
+              "kind": "list",
+              "label": "Kaart: opsomming",
+              "default": [
+                "Intakegesprek over je doelen en achtergrond",
+                "Nulmeting: wegen, meten en bewegen",
+                "Persoonlijk trainingsschema",
+                "Voedingsadvies op basis van jouw doel",
+                "Contactmomenten ook buiten de trainingen",
+                "Trainen bij Gymbase of op locatie"
+              ],
+              "max": 10,
+              "hint": "Eén punt per regel."
+            }
+          }
+        },
+        "topsport": {
+          "title": "Specifieke doelen & topsport",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Specifieke doelen & topsport",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Begeleiding voor sporters die *meer* willen",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Werk je naar een wedstrijd, wil je terugkomen na een blessure of zoek je die laatste procenten? Steyn is gespecialiseerd in het 1-op-1 begeleiden van specifieke doelen en (top)sporters.",
+              "max": 500
+            },
+            "cards": {
+              "kind": "items",
+              "label": "Kaarten",
+              "itemLabel": "Kaart",
+              "fields": {
+                "title": {
+                  "kind": "line",
+                  "label": "Titel",
+                  "default": "",
+                  "max": 60
+                },
+                "text": {
+                  "kind": "text",
+                  "label": "Tekst",
+                  "default": "",
+                  "max": 300
+                }
+              },
+              "default": [
+                {
+                  "title": "Doelgerichte periodisering",
+                  "text": "Een plan dat toewerkt naar jouw wedstrijd, seizoen of moment suprême."
+                },
+                {
+                  "title": "Sportspecifieke kracht",
+                  "text": "Kracht, snelheid en explosiviteit vertaald naar jouw sport."
+                },
+                {
+                  "title": "Blessurepreventie",
+                  "text": "Bewegingsassessment en gerichte oefeningen om sterker én heler te blijven."
+                },
+                {
+                  "title": "Herstel & ademhaling",
+                  "text": "Slaap, voeding en ademtechnieken voor optimaal herstel en focus onder druk."
+                },
+                {
+                  "title": "Techniekanalyse",
+                  "text": "We analyseren je uitvoering en sturen bij, ook tussen de sessies door."
+                },
+                {
+                  "title": "Begeleiding rond je schema",
+                  "text": "Afgestemd op trainingen bij je club, wedstrijden en reizen."
+                }
+              ],
+              "fixed": true
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Eerste knop",
+              "default": "Bespreek jouw doel",
+              "max": 40
+            },
+            "secondary": {
+              "kind": "line",
+              "label": "Tweede knop",
+              "default": "Combineer met online coaching",
+              "max": 40
+            }
+          }
+        },
+        "tarieven": {
+          "title": "Tarieven",
+          "hint": "De pakketten zelf pas je aan onder 'Prijzen en pakketten'.",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Tarieven",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "1-op-1 pakketten",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Sport je graag individueel en wil je samen met Steyn alles uit je sessie halen? Kies dan één van de 1-op-1 pakketten.",
+              "max": 400
+            },
+            "button": {
+              "kind": "line",
+              "label": "Knop onder elk pakket",
+              "default": "Plan een afspraak",
+              "max": 40
+            }
+          }
+        },
+        "reviews": {
+          "title": "Reviews",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Reviews",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Resultaat dat blijft",
+              "rich": true,
+              "max": 100
+            }
+          }
+        },
+        "afsluiter": {
+          "title": "Afsluiter onderaan",
+          "hint": "Het zwarte blok onderaan de pagina.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Zin om kennis te maken?",
+              "max": 80
+            },
+            "text": {
+              "kind": "text",
+              "label": "Tekst",
+              "default": "Plan een gratis proefles of kennismaking. We ontvangen je graag bij Gymbase.",
+              "max": 300
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Witte knop",
+              "default": "Gratis kennismaking",
+              "max": 40
+            },
+            "secondary": {
+              "kind": "line",
+              "label": "Tweede knop",
+              "default": "Of start online",
+              "max": 40
+            }
+          }
+        },
+        "seo": {
+          "title": "Zoekmachines",
+          "hint": "Niet zichtbaar op de pagina zelf.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Paginatitel",
+              "default": "Personal training",
+              "max": 90,
+              "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
+            },
+            "description": {
+              "kind": "text",
+              "label": "Omschrijving",
+              "default": "1-op-1 personal training in Amsterdam met Steyn van Leeuwen. Voor een gezondere leefstijl, specifieke doelen en topsporters. Bij Gymbase of op locatie.",
+              "max": 300,
+              "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
+            }
+          }
+        }
+      }
+    },
+    {
+      "slug": "ademcoaching",
+      "title": "Ademcoaching",
+      "path": "/ademcoaching",
+      "description": "De ademsessie 1-op-1, groepssessies op aanvraag en veelgestelde vragen.",
+      "sections": {
+        "hero": {
+          "title": "Bovenaan",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Ademcoaching 1-op-1 en in groepsverband",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Adem in. *Kom tot rust.* Presteer beter.",
+              "rich": true,
+              "max": 80
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Je ademhaling is het krachtigste gereedschap dat je altijd bij je hebt. In een persoonlijke ademsessie van {ademduur} leer je hoe je met je adem stress verlaagt, je focus vergroot en sneller herstelt. Met je team of groep kan het ook: groepssessies zijn op aanvraag.",
+              "max": 500
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Eerste knop",
+              "default": "Plan een ademsessie",
+              "max": 40
+            },
+            "secondary": {
+              "kind": "line",
+              "label": "Tweede knop",
+              "default": "Groepssessie aanvragen",
+              "max": 40
+            }
+          }
+        },
+        "voordelen": {
+          "title": "Wat het je oplevert",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Wat het je oplevert",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Kleine verandering, groot effect",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Ademcoaching sluit naadloos aan op de SteynPT-visie: een gezonde leefstijl draait niet alleen om trainen en voeding, maar ook om rust en herstel.",
+              "max": 400
+            },
+            "cards": {
+              "kind": "items",
+              "label": "Kaarten",
+              "itemLabel": "Kaart",
+              "fields": {
+                "title": {
+                  "kind": "line",
+                  "label": "Titel",
+                  "default": "",
+                  "max": 60
+                },
+                "text": {
+                  "kind": "text",
+                  "label": "Tekst",
+                  "default": "",
+                  "max": 300
+                }
+              },
+              "default": [
+                {
+                  "title": "Rust & focus",
+                  "text": "Leer je zenuwstelsel kalmeren en helder te blijven onder druk."
+                },
+                {
+                  "title": "Beter slapen",
+                  "text": "Ademtechnieken die je helpen ontspannen en dieper herstellen."
+                },
+                {
+                  "title": "Meer energie",
+                  "text": "Een efficiëntere ademhaling geeft meer energie gedurende de dag."
+                },
+                {
+                  "title": "Sportprestatie",
+                  "text": "Verbeter je uithoudingsvermogen, herstel tussen inspanningen en concentratie."
+                }
+              ],
+              "fixed": true
+            }
+          }
+        },
+        "vormen": {
+          "title": "1-op-1 of in een groep",
+          "hint": "Naam, prijs, duur en inhoud van de 1-op-1 sessie pas je aan onder 'Prijzen en pakketten'.",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Twee vormen",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "1-op-1 of met je groep",
+              "rich": true,
+              "max": 100
+            },
+            "soloLabel": {
+              "kind": "line",
+              "label": "1-op-1: kleine kop",
+              "default": "1-op-1",
+              "max": 30
+            },
+            "perSession": {
+              "kind": "line",
+              "label": "1-op-1: na de prijs",
+              "default": "per sessie",
+              "max": 30
+            },
+            "soloButton": {
+              "kind": "line",
+              "label": "1-op-1: knop",
+              "default": "Plan een ademsessie",
+              "max": 40
+            },
+            "groupLabel": {
+              "kind": "line",
+              "label": "Groep: kleine kop",
+              "default": "In groepsverband",
+              "max": 30
+            },
+            "groupTitle": {
+              "kind": "line",
+              "label": "Groep: titel",
+              "default": "Groepssessie",
+              "max": 40
+            },
+            "groupPrice": {
+              "kind": "line",
+              "label": "Groep: prijs",
+              "default": "Op aanvraag",
+              "max": 30
+            },
+            "groupText": {
+              "kind": "text",
+              "label": "Groep: tekst",
+              "default": "Opzet, duur en tarief stemmen we af op jullie groepsgrootte en locatie.",
+              "max": 300
+            },
+            "groups": {
+              "kind": "items",
+              "label": "Groep: voor wie",
+              "itemLabel": "Groep",
+              "fields": {
+                "title": {
+                  "kind": "line",
+                  "label": "Titel",
+                  "default": "",
+                  "max": 60
+                },
+                "text": {
+                  "kind": "text",
+                  "label": "Tekst",
+                  "default": "",
+                  "max": 300
+                }
+              },
+              "default": [
+                {
+                  "title": "Bedrijven",
+                  "text": "Een vitaliteitssessie op kantoor of tijdens een teamdag. Werkt direct tegen werkstress."
+                },
+                {
+                  "title": "Sportteams",
+                  "text": "Ademtraining als onderdeel van warming-up, herstel en mentale voorbereiding."
+                },
+                {
+                  "title": "Vrienden & groepen",
+                  "text": "Samen iets nieuws ervaren, binnen in de studio of buiten in het park."
+                }
+              ],
+              "fixed": true
+            },
+            "groupButton": {
+              "kind": "line",
+              "label": "Groep: knop",
+              "default": "Vraag een groepssessie aan",
+              "max": 40
+            }
+          }
+        },
+        "sessie": {
+          "title": "Zo ziet een sessie eruit",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Zo ziet een sessie eruit",
+              "rich": true,
+              "max": 100
+            },
+            "steps": {
+              "kind": "items",
+              "label": "Stappen",
+              "itemLabel": "Stap",
+              "fields": {
+                "title": {
+                  "kind": "line",
+                  "label": "Titel",
+                  "default": "",
+                  "max": 60
+                },
+                "text": {
+                  "kind": "text",
+                  "label": "Tekst",
+                  "default": "",
+                  "max": 300
+                }
+              },
+              "default": [
+                {
+                  "title": "Uitleg",
+                  "text": "Wat gebeurt er in je lichaam als je ademt, en waarom werkt dit?"
+                },
+                {
+                  "title": "Oefenen",
+                  "text": "Basistechnieken voor ontspanning, focus en energie die je overal kunt toepassen."
+                },
+                {
+                  "title": "Begeleide ademsessie",
+                  "text": "Een langere sessie waarin Steyn je stap voor stap begeleidt."
+                },
+                {
+                  "title": "Meenemen",
+                  "text": "Je gaat naar huis met concrete oefeningen voor je dagelijks leven of sport."
+                }
+              ],
+              "min": 2,
+              "max": 6
+            }
+          }
+        },
+        "faq": {
+          "title": "Veelgestelde vragen",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Veelgestelde vragen",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Goed om te weten",
+              "rich": true,
+              "max": 100
+            },
+            "points": {
+              "kind": "list",
+              "label": "Opsomming",
+              "default": [
+                "1-op-1: {ademduur} voor € {ademprijs},-",
+                "Groepssessies op aanvraag, vanaf 3 personen",
+                "Geen ervaring nodig",
+                "Op locatie, in de studio of buiten"
+              ],
+              "max": 8,
+              "hint": "Eén punt per regel."
+            },
+            "questions": {
+              "kind": "items",
+              "label": "Vragen",
+              "itemLabel": "Vraag",
+              "fields": {
+                "q": {
+                  "kind": "line",
+                  "label": "Vraag",
+                  "default": "",
+                  "max": 160
+                },
+                "a": {
+                  "kind": "text",
+                  "label": "Antwoord",
+                  "default": "",
+                  "max": 800
+                }
+              },
+              "default": [
+                {
+                  "q": "Hoe lang duurt een 1-op-1 ademsessie en wat kost het?",
+                  "a": "Een 1-op-1 ademsessie duurt {ademduur} en kost € {ademprijs},-. In die tijd is er ruimte voor uitleg, oefenen en een langere begeleide ademsessie."
+                },
+                {
+                  "q": "Hoe werkt een groepssessie?",
+                  "a": "Groepssessies zijn op aanvraag. Neem contact op, dan stemmen we de opzet, duur en prijs af op jullie groepsgrootte en locatie. Een sessie werkt het best met kleine tot middelgrote groepen."
+                },
+                {
+                  "q": "Heb ik ervaring nodig?",
+                  "a": "Nee. Iedere sessie start met uitleg en de oefeningen worden afgestemd op beginners én gevorderden."
+                },
+                {
+                  "q": "Is ademcoaching voor iedereen geschikt?",
+                  "a": "Voor de meeste mensen wel. Ben je zwanger, heb je epilepsie, hart- en vaatziekten of andere medische klachten? Meld het vooraf, dan passen we de oefeningen aan of overleggen we eerst met je arts."
+                },
+                {
+                  "q": "Waar vindt een sessie plaats?",
+                  "a": "Bij Gymbase in Amsterdam, bij jullie op kantoor of buiten. Zo lang er rustig ruimte is om te liggen of te zitten."
+                }
+              ],
+              "min": 1,
+              "max": 15
+            }
+          }
+        },
+        "afsluiter": {
+          "title": "Afsluiter onderaan",
+          "hint": "Het zwarte blok onderaan de pagina.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Plan je ademsessie",
+              "max": 80
+            },
+            "text": {
+              "kind": "text",
+              "label": "Tekst",
+              "default": "Kom voor een persoonlijke sessie, of vertel ons over je team of groep, dan stellen we een groepssessie op maat voor.",
+              "max": 300
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Witte knop",
+              "default": "Plan een 1-op-1 sessie",
+              "max": 40
+            },
+            "secondary": {
+              "kind": "line",
+              "label": "Tweede knop",
+              "default": "Groepssessie aanvragen",
+              "max": 40
+            }
+          }
+        },
+        "seo": {
+          "title": "Zoekmachines",
+          "hint": "Niet zichtbaar op de pagina zelf.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Paginatitel",
+              "default": "Ademcoaching 1-op-1 en in groepsverband",
+              "max": 90,
+              "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
+            },
+            "description": {
+              "kind": "text",
+              "label": "Omschrijving",
+              "default": "Ademcoaching door Steyn van Leeuwen in Amsterdam: een 1-op-1 ademsessie van {ademduur} voor € {ademprijs}, of een groepssessie op aanvraag voor bedrijven, sportteams en vriendengroepen.",
+              "max": 300,
+              "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
+            }
+          }
+        }
+      }
+    },
+    {
+      "slug": "voedingscoaching",
+      "title": "Voedingscoaching",
+      "path": "/voedingscoaching",
+      "description": "Voedingsbegeleiding, waarbij Steyn helpt en hoe er gemeten wordt.",
+      "sections": {
+        "hero": {
+          "title": "Bovenaan",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Alles over voedingscoaching",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Voeding die *werkt* voor jou",
+              "rich": true,
+              "max": 80
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Aan de hand van jouw doelen maak ik een gericht voedingsplan voor je. Stap voor stap verbeteren we je voeding en je gezondheid. Orthomoleculaire, leefstijl- en vitaliteitscoaching.",
+              "max": 500
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Knop",
+              "default": "Vraag een gratis kennismaking aan",
+              "max": 40
+            }
+          }
+        },
+        "begeleiding": {
+          "title": "Voedingsbegeleiding",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Voedingsbegeleiding",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "De juiste balans in macro's én micro's",
+              "rich": true,
+              "max": 100
+            },
+            "body": {
+              "kind": "text",
+              "label": "Tekst",
+              "default": "Ik ben orthomoleculair voedingstherapeut en help je aan de juiste balans in macro- en micronutriënten. Geen crashdiëten, maar een plan dat past bij jouw leven en dat je volhoudt.\n\nWil je afvallen, aankomen of heb je klachten? Door je voeding aan te passen kunnen we samen veel bereiken.",
+              "max": 2000,
+              "paragraphs": true
+            },
+            "cardTitle": {
+              "kind": "line",
+              "label": "Kaart: titel",
+              "default": "Ik help je onder andere bij",
+              "max": 60
+            },
+            "cardList": {
+              "kind": "list",
+              "label": "Kaart: opsomming",
+              "default": [
+                "Afvallen of aankomen",
+                "Darmklachten",
+                "Verhoogd cholesterol",
+                "Verhoogde bloeddruk",
+                "Acne",
+                "Weinig energie"
+              ],
+              "max": 12,
+              "hint": "Eén punt per regel."
+            }
+          }
+        },
+        "meten": {
+          "title": "Meten is weten",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Meten is weten",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Resultaat dat je kunt zien",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "We starten met een nulmeting en meten tussentijds je voortgang, zodat we precies weten wat werkt.",
+              "max": 400
+            },
+            "points": {
+              "kind": "list",
+              "label": "Opsomming",
+              "default": [
+                "Intake en analyse van je eetpatroon",
+                "Voedingsplan op maat",
+                "Tussentijdse metingen en bijsturing",
+                "Onderdeel van elk PT- en online pakket"
+              ],
+              "max": 8,
+              "hint": "Eén punt per regel."
+            }
+          }
+        },
+        "afsluiter": {
+          "title": "Afsluiter onderaan",
+          "hint": "Het zwarte blok onderaan de pagina.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Ook online mogelijk",
+              "max": 80
+            },
+            "text": {
+              "kind": "text",
+              "label": "Tekst",
+              "default": "Voedingscoaching is onderdeel van online coaching. Krijg je voedingsplan en wekelijkse feedback gewoon via je dashboard.",
+              "max": 300
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Witte knop",
+              "default": "Bekijk online coaching",
+              "max": 40
+            },
+            "secondary": {
+              "kind": "line",
+              "label": "Tweede knop",
+              "default": "Gratis kennismaking",
+              "max": 40
+            }
+          }
+        },
+        "seo": {
+          "title": "Zoekmachines",
+          "hint": "Niet zichtbaar op de pagina zelf.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Paginatitel",
+              "default": "Voedingscoaching",
+              "max": 90,
+              "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
+            },
+            "description": {
+              "kind": "text",
+              "label": "Omschrijving",
+              "default": "Voedingscoaching door orthomoleculair voedingstherapeut Steyn van Leeuwen. Bij afvallen, aankomen, darmklachten, energie en meer. Een gericht voedingsplan op maat.",
+              "max": 300,
+              "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
+            }
+          }
+        }
+      }
+    },
+    {
+      "slug": "tarieven",
+      "title": "Tarieven",
+      "path": "/tarieven",
+      "description": "De koppen en uitleg op de tarievenpagina. De prijzen zelf staan onder 'Prijzen en pakketten'.",
+      "sections": {
+        "hero": {
+          "title": "Bovenaan",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Prijzen en pakketten",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Tarieven",
+              "rich": true,
+              "max": 80
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Transparante prijzen, geen verrassingen. Kies het pakket dat bij jouw doel past, of plan eerst een gratis kennismaking.",
+              "max": 500
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Knop",
+              "default": "Gratis kennismaking",
+              "max": 40
+            }
+          }
+        },
+        "menu": {
+          "title": "Snelmenu",
+          "hint": "De knoppen onder de titel die naar elk blok springen.",
+          "fields": {
+            "online": {
+              "kind": "line",
+              "label": "Online coaching",
+              "default": "Online coaching",
+              "max": 30
+            },
+            "pt": {
+              "kind": "line",
+              "label": "Personal training",
+              "default": "1-op-1 training",
+              "max": 30
+            },
+            "adem": {
+              "kind": "line",
+              "label": "Ademcoaching",
+              "default": "Ademcoaching",
+              "max": 30
+            }
+          }
+        },
+        "online": {
+          "title": "Online coaching",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Nieuw · Online coaching",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Online coaching",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Maandelijkse begeleiding met je eigen dashboard, wekelijkse check-ins en je metingen in één overzicht.",
+              "max": 400
+            }
+          }
+        },
+        "pt": {
+          "title": "Personal training",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "1-op-1 trainingen",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Personal training",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Sport je graag als individu en wil je samen met Steyn alles uit je sessie halen? Kies dan één van onze 1-op-1 pakketten.",
+              "max": 400
+            },
+            "button": {
+              "kind": "line",
+              "label": "Knop onder elk pakket",
+              "default": "Plan een afspraak",
+              "max": 40
+            },
+            "note": {
+              "kind": "line",
+              "label": "Kleine tekst onder de pakketten",
+              "default": "* Prijs per uur. Duo-trainingen: € 15,- toeslag per sessie.",
+              "max": 200,
+              "optional": true
+            }
+          }
+        },
+        "adem": {
+          "title": "Ademcoaching",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "1-op-1 en in groepsverband",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Ademcoaching",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Een persoonlijke ademsessie met een vast tarief. Voor bedrijven, sportteams en vriendengroepen zijn groepssessies op aanvraag.",
+              "max": 400
+            },
+            "soloButton": {
+              "kind": "line",
+              "label": "1-op-1: knop",
+              "default": "Plan een ademsessie",
+              "max": 40
+            },
+            "groupLabel": {
+              "kind": "line",
+              "label": "Groep: kleine kop",
+              "default": "In groepsverband",
+              "max": 30
+            },
+            "groupTitle": {
+              "kind": "line",
+              "label": "Groep: titel",
+              "default": "Groepssessie",
+              "max": 40
+            },
+            "groupPrice": {
+              "kind": "line",
+              "label": "Groep: prijs",
+              "default": "Op aanvraag",
+              "max": 30
+            },
+            "groupText": {
+              "kind": "text",
+              "label": "Groep: tekst",
+              "default": "Opzet, duur en tarief stemmen we af op jullie groepsgrootte en locatie. Voor bedrijven, sportteams en vriendengroepen.",
+              "max": 300
+            },
+            "groupButton": {
+              "kind": "line",
+              "label": "Groep: knop",
+              "default": "Vraag een groepssessie aan",
+              "max": 40
+            },
+            "moreLink": {
+              "kind": "line",
+              "label": "Groep: link eronder",
+              "default": "Meer over ademcoaching",
+              "max": 40
+            }
+          }
+        },
+        "reviews": {
+          "title": "Reviews",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Reviews",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Wat sporters zeggen",
+              "rich": true,
+              "max": 100
+            }
+          }
+        },
+        "seo": {
+          "title": "Zoekmachines",
+          "hint": "Niet zichtbaar op de pagina zelf.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Paginatitel",
+              "default": "Tarieven",
+              "max": 90,
+              "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
+            },
+            "description": {
+              "kind": "text",
+              "label": "Omschrijving",
+              "default": "Alle tarieven van SteynPT: 1-op-1 personal training, online coaching en ademcoaching (1-op-1 en in groepsverband) in Amsterdam.",
+              "max": 300,
+              "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
+            }
+          }
+        }
+      }
+    },
+    {
+      "slug": "over-steyn",
+      "title": "Over Steyn",
+      "path": "/over-steyn",
+      "description": "Het verhaal van Steyn en de werkwijze.",
+      "sections": {
+        "hero": {
+          "title": "Bovenaan",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Kom alles te weten",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Over *Steyn*",
+              "rich": true,
+              "max": 80
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Full-time personal trainer en voedingscoach. Geboren in Hoevelaken, werkzaam in Amsterdam, en elke dag nog aan het doorleren.",
+              "max": 500
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Knop",
+              "default": "Vraag een kennismaking aan",
+              "max": 40
+            }
+          }
+        },
+        "verhaal": {
+          "title": "Mijn verhaal",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Mijn verhaal",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Van hernia naar passie",
+              "rich": true,
+              "max": 100
+            },
+            "body": {
+              "kind": "text",
+              "label": "Tekst",
+              "default": "Ik ben Steyn van Leeuwen, full-time personal trainer en voedingscoach. Ik ben geboren in Hoevelaken en nu werkzaam als PT in Amsterdam. Toen ik 15 was begon ik met fitness: door een beginnende hernia in mijn onderrug, als gevolg van het hockeyen, begon ik op aanraden van de fysio met krachttraining.\n\nIk vond hierin mijn passie en kwam er al snel achter dat er veel onduidelijkheid is in de fitnesswereld: iedereen vindt er iets anders van. Daar is mijn interesse begonnen. Ik heb meerdere opleidingen gevolgd in personal training en voeding, en ik blijf elke dag doorleren.\n\nIk geef persoonlijke trainingen, maak voedingsplannen op maat, begeleid sporters naar specifieke doelen en geef ademcoaching, 1-op-1 en in groepsverband. Samen werken we aan jouw doelen: binnen, buiten, in de gym, thuis, op kantoor of online.\n\nWil je serieus aan de slag met je gezondheid en weten wat ik voor je kan betekenen? Neem dan contact met mij op!",
+              "max": 3000,
+              "paragraphs": true
+            },
+            "expertisesTitle": {
+              "kind": "line",
+              "label": "Kop boven de expertises",
+              "default": "Expertises",
+              "max": 40,
+              "hint": "De expertises zelf pas je aan onder 'Op elke pagina'."
+            }
+          }
+        },
+        "werkwijze": {
+          "title": "Werkwijze",
+          "hint": "De stappen zelf pas je aan onder 'Op elke pagina'.",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Werkwijze",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Zo werken we samen",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Ik coach je niet alleen tijdens de trainingen. Ook daarbuiten hebben we contactmomenten om je gezondheid naar een hoger level te tillen.",
+              "max": 400
+            }
+          }
+        },
+        "afsluiter": {
+          "title": "Afsluiter onderaan",
+          "hint": "Het zwarte blok onderaan de pagina.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Leuk om eens kennis te maken!",
+              "max": 80
+            },
+            "text": {
+              "kind": "text",
+              "label": "Tekst",
+              "default": "We ontvangen je graag bij Gymbase, of start direct online.",
+              "max": 300
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Witte knop",
+              "default": "Gratis kennismaking",
+              "max": 40
+            },
+            "secondary": {
+              "kind": "line",
+              "label": "Tweede knop",
+              "default": "Start online coaching",
+              "max": 40
+            }
+          }
+        },
+        "seo": {
+          "title": "Zoekmachines",
+          "hint": "Niet zichtbaar op de pagina zelf.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Paginatitel",
+              "default": "Over Steyn",
+              "max": 90,
+              "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
+            },
+            "description": {
+              "kind": "text",
+              "label": "Omschrijving",
+              "default": "Maak kennis met Steyn van Leeuwen: full-time personal trainer, voedingscoach en orthomoleculair voedingstherapeut in Amsterdam.",
+              "max": 300,
+              "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
+            }
+          }
+        }
+      }
+    },
+    {
+      "slug": "vriend-uitnodigen",
+      "title": "Vriendenactie",
+      "path": "/vriend-uitnodigen",
+      "description": "Uitleg en voorwaarden van de vriendenactie.",
+      "sections": {
+        "hero": {
+          "title": "Bovenaan",
+          "hint": "De korting zelf en de drie stappen pas je aan onder 'Op elke pagina'.",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Vriendenactie online coaching",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Breng een vriend mee. *{actie}.*",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Train je al bij Steyn? Nodig een vriend uit voor online coaching. Je vriend krijgt {vriendkorting} en jij krijgt {jouwkorting} zodra je vriend start.",
+              "max": 500
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Eerste knop",
+              "default": "Naar mijn uitnodigingslink",
+              "max": 40
+            },
+            "secondary": {
+              "kind": "line",
+              "label": "Tweede knop",
+              "default": "Nog geen account? Meld je aan",
+              "max": 40
+            }
+          }
+        },
+        "stappen": {
+          "title": "Zo werkt het",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Zo werkt het",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "In drie stappen",
+              "rich": true,
+              "max": 100
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Je persoonlijke link staat in Mijn omgeving. Wie zich via jouw link aanmeldt, wordt automatisch aan jou gekoppeld; in je dashboard zie je wie zich heeft aangemeld en wie al is gestart.",
+              "max": 500
+            }
+          }
+        },
+        "voorwaarden": {
+          "title": "Voorwaarden",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Voorwaarden vriendenactie",
+              "rich": true,
+              "max": 100
+            },
+            "points": {
+              "kind": "list",
+              "label": "Voorwaarden",
+              "default": [
+                "De actie geldt voor nieuwe klanten van online coaching die zich aanmelden via een persoonlijke uitnodigingslink of -code.",
+                "De nieuwe klant krijgt {vriendkorting}.",
+                "De uitnodiger krijgt {jouwkorting} per vriend die daadwerkelijk start; Steyn verrekent dit met een volgende factuur.",
+                "Kortingen zijn niet inwisselbaar voor geld en niet te combineren met andere acties.",
+                "Jezelf uitnodigen of meerdere accounts aanmaken is niet toegestaan.",
+                "SteynPT kan de actie aanpassen of beëindigen; reeds verdiende kortingen blijven geldig."
+              ],
+              "max": 15,
+              "hint": "Eén voorwaarde per regel."
+            }
+          }
+        },
+        "afsluiter": {
+          "title": "Afsluiter onderaan",
+          "hint": "Het zwarte blok onderaan de pagina.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Nog geen klant?",
+              "max": 80
+            },
+            "text": {
+              "kind": "text",
+              "label": "Tekst",
+              "default": "Maak een gratis account aan, kies je pakket en Steyn neemt binnen 24 uur contact met je op.",
+              "max": 300
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Witte knop",
+              "default": "Bekijk online coaching",
+              "max": 40
+            },
+            "secondary": {
+              "kind": "line",
+              "label": "Tweede knop",
+              "default": "Gratis kennismaking",
+              "max": 40
+            }
+          }
+        },
+        "seo": {
+          "title": "Zoekmachines",
+          "hint": "Niet zichtbaar op de pagina zelf.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Paginatitel",
+              "default": "Vriend uitnodigen",
+              "max": 90,
+              "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
+            },
+            "description": {
+              "kind": "text",
+              "label": "Omschrijving",
+              "default": "Nodig een vriend uit voor online coaching bij SteynPT. {actie}: je vriend krijgt {vriendkorting}, jij {jouwkorting}.",
+              "max": 300,
+              "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
+            }
+          }
+        }
+      }
+    },
+    {
+      "slug": "contact",
+      "title": "Contact",
+      "path": "/contact",
+      "description": "De contactpagina met het aanvraagformulier.",
+      "sections": {
+        "hero": {
+          "title": "Bovenaan",
+          "hint": "Adres, reactietijd en Instagram pas je aan onder 'Op elke pagina'.",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Kom direct met Steyn in contact",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Leuk om eens *kennis* te maken!",
+              "rich": true,
+              "max": 80
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "We nodigen je graag uit bij Gymbase voor een gratis kennismaking. We vertellen je meer over onze werkwijze, geven je een rondleiding en horen graag meer over jouw verwachtingen en doelen.",
+              "max": 500
+            },
+            "tipTitle": {
+              "kind": "line",
+              "label": "Tip: vetgedrukt begin",
+              "default": "Wist je dat",
+              "max": 40
+            },
+            "tipText": {
+              "kind": "line",
+              "label": "Tip: tekst",
+              "default": "SteynPT ook trainingen op locatie aanbiedt?",
+              "max": 160,
+              "hint": "Daarna volgt automatisch de tekst 'op locatie' van 'Op elke pagina'."
+            }
+          }
+        },
+        "formulier": {
+          "title": "Formulier",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Vraag een kennismaking aan",
+              "rich": true,
+              "max": 80
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "Vul je gegevens in, dan nemen we contact met je op om een moment te plannen.",
+              "max": 300
+            }
+          }
+        },
+        "seo": {
+          "title": "Zoekmachines",
+          "hint": "Niet zichtbaar op de pagina zelf.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Paginatitel",
+              "default": "Contact & gratis kennismaking",
+              "max": 90,
+              "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
+            },
+            "description": {
+              "kind": "text",
+              "label": "Omschrijving",
+              "default": "Vraag een gratis kennismaking aan bij SteynPT. We nodigen je graag uit bij Gymbase aan de Overtoom in Amsterdam.",
+              "max": 300,
+              "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
+            }
+          }
+        }
+      }
+    },
+    {
+      "slug": "privacy",
+      "title": "Privacyverklaring",
+      "path": "/privacy",
+      "description": "De privacyverklaring.",
+      "sections": {
+        "intro": {
+          "title": "Bovenaan",
+          "fields": {
+            "eyebrow": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "SteynPT",
+              "max": 60
+            },
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Privacyverklaring",
+              "rich": true,
+              "max": 80
+            },
+            "intro": {
+              "kind": "text",
+              "label": "Introductie",
+              "default": "SteynPT gaat zorgvuldig om met je persoonsgegevens en houdt zich aan de Algemene Verordening Gegevensbescherming (AVG). Hieronder lees je welke gegevens we verwerken en waarom.",
+              "max": 600
+            }
+          }
+        },
+        "onderdelen": {
+          "title": "Onderdelen",
+          "fields": {
+            "sections": {
+              "kind": "items",
+              "label": "Onderdelen",
+              "itemLabel": "Onderdeel",
+              "fields": {
+                "title": {
+                  "kind": "line",
+                  "label": "Kop",
+                  "default": "",
+                  "max": 100
+                },
+                "body": {
+                  "kind": "text",
+                  "label": "Tekst",
+                  "default": "",
+                  "max": 4000,
+                  "paragraphs": true
+                }
+              },
+              "default": [
+                {
+                  "title": "Welke gegevens verwerken we?",
+                  "body": "Contactaanvragen: je naam, e-mailadres, (optioneel) telefoonnummer, je interesse en je bericht.\n\nAccount: je naam, e-mailadres, telefoonnummer, doel, gekozen pakket en wie je hebt uitgenodigd (vriendenactie).\n\nAfspraken: type, datum, tijd, locatie en je eventuele opmerking. Steyn zet deze afspraken via een beveiligde, geheime link in zijn eigen agenda (bijvoorbeeld Google of Apple Agenda).\n\nMetingen: gewicht, vetpercentage, spiermassa en omtrekmaten die Steyn met je bijhoudt. Dit zijn gezondheidsgegevens; je ziet ze zelf in Mijn omgeving.\n\nCheck-ins: je wekelijkse scores voor energie, slaap en voeding, aantal trainingen, eventueel je gewicht en opmerkingen. Dit zijn gezondheidsgegevens; we verwerken ze alleen met jouw uitdrukkelijke toestemming en uitsluitend voor je coaching.\n\nIntake: je doel, geslacht, geboortejaar, lengte, gewicht, activiteit, trainingservaring en -wensen, blessures, eetstijl, allergieën en eventuele medische aandachtspunten. Ook dit zijn gezondheidsgegevens; we gebruiken ze alleen met jouw uitdrukkelijke toestemming en alleen om je trainings- en voedingsschema te maken."
+                },
+                {
+                  "title": "Gebruik van AI voor je schema",
+                  "body": "Voor een eerste opzet van je trainings- en voedingsschema gebruiken we het AI-model Claude van Anthropic. We sturen daarvoor alleen de intakegegevens die nodig zijn voor het schema, zonder je naam, e-mailadres of telefoonnummer.\n\nDe AI neemt geen beslissingen over jou: Steyn controleert en past elk schema aan voordat je het te zien krijgt. Anthropic verwerkt de gegevens als verwerker en gebruikt ze volgens zijn zakelijke voorwaarden niet om AI-modellen te trainen. Anthropic is gevestigd in de Verenigde Staten; de doorgifte gebeurt op basis van passende waarborgen, zoals de standaardcontractbepalingen van de Europese Commissie.\n\nJe kunt je toestemming altijd intrekken. Neem dan contact met ons op; Steyn maakt je schema dan volledig zelf."
+                },
+                {
+                  "title": "Waarom?",
+                  "body": "Om contact met je op te nemen, afspraken te plannen, je coaching te verzorgen, je voortgang te volgen en de vriendenactie uit te voeren. Nieuwsbrieven en acties ontvang je alleen als je daar zelf voor kiest."
+                },
+                {
+                  "title": "Hoe lang bewaren we je gegevens?",
+                  "body": "Zolang je account bestaat of zolang nodig is voor je traject. Contactaanvragen zonder vervolg verwijderen we uiterlijk na 12 maanden. Wettelijke bewaarplichten (zoals voor facturen) blijven gelden."
+                },
+                {
+                  "title": "Delen met anderen",
+                  "body": "We verkopen je gegevens nooit. We delen ze alleen met partijen die nodig zijn om de website en je coaching te laten werken (zoals hosting en de AI-dienst hierboven), onder passende afspraken."
+                },
+                {
+                  "title": "Beveiliging",
+                  "body": "Wachtwoorden worden versleuteld opgeslagen en je sessie is beveiligd met een veilige cookie. Alleen Steyn heeft toegang tot je coachinggegevens en intake."
+                },
+                {
+                  "title": "Jouw rechten",
+                  "body": "Je kunt je gegevens altijd inzien en aanpassen in je profiel, en je account met alle bijbehorende gegevens zelf verwijderen. Voor andere verzoeken (zoals een kopie van je gegevens of het intrekken van toestemming) kun je contact met ons opnemen. Ben je het niet eens met hoe we met je gegevens omgaan? Dan kun je een klacht indienen bij de Autoriteit Persoonsgegevens."
+                },
+                {
+                  "title": "Cookies",
+                  "body": "We gebruiken alleen functionele cookies: om je ingelogd te houden en om bij te houden via wiens uitnodiging je binnenkomt. Er worden geen tracking- of advertentiecookies geplaatst."
+                }
+              ],
+              "min": 1,
+              "max": 20
+            }
+          }
+        },
+        "seo": {
+          "title": "Zoekmachines",
+          "hint": "Niet zichtbaar op de pagina zelf.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Paginatitel",
+              "default": "Privacyverklaring",
+              "max": 90,
+              "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
+            },
+            "description": {
+              "kind": "text",
+              "label": "Omschrijving",
+              "default": "Hoe SteynPT omgaat met je persoonsgegevens.",
+              "max": 300,
+              "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
+            }
+          }
+        }
+      }
+    },
+    {
+      "slug": "algemeen",
+      "title": "Op elke pagina",
+      "path": null,
+      "description": "Balk bovenaan, footer, vriendenactie, reviews, werkwijze, expertises en locatie.",
+      "sections": {
+        "aankondiging": {
+          "title": "Balk bovenaan",
+          "hint": "De zwarte balk boven het menu, op elke pagina.",
+          "fields": {
+            "show": {
+              "kind": "check",
+              "label": "Balk tonen",
+              "default": true
+            },
+            "label": {
+              "kind": "line",
+              "label": "Label",
+              "default": "Nieuw",
+              "max": 20,
+              "optional": true,
+              "hint": "Het kleine gekleurde woord ervoor. Leeg laten mag."
+            },
+            "text": {
+              "kind": "line",
+              "label": "Tekst",
+              "default": "Nieuw: online coaching. Nodig een vriend uit en krijg samen 50% korting",
+              "max": 120
+            },
+            "href": {
+              "kind": "link",
+              "label": "Linkt naar",
+              "default": "/vriend-uitnodigen"
+            }
+          }
+        },
+        "vriendenactie": {
+          "title": "Vriendenactie",
+          "hint": "Deze teksten komen terug op de homepage, bij online coaching, de vriendenactie en in Mijn omgeving.",
+          "fields": {
+            "headline": {
+              "kind": "line",
+              "label": "Naam van de actie",
+              "default": "Samen 50% korting",
+              "max": 60,
+              "noVars": true,
+              "hint": "Automatische waarde {actie}."
+            },
+            "friendReward": {
+              "kind": "line",
+              "label": "Wat de vriend krijgt",
+              "default": "50% korting op de eerste maand online coaching",
+              "max": 120,
+              "noVars": true,
+              "hint": "Automatische waarde {vriendkorting}."
+            },
+            "referrerReward": {
+              "kind": "line",
+              "label": "Wat de uitnodiger krijgt",
+              "default": "50% korting op een maand online coaching",
+              "max": 120,
+              "noVars": true,
+              "hint": "Automatische waarde {jouwkorting}."
+            },
+            "steps": {
+              "kind": "items",
+              "label": "Stappen",
+              "itemLabel": "Stap",
+              "fields": {
+                "title": {
+                  "kind": "line",
+                  "label": "Titel",
+                  "default": "",
+                  "max": 80
+                },
+                "text": {
+                  "kind": "text",
+                  "label": "Tekst",
+                  "default": "",
+                  "max": 300
+                }
+              },
+              "default": [
+                {
+                  "title": "Deel je persoonlijke link",
+                  "text": "Je vindt hem in Mijn omgeving en deelt hem met één tik via WhatsApp of e-mail."
+                },
+                {
+                  "title": "Je vriend meldt zich aan",
+                  "text": "Via jouw link krijgt je vriend {vriendkorting}."
+                },
+                {
+                  "title": "Je vriend start met online coaching",
+                  "text": "Jij krijgt dan {jouwkorting}. Steyn verrekent het met je volgende factuur."
+                }
+              ],
+              "fixed": true
+            }
+          }
+        },
+        "afsluiter": {
+          "title": "Standaard afsluiter",
+          "hint": "Het zwarte blok onderaan de homepage en de tarieven. Andere pagina's hebben een eigen afsluiter.",
+          "fields": {
+            "title": {
+              "kind": "line",
+              "label": "Titel",
+              "default": "Klaar om te starten?",
+              "max": 80
+            },
+            "text": {
+              "kind": "text",
+              "label": "Tekst",
+              "default": "Maak gratis een account aan, kies je pakket en Steyn neemt binnen 24 uur contact met je op.",
+              "max": 300
+            },
+            "primary": {
+              "kind": "line",
+              "label": "Witte knop",
+              "default": "Start online coaching",
+              "max": 40
+            },
+            "secondary": {
+              "kind": "line",
+              "label": "Tweede knop",
+              "default": "Gratis kennismaking",
+              "max": 40
+            }
+          }
+        },
+        "reviews": {
+          "title": "Reviews",
+          "hint": "Op de homepage, bij personal training en de tarieven.",
+          "fields": {
+            "reviews": {
+              "kind": "items",
+              "label": "Reviews",
+              "itemLabel": "Review",
+              "fields": {
+                "quote": {
+                  "kind": "text",
+                  "label": "Wat zegt de sporter?",
+                  "default": "",
+                  "max": 400
+                },
+                "name": {
+                  "kind": "line",
+                  "label": "Naam",
+                  "default": "",
+                  "max": 60
+                },
+                "role": {
+                  "kind": "line",
+                  "label": "Beroep of omschrijving",
+                  "default": "",
+                  "max": 60,
+                  "optional": true
+                }
+              },
+              "default": [
+                {
+                  "quote": "Steyn heeft mij geleerd dat het niet alleen gaat om afvallen, maar om bewustwording van je leefstijl.",
+                  "name": "Miranda 'd Weegman",
+                  "role": "Operatieassistente"
+                },
+                {
+                  "quote": "Ik ben al jaren bezig met afvallen maar bleef altijd rond hetzelfde gewicht. Sinds ik met Steyn train behaal ik eindelijk resultaat.",
+                  "name": "Steve van Maanen",
+                  "role": "Bakker"
+                }
+              ],
+              "min": 1,
+              "max": 8
+            }
+          }
+        },
+        "werkwijze": {
+          "title": "Werkwijze",
+          "hint": "De genummerde stappen op de homepage en bij Over Steyn.",
+          "fields": {
+            "steps": {
+              "kind": "items",
+              "label": "Stappen",
+              "itemLabel": "Stap",
+              "fields": {
+                "title": {
+                  "kind": "line",
+                  "label": "Titel",
+                  "default": "",
+                  "max": 60
+                },
+                "text": {
+                  "kind": "text",
+                  "label": "Tekst",
+                  "default": "",
+                  "max": 300
+                }
+              },
+              "default": [
+                {
+                  "title": "Intake",
+                  "text": "We beginnen met een gesprek over jouw doelen, je achtergrond en wat je tot nu toe hebt geprobeerd."
+                },
+                {
+                  "title": "Nulmeting",
+                  "text": "We wegen, meten en bewegen: zo zien we precies waar we aan moeten werken."
+                },
+                {
+                  "title": "Plan op maat",
+                  "text": "Je krijgt een persoonlijk schema en voedingsplan met de ideale balans in macro- en micronutriënten."
+                },
+                {
+                  "title": "Coaching",
+                  "text": "Ook buiten de trainingen hebben we contact. We sturen bij tot je doel bereikt is, en daarna."
+                }
+              ],
+              "min": 2,
+              "max": 6
+            }
+          }
+        },
+        "expertises": {
+          "title": "Expertises",
+          "fields": {
+            "list": {
+              "kind": "list",
+              "label": "Expertises",
+              "default": [
+                "Personal Trainer",
+                "Orthomoleculair voedingstherapeut",
+                "Leefstijl- en vitaliteitscoaching",
+                "Ademcoaching",
+                "Powerliften",
+                "Boksen",
+                "CrossFit",
+                "Sportspecifieke training"
+              ],
+              "hint": "Eén per regel. Op de homepage en bij Over Steyn."
+            }
+          }
+        },
+        "locatie": {
+          "title": "Locatie en contact",
+          "hint": "Op de homepage, de contactpagina en in de footer.",
+          "fields": {
+            "name": {
+              "kind": "line",
+              "label": "Naam van de locatie",
+              "default": "Gymbase",
+              "max": 60
+            },
+            "street": {
+              "kind": "line",
+              "label": "Straat en huisnummer",
+              "default": "Overtoom 371-w",
+              "max": 80,
+              "hint": "De routeknop naar Google Maps gebruikt dit adres."
+            },
+            "city": {
+              "kind": "line",
+              "label": "Postcode en plaats",
+              "default": "1054 JN Amsterdam",
+              "max": 80
+            },
+            "onLocationTitle": {
+              "kind": "line",
+              "label": "Kop 'op locatie'",
+              "default": "Op locatie",
+              "max": 40
+            },
+            "onLocation": {
+              "kind": "text",
+              "label": "Tekst 'op locatie'",
+              "default": "Naast onze vaste locatie Gymbase komen we ook op locatie: in jouw favoriete park of in de kantine van je werk.",
+              "max": 300
+            },
+            "onlineTitle": {
+              "kind": "line",
+              "label": "Kop 'online'",
+              "default": "Online",
+              "max": 40
+            },
+            "online": {
+              "kind": "text",
+              "label": "Tekst 'online'",
+              "default": "Met online coaching train je waar en wanneer jij wilt, met Steyn altijd binnen handbereik.",
+              "max": 300
+            },
+            "responseTime": {
+              "kind": "line",
+              "label": "Reactietijd",
+              "default": "Ik streef ernaar om binnen 24 uur contact met je op te nemen.",
+              "max": 120,
+              "hint": "Op de contactpagina."
+            },
+            "instagramHandle": {
+              "kind": "line",
+              "label": "Instagram-naam",
+              "default": "@bigtimesteyn",
+              "max": 40
+            },
+            "instagramUrl": {
+              "kind": "url",
+              "label": "Instagram-link",
+              "default": "https://www.instagram.com/bigtimesteyn/"
+            }
+          }
+        },
+        "footer": {
+          "title": "Footer",
+          "hint": "Het zwarte blok helemaal onderaan elke pagina.",
+          "fields": {
+            "intro": {
+              "kind": "text",
+              "label": "Tekst onder het logo",
+              "default": "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam.",
+              "max": 200
+            },
+            "extra": {
+              "kind": "line",
+              "label": "Regel onder de locatie",
+              "default": "Op locatie & online",
+              "max": 60,
+              "optional": true
+            },
+            "copyright": {
+              "kind": "line",
+              "label": "Onderste regel",
+              "default": "SteynPT · Personal Training Amsterdam",
+              "max": 80,
+              "hint": "Het © en het jaartal komen er automatisch voor."
+            }
+          }
+        }
+      }
+    },
+    {
+      "slug": "pakketten",
+      "title": "Prijzen en pakketten",
+      "path": "/tarieven",
+      "description": "Online coaching, personal training en de ademsessie: namen, prijzen en wat erbij hoort.",
+      "sections": {
+        "online": {
+          "title": "Online coaching",
+          "hint": "Op de pagina's Online coaching en Tarieven, bij het aanmaken van een account en in Mijn omgeving. De laagste prijs is automatische waarde {online-vanaf}.",
+          "fields": {
+            "plans": {
+              "kind": "items",
+              "label": "Pakketten",
+              "itemLabel": "Pakket",
+              "fields": {
+                "name": {
+                  "kind": "line",
+                  "label": "Naam",
+                  "default": "",
+                  "max": 30
+                },
+                "tagline": {
+                  "kind": "line",
+                  "label": "Korte omschrijving",
+                  "default": "",
+                  "max": 80
+                },
+                "price": {
+                  "kind": "price",
+                  "label": "Prijs per maand",
+                  "default": ""
+                },
+                "features": {
+                  "kind": "list",
+                  "label": "Wat zit erin",
+                  "default": [],
+                  "hint": "Eén punt per regel."
+                },
+                "featured": {
+                  "kind": "check",
+                  "label": "Markeren als 'Meest gekozen'",
+                  "default": false
+                }
+              },
+              "default": [
+                {
+                  "name": "Start",
+                  "tagline": "Zelfstandig trainen met een plan dat klopt",
+                  "price": "79",
+                  "features": [
+                    "Trainingsschema op maat",
+                    "Voedingsrichtlijnen op basis van je doel",
+                    "Maandelijkse evaluatie en schema-update",
+                    "Wekelijkse check-in in je dashboard",
+                    "Je voortgang en metingen in je dashboard"
+                  ],
+                  "featured": false
+                },
+                {
+                  "name": "Pro",
+                  "tagline": "Wekelijkse sturing voor maximaal resultaat",
+                  "price": "129",
+                  "features": [
+                    "Alles uit Start",
+                    "Persoonlijk voedingsplan (macro's & micro's)",
+                    "Wekelijkse feedback van Steyn op je check-in",
+                    "Contact via chat op werkdagen",
+                    "Schema-updates wanneer jij ze nodig hebt"
+                  ],
+                  "featured": true
+                },
+                {
+                  "name": "Performance",
+                  "tagline": "Voor specifieke doelen en (top)sporters",
+                  "price": "199",
+                  "features": [
+                    "Alles uit Pro",
+                    "Twee videocalls per maand",
+                    "Sportspecifieke periodisering",
+                    "Techniekanalyse op basis van je video's",
+                    "Ademhalingsprotocol voor focus en herstel"
+                  ],
+                  "featured": false
+                }
+              ],
+              "fixed": true
+            }
+          }
+        },
+        "pt": {
+          "title": "Personal training",
+          "hint": "Op de pagina's Personal training en Tarieven.",
+          "fields": {
+            "cards": {
+              "kind": "items",
+              "label": "Pakketten",
+              "itemLabel": "Pakket",
+              "fields": {
+                "label": {
+                  "kind": "line",
+                  "label": "Kleine kop",
+                  "default": "",
+                  "max": 40
+                },
+                "name": {
+                  "kind": "line",
+                  "label": "Naam",
+                  "default": "",
+                  "max": 40
+                },
+                "price": {
+                  "kind": "price",
+                  "label": "Prijs",
+                  "default": ""
+                },
+                "unit": {
+                  "kind": "line",
+                  "label": "Na de prijs",
+                  "default": "",
+                  "max": 40,
+                  "optional": true,
+                  "hint": "Bijvoorbeeld 'per uur'. Leeg laten mag."
+                },
+                "features": {
+                  "kind": "list",
+                  "label": "Wat zit erin",
+                  "default": [],
+                  "hint": "Eén punt per regel."
+                },
+                "note": {
+                  "kind": "line",
+                  "label": "Kleine tekst onderaan",
+                  "default": "",
+                  "max": 120,
+                  "optional": true
+                },
+                "featured": {
+                  "kind": "check",
+                  "label": "Markeren als 'Meest gekozen'",
+                  "default": false
+                }
+              },
+              "default": [
+                {
+                  "label": "Personal training",
+                  "name": "Losse training",
+                  "price": "120",
+                  "unit": "per uur",
+                  "features": [
+                    "Verbeter je gezondheid",
+                    "Flexibele uren",
+                    "Stap-voor-stap aanpak",
+                    "Op maat gemaakt"
+                  ],
+                  "note": "Duo-training: € 15,- toeslag per sessie",
+                  "featured": false
+                },
+                {
+                  "label": "10× 1-op-1 training",
+                  "name": "Introductiepakket",
+                  "price": "1050",
+                  "unit": "",
+                  "features": [
+                    "Intakegesprek",
+                    "Start- en eindmeting",
+                    "Bewegingsassessment",
+                    "Wekelijks voedingsadvies"
+                  ],
+                  "note": "",
+                  "featured": false
+                },
+                {
+                  "label": "20× 1-op-1 training",
+                  "name": "Gezondheidspakket",
+                  "price": "2000",
+                  "unit": "",
+                  "features": [
+                    "Intakegesprek",
+                    "Start-, tussen- en eindmeting",
+                    "Bewegingsassessment",
+                    "Verbeter je gezondheid",
+                    "Verander je leefstijl"
+                  ],
+                  "note": "",
+                  "featured": true
+                },
+                {
+                  "label": "40× 1-op-1 training",
+                  "name": "Lifechanger-pakket",
+                  "price": "3800",
+                  "unit": "",
+                  "features": [
+                    "Intakegesprek",
+                    "Start-, tussen- en eindmeting",
+                    "Bewegingsassessment",
+                    "Verbeter je gezondheid",
+                    "Verander je leefstijl"
+                  ],
+                  "note": "",
+                  "featured": false
+                }
+              ],
+              "min": 1,
+              "max": 6
+            }
+          }
+        },
+        "adem": {
+          "title": "Ademsessie 1-op-1",
+          "hint": "Op de pagina's Ademcoaching en Tarieven.",
+          "fields": {
+            "name": {
+              "kind": "line",
+              "label": "Naam",
+              "default": "Ademsessie 1-op-1",
+              "max": 40
+            },
+            "label": {
+              "kind": "line",
+              "label": "Kleine kop",
+              "default": "Ademcoaching",
+              "max": 40
+            },
+            "price": {
+              "kind": "price",
+              "label": "Prijs per sessie",
+              "default": "210",
+              "noVars": true,
+              "hint": "Automatische waarde {ademprijs}."
+            },
+            "duration": {
+              "kind": "line",
+              "label": "Duur",
+              "default": "1,5 uur",
+              "max": 30,
+              "noVars": true,
+              "hint": "Automatische waarde {ademduur}, bijvoorbeeld '1,5 uur'."
+            },
+            "unit": {
+              "kind": "line",
+              "label": "Na de prijs (tarievenpagina)",
+              "default": "per sessie van {ademduur}",
+              "max": 60
+            },
+            "features": {
+              "kind": "list",
+              "label": "Wat zit erin",
+              "default": [
+                "Persoonlijke begeleiding door Steyn",
+                "Afgestemd op jouw vraag: stress, slaap, sport of herstel",
+                "Oefeningen om zelf mee verder te gaan",
+                "Geen ervaring nodig"
+              ],
+              "hint": "Eén punt per regel."
+            }
+          }
+        },
+        "labels": {
+          "title": "Overige",
+          "fields": {
+            "featured": {
+              "kind": "line",
+              "label": "Label bij een gemarkeerd pakket",
+              "default": "Meest gekozen",
+              "max": 30
+            }
+          }
+        }
+      }
+    }
+  ],
+  "vars": [
+    {
+      "key": "actie",
+      "label": "Naam van de vriendenactie",
+      "page": "algemeen",
+      "section": "vriendenactie"
+    },
+    {
+      "key": "vriendkorting",
+      "label": "Wat de vriend krijgt",
+      "page": "algemeen",
+      "section": "vriendenactie"
+    },
+    {
+      "key": "jouwkorting",
+      "label": "Wat de uitnodiger krijgt",
+      "page": "algemeen",
+      "section": "vriendenactie"
+    },
+    {
+      "key": "ademprijs",
+      "label": "Prijs ademsessie 1-op-1",
+      "page": "pakketten",
+      "section": "adem"
+    },
+    {
+      "key": "ademduur",
+      "label": "Duur ademsessie 1-op-1",
+      "page": "pakketten",
+      "section": "adem"
+    },
+    {
+      "key": "online-vanaf",
+      "label": "Laagste prijs online coaching",
+      "page": "pakketten",
+      "section": "online"
+    }
+  ],
+  "varKeys": [
+    "actie",
+    "vriendkorting",
+    "jouwkorting",
+    "ademprijs",
+    "ademduur",
+    "online-vanaf"
+  ],
+  "siteLinks": [
+    {
+      "href": "/",
+      "label": "Homepage"
+    },
+    {
+      "href": "/online-coaching",
+      "label": "Online coaching"
+    },
+    {
+      "href": "/personal-training",
+      "label": "Personal training"
+    },
+    {
+      "href": "/ademcoaching",
+      "label": "Ademcoaching"
+    },
+    {
+      "href": "/voedingscoaching",
+      "label": "Voedingscoaching"
+    },
+    {
+      "href": "/tarieven",
+      "label": "Tarieven"
+    },
+    {
+      "href": "/over-steyn",
+      "label": "Over Steyn"
+    },
+    {
+      "href": "/vriend-uitnodigen",
+      "label": "Vriendenactie"
+    },
+    {
+      "href": "/contact",
+      "label": "Contact"
+    },
+    {
+      "href": "/registreren",
+      "label": "Account aanmaken"
+    },
+    {
+      "href": "/account/agenda",
+      "label": "Afspraak maken"
+    }
+  ],
+  "cases": {
+    "normalize": [
+      {
+        "slug": "home",
+        "input": {
+          "hero": {
+            "eyebrow": "  Nieuwe kop \r\n op twee regels  ",
+            "title": "Regel 1\r\n\r\n\r\n*Regel* 2"
+          },
+          "onbekend": {
+            "x": 1
+          }
+        },
+        "output": {
+          "values": {
+            "hero": {
+              "eyebrow": "Nieuwe kop op twee regels",
+              "title": "Regel 1\n*Regel* 2"
+            }
+          },
+          "errors": {}
+        }
+      },
+      {
+        "slug": "home",
+        "input": {
+          "hero": {
+            "eyebrow": " Harde spatie regel ﻿",
+            "title": "a\nb\nc\nd",
+            "intro": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "badgeText": "Vanaf {prijs} en {actie} en {foo} en {prijs}",
+            "badgeLabel": "{Geen} code"
+          }
+        },
+        "output": {
+          "values": {
+            "hero": {
+              "eyebrow": "Harde spatie regel",
+              "title": "a\nb\nc\nd",
+              "intro": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+              "badgeLabel": "{Geen} code",
+              "badgeText": "Vanaf {prijs} en {actie} en {foo} en {prijs}"
+            }
+          },
+          "errors": {
+            "hero.title": "Maximaal 3 regels.",
+            "hero.intro": "Maximaal 500 tekens (nu 501).",
+            "hero.badgeText": "Onbekende automatische waarde {prijs}, {foo}. Kies uit: {actie}, {vriendkorting}, {jouwkorting}, {ademprijs}, {ademduur}, {online-vanaf}."
+          }
+        }
+      },
+      {
+        "slug": "home",
+        "input": {
+          "hero": {
+            "intro": "💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪",
+            "badgeLabel": "💪💪💪💪💪💪💪💪💪💪",
+            "primary": "  \t \n "
+          }
+        },
+        "output": {
+          "values": {
+            "hero": {
+              "intro": "💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪💪",
+              "primary": "",
+              "badgeLabel": "💪💪💪💪💪💪💪💪💪💪"
+            }
+          },
+          "errors": {
+            "hero.intro": "Maximaal 500 tekens (nu 502).",
+            "hero.primary": "Dit veld mag niet leeg zijn."
+          }
+        }
+      },
+      {
+        "slug": "home",
+        "input": {
+          "hero": {
+            "eyebrow": 12.5,
+            "primary": 1e+21,
+            "secondary": 0.1,
+            "badgeLabel": 1e-7,
+            "badgeText": 12345678901234567000,
+            "title": true
+          }
+        },
+        "output": {
+          "values": {
+            "hero": {
+              "eyebrow": "12.5",
+              "title": "",
+              "primary": "1e+21",
+              "secondary": "0.1",
+              "badgeLabel": "1e-7",
+              "badgeText": "12345678901234567000"
+            }
+          },
+          "errors": {
+            "hero.title": "Dit veld mag niet leeg zijn."
+          }
+        }
+      },
+      {
+        "slug": "home",
+        "input": {
+          "hero": {
+            "stats": [
+              {
+                "value": 12,
+                "label": 1.5
+              },
+              {
+                "value": true
+              },
+              "x",
+              null
+            ]
+          }
+        },
+        "output": {
+          "values": {
+            "hero": {
+              "stats": [
+                {
+                  "value": "12",
+                  "label": "1.5"
+                },
+                {
+                  "value": "",
+                  "label": ""
+                },
+                {
+                  "value": "",
+                  "label": ""
+                },
+                {
+                  "value": "",
+                  "label": ""
+                }
+              ]
+            }
+          },
+          "errors": {
+            "hero.stats.1.value": "Dit veld mag niet leeg zijn.",
+            "hero.stats.1.label": "Dit veld mag niet leeg zijn.",
+            "hero.stats.2.value": "Dit veld mag niet leeg zijn.",
+            "hero.stats.2.label": "Dit veld mag niet leeg zijn.",
+            "hero.stats.3.value": "Dit veld mag niet leeg zijn.",
+            "hero.stats.3.label": "Dit veld mag niet leeg zijn."
+          }
+        }
+      },
+      {
+        "slug": "home",
+        "input": {
+          "hero": {
+            "stats": [
+              {
+                "value": "1",
+                "label": "a"
+              }
+            ]
+          }
+        },
+        "output": {
+          "values": {
+            "hero": {
+              "stats": [
+                {
+                  "value": "1",
+                  "label": "a"
+                }
+              ]
+            }
+          },
+          "errors": {
+            "hero.stats": "Dit onderdeel heeft altijd 4 items."
+          }
+        }
+      },
+      {
+        "slug": "home",
+        "input": {
+          "diensten": {
+            "list": "Een\r\n\n Twee \t\n \nDrie {actie}\n{onbekend}\n{nog-een}"
+          }
+        },
+        "output": {
+          "values": {
+            "diensten": {
+              "list": [
+                "Een",
+                "Twee",
+                "Drie {actie}",
+                "{onbekend}",
+                "{nog-een}"
+              ]
+            }
+          },
+          "errors": {
+            "diensten.list": "Onbekende automatische waarde {onbekend}. Kies uit: {actie}, {vriendkorting}, {jouwkorting}, {ademprijs}, {ademduur}, {online-vanaf}."
+          }
+        }
+      },
+      {
+        "slug": "home",
+        "input": {
+          "diensten": {
+            "list": [
+              "a",
+              12,
+              null,
+              true,
+              "  b  ",
+              "c\n\nd",
+              "e\r\nf",
+              ""
+            ]
+          }
+        },
+        "output": {
+          "values": {
+            "diensten": {
+              "list": [
+                "a",
+                "12",
+                "b",
+                "c d",
+                "e f"
+              ]
+            }
+          },
+          "errors": {}
+        }
+      },
+      {
+        "slug": "home",
+        "input": {
+          "diensten": {
+            "list": ""
+          }
+        },
+        "output": {
+          "values": {
+            "diensten": {
+              "list": []
+            }
+          },
+          "errors": {
+            "diensten.list": "Vul minstens één punt in."
+          }
+        }
+      },
+      {
+        "slug": "home",
+        "input": {
+          "diensten": {
+            "list": [
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x"
+            ]
+          }
+        },
+        "output": {
+          "values": {
+            "diensten": {
+              "list": [
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x"
+              ]
+            }
+          },
+          "errors": {
+            "diensten.list": "Maximaal 8 punten."
+          }
+        }
+      },
+      {
+        "slug": "home",
+        "input": {
+          "diensten": {
+            "list": 42
+          }
+        },
+        "output": {
+          "values": {
+            "diensten": {
+              "list": [
+                "42"
+              ]
+            }
+          },
+          "errors": {}
+        }
+      },
+      {
+        "slug": "home",
+        "input": {
+          "aanbod": {
+            "onlinePoints": [
+              "kort",
+              "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+            ],
+            "services": []
+          }
+        },
+        "output": {
+          "values": {
+            "aanbod": {
+              "services": [],
+              "onlinePoints": [
+                "kort",
+                "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+              ]
+            }
+          },
+          "errors": {
+            "aanbod.services": "Dit onderdeel heeft altijd 5 items.",
+            "aanbod.onlinePoints": "Een punt mag maximaal 300 tekens hebben."
+          }
+        }
+      },
+      {
+        "slug": "home",
+        "input": {
+          "aanbod": {
+            "onlinePoints": [
+              "Vanaf {online-vanaf}",
+              "{x}"
+            ]
+          }
+        },
+        "output": {
+          "values": {
+            "aanbod": {
+              "onlinePoints": [
+                "Vanaf {online-vanaf}",
+                "{x}"
+              ]
+            }
+          },
+          "errors": {
+            "aanbod.onlinePoints": "Onbekende automatische waarde {x}. Kies uit: {actie}, {vriendkorting}, {jouwkorting}, {ademprijs}, {ademduur}, {online-vanaf}."
+          }
+        }
+      },
+      {
+        "slug": "home",
+        "input": {
+          "hero": {
+            "title": "Een * los\n\n\n*sterretje*\n"
+          }
+        },
+        "output": {
+          "values": {
+            "hero": {
+              "title": "Een * los\n*sterretje*"
+            }
+          },
+          "errors": {}
+        }
+      },
+      {
+        "slug": "home",
+        "input": "geen object",
+        "output": {
+          "values": {},
+          "errors": {}
+        }
+      },
+      {
+        "slug": "home",
+        "input": null,
+        "output": {
+          "values": {},
+          "errors": {}
+        }
+      },
+      {
+        "slug": "home",
+        "input": [],
+        "output": {
+          "values": {},
+          "errors": {}
+        }
+      },
+      {
+        "slug": "home",
+        "input": {
+          "hero": [
+            "x"
+          ],
+          "diensten": "y",
+          "online": null
+        },
+        "output": {
+          "values": {},
+          "errors": {}
+        }
+      },
+      {
+        "slug": "home",
+        "input": {
+          "hero": {}
+        },
+        "output": {
+          "values": {},
+          "errors": {}
+        }
+      },
+      {
+        "slug": "pakketten",
+        "input": {
+          "adem": {
+            "price": "€ 210",
+            "duration": "{ademduur}",
+            "features": [],
+            "unit": "per sessie van {ademduur}",
+            "name": ""
+          },
+          "online": {
+            "plans": [
+              {
+                "name": "Start",
+                "tagline": "Plan",
+                "price": "79,50",
+                "features": "Een\nTwee",
+                "featured": "on"
+              },
+              {
+                "name": "Pro",
+                "tagline": "Meer",
+                "price": "1.050",
+                "features": [
+                  "Een"
+                ],
+                "featured": "true"
+              },
+              {
+                "name": "Performance",
+                "tagline": "Meest",
+                "price": "12,5",
+                "features": [
+                  "Een"
+                ],
+                "featured": 1
+              }
+            ]
+          }
+        },
+        "output": {
+          "values": {
+            "online": {
+              "plans": [
+                {
+                  "name": "Start",
+                  "tagline": "Plan",
+                  "price": "79,50",
+                  "features": [
+                    "Een",
+                    "Twee"
+                  ],
+                  "featured": true
+                },
+                {
+                  "name": "Pro",
+                  "tagline": "Meer",
+                  "price": "1.050",
+                  "features": [
+                    "Een"
+                  ],
+                  "featured": true
+                },
+                {
+                  "name": "Performance",
+                  "tagline": "Meest",
+                  "price": "12,5",
+                  "features": [
+                    "Een"
+                  ],
+                  "featured": false
+                }
+              ]
+            },
+            "adem": {
+              "name": "",
+              "price": "€210",
+              "duration": "{ademduur}",
+              "unit": "per sessie van {ademduur}",
+              "features": []
+            }
+          },
+          "errors": {
+            "online.plans.2.price": "Vul een bedrag in zoals 120 of 79,50, zonder €-teken.",
+            "adem.name": "Dit veld mag niet leeg zijn.",
+            "adem.price": "Vul een bedrag in zoals 120 of 79,50, zonder €-teken.",
+            "adem.duration": "Hier kun je geen automatische waarden ({…}) gebruiken.",
+            "adem.features": "Vul minstens één punt in."
+          }
+        }
+      },
+      {
+        "slug": "pakketten",
+        "input": {
+          "adem": {
+            "price": " 1 050,00 "
+          },
+          "online": {
+            "plans": [
+              {
+                "price": "1.000.000"
+              },
+              {
+                "price": "0,99"
+              },
+              {
+                "price": "1234567"
+              }
+            ]
+          },
+          "pt": {
+            "cards": []
+          },
+          "labels": {
+            "featured": ""
+          }
+        },
+        "output": {
+          "values": {
+            "online": {
+              "plans": [
+                {
+                  "name": "",
+                  "tagline": "",
+                  "price": "1.000.000",
+                  "features": [],
+                  "featured": false
+                },
+                {
+                  "name": "",
+                  "tagline": "",
+                  "price": "0,99",
+                  "features": [],
+                  "featured": false
+                },
+                {
+                  "name": "",
+                  "tagline": "",
+                  "price": "1234567",
+                  "features": [],
+                  "featured": false
+                }
+              ]
+            },
+            "pt": {
+              "cards": []
+            },
+            "adem": {
+              "price": "1050,00"
+            },
+            "labels": {
+              "featured": ""
+            }
+          },
+          "errors": {
+            "online.plans.0.name": "Dit veld mag niet leeg zijn.",
+            "online.plans.0.tagline": "Dit veld mag niet leeg zijn.",
+            "online.plans.0.features": "Vul minstens één punt in.",
+            "online.plans.1.name": "Dit veld mag niet leeg zijn.",
+            "online.plans.1.tagline": "Dit veld mag niet leeg zijn.",
+            "online.plans.1.features": "Vul minstens één punt in.",
+            "online.plans.2.name": "Dit veld mag niet leeg zijn.",
+            "online.plans.2.tagline": "Dit veld mag niet leeg zijn.",
+            "online.plans.2.price": "Vul een bedrag in zoals 120 of 79,50, zonder €-teken.",
+            "online.plans.2.features": "Vul minstens één punt in.",
+            "pt.cards": "Voeg minstens één pakket toe.",
+            "labels.featured": "Dit veld mag niet leeg zijn."
+          }
+        }
+      },
+      {
+        "slug": "pakketten",
+        "input": {
+          "adem": {
+            "price": "1.05"
+          },
+          "pt": {
+            "cards": [
+              {
+                "label": "a",
+                "name": "b",
+                "price": "1"
+              },
+              {
+                "label": "a",
+                "name": "b",
+                "price": "1"
+              },
+              {
+                "label": "a",
+                "name": "b",
+                "price": "1"
+              },
+              {
+                "label": "a",
+                "name": "b",
+                "price": "1"
+              },
+              {
+                "label": "a",
+                "name": "b",
+                "price": "1"
+              },
+              {
+                "label": "a",
+                "name": "b",
+                "price": "1"
+              },
+              {
+                "label": "a",
+                "name": "b",
+                "price": "1"
+              }
+            ]
+          }
+        },
+        "output": {
+          "values": {
+            "pt": {
+              "cards": [
+                {
+                  "label": "a",
+                  "name": "b",
+                  "price": "1",
+                  "unit": "",
+                  "features": [],
+                  "note": "",
+                  "featured": false
+                },
+                {
+                  "label": "a",
+                  "name": "b",
+                  "price": "1",
+                  "unit": "",
+                  "features": [],
+                  "note": "",
+                  "featured": false
+                },
+                {
+                  "label": "a",
+                  "name": "b",
+                  "price": "1",
+                  "unit": "",
+                  "features": [],
+                  "note": "",
+                  "featured": false
+                },
+                {
+                  "label": "a",
+                  "name": "b",
+                  "price": "1",
+                  "unit": "",
+                  "features": [],
+                  "note": "",
+                  "featured": false
+                },
+                {
+                  "label": "a",
+                  "name": "b",
+                  "price": "1",
+                  "unit": "",
+                  "features": [],
+                  "note": "",
+                  "featured": false
+                },
+                {
+                  "label": "a",
+                  "name": "b",
+                  "price": "1",
+                  "unit": "",
+                  "features": [],
+                  "note": "",
+                  "featured": false
+                },
+                {
+                  "label": "a",
+                  "name": "b",
+                  "price": "1",
+                  "unit": "",
+                  "features": [],
+                  "note": "",
+                  "featured": false
+                }
+              ]
+            },
+            "adem": {
+              "price": "1.05"
+            }
+          },
+          "errors": {
+            "pt.cards.0.features": "Vul minstens één punt in.",
+            "pt.cards.1.features": "Vul minstens één punt in.",
+            "pt.cards.2.features": "Vul minstens één punt in.",
+            "pt.cards.3.features": "Vul minstens één punt in.",
+            "pt.cards.4.features": "Vul minstens één punt in.",
+            "pt.cards.5.features": "Vul minstens één punt in.",
+            "pt.cards.6.features": "Vul minstens één punt in.",
+            "pt.cards": "Maximaal 6 items.",
+            "adem.price": "Vul een bedrag in zoals 120 of 79,50, zonder €-teken."
+          }
+        }
+      },
+      {
+        "slug": "algemeen",
+        "input": {
+          "aankondiging": {
+            "show": "on",
+            "href": "https://example.com",
+            "label": "",
+            "text": "Tekst\nmet regel"
+          },
+          "locatie": {
+            "instagramUrl": "javascript:alert(1)",
+            "instagramHandle": ""
+          },
+          "vriendenactie": {
+            "headline": "{actie}",
+            "friendReward": "Korting {vriendkorting}",
+            "steps": [
+              {
+                "title": "a",
+                "text": "b"
+              }
+            ]
+          }
+        },
+        "output": {
+          "values": {
+            "aankondiging": {
+              "show": true,
+              "label": "",
+              "text": "Tekst met regel",
+              "href": "https://example.com"
+            },
+            "vriendenactie": {
+              "headline": "{actie}",
+              "friendReward": "Korting {vriendkorting}",
+              "steps": [
+                {
+                  "title": "a",
+                  "text": "b"
+                }
+              ]
+            },
+            "locatie": {
+              "instagramHandle": "",
+              "instagramUrl": "javascript:alert(1)"
+            }
+          },
+          "errors": {
+            "aankondiging.href": "Kies een pagina uit de lijst.",
+            "vriendenactie.headline": "Hier kun je geen automatische waarden ({…}) gebruiken.",
+            "vriendenactie.friendReward": "Hier kun je geen automatische waarden ({…}) gebruiken.",
+            "vriendenactie.steps": "Dit onderdeel heeft altijd 3 items.",
+            "locatie.instagramHandle": "Dit veld mag niet leeg zijn.",
+            "locatie.instagramUrl": "Vul een volledig webadres in dat begint met https://"
+          }
+        }
+      },
+      {
+        "slug": "algemeen",
+        "input": {
+          "aankondiging": {
+            "show": true,
+            "href": " /tarieven "
+          },
+          "locatie": {
+            "instagramUrl": " https:// www.example . com/x "
+          }
+        },
+        "output": {
+          "values": {
+            "aankondiging": {
+              "show": true,
+              "href": "/tarieven"
+            },
+            "locatie": {
+              "instagramUrl": "https://www.example.com/x"
+            }
+          },
+          "errors": {}
+        }
+      },
+      {
+        "slug": "algemeen",
+        "input": {
+          "aankondiging": {
+            "show": "1",
+            "href": "/onbekend"
+          },
+          "locatie": {
+            "instagramUrl": "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.nl"
+          }
+        },
+        "output": {
+          "values": {
+            "aankondiging": {
+              "show": false,
+              "href": "/onbekend"
+            },
+            "locatie": {
+              "instagramUrl": "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.nl"
+            }
+          },
+          "errors": {
+            "aankondiging.href": "Kies een pagina uit de lijst.",
+            "locatie.instagramUrl": "Vul een volledig webadres in dat begint met https://"
+          }
+        }
+      },
+      {
+        "slug": "algemeen",
+        "input": {
+          "aankondiging": {
+            "show": false
+          },
+          "locatie": {
+            "instagramUrl": "https://example"
+          }
+        },
+        "output": {
+          "values": {
+            "aankondiging": {
+              "show": false
+            },
+            "locatie": {
+              "instagramUrl": "https://example"
+            }
+          },
+          "errors": {
+            "locatie.instagramUrl": "Vul een volledig webadres in dat begint met https://"
+          }
+        }
+      },
+      {
+        "slug": "algemeen",
+        "input": {
+          "werkwijze": {
+            "steps": [
+              {
+                "title": "Een",
+                "text": "Twee"
+              }
+            ]
+          },
+          "reviews": {
+            "reviews": [
+              {
+                "quote": "q",
+                "name": "n"
+              },
+              {
+                "quote": "q",
+                "name": "n"
+              },
+              {
+                "quote": "q",
+                "name": "n"
+              },
+              {
+                "quote": "q",
+                "name": "n"
+              },
+              {
+                "quote": "q",
+                "name": "n"
+              },
+              {
+                "quote": "q",
+                "name": "n"
+              },
+              {
+                "quote": "q",
+                "name": "n"
+              },
+              {
+                "quote": "q",
+                "name": "n"
+              },
+              {
+                "quote": "q",
+                "name": "n"
+              }
+            ]
+          }
+        },
+        "output": {
+          "values": {
+            "reviews": {
+              "reviews": [
+                {
+                  "quote": "q",
+                  "name": "n",
+                  "role": ""
+                },
+                {
+                  "quote": "q",
+                  "name": "n",
+                  "role": ""
+                },
+                {
+                  "quote": "q",
+                  "name": "n",
+                  "role": ""
+                },
+                {
+                  "quote": "q",
+                  "name": "n",
+                  "role": ""
+                },
+                {
+                  "quote": "q",
+                  "name": "n",
+                  "role": ""
+                },
+                {
+                  "quote": "q",
+                  "name": "n",
+                  "role": ""
+                },
+                {
+                  "quote": "q",
+                  "name": "n",
+                  "role": ""
+                },
+                {
+                  "quote": "q",
+                  "name": "n",
+                  "role": ""
+                },
+                {
+                  "quote": "q",
+                  "name": "n",
+                  "role": ""
+                }
+              ]
+            },
+            "werkwijze": {
+              "steps": [
+                {
+                  "title": "Een",
+                  "text": "Twee"
+                }
+              ]
+            }
+          },
+          "errors": {
+            "reviews.reviews": "Maximaal 8 items.",
+            "werkwijze.steps": "Voeg minstens 2 items toe."
+          }
+        }
+      },
+      {
+        "slug": "algemeen",
+        "input": {
+          "expertises": {
+            "list": [
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x"
+            ]
+          },
+          "footer": {
+            "extra": "",
+            "copyright": ""
+          }
+        },
+        "output": {
+          "values": {
+            "expertises": {
+              "list": [
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x"
+              ]
+            },
+            "footer": {
+              "extra": "",
+              "copyright": ""
+            }
+          },
+          "errors": {
+            "expertises.list": "Maximaal 20 punten.",
+            "footer.copyright": "Dit veld mag niet leeg zijn."
+          }
+        }
+      },
+      {
+        "slug": "personal-training",
+        "input": {
+          "leefstijl": {
+            "body": "Alinea een\n\n\nAlinea twee\r\n\r\nAlinea drie   \nzelfde alinea",
+            "title": "a\n\n\nb"
+          }
+        },
+        "output": {
+          "values": {
+            "leefstijl": {
+              "title": "a\nb",
+              "body": "Alinea een\n\nAlinea twee\n\nAlinea drie\nzelfde alinea"
+            }
+          },
+          "errors": {}
+        }
+      },
+      {
+        "slug": "online-coaching",
+        "input": {
+          "faq": {
+            "questions": [
+              {
+                "q": "Vraag?",
+                "a": ""
+              }
+            ]
+          }
+        },
+        "output": {
+          "values": {
+            "faq": {
+              "questions": [
+                {
+                  "q": "Vraag?",
+                  "a": ""
+                }
+              ]
+            }
+          },
+          "errors": {
+            "faq.questions.0.a": "Dit veld mag niet leeg zijn."
+          }
+        }
+      },
+      {
+        "slug": "online-coaching",
+        "input": {
+          "faq": {
+            "questions": []
+          }
+        },
+        "output": {
+          "values": {
+            "faq": {
+              "questions": []
+            }
+          },
+          "errors": {
+            "faq.questions": "Voeg minstens één vraag toe."
+          }
+        }
+      },
+      {
+        "slug": "online-coaching",
+        "input": {
+          "faq": {
+            "questions": "geen lijst"
+          }
+        },
+        "output": {
+          "values": {
+            "faq": {
+              "questions": []
+            }
+          },
+          "errors": {
+            "faq.questions": "Voeg minstens één vraag toe."
+          }
+        }
+      },
+      {
+        "slug": "online-coaching",
+        "input": {
+          "hero": {
+            "note": ""
+          },
+          "stappen": {
+            "steps": [
+              {},
+              {},
+              {},
+              {},
+              {},
+              {},
+              {}
+            ]
+          }
+        },
+        "output": {
+          "values": {
+            "hero": {
+              "note": ""
+            },
+            "stappen": {
+              "steps": [
+                {
+                  "title": "",
+                  "text": ""
+                },
+                {
+                  "title": "",
+                  "text": ""
+                },
+                {
+                  "title": "",
+                  "text": ""
+                },
+                {
+                  "title": "",
+                  "text": ""
+                },
+                {
+                  "title": "",
+                  "text": ""
+                },
+                {
+                  "title": "",
+                  "text": ""
+                },
+                {
+                  "title": "",
+                  "text": ""
+                }
+              ]
+            }
+          },
+          "errors": {
+            "stappen.steps.0.title": "Dit veld mag niet leeg zijn.",
+            "stappen.steps.0.text": "Dit veld mag niet leeg zijn.",
+            "stappen.steps.1.title": "Dit veld mag niet leeg zijn.",
+            "stappen.steps.1.text": "Dit veld mag niet leeg zijn.",
+            "stappen.steps.2.title": "Dit veld mag niet leeg zijn.",
+            "stappen.steps.2.text": "Dit veld mag niet leeg zijn.",
+            "stappen.steps.3.title": "Dit veld mag niet leeg zijn.",
+            "stappen.steps.3.text": "Dit veld mag niet leeg zijn.",
+            "stappen.steps.4.title": "Dit veld mag niet leeg zijn.",
+            "stappen.steps.4.text": "Dit veld mag niet leeg zijn.",
+            "stappen.steps.5.title": "Dit veld mag niet leeg zijn.",
+            "stappen.steps.5.text": "Dit veld mag niet leeg zijn.",
+            "stappen.steps.6.title": "Dit veld mag niet leeg zijn.",
+            "stappen.steps.6.text": "Dit veld mag niet leeg zijn.",
+            "stappen.steps": "Maximaal 6 items."
+          }
+        }
+      },
+      {
+        "slug": "privacy",
+        "input": {
+          "onderdelen": {
+            "sections": [
+              {
+                "title": "Kop",
+                "body": "Een\r\n\r\n\r\n\r\nTwee\n \nDrie"
+              }
+            ]
+          }
+        },
+        "output": {
+          "values": {
+            "onderdelen": {
+              "sections": [
+                {
+                  "title": "Kop",
+                  "body": "Een\n\nTwee\n\nDrie"
+                }
+              ]
+            }
+          },
+          "errors": {}
+        }
+      },
+      {
+        "slug": "tarieven",
+        "input": {
+          "pt": {
+            "note": ""
+          },
+          "hero": {
+            "title": "*Tarieven*"
+          }
+        },
+        "output": {
+          "values": {
+            "hero": {
+              "title": "*Tarieven*"
+            },
+            "pt": {
+              "note": ""
+            }
+          },
+          "errors": {}
+        }
+      },
+      {
+        "slug": "contact",
+        "input": {
+          "hero": {
+            "tipText": "{online-vanaf} {ademprijs} {ademduur} {actie} {vriendkorting} {jouwkorting}"
+          }
+        },
+        "output": {
+          "values": {
+            "hero": {
+              "tipText": "{online-vanaf} {ademprijs} {ademduur} {actie} {vriendkorting} {jouwkorting}"
+            }
+          },
+          "errors": {}
+        }
+      }
+    ],
+    "resolve": [
+      {
+        "slug": "home",
+        "stored": {
+          "home.hero.title": "\"Eigen *titel*\"",
+          "home.hero.eyebrow": "12",
+          "home.hero.intro": "geen json",
+          "home.hero.primary": "null",
+          "home.hero.secondary": "{}",
+          "home.hero.stats": "[{\"value\":\"1\",\"label\":\"a\"}]",
+          "home.diensten.list": "[\"a\",1]",
+          "home.aanbod.onlinePoints": "[\"x\",\"y\"]",
+          "home.aanbod.services": "[{\"title\":\"A\"},{\"title\":1,\"text\":\"B\"},null,\"x\",[1]]",
+          "home.onbekend.x": "\"x\"",
+          "algemeen.aankondiging.text": "\"hoort bij een andere pagina\""
+        },
+        "output": {
+          "hero": {
+            "eyebrow": "Personal training · Amsterdam & online",
+            "title": "Eigen *titel*",
+            "intro": "Ik ben Steyn van Leeuwen, personal trainer en orthomoleculair voedingscoach. Ik help je aan een gezondere leefstijl, begeleid je 1-op-1 naar je specifieke doel en coach sporters naar hun beste prestatie. Vanaf nu ook online, waar je ook bent.",
+            "primary": "Start online coaching",
+            "secondary": "Gratis kennismaking",
+            "stats": [
+              {
+                "value": "1-op-1",
+                "label": "persoonlijke aandacht"
+              },
+              {
+                "value": "Online",
+                "label": "overal coaching"
+              },
+              {
+                "value": "24 uur",
+                "label": "en Steyn neemt contact op"
+              },
+              {
+                "value": "100%",
+                "label": "inzet voor jouw doel"
+              }
+            ],
+            "badgeLabel": "Nieuw",
+            "badgeText": "Online coaching vanaf € {online-vanaf} p/m"
+          },
+          "diensten": {
+            "list": [
+              "Personal training",
+              "Online coaching",
+              "Ademcoaching",
+              "Voedingscoaching",
+              "Topsport",
+              "Leefstijl"
+            ]
+          },
+          "online": {
+            "eyebrow": "Nieuw bij SteynPT",
+            "title": "Online coaching. *Jouw coach*, altijd en overal.",
+            "intro": "Dezelfde persoonlijke aanpak als in de gym, nu in je eigen online dashboard. Je krijgt een plan op maat, checkt wekelijks in en Steyn stuurt bij. Ideaal als je zelfstandig traint, veel reist of naast je PT-sessies extra begeleiding wilt.",
+            "features": [
+              {
+                "title": "Schema op maat",
+                "text": "Afgestemd op je doel, niveau en agenda."
+              },
+              {
+                "title": "Voedingsplan",
+                "text": "De juiste balans in macro- en micronutriënten."
+              },
+              {
+                "title": "Check-ins & metingen",
+                "text": "Je voortgang overzichtelijk in je dashboard."
+              },
+              {
+                "title": "Direct contact",
+                "text": "Steyn stuurt bij waar nodig."
+              }
+            ],
+            "primary": "Bekijk de pakketten",
+            "secondary": "Gratis account aanmaken"
+          },
+          "aanbod": {
+            "eyebrow": "Aanbod",
+            "title": "Eén coach, alles voor jouw doel",
+            "intro": "Met een breed scala aan opleidingen en jarenlange ervaring durft Steyn iedereen een garantie op resultaat te geven. Ben jij er klaar voor?",
+            "button": "Alle tarieven",
+            "services": [
+              {
+                "title": "A",
+                "text": "Schema, voedingsplan en wekelijkse check-ins in je eigen dashboard. Train waar en wanneer jij wilt."
+              },
+              {
+                "title": "Personal training",
+                "text": "B"
+              },
+              {
+                "title": "Topsport & specifieke doelen",
+                "text": "Sportspecifieke begeleiding, periodisering en blessurepreventie voor sporters die meer willen."
+              },
+              {
+                "title": "Ademcoaching",
+                "text": "1-op-1 of in groepsverband werken aan rust, focus, herstel en energie. Groepssessies voor teams, bedrijven en vriendengroepen op aanvraag."
+              },
+              {
+                "title": "Voedingscoaching",
+                "text": "Bij afvallen en aankomen. Orthomoleculaire, leefstijl- en vitaliteitscoaching."
+              }
+            ],
+            "onlinePoints": [
+              "x",
+              "y"
+            ],
+            "badge": "Nieuw",
+            "more": "Lees meer"
+          },
+          "over": {
+            "eyebrow": "Ontmoet Steyn",
+            "title": "Hallo, ik ben Steyn van Leeuwen",
+            "intro": "Full-time personal trainer en voedingscoach, geboren in Hoevelaken en werkzaam in Amsterdam. Door een beginnende hernia van het hockeyen ontdekte ik krachttraining. Daar vond ik mijn passie, en de motivatie om de onduidelijkheid in de fitnesswereld te doorbreken.",
+            "cardTitle": "15 jaar",
+            "cardText": "Zo oud was ik toen ik op advies van de fysio begon met krachttraining.",
+            "button": "Lees mijn verhaal"
+          },
+          "werkwijze": {
+            "eyebrow": "Werkwijze",
+            "title": "Van intake tot resultaat",
+            "intro": "Of je nu in de gym traint of online: iedere samenwerking volgt dezelfde bewezen aanpak."
+          },
+          "vriendenactie": {
+            "eyebrow": "Vriendenactie",
+            "title": "Breng een vriend mee. *{actie}*",
+            "intro": "Nodig een vriend uit voor online coaching. Je vriend krijgt {vriendkorting}; jij krijgt {jouwkorting} zodra je vriend start.",
+            "primary": "Maak gratis account",
+            "secondary": "Zo werkt het"
+          },
+          "reviews": {
+            "eyebrow": "Reviews",
+            "title": "Wat sporters zeggen"
+          },
+          "locaties": {
+            "eyebrow": "Bezoek ons",
+            "title": "Trainen waar het jou uitkomt",
+            "intro": "Bij Gymbase in Amsterdam, op jouw favoriete plek of volledig online."
+          },
+          "seo": {
+            "title": "SteynPT · Personal training, online coaching & ademcoaching in Amsterdam",
+            "description": "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam. 1-op-1 begeleiding voor een gezondere leefstijl, specifieke doelen en topsporters."
+          }
+        }
+      },
+      {
+        "slug": "online-coaching",
+        "stored": {
+          "online-coaching.faq.questions": "[{\"q\":\"Eigen vraag\"},{\"q\":\"Nog een\",\"a\":\"Antwoord\"},{\"q\":3,\"a\":\"x\"},\"rij\",null,[1,2],{\"a\":\"Zes\"}]",
+          "online-coaching.hero.note": "\"\"",
+          "online-coaching.stappen.steps": "[]"
+        },
+        "output": {
+          "hero": {
+            "eyebrow": "Nieuw · Online coaching",
+            "title": "Jouw coach.\n*Altijd* en overal.",
+            "intro": "De persoonlijke aanpak van SteynPT, nu ook online. Een plan op maat, wekelijkse check-ins in je eigen dashboard en een coach die met je meedenkt, waar je ook traint.",
+            "primary": "Kies je pakket",
+            "secondary": "Gratis account aanmaken",
+            "note": ""
+          },
+          "voorWie": {
+            "eyebrow": "Voor wie",
+            "title": "Gemaakt voor sporters die verder willen",
+            "intro": "Of je nu net begint of al jaren traint: online coaching geeft je structuur, kennis en een stok achter de deur.",
+            "cards": [
+              {
+                "title": "Je traint zelfstandig",
+                "text": "Je wilt een plan dat écht bij jou past en iemand die meekijkt."
+              },
+              {
+                "title": "Je hebt een volle agenda",
+                "text": "Train wanneer het jou uitkomt, thuis, in de gym of op kantoor."
+              },
+              {
+                "title": "Je bent veel onderweg",
+                "text": "Je coaching reist met je mee, waar je ook bent."
+              },
+              {
+                "title": "Je hebt een specifiek doel",
+                "text": "Wedstrijd, seizoen of persoonlijk record: we plannen ernaartoe."
+              }
+            ]
+          },
+          "stappen": {
+            "eyebrow": "Zo werkt het",
+            "title": "In vier stappen van start",
+            "steps": []
+          },
+          "pakketten": {
+            "eyebrow": "Pakketten",
+            "title": "Kies wat bij jou past",
+            "intro": "Alle pakketten inclusief persoonlijk dashboard, wekelijkse check-ins en je metingen in één overzicht.",
+            "note": "Liever eerst kennismaken?",
+            "noteLink": "Plan een gratis kennismaking"
+          },
+          "vriendenactie": {
+            "eyebrow": "Vriendenactie",
+            "title": "{actie}",
+            "intro": "Samen trainen is leuker en houdt je allebei scherp. Nodig een vriend uit via je persoonlijke link in Mijn omgeving.",
+            "button": "Voorwaarden en uitleg"
+          },
+          "faq": {
+            "eyebrow": "Veelgestelde vragen",
+            "title": "Goed om te weten",
+            "questions": [
+              {
+                "q": "Eigen vraag",
+                "a": "Nee. Je schema wordt afgestemd op de plek waar jij traint: in de gym, thuis met beperkt materiaal of buiten."
+              },
+              {
+                "q": "Nog een",
+                "a": "Antwoord"
+              },
+              {
+                "q": "Kan ik online coaching combineren met personal training?",
+                "a": "x"
+              },
+              {
+                "q": "Hoe lang duurt een traject?",
+                "a": "Dat stemmen we af op jouw doel. Voor blijvend resultaat adviseert Steyn om minimaal drie maanden te rekenen."
+              },
+              {
+                "q": "Hoe werkt de vriendenactie?",
+                "a": "Iedere klant heeft een persoonlijke uitnodigingslink. Een vriend die zich via die link aanmeldt krijgt {vriendkorting}. Start je vriend, dan krijg jij {jouwkorting}."
+              },
+              {
+                "q": "",
+                "a": ""
+              },
+              {
+                "q": "",
+                "a": "Zes"
+              }
+            ]
+          },
+          "afsluiter": {
+            "title": "Start vandaag nog",
+            "text": "Maak je gratis account aan, kies je pakket en Steyn neemt binnen 24 uur contact met je op.",
+            "primary": "Account aanmaken",
+            "secondary": "Gratis kennismaking"
+          },
+          "seo": {
+            "title": "Online coaching",
+            "description": "Online coaching door Steyn van Leeuwen: trainingsschema en voedingsplan op maat, wekelijkse check-ins in je eigen dashboard en persoonlijke bijsturing. Nodig een vriend uit en krijg samen korting."
+          }
+        }
+      },
+      {
+        "slug": "algemeen",
+        "stored": {
+          "algemeen.aankondiging.show": "false",
+          "algemeen.aankondiging.label": "\"ja\"",
+          "algemeen.reviews.reviews": "{}",
+          "algemeen.expertises.list": "{\"0\":\"a\"}",
+          "algemeen.vriendenactie.steps": "[{\"title\":\"a\"},{\"title\":\"b\"},{\"title\":\"c\",\"text\":\"d\"}]",
+          "algemeen.werkwijze.steps": ""
+        },
+        "output": {
+          "aankondiging": {
+            "show": false,
+            "label": "ja",
+            "text": "Nieuw: online coaching. Nodig een vriend uit en krijg samen 50% korting",
+            "href": "/vriend-uitnodigen"
+          },
+          "vriendenactie": {
+            "headline": "Samen 50% korting",
+            "friendReward": "50% korting op de eerste maand online coaching",
+            "referrerReward": "50% korting op een maand online coaching",
+            "steps": [
+              {
+                "title": "a",
+                "text": "Je vindt hem in Mijn omgeving en deelt hem met één tik via WhatsApp of e-mail."
+              },
+              {
+                "title": "b",
+                "text": "Via jouw link krijgt je vriend {vriendkorting}."
+              },
+              {
+                "title": "c",
+                "text": "d"
+              }
+            ]
+          },
+          "afsluiter": {
+            "title": "Klaar om te starten?",
+            "text": "Maak gratis een account aan, kies je pakket en Steyn neemt binnen 24 uur contact met je op.",
+            "primary": "Start online coaching",
+            "secondary": "Gratis kennismaking"
+          },
+          "reviews": {
+            "reviews": [
+              {
+                "quote": "Steyn heeft mij geleerd dat het niet alleen gaat om afvallen, maar om bewustwording van je leefstijl.",
+                "name": "Miranda 'd Weegman",
+                "role": "Operatieassistente"
+              },
+              {
+                "quote": "Ik ben al jaren bezig met afvallen maar bleef altijd rond hetzelfde gewicht. Sinds ik met Steyn train behaal ik eindelijk resultaat.",
+                "name": "Steve van Maanen",
+                "role": "Bakker"
+              }
+            ]
+          },
+          "werkwijze": {
+            "steps": [
+              {
+                "title": "Intake",
+                "text": "We beginnen met een gesprek over jouw doelen, je achtergrond en wat je tot nu toe hebt geprobeerd."
+              },
+              {
+                "title": "Nulmeting",
+                "text": "We wegen, meten en bewegen: zo zien we precies waar we aan moeten werken."
+              },
+              {
+                "title": "Plan op maat",
+                "text": "Je krijgt een persoonlijk schema en voedingsplan met de ideale balans in macro- en micronutriënten."
+              },
+              {
+                "title": "Coaching",
+                "text": "Ook buiten de trainingen hebben we contact. We sturen bij tot je doel bereikt is, en daarna."
+              }
+            ]
+          },
+          "expertises": {
+            "list": [
+              "Personal Trainer",
+              "Orthomoleculair voedingstherapeut",
+              "Leefstijl- en vitaliteitscoaching",
+              "Ademcoaching",
+              "Powerliften",
+              "Boksen",
+              "CrossFit",
+              "Sportspecifieke training"
+            ]
+          },
+          "locatie": {
+            "name": "Gymbase",
+            "street": "Overtoom 371-w",
+            "city": "1054 JN Amsterdam",
+            "onLocationTitle": "Op locatie",
+            "onLocation": "Naast onze vaste locatie Gymbase komen we ook op locatie: in jouw favoriete park of in de kantine van je werk.",
+            "onlineTitle": "Online",
+            "online": "Met online coaching train je waar en wanneer jij wilt, met Steyn altijd binnen handbereik.",
+            "responseTime": "Ik streef ernaar om binnen 24 uur contact met je op te nemen.",
+            "instagramHandle": "@bigtimesteyn",
+            "instagramUrl": "https://www.instagram.com/bigtimesteyn/"
+          },
+          "footer": {
+            "intro": "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam.",
+            "extra": "Op locatie & online",
+            "copyright": "SteynPT · Personal Training Amsterdam"
+          }
+        }
+      },
+      {
+        "slug": "pakketten",
+        "stored": {
+          "pakketten.online.plans": "[{\"name\":\"A\",\"features\":\"x\",\"featured\":\"yes\",\"price\":79},{\"name\":\"B\",\"tagline\":\"T\",\"price\":\"59,50\",\"features\":[\"f\"],\"featured\":true,\"extra\":\"weg\"},{}]",
+          "pakketten.pt.cards": "[{\"name\":\"X\"},{\"name\":\"X\"},{\"name\":\"X\"},{\"name\":\"X\"},{\"name\":\"X\"}]",
+          "pakketten.adem.features": "[\"a\",\"b\"]"
+        },
+        "output": {
+          "online": {
+            "plans": [
+              {
+                "name": "A",
+                "tagline": "Zelfstandig trainen met een plan dat klopt",
+                "price": "79",
+                "features": [
+                  "Trainingsschema op maat",
+                  "Voedingsrichtlijnen op basis van je doel",
+                  "Maandelijkse evaluatie en schema-update",
+                  "Wekelijkse check-in in je dashboard",
+                  "Je voortgang en metingen in je dashboard"
+                ],
+                "featured": false
+              },
+              {
+                "name": "B",
+                "tagline": "T",
+                "price": "59,50",
+                "features": [
+                  "f"
+                ],
+                "featured": true
+              },
+              {
+                "name": "Performance",
+                "tagline": "Voor specifieke doelen en (top)sporters",
+                "price": "199",
+                "features": [
+                  "Alles uit Pro",
+                  "Twee videocalls per maand",
+                  "Sportspecifieke periodisering",
+                  "Techniekanalyse op basis van je video's",
+                  "Ademhalingsprotocol voor focus en herstel"
+                ],
+                "featured": false
+              }
+            ]
+          },
+          "pt": {
+            "cards": [
+              {
+                "label": "Personal training",
+                "name": "X",
+                "price": "120",
+                "unit": "per uur",
+                "features": [
+                  "Verbeter je gezondheid",
+                  "Flexibele uren",
+                  "Stap-voor-stap aanpak",
+                  "Op maat gemaakt"
+                ],
+                "note": "Duo-training: € 15,- toeslag per sessie",
+                "featured": false
+              },
+              {
+                "label": "10× 1-op-1 training",
+                "name": "X",
+                "price": "1050",
+                "unit": "",
+                "features": [
+                  "Intakegesprek",
+                  "Start- en eindmeting",
+                  "Bewegingsassessment",
+                  "Wekelijks voedingsadvies"
+                ],
+                "note": "",
+                "featured": false
+              },
+              {
+                "label": "20× 1-op-1 training",
+                "name": "X",
+                "price": "2000",
+                "unit": "",
+                "features": [
+                  "Intakegesprek",
+                  "Start-, tussen- en eindmeting",
+                  "Bewegingsassessment",
+                  "Verbeter je gezondheid",
+                  "Verander je leefstijl"
+                ],
+                "note": "",
+                "featured": true
+              },
+              {
+                "label": "40× 1-op-1 training",
+                "name": "X",
+                "price": "3800",
+                "unit": "",
+                "features": [
+                  "Intakegesprek",
+                  "Start-, tussen- en eindmeting",
+                  "Bewegingsassessment",
+                  "Verbeter je gezondheid",
+                  "Verander je leefstijl"
+                ],
+                "note": "",
+                "featured": false
+              },
+              {
+                "label": "",
+                "name": "X",
+                "price": "",
+                "unit": "",
+                "features": [],
+                "note": "",
+                "featured": false
+              }
+            ]
+          },
+          "adem": {
+            "name": "Ademsessie 1-op-1",
+            "label": "Ademcoaching",
+            "price": "210",
+            "duration": "1,5 uur",
+            "unit": "per sessie van {ademduur}",
+            "features": [
+              "a",
+              "b"
+            ]
+          },
+          "labels": {
+            "featured": "Meest gekozen"
+          }
+        }
+      }
+    ],
+    "vars": [
+      {
+        "prices": [
+          "79",
+          "129",
+          "199"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "79"
+        }
+      },
+      {
+        "prices": [
+          "59,50",
+          "129",
+          "199"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "59,50"
+        }
+      },
+      {
+        "prices": [
+          "0,125",
+          "1",
+          "2"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "0,13"
+        }
+      },
+      {
+        "prices": [
+          "12,345",
+          "99",
+          "99"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "12,35"
+        }
+      },
+      {
+        "prices": [
+          "2,675",
+          "9",
+          "9"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "2,67"
+        }
+      },
+      {
+        "prices": [
+          "1,005",
+          "9",
+          "9"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "1,00"
+        }
+      },
+      {
+        "prices": [
+          "",
+          "x",
+          "y"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "0"
+        }
+      },
+      {
+        "prices": [
+          "abc",
+          "x",
+          "y"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": ""
+        }
+      },
+      {
+        "prices": [
+          "1.050",
+          "1.000.000",
+          "3"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "3"
+        }
+      },
+      {
+        "prices": [
+          "1.000.000.000.000.000.000.000.000",
+          "1.000.000.000.000.000.000.000.000",
+          "1.000.000.000.000.000.000.000.000"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "1e+24"
+        }
+      },
+      {
+        "prices": [
+          "123.456.789.012.345.678.901",
+          "999.999.999.999.999.999.999.999",
+          "999.999.999.999.999.999.999.999"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "123456789012345680000"
+        }
+      },
+      {
+        "prices": [
+          "0x10",
+          "1e3",
+          "99"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "16"
+        }
+      },
+      {
+        "prices": [
+          "-5",
+          "12",
+          "7"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "-5"
+        }
+      },
+      {
+        "prices": [
+          "0,000001",
+          "1",
+          "1"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "0,00"
+        }
+      },
+      {
+        "prices": [
+          "Infinity",
+          "-Infinity",
+          "NaN"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": ""
+        }
+      },
+      {
+        "prices": [
+          " 7 ",
+          " 8 ",
+          "9"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "7"
+        }
+      },
+      {
+        "prices": [
+          "0b101",
+          "0o17",
+          "+.5"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "5"
+        }
+      },
+      {
+        "prices": [
+          "1,5,5",
+          "1,",
+          ",5"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "0,50"
+        }
+      },
+      {
+        "prices": [
+          "99,999",
+          "100",
+          "100"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "100,00"
+        }
+      },
+      {
+        "prices": [
+          "0,995",
+          "1",
+          "1"
+        ],
+        "output": {
+          "actie": "Samen 50% korting",
+          "vriendkorting": "50% korting op de eerste maand online coaching",
+          "jouwkorting": "50% korting op een maand online coaching",
+          "ademprijs": "210",
+          "ademduur": "1,5 uur",
+          "online-vanaf": "0,99"
+        }
+      }
+    ],
+    "markup": {
+      "parseRich": [
+        {
+          "input": "Sterker lichaam.\n*Gezonder* leven.",
+          "output": [
+            {
+              "text": "Sterker lichaam.",
+              "accent": false
+            },
+            {
+              "br": true
+            },
+            {
+              "text": "Gezonder",
+              "accent": true
+            },
+            {
+              "text": " leven.",
+              "accent": false
+            }
+          ]
+        },
+        {
+          "input": "Een * los sterretje",
+          "output": [
+            {
+              "text": "Een * los sterretje",
+              "accent": false
+            }
+          ]
+        },
+        {
+          "input": "*a* en *b",
+          "output": [
+            {
+              "text": "a",
+              "accent": true
+            },
+            {
+              "text": " en *b",
+              "accent": false
+            }
+          ]
+        },
+        {
+          "input": "",
+          "output": []
+        },
+        {
+          "input": "*",
+          "output": [
+            {
+              "text": "*",
+              "accent": false
+            }
+          ]
+        },
+        {
+          "input": "**",
+          "output": []
+        },
+        {
+          "input": "***",
+          "output": [
+            {
+              "text": "*",
+              "accent": false
+            }
+          ]
+        },
+        {
+          "input": "a**b",
+          "output": [
+            {
+              "text": "a",
+              "accent": false
+            },
+            {
+              "text": "b",
+              "accent": false
+            }
+          ]
+        },
+        {
+          "input": "*\n*",
+          "output": [
+            {
+              "text": "*",
+              "accent": false
+            },
+            {
+              "br": true
+            },
+            {
+              "text": "*",
+              "accent": false
+            }
+          ]
+        },
+        {
+          "input": "0*0*0",
+          "output": [
+            {
+              "text": "0",
+              "accent": false
+            },
+            {
+              "text": "0",
+              "accent": true
+            },
+            {
+              "text": "0",
+              "accent": false
+            }
+          ]
+        },
+        {
+          "input": "x*",
+          "output": [
+            {
+              "text": "x*",
+              "accent": false
+            }
+          ]
+        },
+        {
+          "input": "*x",
+          "output": [
+            {
+              "text": "*x",
+              "accent": false
+            }
+          ]
+        },
+        {
+          "input": "a\n\nb",
+          "output": [
+            {
+              "text": "a",
+              "accent": false
+            },
+            {
+              "br": true
+            },
+            {
+              "br": true
+            },
+            {
+              "text": "b",
+              "accent": false
+            }
+          ]
+        },
+        {
+          "input": "*Samen 50%* korting *nu*",
+          "output": [
+            {
+              "text": "Samen 50%",
+              "accent": true
+            },
+            {
+              "text": " korting ",
+              "accent": false
+            },
+            {
+              "text": "nu",
+              "accent": true
+            }
+          ]
+        }
+      ],
+      "plainRich": [
+        {
+          "input": "Sterker lichaam.\n*Gezonder* leven.",
+          "output": "Sterker lichaam. Gezonder leven."
+        },
+        {
+          "input": "Een * los sterretje",
+          "output": "Een * los sterretje"
+        },
+        {
+          "input": "*a* en *b",
+          "output": "a en *b"
+        },
+        {
+          "input": "",
+          "output": ""
+        },
+        {
+          "input": "*",
+          "output": "*"
+        },
+        {
+          "input": "**",
+          "output": ""
+        },
+        {
+          "input": "***",
+          "output": "*"
+        },
+        {
+          "input": "a**b",
+          "output": "ab"
+        },
+        {
+          "input": "*\n*",
+          "output": "* *"
+        },
+        {
+          "input": "0*0*0",
+          "output": "000"
+        },
+        {
+          "input": "x*",
+          "output": "x*"
+        },
+        {
+          "input": "*x",
+          "output": "*x"
+        },
+        {
+          "input": "a\n\nb",
+          "output": "a b"
+        },
+        {
+          "input": "*Samen 50%* korting *nu*",
+          "output": "Samen 50% korting nu"
+        },
+        {
+          "input": "Breng een vriend mee. *Samen 50% korting.*",
+          "output": "Breng een vriend mee. Samen 50% korting."
+        },
+        {
+          "input": "  a  b \n *c* ",
+          "output": "a b c"
+        },
+        {
+          "input": "﻿x﻿",
+          "output": "x"
+        },
+        {
+          "input": "a\tb c",
+          "output": "a b c"
+        }
+      ],
+      "paragraphs": [
+        {
+          "input": "Een\n\n  \nTwee\ndrie\n\n",
+          "output": [
+            "Een",
+            "Twee\ndrie"
+          ]
+        },
+        {
+          "input": " \n \nx",
+          "output": [
+            "x"
+          ]
+        },
+        {
+          "input": "a\n \nb",
+          "output": [
+            "a",
+            "b"
+          ]
+        },
+        {
+          "input": "0\n\n0",
+          "output": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "input": "",
+          "output": []
+        },
+        {
+          "input": "\n\n\n",
+          "output": []
+        },
+        {
+          "input": "a\r\n\r\nb",
+          "output": [
+            "a",
+            "b"
+          ]
+        }
+      ],
+      "placeholdersIn": [
+        {
+          "input": "{a} {b} {a} {Geen}",
+          "output": [
+            "a",
+            "b"
+          ]
+        },
+        {
+          "input": "{a-1}{1a}{a_b}{-a}{ab-}",
+          "output": [
+            "a-1",
+            "ab-"
+          ]
+        },
+        {
+          "input": "{{actie}}",
+          "output": [
+            "actie"
+          ]
+        },
+        {
+          "input": "geen",
+          "output": []
+        }
+      ],
+      "fillText": [
+        {
+          "input": "{actie} {onbekend} {online-vanaf}",
+          "output": "Samen 50% korting {onbekend} 79"
+        },
+        {
+          "input": "{{actie}}",
+          "output": "{Samen 50% korting}"
+        },
+        {
+          "input": "€ {ademprijs},- voor {ademduur}",
+          "output": "€ 210,- voor 1,5 uur"
+        }
+      ]
+    }
+  }
+}

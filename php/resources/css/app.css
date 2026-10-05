@@ -1,0 +1,296 @@
+@import "tailwindcss";
+
+/* Tailwind zoekt de gebruikte klassen in de Blade-sjablonen en de PHP-code (bijvoorbeeld kleuren per status). */
+@source "../views";
+@source "../../app";
+
+/*
+ * Ontwerpsysteem SteynPT: zakelijk zwart/wit met één accentkleur (petrol).
+ * - ink/paper: tekst en achtergrond
+ * - surface: lichtgrijze vlakken en secties
+ * - accent: petrol voor accenten (links, iconen, highlights); accent-tint als zachte achtergrond
+ */
+@theme {
+  --color-ink: #111315;
+  --color-paper: #ffffff;
+  --color-surface: #f4f5f6;
+  --color-line: #e2e5e8;
+  --color-muted: #5b6168;
+  --color-accent: #0b6f78;
+  --color-accent-soft: #8cc3c8;
+  --color-accent-tint: #e6f2f3;
+  --color-danger: #b42318;
+  --color-success: #1f7a3a;
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Archivo Variable", "Inter Variable", ui-sans-serif, sans-serif;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-accent-tint);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-site {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) {
+    .container-site {
+      padding-inline: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container-site {
+      padding-inline: 2rem;
+    }
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 650;
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  .display-xl {
+    font-size: clamp(2.6rem, 6vw, 4.9rem);
+  }
+  .display-lg {
+    font-size: clamp(2.1rem, 4.2vw, 3.4rem);
+  }
+  .display-md {
+    font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  }
+  .display-sm {
+    font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+    line-height: 1.15;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 1.5rem;
+    height: 2px;
+    background: currentColor;
+  }
+
+  .lead {
+    font-size: clamp(1.05rem, 1.35vw, 1.175rem);
+    line-height: 1.65;
+    text-wrap: pretty;
+  }
+
+  .prose-site p + p {
+    margin-top: 1rem;
+  }
+  .prose-site p {
+    line-height: 1.75;
+    text-wrap: pretty;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0.75rem 1.35rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    text-align: center;
+    transition:
+      background-color 0.15s,
+      color 0.15s,
+      border-color 0.15s;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background: var(--color-ink);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background: #2b2f33;
+  }
+  .btn-accent {
+    background: var(--color-accent);
+    color: #fff;
+  }
+  .btn-accent:hover {
+    background: #095d65;
+  }
+  .btn-ink {
+    background: var(--color-ink);
+    color: #fff;
+  }
+  .btn-ink:hover {
+    background: #2b2f33;
+  }
+  .btn-outline {
+    border: 1px solid #c9ced3;
+    color: var(--color-ink);
+    background: #fff;
+  }
+  .btn-outline:hover {
+    border-color: var(--color-ink);
+  }
+  .btn-on-dark {
+    border: 1px solid rgb(255 255 255 / 0.35);
+    color: #fff;
+  }
+  .btn-on-dark:hover {
+    border-color: #fff;
+    background: rgb(255 255 255 / 0.06);
+  }
+  .btn-sm {
+    min-height: 2.5rem;
+    padding: 0.5rem 0.95rem;
+    font-size: 0.875rem;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+  }
+  .card-soft {
+    background: #fff;
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+  }
+
+  .hero-soft {
+    background: linear-gradient(180deg, var(--color-surface) 0%, #fff 100%);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+  .input {
+    width: 100%;
+    min-height: 2.875rem;
+    padding: 0.65rem 0.9rem;
+    border-radius: 0.5rem;
+    border: 1px solid #cdd2d7;
+    background: #fff;
+    color: var(--color-ink);
+    font-size: 1rem;
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s;
+  }
+  .input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgb(11 111 120 / 0.18);
+  }
+  .input[aria-invalid="true"] {
+    border-color: var(--color-danger);
+  }
+  textarea.input {
+    min-height: 7rem;
+    resize: vertical;
+  }
+  select.input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath stroke='%23111315' stroke-width='1.6' d='m1 1.5 5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+  }
+  .field-error {
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    color: var(--color-danger);
+  }
+
+  .marker {
+    color: var(--color-accent);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-rise {
+  animation: rise 0.6s var(--ease-out-soft) both;
+}
+.animate-marquee {
+  animation: marquee 50s linear infinite;
+}
+
+[x-cloak] {
+  display: none !important;
+}

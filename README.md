@@ -4,6 +4,8 @@ De nieuwe website van SteynPT (www.steynpt.nl): personal training, online coachi
 
 Gebouwd met Next.js 16 (App Router), TypeScript, Tailwind CSS 4 en een SQLite/libSQL-database via Drizzle ORM.
 
+Er is ook een **PHP-versie** (Laravel, map [`php/`](php/README.md)) met dezelfde pagina's en functies, voor gewone webhosting zonder Node.js, zoals Vimexx Webhosting. Stappenplan: [docs/live-zetten-vimexx-php.md](docs/live-zetten-vimexx-php.md).
+
 ## Wat zit erin
 
 **Website**
@@ -204,7 +206,9 @@ Zet je e-mailadres in `ADMIN_EMAILS` (komma-gescheiden voor meerdere). Wie zich 
 
 ## Live zetten
 
-De site heeft een Node.js-server en een database nodig.
+- **Vimexx-webhosting (PHP)**: gebruik de PHP-versie in `php/` en volg [docs/live-zetten-vimexx-php.md](docs/live-zetten-vimexx-php.md). Geen VPS nodig: alleen PHP 8.3, een MySQL-database en één cronjob.
+
+De Next.js-versie heeft een Node.js-server en een database nodig.
 
 - **Vimexx (of een andere VPS)**: volg het stappenplan in [docs/live-zetten-vimexx.md](docs/live-zetten-vimexx.md). De gewone webhosting van Vimexx kan geen Node.js draaien; de site komt op een VPS met Caddy (HTTPS), een systemd-service, dagelijkse back-ups (`npm run db:backup`) en een deploy-script dat bij een fout automatisch de vorige versie terugzet (`deploy/`).
 - **Vercel of andere serverless hosting**: gebruik een [Turso](https://turso.tech)-database. Zet `DATABASE_URL=libsql://…` en `DATABASE_AUTH_TOKEN`, en draai `npm run db:migrate` één keer tegen die database.
