@@ -2,7 +2,7 @@
 
 Dit stappenplan zet de nieuwe SteynPT-site online op **www.steynpt.nl** met een gewoon **Vimexx-webhostingpakket** (bijvoorbeeld *Webhosting Basic*). Daarvoor is de site in PHP gebouwd (map `php/`, Laravel). Je hebt dus géén VPS nodig.
 
-Om uit te printen of door te sturen staat hetzelfde plan in de huisstijl in [SteynPT - Stappenplan website online.pdf](SteynPT%20-%20Stappenplan%20website%20online.pdf). Op één vel (alle stappen om af te vinken, met de commando's op de achterkant): [SteynPT - Stappenplan in het kort.pdf](SteynPT%20-%20Stappenplan%20in%20het%20kort.pdf). De bronnen staan in `docs/stappenplan-pdf/`.
+Er is ook een **klikbare versie** voor wie geen ervaring met servers heeft: één stap per scherm, met kopieerknoppen, je gebruikersnaam al ingevuld in de commando's en hulp per stap (bron: [`docs/online-zetten/index.html`](online-zetten/index.html)). Om uit te printen of door te sturen staat hetzelfde plan in de huisstijl in [SteynPT - Stappenplan website online.pdf](SteynPT%20-%20Stappenplan%20website%20online.pdf). Op één vel (alle stappen om af te vinken, met de commando's op de achterkant): [SteynPT - Stappenplan in het kort.pdf](SteynPT%20-%20Stappenplan%20in%20het%20kort.pdf). De bronnen staan in `docs/stappenplan-pdf/`.
 
 Het plan bestaat uit twee fases:
 
@@ -46,15 +46,15 @@ Niets in deze fase raakt de huidige website.
    ssh GEBRUIKER@steynpt.nl -p 7685
    ```
 
-3. Controleer PHP 8.3 voor de commandoregel. Bij Vimexx staat elke versie op een eigen plek:
+3. Zorg dat `php` op de commandoregel PHP 8.3 is. Bij Vimexx staat elke versie op een eigen plek; de eerste regel onthoudt dat ook voor later (in `~/.bashrc`):
 
    ```bash
-   /opt/alt/php83/usr/bin/php -v          # moet "PHP 8.3" tonen
-   /opt/alt/php83/usr/bin/php -m | grep -i -E "pdo_mysql|mbstring|openssl|fileinfo"   # vier regels
-   alias php=/opt/alt/php83/usr/bin/php   # zodat "php" in deze sessie PHP 8.3 is
+   grep -qs "alias php=" ~/.bashrc || echo "alias php=/opt/alt/php83/usr/bin/php" >> ~/.bashrc
+   alias php=/opt/alt/php83/usr/bin/php
+   php -v                                 # moet "PHP 8.3" tonen
    ```
 
-   Log je later opnieuw in via SSH, typ dan eerst weer die `alias`-regel.
+   Toont `php -v` na een nieuwe keer inloggen toch geen 8.3, typ dan opnieuw de `alias`-regel.
 
 ## Stap 2. Database aanmaken
 
@@ -79,6 +79,24 @@ Laat een eventuele WordPress-database staan; die is je terugvaloptie.
 
 ## Stap 4. Instellingen (.env)
 
+Een klein programma stelt de vragen, controleert of de database werkt, zet alles in `.env`, maakt de geheime sleutel en de tabellen, en toont aan het eind de regel voor de cronjob:
+
+```bash
+cd ~/domains/steynpt.nl/steynpt
+php artisan steynpt:installeren && php artisan optimize
+```
+
+| Vraag | Antwoord |
+| --- | --- |
+| Adres van de website | Enter (`https://www.steynpt.nl`) |
+| Naam van de database, gebruikersnaam, wachtwoord | uit stap 2 (bij het wachtwoord zie je niets; plakken mag) |
+| E-mailadres van Steyn | Enter (`steyn@steynpt.nl`; dit adres wordt automatisch beheerder) |
+| API-sleutel | de sleutel van platform.claude.com, of Enter om dat later te doen |
+
+Klopt de database niet, dan zegt het programma wat er mis is en kun je het opnieuw invullen. Opnieuw draaien kan altijd, bijvoorbeeld om later de API-sleutel toe te voegen: Enter houdt wat er al staat, en de geheime sleutel blijft dezelfde.
+
+**Liever met de hand?** Dat kan ook:
+
 ```bash
 cd ~/domains/steynpt.nl/steynpt
 cp .env.example .env
@@ -94,7 +112,7 @@ Vul in (de rest kan blijven staan):
 | `ADMIN_EMAILS` | `steyn@steynpt.nl` (dit adres wordt automatisch beheerder) |
 | `ANTHROPIC_API_KEY` | de sleutel van platform.claude.com (mag ook later) |
 
-Opslaan in nano: `Ctrl+O`, `Enter`, `Ctrl+X`. Daarna:
+Opslaan in nano: `Ctrl+O`, `Enter`, `Ctrl+X` (ook op een Mac de Control-toets). Daarna:
 
 ```bash
 php artisan key:generate --force     # geheime sleutel voor sessies en versleuteling
@@ -108,7 +126,7 @@ php artisan optimize                 # instellingen, routes en pagina's voorbere
 
 Eén cronjob doet alles wat op de achtergrond moet: AI-concepten maken, ingeplande schema's op hun startdag zichtbaar maken, elke nacht een back-up van de database en contactaanvragen ouder dan 12 maanden opruimen (zoals de privacyverklaring belooft).
 
-In DirectAdmin: **Geavanceerde functies** (*Advanced Features*) **→ Cronjobs** ([uitleg van Vimexx](https://www.vimexx.nl/help/hoe-maak-ik-een-cronjob-aan)). Vul bij alle tijdvelden `*` in (= elke minuut), vink **Prevent Email** aan, en gebruik als commando:
+In DirectAdmin: **Geavanceerde functies** (*Advanced Features*) **→ Cronjobs** ([uitleg van Vimexx](https://www.vimexx.nl/help/hoe-maak-ik-een-cronjob-aan)). Vul bij alle tijdvelden `*` in (= elke minuut), vink **Prevent Email** aan, en gebruik als commando (het installatieprogramma uit stap 4 toont dezelfde regel, al met jouw gebruikersnaam):
 
 ```
 cd /home/GEBRUIKER/domains/steynpt.nl/steynpt && /opt/alt/php83/usr/bin/php artisan schedule:run >/dev/null 2>&1
@@ -135,7 +153,27 @@ Maak in DirectAdmin een back-up van het account (**Back-up maken / herstellen** 
 
 ## Stap 7. PHP 8.3 aanzetten
 
-Vimexx kiest de PHP-versie per domein met een `.htaccess`-bestand ([uitleg van Vimexx](https://www.vimexx.com/help/hoe-stel-ik-de-php-versie-per-domeinnaam-in)). Maak in **Bestandsbeheer** in `domains/steynpt.nl/` (naast `public_html`, niet erin) een bestand `.htaccess` met:
+Vimexx kiest de PHP-versie per domein met een `.htaccess`-bestand in `domains/steynpt.nl/`, naast `public_html` ([uitleg van Vimexx](https://www.vimexx.com/help/hoe-stel-ik-de-php-versie-per-domeinnaam-in)). Het makkelijkst via SSH; een bestaand bestand wordt eerst bewaard als `.htaccess-oud`, en een andere PHP-versie die er al in stond wordt 8.3:
+
+```bash
+cd ~/domains/steynpt.nl
+if grep -qs "x-lsphp83" .htaccess; then
+  echo "PHP 8.3 staat al aan"
+elif grep -qs "x-lsphp" .htaccess; then
+  cp .htaccess .htaccess-oud
+  sed -i "s/x-lsphp[0-9]*/x-lsphp83/g" .htaccess
+else
+  [ -e .htaccess ] && cp .htaccess .htaccess-oud
+  echo '<FilesMatch "\.(php|phtml)$">' > .htaccess.nieuw
+  echo '    SetHandler application/x-lsphp83' >> .htaccess.nieuw
+  echo '</FilesMatch>' >> .htaccess.nieuw
+  cat .htaccess >> .htaccess.nieuw 2>/dev/null
+  mv .htaccess.nieuw .htaccess
+fi
+cat .htaccess
+```
+
+Met de hand kan ook: maak in **Bestandsbeheer** in `domains/steynpt.nl/` een bestand `.htaccess` met de regels hieronder. Staat er al een `.htaccess` met een andere `x-lsphp`-versie, verander dan alleen dat getal in `83` (een tweede blok eronder of erboven werkt niet: de laatste regel wint).
 
 ```apache
 <FilesMatch "\.(php|phtml)$">
@@ -143,19 +181,18 @@ Vimexx kiest de PHP-versie per domein met een `.htaccess`-bestand ([uitleg van V
 </FilesMatch>
 ```
 
-Staat daar al een `.htaccess`? Zet deze regels dan bovenaan en laat de rest staan.
-
 ## Stap 8. De nieuwe site aanzetten
 
 Laat `public_html` naar de nieuwe site wijzen (zo installeert [Vimexx zelf Laravel](https://www.vimexx.nl/help/hoe-installeer-ik-het-laravel-framework-op-mijn-website)). Via SSH:
 
 ```bash
 cd ~/domains/steynpt.nl
-mv public_html public_html-oud           # de oude site bewaren
-ln -s steynpt/public public_html          # de nieuwe site aanzetten
+[ -L public_html ] || mv public_html public_html-oud      # de oude site bewaren
+[ -L public_html ] || ln -s steynpt/public public_html     # de nieuwe site aanzetten
+ls -l public_html                                         # toont: public_html -> steynpt/public
 ```
 
-Wees precies: bij een typfout in de tweede regel verschijnt de site niet. Controleer met `ls -l public_html`; je ziet dan `public_html -> steynpt/public`.
+De `[ -L public_html ] ||` zorgt dat er niets gebeurt als je deze regels per ongeluk twee keer plakt.
 
 ## Stap 9. Domein (alleen als dat nodig is)
 
@@ -187,11 +224,11 @@ Gaat er bij het overstappen iets mis, zet dan via SSH de oude site terug:
 
 ```bash
 cd ~/domains/steynpt.nl
-rm public_html                       # verwijdert alleen de koppeling, niet de nieuwe site
-mv public_html-oud public_html
+[ -L public_html ] && rm public_html && mv public_html-oud public_html
+if [ -e .htaccess-oud ]; then mv .htaccess-oud .htaccess; else rm -f .htaccess; fi
 ```
 
-Haal ook de regels uit stap 7 weer uit `domains/steynpt.nl/.htaccess` als de oude site een andere PHP-versie nodig had.
+De eerste regel verwijdert alleen de koppeling, niet de nieuwe site. De tweede zet de `.htaccess` van vóór stap 7 terug (of haalt hem weg als er geen was), zodat de oude site weer zijn eigen PHP-versie krijgt.
 
 ---
 
@@ -218,6 +255,7 @@ De site zelf is klaar voor zoekmachines: titels, omschrijvingen en de hoofdkop (
    unzip -q steynpt-php-*.zip -d nieuw && rm steynpt-php-*.zip
    cp steynpt/.env nieuw/steynpt/.env
    cp -a steynpt/storage/backups/. nieuw/steynpt/storage/backups/
+   rm -rf steynpt-vorige                           # de versie van twee keer geleden
    mv steynpt steynpt-vorige && mv nieuw/steynpt steynpt && rmdir nieuw
    cd steynpt && php artisan migrate --force && php artisan optimize
    ```
@@ -242,7 +280,7 @@ De site zelf is klaar voor zoekmachines: titels, omschrijvingen en de hoofdkop (
 
 | Probleem | Oplossing |
 | --- | --- |
-| Een melding over de PHP-versie, of een lege pagina | Controleer stap 7 (`.htaccess` naast `public_html`) en stap 8 (`ls -l public_html`). |
+| Een melding over de PHP-versie, of een lege pagina | Draai stap 7 opnieuw (dat kan geen kwaad) en controleer stap 8 (`ls -l public_html`). |
 | Foutmelding "Er ging iets mis" (500) | Kijk in `steynpt/storage/logs/` (laatste bestand). Zet nooit `APP_DEBUG=true` op de live site. |
 | Inloggen lukt niet (pagina verlopen) | Controleer of de site via https draait (stap 10) en of `APP_URL` met `https://` begint; draai daarna `php artisan optimize`. |
 | AI-concepten blijven op "AI is bezig" staan | Controleer de cronjob (stap 5) met `php artisan schedule:list`. Draait die wel, vraag Vimexx dan of uitgaande verbindingen naar `api.anthropic.com` zijn toegestaan. Na tien minuten kan Steyn opnieuw laten genereren. |

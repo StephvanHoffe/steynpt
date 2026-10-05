@@ -2,7 +2,7 @@
 
 Dezelfde website als de Next.js-versie in de hoofdmap, maar in PHP, zodat hij op gewone webhosting draait (zoals Vimexx Webhosting met DirectAdmin). Pagina's, teksten, opmaak, URL's en formulieren zijn gelijk; de bestaande end-to-end-tests draaien tegen beide versies.
 
-**Live zetten:** volg [docs/live-zetten-vimexx-php.md](../docs/live-zetten-vimexx-php.md).
+**Live zetten:** volg [docs/live-zetten-vimexx-php.md](../docs/live-zetten-vimexx-php.md), of de klikbare handleiding voor wie geen ervaring met servers heeft ([docs/online-zetten/index.html](../docs/online-zetten/index.html)).
 
 ## Nederlands en Engels
 
@@ -52,6 +52,7 @@ Met `ADMIN_EMAILS=jouw@adres.nl` in `.env` word je beheerder zodra je een accoun
 | Commando | |
 | --- | --- |
 | `php artisan test` | PHPUnit (eenheden en features, op SQLite in het geheugen). |
+| `php artisan steynpt:installeren` | Installatie op de hosting: vraagt database, beheerder en API-sleutel, controleert de database, schrijft `.env` en maakt de tabellen. Opnieuw draaien kan (Enter houdt wat er staat). |
 | `php artisan steynpt:backup` | Back-up van de database in `storage/backups` (30 dagen). |
 | `php artisan steynpt:reset-2fa <e-mail>` | Noodgeval: tweestapsverificatie van een account uitzetten. |
 | `php artisan schedule:list` | Wat de cronjob doet en wanneer. |

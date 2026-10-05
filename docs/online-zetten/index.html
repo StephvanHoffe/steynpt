@@ -1,0 +1,1010 @@
+<title>SteynPT online zetten</title>
+<meta name="description" content="Stap voor stap de nieuwe SteynPT-website online zetten op Vimexx-webhosting.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<!--
+  Klikbare handleiding: de nieuwe website online zetten (bron van de gepubliceerde pagina).
+  De inhoud volgt docs/live-zetten-vimexx-php.md; pas beide aan als er een stap verandert.
+-->
+<style>
+  /* Layout: werkbank. Vaste stappenlijst links, één stap tegelijk in het midden, commando's als kopieerbare terminalstrookjes. */
+  :root {
+    --bg: #f3f4f5; --paper: #ffffff; --ink: #111315; --muted: #5b6168; --line: #e2e5e8; --line-strong: #c4cacf;
+    --accent: #0b6f78; --accent-hover: #095c64; --on-accent: #ffffff; --accent-tint: #e6f2f3;
+    --ok: #1d7448; --ok-tint: #e8f4ed; --danger: #b42318; --danger-tint: #fbeeec; --note-tint: #fbf5e6; --note-line: #ead9a8;
+    --term-bg: #15181b; --term-fg: #e9edf0; --term-muted: #8d969e; --term-user: #8cc3c8; --term-line: #2a2f34;
+    --shadow: 0 1px 2px rgba(17, 19, 21, 0.06), 0 8px 24px rgba(17, 19, 21, 0.06);
+    --logo-on-light: block; --logo-on-dark: none;
+    --display: "Archivo", "Inter", system-ui, sans-serif;
+    --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d0f11; --paper: #16191c; --ink: #eef1f3; --muted: #9ba4ac; --line: #262b30; --line-strong: #3a4148;
+      --accent: #63b8c0; --accent-hover: #7fc7ce; --on-accent: #08191b; --accent-tint: #122a2d;
+      --ok: #62c491; --ok-tint: #11261a; --danger: #f08072; --danger-tint: #2d1714; --note-tint: #262111; --note-line: #4a3f1c;
+      --term-bg: #08090a; --term-fg: #e9edf0; --term-muted: #858e96; --term-user: #8cc3c8; --term-line: #22272b;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+      --logo-on-light: none; --logo-on-dark: block;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d0f11; --paper: #16191c; --ink: #eef1f3; --muted: #9ba4ac; --line: #262b30; --line-strong: #3a4148;
+    --accent: #63b8c0; --accent-hover: #7fc7ce; --on-accent: #08191b; --accent-tint: #122a2d;
+    --ok: #62c491; --ok-tint: #11261a; --danger: #f08072; --danger-tint: #2d1714; --note-tint: #262111; --note-line: #4a3f1c;
+    --term-bg: #08090a; --term-fg: #e9edf0; --term-muted: #858e96; --term-user: #8cc3c8; --term-line: #22272b;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+    --logo-on-light: none; --logo-on-dark: block;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { scroll-padding-top: 5rem; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 1rem; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: var(--display); font-stretch: 92%; letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance; margin: 0; }
+  p { margin: 0; }
+  a { color: var(--accent); text-underline-offset: 0.18em; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  h1[tabindex="-1"]:focus { outline: none; }
+  code, kbd { font-family: var(--mono); font-size: 0.88em; }
+  kbd { border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 5px; padding: 0.05em 0.4em; background: var(--paper); white-space: nowrap; }
+  .inline-code { background: var(--accent-tint); border-radius: 4px; padding: 0.05em 0.35em; overflow-wrap: anywhere; }
+
+  /* Bovenbalk */
+  .topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--paper); border-bottom: 1px solid var(--line); }
+  .topbar-inner { max-width: 76rem; margin: 0 auto; padding: 0.7rem 1rem; display: flex; align-items: center; gap: 0.9rem; }
+  .brand { display: flex; align-items: center; gap: 0.55rem; text-decoration: none; color: var(--ink); min-width: 0; }
+  .brand img { height: 1.75rem; width: auto; }
+  .brand .on-light { display: var(--logo-on-light); }
+  .brand .on-dark { display: var(--logo-on-dark); }
+  .brand-name { font-family: var(--display); font-weight: 750; font-size: 1.05rem; letter-spacing: -0.01em; white-space: nowrap; }
+  .brand-sub { color: var(--muted); font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-left: 0.8rem; border-left: 1px solid var(--line); }
+  .topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 0.5rem; }
+  .progress-pill { display: flex; align-items: center; gap: 0.55rem; font-size: 0.85rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .progress-track { width: 6rem; height: 0.4rem; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .progress-fill { height: 100%; width: 0; background: var(--accent); border-radius: 99px; transition: width 0.3s ease; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; border-radius: 10px; border: 1px solid transparent; padding: 0.6rem 1rem; font-weight: 600; font-size: 0.95rem; line-height: 1.2; cursor: pointer; text-decoration: none; transition: background 0.15s, border-color 0.15s, color 0.15s; }
+  .btn svg { width: 1.1em; height: 1.1em; flex: none; }
+  .btn-primary { background: var(--accent); color: var(--on-accent); }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-ghost { background: var(--paper); border-color: var(--line-strong); color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--ink); }
+  .btn-help { background: var(--paper); border-color: var(--danger); color: var(--danger); padding: 0.45rem 0.8rem; font-size: 0.88rem; }
+  .btn-help:hover { background: var(--danger-tint); }
+  .btn-steps { display: none; padding: 0.45rem 0.8rem; font-size: 0.88rem; }
+
+  /* Indeling */
+  .layout { max-width: 76rem; margin: 0 auto; padding: 1.5rem 1rem 4rem; display: grid; grid-template-columns: 17.5rem minmax(0, 1fr); gap: 2rem; align-items: start; }
+  .rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 4.6rem); max-height: calc(100vh - 5.5rem); overflow-y: auto; padding-bottom: 1rem; }
+  .rail-group + .rail-group { margin-top: 1.4rem; }
+  .rail-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.4rem 0.6rem; display: flex; justify-content: space-between; gap: 0.5rem; }
+  .rail-label span { color: var(--muted); letter-spacing: 0.02em; text-transform: none; font-weight: 500; }
+  .rail ol, .rail ul { list-style: none; margin: 0; padding: 0; }
+  .rail a { display: grid; grid-template-columns: 1.7rem 1fr; gap: 0.6rem; align-items: center; padding: 0.45rem 0.6rem; border-radius: 10px; color: var(--ink); text-decoration: none; font-size: 0.92rem; line-height: 1.3; }
+  .rail a:hover { background: var(--paper); }
+  .rail a[aria-current="page"] { background: var(--paper); box-shadow: var(--shadow); font-weight: 600; }
+  .dot { width: 1.7rem; height: 1.7rem; border-radius: 50%; border: 1.5px solid var(--line-strong); display: grid; place-items: center; font-size: 0.78rem; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; background: var(--paper); }
+  .rail a[aria-current="page"] .dot { border-color: var(--ink); color: var(--ink); }
+  .done .dot { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .dot svg { width: 0.95rem; height: 0.95rem; }
+  .rail .extra a { grid-template-columns: 1.7rem 1fr; color: var(--muted); }
+  .rail .extra .dot { border-style: dashed; }
+
+  /* Weergaven */
+  .view { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: clamp(1.25rem, 3.5vw, 2.5rem); box-shadow: var(--shadow); min-width: 0; }
+  .view > * + * { margin-top: 1.5rem; }
+  .eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+  .chip { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.01em; text-transform: none; color: var(--muted); background: var(--bg); border: 1px solid var(--line); border-radius: 99px; padding: 0.1rem 0.6rem; }
+  .chip.where { color: var(--ink); }
+  .view h1 { font-size: clamp(1.75rem, 4.2vw, 2.5rem); font-weight: 750; margin-top: 0.6rem; }
+  .lead { font-size: 1.1rem; color: var(--muted); max-width: 40rem; }
+  .view h2 { font-size: 1.25rem; font-weight: 700; }
+  .section-title { display: flex; align-items: center; gap: 0.55rem; }
+  .section-title svg { width: 1.2rem; height: 1.2rem; color: var(--accent); }
+
+  /* Genummerde handelingen */
+  .actions { list-style: none; counter-reset: act; margin: 0.8rem 0 0; padding: 0; display: grid; gap: 1.1rem; }
+  .actions > li { counter-increment: act; display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 0.8rem; }
+  .actions > li::before { content: counter(act); width: 2rem; height: 2rem; border-radius: 8px; background: var(--ink); color: var(--paper); display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 0.95rem; margin-top: 0.05rem; }
+  .actions > li > div { min-width: 0; display: grid; gap: 0.6rem; }
+  .path { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.25rem; vertical-align: baseline; }
+  .path b { font-weight: 600; background: var(--accent-tint); color: var(--ink); border-radius: 6px; padding: 0.05rem 0.45rem; }
+  .path i { font-style: normal; color: var(--muted); }
+  .en { color: var(--muted); font-size: 0.88em; }
+  .sub { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.3rem; }
+
+  /* Terminalstrookje */
+  .cmd { background: var(--term-bg); color: var(--term-fg); border-radius: 12px; overflow: hidden; border: 1px solid var(--term-line); }
+  .cmd-bar { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.4rem 0.45rem 0.4rem 0.9rem; border-bottom: 1px solid var(--term-line); font-size: 0.78rem; color: var(--term-muted); }
+  .cmd-bar .label { display: flex; align-items: center; gap: 0.45rem; }
+  .cmd-bar .label::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--term-user); }
+  .copy { display: inline-flex; align-items: center; gap: 0.35rem; background: transparent; border: 1px solid var(--term-line); color: var(--term-fg); border-radius: 8px; padding: 0.3rem 0.65rem; font-size: 0.82rem; font-weight: 600; cursor: pointer; }
+  .copy:hover { border-color: var(--term-user); }
+  .copy svg { width: 0.95rem; height: 0.95rem; }
+  .copy.copied { background: var(--term-user); color: var(--term-bg); border-color: var(--term-user); }
+  .cmd pre { margin: 0; padding: 0.9rem 1rem 1rem; overflow-x: auto; font-size: 0.86rem; line-height: 1.65; }
+  .cmd code { font-size: inherit; white-space: pre; }
+  .user-slot { color: var(--term-user); font-weight: 600; }
+  .user-slot.empty { background: rgba(140, 195, 200, 0.16); border-radius: 4px; padding: 0 0.2em; }
+  .cmd-warn { margin: 0; padding: 0.55rem 1rem; font-size: 0.85rem; background: var(--danger-tint); color: var(--danger); }
+
+  /* Gebruikersnaam */
+  .userbox { display: grid; gap: 0.4rem; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; }
+  .userbox label { font-weight: 600; font-size: 0.95rem; }
+  .userbox .row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+  .userbox input { flex: 1 1 12rem; min-width: 0; font: inherit; font-family: var(--mono); font-size: 0.95rem; padding: 0.55rem 0.75rem; border-radius: 9px; border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink); }
+  .userbox input:focus { outline: 3px solid var(--accent-tint); border-color: var(--accent); }
+  .userbox .hint { font-size: 0.85rem; color: var(--muted); }
+  .userbox .saved { font-size: 0.85rem; color: var(--ok); font-weight: 600; }
+
+  /* Kaders */
+  .box { border-radius: 12px; padding: 1rem 1.1rem; display: grid; gap: 0.45rem; }
+  .box h3 { font-family: var(--sans); font-size: 0.98rem; font-weight: 700; letter-spacing: 0; display: flex; align-items: center; gap: 0.5rem; }
+  .box h3 svg { width: 1.15rem; height: 1.15rem; flex: none; }
+  .box.ok { background: var(--ok-tint); }
+  .box.ok h3 { color: var(--ok); }
+  .box.note { background: var(--note-tint); border: 1px solid var(--note-line); }
+  .box.danger { background: var(--danger-tint); }
+  .box.danger h3 { color: var(--danger); }
+  .box.plain { background: var(--bg); }
+  .box ul { margin: 0; padding-left: 1.15rem; display: grid; gap: 0.25rem; }
+
+  details.trouble { border: 1px solid var(--line); border-radius: 12px; }
+  details.trouble > summary { cursor: pointer; list-style: none; padding: 0.85rem 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 0.55rem; }
+  details.trouble > summary::-webkit-details-marker { display: none; }
+  details.trouble > summary svg { width: 1.1rem; height: 1.1rem; color: var(--muted); transition: transform 0.2s; }
+  details.trouble[open] > summary svg { transform: rotate(90deg); }
+  .qa { padding: 0 1.1rem 1rem; display: grid; gap: 0.9rem; }
+  .qa dt { font-weight: 600; }
+  .qa dd { margin: 0.2rem 0 0; color: var(--muted); }
+  .qa dd .cmd { margin-top: 0.5rem; color: var(--term-fg); }
+
+  /* Overzicht op de startpagina */
+  .phase-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; }
+  .phase-card { border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.2rem; display: grid; gap: 0.35rem; align-content: start; }
+  .phase-card .k { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+  .phase-card h3 { font-size: 1.3rem; font-weight: 750; }
+  .phase-card .time { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .phase-card p { color: var(--muted); font-size: 0.95rem; }
+  .needs { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+  .check { display: grid; grid-template-columns: 1.4rem minmax(0, 1fr); gap: 0.7rem; align-items: start; padding: 0.75rem 0.9rem; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; }
+  .check:hover { border-color: var(--line-strong); }
+  .check input { width: 1.25rem; height: 1.25rem; margin: 0.15rem 0 0; accent-color: var(--accent); cursor: pointer; }
+  .check strong { display: block; }
+  .check span { color: var(--muted); font-size: 0.93rem; }
+  .check:has(input:checked) { border-color: var(--accent); background: var(--accent-tint); }
+
+  .choice { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .choice button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-tint); }
+
+  /* Onderste navigatie */
+  .stepnav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+  .stepnav .right { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-left: auto; }
+  .undo { background: none; border: 0; color: var(--muted); font-size: 0.88rem; text-decoration: underline; cursor: pointer; padding: 0.3rem; }
+
+  /* Uitleg van woorden */
+  .term { background: none; border: 0; padding: 0; color: inherit; font: inherit; font-weight: 600; text-decoration: underline dotted var(--accent); text-decoration-thickness: 2px; text-underline-offset: 0.22em; cursor: help; }
+  .term:hover { color: var(--accent); }
+  .pop { position: fixed; z-index: 40; max-width: min(22rem, calc(100vw - 2rem)); background: var(--ink); color: var(--paper); border-radius: 12px; padding: 0.8rem 0.95rem; font-size: 0.92rem; line-height: 1.5; box-shadow: var(--shadow); }
+  .pop strong { display: block; font-family: var(--display); font-size: 1rem; margin-bottom: 0.15rem; }
+  .pop a { color: var(--accent-tint); }
+  .glossary { margin: 0; display: grid; gap: 0; }
+  .glossary div { display: grid; grid-template-columns: minmax(8rem, 12rem) minmax(0, 1fr); gap: 0.4rem 1.2rem; padding: 0.85rem 0; border-top: 1px solid var(--line); }
+  .glossary dt { font-weight: 700; }
+  .glossary dd { margin: 0; color: var(--muted); }
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  th, td { text-align: left; vertical-align: top; padding: 0.65rem 0.9rem; border-top: 1px solid var(--line); }
+  thead th { border-top: 0; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); background: var(--bg); }
+  td:first-child { font-weight: 600; min-width: 11rem; }
+
+  .phase-banner { background: var(--ink); color: var(--paper); border-radius: 14px; padding: 1rem 1.2rem; display: grid; gap: 0.25rem; }
+  .phase-banner .k { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-tint); }
+  .phase-banner p { opacity: 0.85; }
+
+  .cheer { text-align: left; }
+  .big-check { width: 3.2rem; height: 3.2rem; border-radius: 50%; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; }
+  .big-check svg { width: 1.8rem; height: 1.8rem; }
+
+  .backdrop { display: none; }
+
+  @media (max-width: 60rem) {
+    .layout { grid-template-columns: minmax(0, 1fr); padding-top: 1rem; }
+    .btn-steps { display: inline-flex; }
+    .progress-track { display: none; }
+    .brand-sub { display: none; }
+    .rail { position: fixed; z-index: 30; top: 0; bottom: 0; left: 0; width: min(20rem, 86vw); max-height: none; background: var(--bg); padding: calc(env(safe-area-inset-top, 0px) + 1rem) 0.8rem 2rem; border-right: 1px solid var(--line); transform: translateX(-105%); transition: transform 0.25s ease; }
+    .rail.open { transform: none; box-shadow: var(--shadow); }
+    .backdrop.open { display: block; position: fixed; inset: 0; z-index: 25; background: rgba(0, 0, 0, 0.35); }
+  }
+  @media (max-width: 30rem) {
+    .topbar-inner { gap: 0.5rem; }
+    .brand-name { display: none; }
+    .progress-pill .txt-long { display: none; }
+    .stepnav .btn { width: 100%; }
+    .stepnav .right { width: 100%; }
+    .glossary div { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#start" aria-label="SteynPT, naar het begin">
+      <img class="on-light" src="data:image/png;base64,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" alt="" width="15" height="28">
+      <img class="on-dark" src="data:image/png;base64,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" alt="" width="15" height="28">
+      <span class="brand-name">SteynPT</span>
+      <span class="brand-sub">Website online zetten</span>
+    </a>
+    <div class="topbar-actions">
+      <div class="progress-pill" aria-live="polite"><div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div><span id="progress-text">0 van 11<span class="txt-long"> klaar</span></span></div>
+      <button class="btn btn-ghost btn-steps" type="button" id="open-rail" aria-controls="rail" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Stappen
+      </button>
+      <a class="btn btn-help" href="#hulp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="m4.93 4.93 4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M4.93 19.07l4.24-4.24"/></svg>Hulp
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="rail" id="rail" aria-label="Stappen">
+    <div class="rail-group">
+      <ul><li><a href="#start" data-nav="start"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>Begin hier</a></li></ul>
+    </div>
+    <div class="rail-group">
+      <p class="rail-label">Fase 1 · Klaarzetten <span>± 1 uur</span></p>
+      <ol id="rail-phase-1"></ol>
+    </div>
+    <div class="rail-group">
+      <p class="rail-label">Fase 2 · Overstappen <span>± 15 min</span></p>
+      <ol id="rail-phase-2"></ol>
+    </div>
+    <div class="rail-group extra">
+      <p class="rail-label">Handig</p>
+      <ul>
+        <li><a href="#hulp" data-nav="hulp"><span class="dot">!</span>Er gaat iets mis</a></li>
+        <li><a href="#later" data-nav="later"><span class="dot">+</span>Later: bijwerken en back-ups</a></li>
+        <li><a href="#woorden" data-nav="woorden"><span class="dot">?</span>Wat betekent…?</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="backdrop" id="backdrop"></div>
+
+  <main id="main">
+
+    <!-- ============ Begin ============ -->
+    <section class="view" id="start" data-view>
+      <div>
+        <p class="eyebrow">Handleiding · Vimexx-webhosting</p>
+        <h1 tabindex="-1">De nieuwe website online zetten</h1>
+      </div>
+      <p class="lead">Deze handleiding neemt je in 11 stappen mee, één stap per scherm. Je hoeft niets van servers te weten: je klikt in het beheerpaneel van je hosting en je plakt een paar regels tekst die je hier met één klik kopieert. Vink elke stap af; deze browser onthoudt waar je bent.</p>
+
+      <div class="phase-cards">
+        <div class="phase-card">
+          <span class="k">Fase 1 · stap 1 tot 5</span>
+          <h3>Klaarzetten</h3>
+          <span class="time">± 1 uur</span>
+          <p>De nieuwe site klaarzetten naast de huidige. Bezoekers merken niets; je kunt dit verdelen over meerdere momenten.</p>
+        </div>
+        <div class="phase-card">
+          <span class="k">Fase 2 · stap 6 tot 11</span>
+          <h3>Overstappen</h3>
+          <span class="time">± 15 minuten + inrichten</span>
+          <p>De nieuwe site aanzetten. Gaat er iets mis, dan zet de knop <strong>Hulp</strong> bovenaan de oude site in een paar seconden terug.</p>
+        </div>
+      </div>
+
+      <div>
+        <h2>Wat je nodig hebt</h2>
+        <ul class="needs" style="margin-top:0.8rem">
+          <li><label class="check"><input type="checkbox" data-save="need-vimexx"><div><strong>De inloggegevens van Vimexx</strong><span>Voor <em>Mijn Vimexx</em> (my.vimexx.nl) en voor <button type="button" class="term" data-term="directadmin">DirectAdmin</button>, het beheerpaneel van je hosting. Je komt in DirectAdmin via Mijn Vimexx, bij je webhostingpakket.</span></div></label></li>
+          <li><label class="check"><input type="checkbox" data-save="need-zip"><div><strong>Het pakket met de website</strong><span>Het bestand <span class="inline-code">steynpt-php-….zip</span> (28 MB). Zet het op je computer, bijvoorbeeld in de map Downloads. Pak het niet zelf uit.</span></div></label></li>
+          <li><label class="check"><input type="checkbox" data-save="need-terminal"><div><strong>Een computer met een terminal</strong><span>Een <button type="button" class="term" data-term="terminal">terminal</button> zit standaard op elke computer: op een Mac heet hij <em>Terminal</em>, op Windows <em>PowerShell</em>. In stap 1 lees je hoe je hem opent.</span></div></label></li>
+          <li><label class="check"><input type="checkbox" data-save="need-phone"><div><strong>De telefoon van Steyn</strong><span>Met een <button type="button" class="term" data-term="authenticator">authenticator-app</button>, zoals Google Authenticator, Microsoft Authenticator of 1Password. Pas nodig in stap 11.</span></div></label></li>
+          <li><label class="check"><input type="checkbox" data-save="need-key"><div><strong>Mag later: de API-sleutel voor de AI-schema's</strong><span>Steyn maakt die zelf aan op platform.claude.com. Zonder sleutel werkt alles; Steyn maakt de schema's dan zelf. Je kunt hem later toevoegen.</span></div></label></li>
+        </ul>
+      </div>
+
+      <div class="userbox" data-userbox>
+        <label for="user-start">Je DirectAdmin-gebruikersnaam</label>
+        <div class="row"><input id="user-start" data-user-input autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="bijvoorbeeld steynpt"><span class="saved" data-user-saved hidden>✓ Ingevuld in alle commando's</span></div>
+        <p class="hint">Staat in de welkomstmail van Vimexx en rechtsboven in DirectAdmin. Hij wordt in de commando's in deze handleiding gezet, zodat je ze zo kunt kopiëren. Hij blijft in deze browser en wordt nergens heen gestuurd.</p>
+      </div>
+
+      <div class="stepnav">
+        <span></span>
+        <div class="right"><a class="btn btn-primary" href="#stap-1">Begin met stap 1 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a></div>
+      </div>
+    </section>
+
+    <!-- ============ Stap 1 ============ -->
+    <section class="view" id="stap-1" data-view data-step="1" hidden>
+      <div>
+        <p class="eyebrow">Fase 1 · Stap 1 van 11 <span class="chip">± 10 min</span><span class="chip where">DirectAdmin + terminal</span></p>
+        <h1 tabindex="-1">SSH aanzetten en inloggen</h1>
+      </div>
+      <p class="lead">Een paar dingen gaan het makkelijkst door een regel tekst te plakken in de <button type="button" class="term" data-term="terminal">terminal</button>. Daarvoor zet je eerst <button type="button" class="term" data-term="ssh">SSH</button> aan: een beveiligde verbinding tussen je computer en de hosting.</p>
+
+      <div>
+        <h2>Zo doe je het</h2>
+        <ol class="actions">
+          <li><div><p>Log in op DirectAdmin en klik op <span class="path"><b>Geavanceerde functies</b><i>›</i><b>SSH-Keys</b></span> <span class="en">(in het Engels: Advanced Features › SSH Keys)</span>.</p><p>Zet rechtsboven de schakelaar <strong>SSH</strong> aan.</p>
+            <div class="box note"><p><strong>Tip:</strong> bovenaan in DirectAdmin staat een zoekveld. Typ daar bijvoorbeeld <em>ssh</em> en je ziet meteen de goede knop.</p></div></div></li>
+          <li><div><p>Open de terminal op je computer:</p>
+            <ul class="sub"><li><strong>Mac:</strong> druk op <kbd>⌘</kbd> + <kbd>spatie</kbd>, typ <em>Terminal</em> en druk op <kbd>Enter</kbd>.</li><li><strong>Windows:</strong> klik op Start, typ <em>PowerShell</em> en druk op <kbd>Enter</kbd>.</li></ul>
+            <p>Er opent een venster waarin je tekst kunt typen.</p></div></li>
+          <li><div>
+            <div class="userbox" data-userbox>
+              <label for="user-1">Je DirectAdmin-gebruikersnaam</label>
+              <div class="row"><input id="user-1" data-user-input autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="bijvoorbeeld steynpt"><span class="saved" data-user-saved hidden>✓ Ingevuld</span></div>
+            </div>
+            <p>Kopieer deze regel met de knop, plak hem in de terminal en druk op <kbd>Enter</kbd>. Plakken doe je op een Mac met <kbd>⌘</kbd> + <kbd>V</kbd>, op Windows met de rechtermuisknop of <kbd>Ctrl</kbd> + <kbd>V</kbd>.</p>
+            <div class="cmd"><div class="cmd-bar"><span class="label">Terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>ssh <span class="user-slot" data-user>GEBRUIKER</span>@steynpt.nl -p 7685</code></pre></div></div></li>
+          <li><div><p>De eerste keer vraagt de terminal <span class="inline-code">Are you sure you want to continue connecting (yes/no)?</span> Typ <strong>yes</strong> en druk op <kbd>Enter</kbd>.</p></div></li>
+          <li><div><p>Typ of plak je DirectAdmin-wachtwoord en druk op <kbd>Enter</kbd>. <strong>Je ziet niets terwijl je typt</strong>, ook geen sterretjes. Dat is normaal.</p></div></li>
+          <li><div><p>Je bent binnen als er een regel staat die eindigt op <span class="inline-code">$</span>. Plak nu deze drie regels en druk op <kbd>Enter</kbd>. Ze zorgen ervoor dat de hosting de juiste versie van <button type="button" class="term" data-term="php">PHP</button> gebruikt, ook als je later opnieuw inlogt.</p>
+            <div class="cmd"><div class="cmd-bar"><span class="label">Terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>grep -qs "alias php=" ~/.bashrc || echo "alias php=/opt/alt/php83/usr/bin/php" &gt;&gt; ~/.bashrc
+alias php=/opt/alt/php83/usr/bin/php
+php -v</code></pre></div></div></li>
+        </ol>
+      </div>
+
+      <div class="box ok">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Gelukt als</h3>
+        <p>De terminal een regel laat zien die begint met <span class="inline-code">PHP 8.3</span>. Laat de terminal openstaan; je hebt hem straks weer nodig.</p>
+      </div>
+
+      <details class="trouble">
+        <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>Lukt het niet?</summary>
+        <dl class="qa">
+          <div><dt>"Connection refused" of "Operation timed out"</dt><dd>Staat SSH aan (handeling 1)? Staat de huidige site nog bij een andere partij, dan wijst steynpt.nl nog niet naar deze hosting. Gebruik dan in plaats van <em>steynpt.nl</em> het IP-adres van je hosting. Dat staat in de welkomstmail van Vimexx en in DirectAdmin bij de accountinformatie.</dd></div>
+          <div><dt>"Permission denied"</dt><dd>Het wachtwoord of de gebruikersnaam klopt niet. Probeer het opnieuw; je ziet niets terwijl je typt. Plakken mag ook.</dd></div>
+          <div><dt>Windows vraagt of je meerdere regels wilt plakken</dt><dd>Klik op <em>Toch plakken</em> (Paste anyway).</dd></div>
+          <div><dt>Er staat geen PHP 8.3</dt><dd>Vraag de klantenservice van Vimexx of PHP 8.3 op je pakket beschikbaar is.</dd></div>
+          <div><dt>Later opnieuw inloggen</dt><dd>Gebruik de regel uit handeling 3 en je wachtwoord. Handeling 6 hoeft maar één keer.</dd></div>
+        </dl>
+      </details>
+      <div class="stepnav" data-stepnav></div>
+    </section>
+
+    <!-- ============ Stap 2 ============ -->
+    <section class="view" id="stap-2" data-view data-step="2" hidden>
+      <div>
+        <p class="eyebrow">Fase 1 · Stap 2 van 11 <span class="chip">± 5 min</span><span class="chip where">DirectAdmin</span></p>
+        <h1 tabindex="-1">Database aanmaken</h1>
+      </div>
+      <p class="lead">De website bewaart accounts, afspraken en schema's in een <button type="button" class="term" data-term="database">database</button>. Die maak je hier aan; de website vult hem straks zelf.</p>
+      <div>
+        <h2>Zo doe je het</h2>
+        <ol class="actions">
+          <li><div><p>Klik in DirectAdmin op <span class="path"><b>MySQL-beheer</b></span> <span class="en">(MySQL Management)</span> en dan op <span class="path"><b>Nieuwe database maken</b></span> <span class="en">(Create new Database)</span>.</p></div></li>
+          <li><div><p>Vul als naam <strong>steynpt</strong> in. Laat DirectAdmin een sterk wachtwoord maken (meestal een knop met een dobbelsteen of <em>Genereer</em>).</p></div></li>
+          <li><div><p>Klik op <strong>Aanmaken</strong> <span class="en">(Create)</span>.</p></div></li>
+          <li><div><p><strong>Schrijf deze drie gegevens op</strong> of kopieer ze naar een notitie. Je hebt ze nodig in stap 4.</p>
+            <div class="table-wrap"><table><thead><tr><th>Gegeven</th><th>Ziet er ongeveer zo uit</th></tr></thead><tbody>
+              <tr><td>Naam van de database</td><td><span class="inline-code"><span data-user-plain>GEBRUIKER</span>_steynpt</span></td></tr>
+              <tr><td>Gebruikersnaam</td><td><span class="inline-code"><span data-user-plain>GEBRUIKER</span>_steynpt</span></td></tr>
+              <tr><td>Wachtwoord</td><td>een lange reeks letters en cijfers</td></tr>
+            </tbody></table></div></div></li>
+        </ol>
+      </div>
+      <div class="box ok">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Gelukt als</h3>
+        <p>De nieuwe database in de lijst van MySQL-beheer staat, en je de drie gegevens hebt opgeschreven.</p>
+      </div>
+      <details class="trouble">
+        <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>Lukt het niet?</summary>
+        <dl class="qa">
+          <div><dt>Er staat al een database (bijvoorbeeld van WordPress)</dt><dd>Laat die staan en maak er een nieuwe naast. De oude is je reserve als je terug wilt naar de oude site.</dd></div>
+          <div><dt>Het wachtwoord niet opgeschreven</dt><dd>In MySQL-beheer kun je bij de gebruiker een nieuw wachtwoord instellen.</dd></div>
+        </dl>
+      </details>
+      <div class="stepnav" data-stepnav></div>
+    </section>
+
+    <!-- ============ Stap 3 ============ -->
+    <section class="view" id="stap-3" data-view data-step="3" hidden>
+      <div>
+        <p class="eyebrow">Fase 1 · Stap 3 van 11 <span class="chip">± 10 min</span><span class="chip where">DirectAdmin + terminal</span></p>
+        <h1 tabindex="-1">Het pakket uploaden en uitpakken</h1>
+      </div>
+      <p class="lead">Het <button type="button" class="term" data-term="pakket">pakket</button> is de hele nieuwe website in één bestand. Je zet het op de hosting, naast de huidige site. Die merkt er niets van.</p>
+      <div>
+        <h2>Zo doe je het</h2>
+        <ol class="actions">
+          <li><div><p>Klik in DirectAdmin op <span class="path"><b>Bestandsbeheer</b></span> <span class="en">(File Manager)</span>. Klik op de map <strong>domains</strong> en daarna op <strong>steynpt.nl</strong>.</p><p>Je ziet hier onder andere de map <button type="button" class="term" data-term="public_html">public_html</button>: dat is de huidige site. <strong>Ga die map niet in.</strong></p></div></li>
+          <li><div><p>Klik op <strong>Uploaden</strong> <span class="en">(Upload files)</span> en kies het bestand <span class="inline-code">steynpt-php-….zip</span> op je computer. Wacht tot het uploaden klaar is; dat duurt een paar minuten.</p></div></li>
+          <li><div><p>Ga terug naar de terminal. Plak deze regels en druk op <kbd>Enter</kbd>:</p>
+            <div class="cmd"><div class="cmd-bar"><span class="label">Terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd ~/domains/steynpt.nl
+unzip -q steynpt-php-*.zip
+rm steynpt-php-*.zip
+ls</code></pre></div></div></li>
+        </ol>
+      </div>
+      <div class="box ok">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Gelukt als</h3>
+        <p>De laatste regel in de terminal onder andere <span class="inline-code">public_html</span> en <span class="inline-code">steynpt</span> laat zien. De map <em>steynpt</em> is de nieuwe website.</p>
+      </div>
+      <details class="trouble">
+        <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>Lukt het niet?</summary>
+        <dl class="qa">
+          <div><dt>"No such file or directory" of "cannot find"</dt><dd>Het zip-bestand staat waarschijnlijk in een andere map. Controleer in Bestandsbeheer dat het in <em>domains › steynpt.nl</em> staat (dus naast public_html, niet erin) en verplaats het zo nodig.</dd></div>
+          <div><dt>"command not found" bij unzip</dt><dd>Pak het bestand uit in Bestandsbeheer: klik erop en kies <em>Uitpakken</em> <span class="en">(Extract)</span> naar de map waar het staat.</dd></div>
+          <div><dt>De verbinding was verbroken</dt><dd>Log opnieuw in zoals in stap 1 (handeling 3 en 5) en plak de regels opnieuw.</dd></div>
+        </dl>
+      </details>
+      <div class="stepnav" data-stepnav></div>
+    </section>
+
+    <!-- ============ Stap 4 ============ -->
+    <section class="view" id="stap-4" data-view data-step="4" hidden>
+      <div>
+        <p class="eyebrow">Fase 1 · Stap 4 van 11 <span class="chip">± 10 min</span><span class="chip where">Terminal</span></p>
+        <h1 tabindex="-1">Instellingen invullen</h1>
+      </div>
+      <p class="lead">De website moet weten welke database hij gebruikt en wie de beheerder is. Een kort programma stelt je de vragen, controleert of de database werkt en zet alles voor je klaar.</p>
+      <div class="box plain"><p><strong>Houd bij de hand:</strong> de drie gegevens uit stap 2, en de API-sleutel als je die al hebt.</p></div>
+      <div>
+        <h2>Zo doe je het</h2>
+        <ol class="actions">
+          <li><div><p>Plak deze regels in de terminal en druk op <kbd>Enter</kbd>:</p>
+            <div class="cmd"><div class="cmd-bar"><span class="label">Terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd ~/domains/steynpt.nl/steynpt
+php artisan steynpt:installeren &amp;&amp; php artisan optimize</code></pre></div></div></li>
+          <li><div><p>Beantwoord de vragen. Druk na elk antwoord op <kbd>Enter</kbd>. Staat er iets tussen [haken], dan is alleen <kbd>Enter</kbd> genoeg.</p>
+            <div class="table-wrap"><table><thead><tr><th>De vraag</th><th>Wat je invult</th></tr></thead><tbody>
+              <tr><td>Adres van de website</td><td>Alleen <kbd>Enter</kbd> (dan wordt het https://www.steynpt.nl)</td></tr>
+              <tr><td>Naam van de database</td><td>De naam uit stap 2, zoals <span class="inline-code"><span data-user-plain>GEBRUIKER</span>_steynpt</span></td></tr>
+              <tr><td>Gebruikersnaam van de database</td><td>De gebruikersnaam uit stap 2</td></tr>
+              <tr><td>Wachtwoord van de database</td><td>Het wachtwoord uit stap 2. Plakken mag. Je ziet niets terwijl je typt of plakt; druk daarna op <kbd>Enter</kbd>.</td></tr>
+              <tr><td>E-mailadres van Steyn</td><td>Alleen <kbd>Enter</kbd> (steyn@steynpt.nl). Dit account wordt beheerder.</td></tr>
+              <tr><td>API-sleutel voor de AI-schema's</td><td>Plak de sleutel, of druk alleen op <kbd>Enter</kbd> om dit later te doen.</td></tr>
+            </tbody></table></div></div></li>
+          <li><div><p>Het programma controleert de database en maakt de website klaar. Aan het eind staat <strong>Klaar!</strong> met daaronder een regel voor de cronjob. Die heb je nodig in stap 5 (hij staat daar ook).</p></div></li>
+        </ol>
+      </div>
+      <div class="box ok">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Gelukt als</h3>
+        <ul><li>Je <span class="inline-code">✓ De database werkt</span> en <span class="inline-code">✓ De tabellen staan klaar</span> ziet;</li><li>en daarna een paar regels die eindigen op <span class="inline-code">DONE</span>.</li></ul>
+      </div>
+      <details class="trouble">
+        <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>Lukt het niet?</summary>
+        <dl class="qa">
+          <div><dt>"De database geeft geen toegang"</dt><dd>Een van de drie gegevens klopt niet; het programma zegt welke waarschijnlijk. Typ <strong>yes</strong> en vul ze opnieuw in. Je kunt ze nakijken in DirectAdmin › MySQL-beheer, en daar ook een nieuw wachtwoord instellen.</dd></div>
+          <div><dt>"Could not open input file: artisan"</dt><dd>Je staat niet in de goede map. Plak de twee regels uit handeling 1 opnieuw.</dd></div>
+          <div><dt>Een melding over "PHP version" of "8.3"</dt><dd>Plak deze regel en probeer het daarna opnieuw:
+            <div class="cmd"><div class="cmd-bar"><span class="label">Terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>alias php=/opt/alt/php83/usr/bin/php</code></pre></div></dd></div>
+          <div><dt>De API-sleutel later toevoegen</dt><dd>Draai dezelfde regels gewoon nog een keer. Druk overal op <kbd>Enter</kbd> (dan blijft alles zoals het was) en plak alleen de sleutel.</dd></div>
+        </dl>
+      </details>
+      <div class="stepnav" data-stepnav></div>
+    </section>
+
+    <!-- ============ Stap 5 ============ -->
+    <section class="view" id="stap-5" data-view data-step="5" hidden>
+      <div>
+        <p class="eyebrow">Fase 1 · Stap 5 van 11 <span class="chip">± 5 min</span><span class="chip where">DirectAdmin</span></p>
+        <h1 tabindex="-1">De cronjob instellen</h1>
+      </div>
+      <p class="lead">Een <button type="button" class="term" data-term="cronjob">cronjob</button> is een wekker op de hosting die elke minuut afgaat. Zo doet de website op de achtergrond zijn werk: AI-schema's maken, ingeplande schema's op tijd klaarzetten en elke nacht een back-up van de database.</p>
+      <div>
+        <h2>Zo doe je het</h2>
+        <ol class="actions">
+          <li><div><p>Klik in DirectAdmin op <span class="path"><b>Geavanceerde functies</b><i>›</i><b>Cronjobs</b></span> <span class="en">(Advanced Features › Cron Jobs)</span>.</p></div></li>
+          <li><div><p>Vul bij alle vijf de tijdvakjes (minuut, uur, dag, maand en dag van de week) een sterretje in: <strong>*</strong></p></div></li>
+          <li><div>
+            <div class="userbox" data-userbox>
+              <label for="user-5">Je DirectAdmin-gebruikersnaam</label>
+              <div class="row"><input id="user-5" data-user-input autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="bijvoorbeeld steynpt"><span class="saved" data-user-saved hidden>✓ Ingevuld</span></div>
+            </div>
+            <p>Kopieer deze regel en plak hem in het vak <strong>Commando</strong> <span class="en">(Command)</span>. Het is één lange regel. Het programma uit stap 4 liet precies dezelfde regel zien.</p>
+            <div class="cmd"><div class="cmd-bar"><span class="label">Voor DirectAdmin</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd /home/<span class="user-slot" data-user>GEBRUIKER</span>/domains/steynpt.nl/steynpt &amp;&amp; /opt/alt/php83/usr/bin/php artisan schedule:run &gt;/dev/null 2&gt;&amp;1</code></pre></div></div></li>
+          <li><div><p>Vink <strong>Prevent Email</strong> (geen e-mail sturen) aan, als dat er staat, en klik op <strong>Aanmaken</strong> <span class="en">(Create)</span>.</p></div></li>
+          <li><div><p>Controleer of de website een back-up kan maken. Plak in de terminal:</p>
+            <div class="cmd"><div class="cmd-bar"><span class="label">Terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd ~/domains/steynpt.nl/steynpt
+php artisan steynpt:backup</code></pre></div></div></li>
+        </ol>
+      </div>
+      <div class="box ok">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Gelukt als</h3>
+        <p>De cronjob in de lijst in DirectAdmin staat en de terminal <span class="inline-code">Back-up gemaakt</span> meldt. Daarmee is fase 1 klaar. De huidige website draait nog gewoon.</p>
+      </div>
+      <details class="trouble">
+        <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>Lukt het niet?</summary>
+        <dl class="qa">
+          <div><dt>Staat er nog GEBRUIKER in de regel?</dt><dd>Vul hierboven je gebruikersnaam in en kopieer de regel opnieuw. In DirectAdmin pas je een bestaande cronjob aan door erop te klikken.</dd></div>
+          <div><dt>Werkt de cronjob echt?</dt><dd>De dag na het instellen staat er een back-up van die nacht in de map <em>steynpt › storage › backups</em> (te zien in Bestandsbeheer).</dd></div>
+        </dl>
+      </details>
+      <div class="stepnav" data-stepnav></div>
+    </section>
+
+    <!-- ============ Stap 6 ============ -->
+    <section class="view" id="stap-6" data-view data-step="6" hidden>
+      <div class="phase-banner"><span class="k">Fase 2 · Overstappen</span><p>Kies een rustig moment, bijvoorbeeld 's avonds. Tijdens stap 8 is de site hooguit een paar minuten niet bereikbaar. Gaat er iets mis, dan zet je met de knop <strong>Hulp</strong> bovenaan de oude site terug.</p></div>
+      <div>
+        <p class="eyebrow">Fase 2 · Stap 6 van 11 <span class="chip">± 5 min</span><span class="chip where">DirectAdmin</span></p>
+        <h1 tabindex="-1">Een kopie van de huidige site</h1>
+      </div>
+      <p class="lead">Voor de zekerheid maak je eerst een <button type="button" class="term" data-term="backup">back-up</button> van alles wat er nu op de hosting staat.</p>
+      <div>
+        <h2>Zo doe je het</h2>
+        <ol class="actions">
+          <li><div><p>Klik in DirectAdmin op <span class="path"><b>Back-up maken / herstellen</b></span> <span class="en">(Create/Restore Backups)</span>. Niet gevonden? Typ <em>back-up</em> of <em>backup</em> in het zoekveld bovenaan.</p></div></li>
+          <li><div><p>Kies <strong>Back-up maken</strong> <span class="en">(Create Backup)</span>, laat alles aangevinkt en start de back-up.</p></div></li>
+          <li><div><p>Wacht op het bericht dat de back-up klaar is (je krijgt het in DirectAdmin bij de berichten).</p></div></li>
+        </ol>
+      </div>
+      <div class="box ok">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Gelukt als</h3>
+        <p>De back-up in de lijst staat. Daarnaast blijft de oude site in stap 8 als map <em>public_html-oud</em> bewaard.</p>
+      </div>
+      <div class="stepnav" data-stepnav></div>
+    </section>
+
+    <!-- ============ Stap 7 ============ -->
+    <section class="view" id="stap-7" data-view data-step="7" hidden>
+      <div>
+        <p class="eyebrow">Fase 2 · Stap 7 van 11 <span class="chip">± 2 min</span><span class="chip where">Terminal</span></p>
+        <h1 tabindex="-1">PHP 8.3 aanzetten</h1>
+      </div>
+      <p class="lead">De nieuwe site is gemaakt in <button type="button" class="term" data-term="php">PHP</button> versie 8.3. Welke versie de hosting voor steynpt.nl gebruikt, staat in een klein bestand dat <button type="button" class="term" data-term="htaccess">.htaccess</button> heet. Deze regels zetten het goed.</p>
+      <div>
+        <h2>Zo doe je het</h2>
+        <ol class="actions">
+          <li><div><p>Plak deze regels in de terminal en druk op <kbd>Enter</kbd>. Bestond het bestand al, dan wordt het eerst bewaard als <em>.htaccess-oud</em>.</p>
+            <div class="cmd"><div class="cmd-bar"><span class="label">Terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd ~/domains/steynpt.nl
+if grep -qs "x-lsphp83" .htaccess; then
+  echo "PHP 8.3 staat al aan"
+elif grep -qs "x-lsphp" .htaccess; then
+  cp .htaccess .htaccess-oud
+  sed -i "s/x-lsphp[0-9]*/x-lsphp83/g" .htaccess
+else
+  [ -e .htaccess ] &amp;&amp; cp .htaccess .htaccess-oud
+  echo '&lt;FilesMatch "\.(php|phtml)$"&gt;' &gt; .htaccess.nieuw
+  echo '    SetHandler application/x-lsphp83' &gt;&gt; .htaccess.nieuw
+  echo '&lt;/FilesMatch&gt;' &gt;&gt; .htaccess.nieuw
+  cat .htaccess &gt;&gt; .htaccess.nieuw 2&gt;/dev/null
+  mv .htaccess.nieuw .htaccess
+fi
+cat .htaccess</code></pre></div></div></li>
+        </ol>
+      </div>
+      <div class="box ok">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Gelukt als</h3>
+        <p>In de terminal de regel <span class="inline-code">SetHandler application/x-lsphp83</span> staat (of de melding <span class="inline-code">PHP 8.3 staat al aan</span>).</p>
+      </div>
+      <div class="stepnav" data-stepnav></div>
+    </section>
+
+    <!-- ============ Stap 8 ============ -->
+    <section class="view" id="stap-8" data-view data-step="8" hidden>
+      <div>
+        <p class="eyebrow">Fase 2 · Stap 8 van 11 <span class="chip">± 1 min</span><span class="chip where">Terminal</span></p>
+        <h1 tabindex="-1">De nieuwe site aanzetten</h1>
+      </div>
+      <p class="lead">Nu wissel je de huidige site om voor de nieuwe. De map <button type="button" class="term" data-term="public_html">public_html</button> van de oude site blijft bewaard onder de naam <em>public_html-oud</em>, zodat je altijd terug kunt.</p>
+      <div>
+        <h2>Zo doe je het</h2>
+        <ol class="actions">
+          <li><div><p>Plak deze regels in de terminal en druk op <kbd>Enter</kbd>:</p>
+            <div class="cmd"><div class="cmd-bar"><span class="label">Terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd ~/domains/steynpt.nl
+[ -L public_html ] || mv public_html public_html-oud
+[ -L public_html ] || ln -s steynpt/public public_html
+ls -l public_html</code></pre></div></div></li>
+          <li><div><p>Open <a href="http://www.steynpt.nl" target="_blank" rel="noopener">www.steynpt.nl</a> in je browser. Zie je nog de oude site? Ververs de pagina met <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> (Mac) of <kbd>Ctrl</kbd> + <kbd>F5</kbd> (Windows).</p></div></li>
+        </ol>
+      </div>
+      <div class="box ok">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Gelukt als</h3>
+        <p>De terminal eindigt met <span class="inline-code">public_html -&gt; steynpt/public</span> en je in de browser de nieuwe website ziet.</p>
+      </div>
+      <details class="trouble">
+        <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>Lukt het niet?</summary>
+        <dl class="qa">
+          <div><dt>Een lege pagina of een melding over de PHP-versie</dt><dd>Kijk of stap 7 gelukt is. Draai de regels van stap 7 eventueel nog een keer; dat kan geen kwaad.</dd></div>
+          <div><dt>"Er ging iets mis" (foutmelding 500)</dt><dd>Kijk of stap 4 helemaal gelukt is en draai die zo nodig opnieuw.</dd></div>
+          <div><dt>Je wilt terug naar de oude site</dt><dd>Ga naar <a href="#hulp">Er gaat iets mis</a>. Daar staat de regel die de oude site in een paar seconden terugzet.</dd></div>
+        </dl>
+      </details>
+      <div class="stepnav" data-stepnav></div>
+    </section>
+
+    <!-- ============ Stap 9 ============ -->
+    <section class="view" id="stap-9" data-view data-step="9" hidden>
+      <div>
+        <p class="eyebrow">Fase 2 · Stap 9 van 11 <span class="chip">alleen als het nodig is</span><span class="chip where">Mijn Vimexx</span></p>
+        <h1 tabindex="-1">Het domein omzetten</h1>
+      </div>
+      <p class="lead">Stond de oude website al op dit Vimexx-pakket? Dan wijst www.steynpt.nl al naar de goede plek en sla je deze stap over.</p>
+      <div>
+        <h2>Waar stond de oude website?</h2>
+        <div class="choice" style="margin-top:0.8rem">
+          <button class="btn btn-ghost" type="button" data-choice="zelfde" aria-pressed="false">Op dit Vimexx-pakket</button>
+          <button class="btn btn-ghost" type="button" data-choice="anders" aria-pressed="false">Ergens anders, of ik weet het niet</button>
+        </div>
+      </div>
+      <div class="box ok" data-choice-show="zelfde" hidden>
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Dan ben je klaar met deze stap</h3>
+        <p>Er hoeft niets te veranderen. Ga door naar stap 10.</p>
+      </div>
+      <div data-choice-show="anders" hidden>
+        <ol class="actions">
+          <li><div><p>Twijfel je? Open <a href="http://www.steynpt.nl" target="_blank" rel="noopener">www.steynpt.nl</a>. Zie je na stap 8 de nieuwe site, dan wijst het domein al goed en sla je de rest over.</p></div></li>
+          <li><div><p>Zoek het <button type="button" class="term" data-term="ip">IP-adres</button> van je hosting op. Het staat in de welkomstmail van Vimexx en in DirectAdmin bij de accountinformatie.</p></div></li>
+          <li><div><p>Ga in Mijn Vimexx naar <span class="path"><b>Domeinen</b><i>›</i><b>steynpt.nl</b><i>›</i><b>DNS</b></span>. Zet bij de <button type="button" class="term" data-term="dns">A-records</button> van <strong>steynpt.nl</strong> en <strong>www</strong> het IP-adres van je hosting.</p>
+            <div class="box note"><p><strong>Laat de MX-records staan.</strong> Die zijn voor de e-mail; als je die verandert, komt er geen mail meer aan.</p></div></div></li>
+          <li><div><p>Staat de domeinnaam niet bij Vimexx? Dan doe je dit bij de partij waar de domeinnaam staat.</p></div></li>
+          <li><div><p>Wacht tot de wijziging zichtbaar is. Meestal binnen een uur, soms langer.</p></div></li>
+        </ol>
+      </div>
+      <div class="stepnav" data-stepnav></div>
+    </section>
+
+    <!-- ============ Stap 10 ============ -->
+    <section class="view" id="stap-10" data-view data-step="10" hidden>
+      <div>
+        <p class="eyebrow">Fase 2 · Stap 10 van 11 <span class="chip">± 5 min</span><span class="chip where">DirectAdmin</span></p>
+        <h1 tabindex="-1">Het slotje aanzetten (https)</h1>
+      </div>
+      <p class="lead">Met <button type="button" class="term" data-term="https">https</button> staat er een slotje in de adresbalk. Inloggen op de nieuwe site werkt alleen via zo'n beveiligde verbinding.</p>
+      <div>
+        <h2>Zo doe je het</h2>
+        <ol class="actions">
+          <li><div><p>Klik in DirectAdmin op <span class="path"><b>SSL-certificaten</b></span> <span class="en">(SSL Certificates)</span>.</p><p>Staat er al een geldig certificaat voor <strong>steynpt.nl</strong> en <strong>www.steynpt.nl</strong>? Dan kun je door naar handeling 2. Zo niet: kies het gratis certificaat van <strong>Let's Encrypt</strong>, vink beide namen aan en klik op <strong>Opslaan</strong> <span class="en">(Save)</span>.</p></div></li>
+          <li><div><p>Klik in DirectAdmin op <span class="path"><b>Domeinbeheer</b><i>›</i><b>steynpt.nl</b></span> <span class="en">(Domain Setup)</span> en zet het vinkje <strong>Forceer SSL met https-omleiding</strong> <span class="en">(Force SSL with https redirect)</span> aan. Klik op <strong>Opslaan</strong>.</p></div></li>
+        </ol>
+      </div>
+      <div class="box ok">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Gelukt als</h3>
+        <p>Je bij <a href="http://www.steynpt.nl" target="_blank" rel="noopener">www.steynpt.nl</a> vanzelf op https terechtkomt, met een slotje in de adresbalk.</p>
+      </div>
+      <details class="trouble">
+        <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>Lukt het niet?</summary>
+        <dl class="qa">
+          <div><dt>Let's Encrypt geeft een foutmelding</dt><dd>Dat gebeurt als het domein nog niet naar deze hosting wijst (stap 9). Wacht een uur en probeer het opnieuw.</dd></div>
+        </dl>
+      </details>
+      <div class="stepnav" data-stepnav></div>
+    </section>
+
+    <!-- ============ Stap 11 ============ -->
+    <section class="view" id="stap-11" data-view data-step="11" hidden>
+      <div>
+        <p class="eyebrow">Fase 2 · Stap 11 van 11 <span class="chip">± 20 min</span><span class="chip where">Website</span></p>
+        <h1 tabindex="-1">Controleren en inrichten</h1>
+      </div>
+      <p class="lead">De laatste stap doe je gewoon in de browser, samen met Steyn. Vink af wat klaar is.</p>
+      <ul class="needs">
+        <li><label class="check"><input type="checkbox" data-save="c-pages"><div><strong>Klik door de website</strong><span>Open <a href="https://www.steynpt.nl" target="_blank" rel="noopener">www.steynpt.nl</a> en bekijk een paar pagina's. Probeer de taalknop NL / EN rechtsboven.</span></div></label></li>
+        <li><label class="check"><input type="checkbox" data-save="c-redirect"><div><strong>Oude adressen sturen door</strong><span>Open <a href="https://www.steynpt.nl/over-steynpt" target="_blank" rel="noopener">www.steynpt.nl/over-steynpt</a>. Je komt vanzelf op de nieuwe pagina over Steyn.</span></div></label></li>
+        <li><label class="check"><input type="checkbox" data-save="c-account"><div><strong>Steyn maakt zijn account aan</strong><span>Via <em>Account aanmaken</em> met <strong>steyn@steynpt.nl</strong>. Dat account wordt vanzelf beheerder. Daarna koppelt hij de authenticator-app.</span></div></label></li>
+        <li><label class="check"><input type="checkbox" data-save="c-codes"><div><strong>Herstelcodes bewaard</strong><span>Na het koppelen krijgt Steyn <button type="button" class="term" data-term="herstelcodes">herstelcodes</button>. Print ze of zet ze in een wachtwoordkluis. Daarmee komt hij binnen als zijn telefoon kwijt is.</span></div></label></li>
+        <li><label class="check"><input type="checkbox" data-save="c-agenda"><div><strong>Agenda instellen</strong><span>In het beheer onder <em>Instellingen</em>: de beschikbaarheid voor afspraken, en de iCal-link in de agenda-app van Steyn.</span></div></label></li>
+        <li><label class="check"><input type="checkbox" data-save="c-texts"><div><strong>Teksten en prijzen nalopen</strong><span>In het beheer onder <em>Website-teksten</em>, ook de Engelse versie.</span></div></label></li>
+        <li><label class="check"><input type="checkbox" data-save="c-test"><div><strong>Proef als klant</strong><span>Maak met een ander e-mailadres een tweede account, boek een afspraak en zeg hem weer af.</span></div></label></li>
+      </ul>
+      <div class="stepnav" data-stepnav></div>
+    </section>
+
+    <!-- ============ Klaar ============ -->
+    <section class="view cheer" id="klaar" data-view hidden>
+      <div class="big-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <div>
+        <p class="eyebrow">Alle stappen klaar</p>
+        <h1 tabindex="-1">De nieuwe website staat online</h1>
+      </div>
+      <p class="lead">Gefeliciteerd. Hieronder staat wat je de komende weken nog kunt doen om goed gevonden te worden.</p>
+      <div>
+        <h2>Beter gevonden worden in Google</h2>
+        <ul class="needs" style="margin-top:0.8rem">
+          <li><label class="check"><input type="checkbox" data-save="g-console"><div><strong>Google Search Console</strong><span>Voeg op <a href="https://search.google.com/search-console" target="_blank" rel="noopener">search.google.com/search-console</a> het domein steynpt.nl toe. Google geeft een regel tekst (TXT-record) die je in Mijn Vimexx bij DNS zet. Meld daarna de sitemap aan: <span class="inline-code">https://www.steynpt.nl/sitemap.xml</span></span></div></label></li>
+          <li><label class="check"><input type="checkbox" data-save="g-profile"><div><strong>Google Bedrijfsprofiel</strong><span>Op <a href="https://business.google.com" target="_blank" rel="noopener">business.google.com</a>: profiel SteynPT, categorie <em>Personal trainer</em>, adres Overtoom 371-w, 1054 JN Amsterdam, website www.steynpt.nl, met foto's van de trainingen.</span></div></label></li>
+          <li><label class="check"><input type="checkbox" data-save="g-reviews"><div><strong>Reviews vragen</strong><span>Vraag tevreden klanten om een review op het Bedrijfsprofiel en reageer erop.</span></div></label></li>
+          <li><label class="check"><input type="checkbox" data-save="g-nap"><div><strong>Overal dezelfde gegevens</strong><span>Zet je telefoonnummer in het beheer (Website-teksten › Op elke pagina › Locatie en contact) en gebruik overal dezelfde naam, hetzelfde adres en nummer: op Instagram, Facebook en bij Gymbase.</span></div></label></li>
+        </ul>
+      </div>
+      <div class="box plain">
+        <h3>Over een paar weken</h3>
+        <p>Werkt alles goed? Dan kun je de oude site opruimen: verwijder in Bestandsbeheer de map <em>public_html-oud</em> (in domains › steynpt.nl) en in MySQL-beheer de oude WordPress-database.</p>
+      </div>
+      <p><a href="#later">Lees ook: later een nieuwe versie zetten, back-ups en de API-sleutel toevoegen →</a></p>
+    </section>
+
+    <!-- ============ Hulp ============ -->
+    <section class="view" id="hulp" data-view hidden>
+      <div>
+        <p class="eyebrow" style="color:var(--danger)">Hulp</p>
+        <h1 tabindex="-1">Er gaat iets mis</h1>
+      </div>
+      <p class="lead">Geen paniek. Zolang je stap 8 nog niet hebt gedaan, staat de oude site gewoon online. En ook daarna kun je met één keer plakken terug.</p>
+      <div class="box danger">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>Terug naar de oude site</h3>
+        <p>Log in via de terminal (stap 1, handeling 3 en 5), plak deze regels en druk op <kbd>Enter</kbd>. De nieuwe site blijft bewaard; je kunt het later opnieuw proberen vanaf stap 7.</p>
+        <div class="cmd"><div class="cmd-bar"><span class="label">Terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd ~/domains/steynpt.nl
+[ -L public_html ] &amp;&amp; rm public_html &amp;&amp; mv public_html-oud public_html
+if [ -e .htaccess-oud ]; then mv .htaccess-oud .htaccess; else rm -f .htaccess; fi
+ls</code></pre></div>
+      </div>
+      <div>
+        <h2>Veelvoorkomende problemen</h2>
+        <div class="table-wrap" style="margin-top:0.8rem"><table><thead><tr><th>Wat je ziet</th><th>Wat je doet</th></tr></thead><tbody>
+          <tr><td>Een lege pagina of een melding over de PHP-versie</td><td>Draai de regels van <a href="#stap-7">stap 7</a> opnieuw en controleer <a href="#stap-8">stap 8</a>.</td></tr>
+          <tr><td>"Er ging iets mis" (500)</td><td>Draai <a href="#stap-4">stap 4</a> opnieuw. Helpt dat niet, kijk dan in Bestandsbeheer in <em>steynpt › storage › logs</em> naar het nieuwste bestand en stuur dat door aan wie je helpt.</td></tr>
+          <tr><td>Inloggen lukt niet ("pagina verlopen")</td><td>Controleer of de site het slotje heeft (<a href="#stap-10">stap 10</a>).</td></tr>
+          <tr><td>Een AI-schema blijft op "bezig" staan</td><td>Controleer de cronjob (<a href="#stap-5">stap 5</a>). Klopt die, vraag Vimexx dan of de hosting verbinding mag maken met api.anthropic.com. Na tien minuten kan Steyn het schema opnieuw laten maken.</td></tr>
+          <tr><td>Steyn is zijn telefoon én zijn herstelcodes kwijt</td><td>Zie <a href="#later">Later</a>, onder "Tweestapsverificatie uitzetten".</td></tr>
+        </tbody></table></div>
+      </div>
+      <div class="box plain">
+        <h3>Kom je er niet uit?</h3>
+        <p>Selecteer de tekst in de terminal en kopieer die (of maak een schermafbeelding), en vraag daarmee hulp. Voor vragen over je hostingpakket kun je terecht bij de klantenservice van Vimexx.</p>
+      </div>
+    </section>
+
+    <!-- ============ Later ============ -->
+    <section class="view" id="later" data-view hidden>
+      <div>
+        <p class="eyebrow">Later</p>
+        <h1 tabindex="-1">Bijwerken en back-ups</h1>
+      </div>
+      <p class="lead">Dingen die je af en toe nodig hebt, nadat de site online staat. Log steeds eerst in via de terminal zoals in stap 1.</p>
+      <div>
+        <h2>Een nieuwe versie van de website zetten</h2>
+        <ol class="actions">
+          <li><div><p>Upload het nieuwe <span class="inline-code">steynpt-php-….zip</span> in Bestandsbeheer naar <em>domains › steynpt.nl</em>, net als in stap 3.</p></div></li>
+          <li><div><p>Plak deze regels in de terminal. Eerst wordt er een back-up gemaakt; de instellingen en back-ups gaan mee naar de nieuwe versie.</p>
+            <div class="cmd"><div class="cmd-bar"><span class="label">Terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd ~/domains/steynpt.nl
+php steynpt/artisan steynpt:backup
+unzip -q steynpt-php-*.zip -d nieuw &amp;&amp; rm steynpt-php-*.zip
+cp steynpt/.env nieuw/steynpt/.env
+cp -a steynpt/storage/backups/. nieuw/steynpt/storage/backups/
+rm -rf steynpt-vorige
+mv steynpt steynpt-vorige &amp;&amp; mv nieuw/steynpt steynpt &amp;&amp; rmdir nieuw
+cd steynpt &amp;&amp; php artisan migrate --force &amp;&amp; php artisan optimize</code></pre></div></div></li>
+          <li><div><p>Werkt de nieuwe versie niet goed? Zet dan de vorige terug:</p>
+            <div class="cmd"><div class="cmd-bar"><span class="label">Terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd ~/domains/steynpt.nl &amp;&amp; mv steynpt steynpt-kapot &amp;&amp; mv steynpt-vorige steynpt</code></pre></div></div></li>
+        </ol>
+      </div>
+      <div>
+        <h2>De API-sleutel later toevoegen</h2>
+        <p style="margin-top:0.6rem">Draai het programma uit stap 4 nog een keer. Druk bij elke vraag op <kbd>Enter</kbd> (dan blijft alles zoals het was) en plak alleen de API-sleutel.</p>
+        <div class="cmd" style="margin-top:0.8rem"><div class="cmd-bar"><span class="label">Terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd ~/domains/steynpt.nl/steynpt
+php artisan steynpt:installeren &amp;&amp; php artisan optimize</code></pre></div>
+      </div>
+      <div>
+        <h2>Back-ups</h2>
+        <ul class="sub" style="margin-top:0.6rem">
+          <li>Elke nacht om kwart over drie maakt de website vanzelf een back-up van de database. Ze worden 30 dagen bewaard in <em>steynpt › storage › backups</em>.</li>
+          <li>Download er af en toe een naar je eigen computer via Bestandsbeheer.</li>
+          <li>Zelf een back-up maken kan altijd met <span class="inline-code">php artisan steynpt:backup</span> (in de map steynpt).</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Tweestapsverificatie uitzetten</h2>
+        <p style="margin-top:0.6rem">Alleen als Steyn zijn telefoon én zijn herstelcodes kwijt is. Bij de volgende keer inloggen koppelt hij een nieuwe telefoon.</p>
+        <div class="cmd" style="margin-top:0.8rem"><div class="cmd-bar"><span class="label">Terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd ~/domains/steynpt.nl/steynpt
+php artisan steynpt:reset-2fa steyn@steynpt.nl</code></pre></div>
+      </div>
+    </section>
+
+    <!-- ============ Woorden ============ -->
+    <section class="view" id="woorden" data-view hidden>
+      <div>
+        <p class="eyebrow">Uitleg</p>
+        <h1 tabindex="-1">Wat betekent…?</h1>
+      </div>
+      <p class="lead">De woorden uit deze handleiding in gewone taal. In de stappen kun je ook op een onderstreept woord klikken.</p>
+      <dl class="glossary" id="glossary"></dl>
+    </section>
+  </main>
+</div>
+
+<div class="pop" id="pop" role="dialog" aria-live="polite" hidden></div>
+
+<script>
+(function () {
+  const STEPS = [
+    { n: 1, phase: 1, title: 'SSH aanzetten en inloggen' },
+    { n: 2, phase: 1, title: 'Database aanmaken' },
+    { n: 3, phase: 1, title: 'Pakket uploaden en uitpakken' },
+    { n: 4, phase: 1, title: 'Instellingen invullen' },
+    { n: 5, phase: 1, title: 'Cronjob instellen' },
+    { n: 6, phase: 2, title: 'Kopie van de huidige site' },
+    { n: 7, phase: 2, title: 'PHP 8.3 aanzetten' },
+    { n: 8, phase: 2, title: 'De nieuwe site aanzetten' },
+    { n: 9, phase: 2, title: 'Domein omzetten (alleen als nodig)' },
+    { n: 10, phase: 2, title: 'Het slotje aanzetten' },
+    { n: 11, phase: 2, title: 'Controleren en inrichten' },
+  ];
+
+  const TERMS = {
+    directadmin: ['DirectAdmin', 'Het beheerpaneel van je webhosting bij Vimexx: een website waarin je met knoppen bestanden, databases, e-mail en instellingen beheert. Je komt erin via Mijn Vimexx, bij je webhostingpakket.'],
+    terminal: ['Terminal', 'Een programma op je computer waarin je opdrachten typt in plaats van klikt. Op een Mac heet het Terminal, op Windows PowerShell. In deze handleiding plak je er alleen regels in die je hier kopieert.'],
+    ssh: ['SSH', 'Een beveiligde verbinding van je terminal naar de hosting. Wat je daarna in de terminal plakt, gebeurt op de hosting en niet op je eigen computer.'],
+    php: ['PHP', 'De programmeertaal waarin de website is gemaakt. De hosting heeft meerdere versies; de nieuwe site heeft versie 8.3 nodig.'],
+    database: ['Database', 'Een soort archiefkast waarin de website alles bewaart wat verandert: accounts, afspraken, schema\'s en teksten.'],
+    pakket: ['Pakket (zip-bestand)', 'Eén bestand waarin de hele website zit, ingepakt. Op de hosting pak je het uit tot een map met de naam steynpt.'],
+    public_html: ['public_html', 'De map die bezoekers van www.steynpt.nl te zien krijgen. In stap 8 laat je deze map naar de nieuwe website wijzen; de oude inhoud blijft bewaard als public_html-oud.'],
+    cronjob: ['Cronjob', 'Een vaste opdracht die de hosting automatisch uitvoert, bij deze site elke minuut. Zo maakt de site op de achtergrond AI-schema\'s, zet hij ingeplande schema\'s klaar en maakt hij \'s nachts een back-up.'],
+    htaccess: ['.htaccess', 'Een klein instellingenbestand voor de webserver. Hier staat in welke PHP-versie de site draait. De punt aan het begin hoort bij de naam.'],
+    backup: ['Back-up', 'Een reservekopie. Gaat er iets mis, dan kun je die terugzetten.'],
+    dns: ['DNS en A-record', 'Het adresboek van internet. Een A-record vertelt welk serveradres (IP-adres) bij www.steynpt.nl hoort.'],
+    ip: ['IP-adres', 'Het nummer van een server op internet, bijvoorbeeld 185.104.29.10. Je hosting heeft er ook een.'],
+    https: ['https en SSL', 'Een beveiligde verbinding tussen de bezoeker en de website, te zien aan het slotje in de adresbalk. Het certificaat (SSL) dat daarvoor nodig is, is gratis via Let\'s Encrypt.'],
+    authenticator: ['Authenticator-app', 'Een app op de telefoon die elke 30 seconden een nieuwe code van zes cijfers laat zien. Steyn heeft die code nodig om in te loggen in het beheer.'],
+    herstelcodes: ['Herstelcodes', 'Reservecodes om in te loggen als de telefoon met de authenticator-app kwijt is. Elke code werkt één keer.'],
+    apikey: ['API-sleutel', 'Een geheime code waarmee de website de AI van Anthropic (Claude) mag gebruiken voor de concept-schema\'s. Steyn maakt hem aan op platform.claude.com en stelt daar een maandlimiet in.'],
+  };
+
+  const KEY = 'steynpt-online-zetten-v1';
+  let state = { done: [], user: '', checks: {}, choice: '' };
+  try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { /* geen opslag: werkt gewoon zonder */ }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* niet erg */ } }
+
+  const icon = {
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+    right: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>',
+    left: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>',
+    copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+  };
+
+  // Stappenlijst
+  for (const s of STEPS) {
+    const li = document.createElement('li');
+    li.innerHTML = '<a href="#stap-' + s.n + '" data-nav="stap-' + s.n + '"><span class="dot">' + s.n + '</span>' + s.title + '</a>';
+    document.getElementById('rail-phase-' + s.phase).appendChild(li);
+  }
+
+  // Woordenlijst
+  const gl = document.getElementById('glossary');
+  for (const [id, [word, text]] of Object.entries(TERMS)) {
+    const div = document.createElement('div');
+    div.id = 'woord-' + id;
+    div.innerHTML = '<dt></dt><dd></dd>';
+    div.querySelector('dt').textContent = word;
+    div.querySelector('dd').textContent = text;
+    gl.appendChild(div);
+  }
+
+  // Knoppen onder elke stap
+  document.querySelectorAll('[data-stepnav]').forEach((nav) => {
+    const n = Number(nav.closest('[data-step]').dataset.step);
+    const prev = n === 1 ? '#start' : '#stap-' + (n - 1);
+    const next = n === 11 ? '#klaar' : '#stap-' + (n + 1);
+    const nextLabel = n === 11 ? 'Afronden' : 'Naar stap ' + (n + 1);
+    nav.innerHTML =
+      '<a class="btn btn-ghost" href="' + prev + '">' + icon.left + (n === 1 ? 'Begin' : 'Stap ' + (n - 1)) + '</a>' +
+      '<div class="right"><button class="undo" type="button" data-undo hidden>Toch nog niet klaar</button>' +
+      '<a class="btn btn-primary" href="' + next + '" data-finish="' + n + '"><span data-finish-label>Klaar, ' + nextLabel.charAt(0).toLowerCase() + nextLabel.slice(1) + '</span>' + icon.right + '</a></div>';
+    nav.querySelector('[data-finish]').addEventListener('click', () => { if (!state.done.includes(n)) { state.done.push(n); save(); } renderProgress(); });
+    nav.querySelector('[data-undo]').addEventListener('click', () => { state.done = state.done.filter((d) => d !== n); save(); renderProgress(); });
+  });
+
+  function renderProgress() {
+    const count = state.done.filter((n) => n >= 1 && n <= 11).length;
+    document.getElementById('progress-fill').style.width = (count / 11 * 100) + '%';
+    document.getElementById('progress-text').innerHTML = count + ' van 11<span class="txt-long"> klaar</span>';
+    document.querySelectorAll('.rail [data-nav^="stap-"]').forEach((a) => {
+      const n = Number(a.dataset.nav.slice(5));
+      const done = state.done.includes(n);
+      a.parentElement.classList.toggle('done', done);
+      a.querySelector('.dot').innerHTML = done ? icon.check : String(n);
+      a.setAttribute('aria-label', a.textContent + (done ? ', klaar' : ''));
+    });
+    document.querySelectorAll('[data-stepnav]').forEach((nav) => {
+      const n = Number(nav.closest('[data-step]').dataset.step);
+      const done = state.done.includes(n);
+      nav.querySelector('[data-undo]').hidden = !done;
+      const label = n === 11 ? 'afronden' : 'stap ' + (n + 1);
+      nav.querySelector('[data-finish-label]').textContent = done ? 'Naar ' + label : 'Klaar, naar ' + label;
+    });
+  }
+
+  // Gebruikersnaam in de commando's
+  function cleanUser(v) { return v.trim().replace(/@.*$/, '').replace(/\s+/g, ''); }
+  function renderUser() {
+    const u = state.user;
+    document.querySelectorAll('[data-user]').forEach((el) => { el.textContent = u || 'GEBRUIKER'; el.classList.toggle('empty', !u); });
+    document.querySelectorAll('[data-user-plain]').forEach((el) => { el.textContent = u || 'GEBRUIKER'; });
+    document.querySelectorAll('[data-user-input]').forEach((el) => { if (document.activeElement !== el) el.value = u; });
+    document.querySelectorAll('[data-user-saved]').forEach((el) => { el.hidden = !u; });
+    document.querySelectorAll('.cmd-warn').forEach((el) => { if (u) el.remove(); });
+  }
+  document.querySelectorAll('[data-user-input]').forEach((el) => {
+    el.addEventListener('input', () => { state.user = cleanUser(el.value); save(); renderUser(); });
+  });
+
+  // Kopiëren
+  document.querySelectorAll('[data-copy]').forEach((b) => { b.innerHTML = icon.copy + 'Kopieer'; });
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-copy]');
+    if (!b) return;
+    const cmd = b.closest('.cmd');
+    const code = cmd.querySelector('code');
+    if (code.querySelector('[data-user].empty')) {
+      if (!cmd.querySelector('.cmd-warn')) {
+        const w = document.createElement('p');
+        w.className = 'cmd-warn';
+        w.textContent = 'Vul eerst je DirectAdmin-gebruikersnaam in (het vak hierboven). Dan wordt GEBRUIKER vervangen.';
+        cmd.appendChild(w);
+      }
+      const box = b.closest('section').querySelector('[data-user-input]');
+      if (box) box.focus();
+      return;
+    }
+    const text = code.textContent;
+    const done = () => { b.classList.add('copied'); b.innerHTML = icon.check + 'Gekopieerd'; setTimeout(() => { b.classList.remove('copied'); b.innerHTML = icon.copy + 'Kopieer'; }, 2000); };
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(code); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.innerHTML = 'Geselecteerd: kopieer met ⌘/Ctrl + C'; setTimeout(() => { b.innerHTML = icon.copy + 'Kopieer'; }, 4000); };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (err) { fallback(); }
+  });
+
+  // Afvinklijstjes
+  document.querySelectorAll('[data-save]').forEach((el) => {
+    el.checked = !!state.checks[el.dataset.save];
+    el.addEventListener('change', () => { state.checks[el.dataset.save] = el.checked; save(); });
+  });
+
+  // Keuze in stap 9
+  function renderChoice() {
+    document.querySelectorAll('[data-choice]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.choice === state.choice)));
+    document.querySelectorAll('[data-choice-show]').forEach((el) => { el.hidden = el.dataset.choiceShow !== state.choice; });
+  }
+  document.querySelectorAll('[data-choice]').forEach((b) => b.addEventListener('click', () => { state.choice = b.dataset.choice; save(); renderChoice(); }));
+
+  // Uitleg bij woorden
+  const pop = document.getElementById('pop');
+  let popFor = null;
+  function closePop() { pop.hidden = true; popFor = null; }
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('.term');
+    if (!t) { if (!e.target.closest('#pop')) closePop(); return; }
+    if (popFor === t) { closePop(); return; }
+    const [word, text] = TERMS[t.dataset.term] || [t.textContent, ''];
+    pop.innerHTML = '<strong></strong><span></span>';
+    pop.querySelector('strong').textContent = word;
+    pop.querySelector('span').textContent = text;
+    pop.hidden = false;
+    const r = t.getBoundingClientRect();
+    const w = pop.offsetWidth, h = pop.offsetHeight;
+    let left = Math.min(Math.max(16, r.left), window.innerWidth - w - 16);
+    let top = r.bottom + 8;
+    if (top + h > window.innerHeight - 16) top = Math.max(16, r.top - h - 8);
+    pop.style.left = left + 'px';
+    pop.style.top = top + 'px';
+    popFor = t;
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closePop(); closeRail(); } });
+  window.addEventListener('scroll', closePop, { passive: true });
+
+  // Stappenlijst op de telefoon
+  const rail = document.getElementById('rail'), backdrop = document.getElementById('backdrop'), opener = document.getElementById('open-rail');
+  function closeRail() { rail.classList.remove('open'); backdrop.classList.remove('open'); opener.setAttribute('aria-expanded', 'false'); }
+  opener.addEventListener('click', () => { const open = !rail.classList.contains('open'); rail.classList.toggle('open', open); backdrop.classList.toggle('open', open); opener.setAttribute('aria-expanded', String(open)); });
+  backdrop.addEventListener('click', closeRail);
+
+  // Navigatie
+  const views = Array.from(document.querySelectorAll('[data-view]'));
+  function show() {
+    const id = (location.hash || '#start').slice(1);
+    const view = views.find((v) => v.id === id) || views[0];
+    views.forEach((v) => { v.hidden = v !== view; });
+    document.querySelectorAll('[data-nav]').forEach((a) => { if (a.dataset.nav === view.id) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    closeRail(); closePop();
+    window.scrollTo(0, 0);
+    if (location.hash) { const h = view.querySelector('h1'); if (h) h.focus({ preventScroll: true }); }
+    document.title = (view.dataset.step ? 'Stap ' + view.dataset.step + ' · ' : '') + 'SteynPT online zetten';
+  }
+  window.addEventListener('hashchange', show);
+
+  renderUser(); renderProgress(); renderChoice(); show();
+})();
+</script>

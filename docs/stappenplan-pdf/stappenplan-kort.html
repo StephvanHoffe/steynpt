@@ -111,10 +111,12 @@
   .cmd-head h3 em { font-style: normal; font-weight: 500; color: var(--muted); font-size: 8pt; }
   pre { font-family: var(--mono); font-size: 7.3pt; line-height: 1.55; background: var(--surface); border: 0.3mm solid var(--line); border-radius: 1.6mm; padding: 2.3mm 3mm; margin: 2mm 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
   pre .c { color: var(--muted); }
+  pre.sm { font-size: 6.5pt; }
   .cmd .note { font-size: 7.6pt; color: var(--muted); margin-top: 1.4mm; }
   table { width: 100%; border-collapse: collapse; font-size: 7.8pt; margin-top: 2mm; }
   td { padding: 1.2mm 2mm; border-bottom: 0.3mm solid var(--line); vertical-align: top; }
   td:first-child { font-family: var(--mono); font-size: 7pt; white-space: nowrap; width: 1%; padding-left: 0; }
+  td.q { font-family: var(--sans); font-size: 7.8pt; font-weight: 600; }
   .cmd.back .num { background: var(--danger); }
   .cmd.back h3 { color: var(--danger); }
   .cmd.back pre { background: var(--danger-tint); border-color: #f1d3ce; }
@@ -164,7 +166,7 @@
           <li class="step"><div class="num">1</div><div><h3>SSH aanzetten en inloggen</h3><p class="d"><span class="tool">DirectAdmin</span>Geavanceerde functies › SSH-Keys, dan inloggen</p></div><div class="tick"></div></li>
           <li class="step"><div class="num">2</div><div><h3>Database aanmaken</h3><p class="d"><span class="tool">DirectAdmin</span>MySQL-beheer. <b>Noteer</b> naam, gebruiker en wachtwoord.</p></div><div class="tick"></div></li>
           <li class="step"><div class="num">3</div><div><h3>Pakket uploaden en uitpakken</h3><p class="d"><span class="tool">DirectAdmin</span>Bestandsbeheer › <code>domains/steynpt.nl</code></p></div><div class="tick"></div></li>
-          <li class="step"><div class="num">4</div><div><h3>Instellingen invullen</h3><p class="d"><span class="tool ssh">SSH</span><code>.env</code> invullen, daarna drie commando's</p></div><div class="tick"></div></li>
+          <li class="step"><div class="num">4</div><div><h3>Instellingen invullen</h3><p class="d"><span class="tool ssh">SSH</span>Een programma stelt de vragen en zet alles klaar</p></div><div class="tick"></div></li>
           <li class="step"><div class="num">5</div><div><h3>Cronjob instellen</h3><p class="d"><span class="tool">DirectAdmin</span>Geavanceerde functies › Cronjobs, elke minuut</p></div><div class="tick"></div></li>
         </ol>
       </div>
@@ -235,20 +237,16 @@ rm steynpt-php-*.zip</pre>
         </div>
 
         <div class="cmd">
-          <div class="cmd-head"><div class="num">4</div><h3>Instellingen</h3></div>
-<pre>cd ~/domains/steynpt.nl/steynpt
-cp .env.example .env
-nano .env   <span class="c"># opslaan: Ctrl+O, Enter, Ctrl+X</span>
-php artisan key:generate --force
-php artisan migrate --force
-php artisan optimize</pre>
+          <div class="cmd-head"><div class="num">4</div><h3>Instellingen <em>· beantwoord de vragen</em></h3></div>
+<pre class="sm">cd ~/domains/steynpt.nl/steynpt
+php artisan steynpt:installeren &amp;&amp; php artisan optimize</pre>
           <table>
-            <tr><td>APP_URL</td><td><code>https://www.steynpt.nl</code></td></tr>
-            <tr><td>DB_DATABASE<br>DB_USERNAME<br>DB_PASSWORD</td><td>de gegevens uit stap 2</td></tr>
-            <tr><td>ADMIN_EMAILS</td><td><code>steyn@steynpt.nl</code></td></tr>
-            <tr><td>ANTHROPIC_API_KEY</td><td>de API-sleutel (mag later)</td></tr>
+            <tr><td class="q">Adres van de website</td><td>Enter</td></tr>
+            <tr><td class="q">Database: naam, gebruiker,<br>wachtwoord</td><td>uit stap 2 (bij het wachtwoord zie je niets; dat is normaal)</td></tr>
+            <tr><td class="q">E-mailadres van Steyn</td><td>Enter (steyn@steynpt.nl)</td></tr>
+            <tr><td class="q">API-sleutel</td><td>plakken, of Enter voor later</td></tr>
           </table>
-          <p class="note">Later iets veranderd in <code>.env</code>? Draai dan opnieuw <code>php artisan optimize</code>.</p>
+          <p class="note">API-sleutel later toevoegen? Draai deze twee regels opnieuw; Enter houdt de rest.</p>
         </div>
       </div>
 
@@ -264,22 +262,25 @@ php artisan optimize</pre>
 <pre>&lt;FilesMatch "\.(php|phtml)$"&gt;
     SetHandler application/x-lsphp83
 &lt;/FilesMatch&gt;</pre>
-          <p class="note">Staat er al een <code>.htaccess</code>? Zet deze regels dan bovenaan.</p>
+          <p class="note">Staat er al een <code>.htaccess</code> met een andere <code>x-lsphp</code>-versie? Verander dan alleen dat getal in 83. In de klikbare handleiding staat een commando dat dit voor je doet.</p>
         </div>
 
         <div class="cmd">
           <div class="cmd-head"><div class="num">8</div><h3>De nieuwe site aanzetten</h3></div>
-<pre>cd ~/domains/steynpt.nl
-mv public_html public_html-oud
-ln -s steynpt/public public_html
+<pre class="sm">cd ~/domains/steynpt.nl
+[ -L public_html ] || mv public_html public_html-oud
+[ -L public_html ] || ln -s steynpt/public public_html
 ls -l public_html   <span class="c"># -&gt; steynpt/public</span></pre>
         </div>
 
         <div class="cmd back">
           <div class="cmd-head"><div class="num">T</div><h3>Terug naar de oude site</h3></div>
 <pre>cd ~/domains/steynpt.nl
-rm public_html   <span class="c"># alleen de koppeling</span>
-mv public_html-oud public_html</pre>
+[ -L public_html ] &amp;&amp; rm public_html &amp;&amp;
+  mv public_html-oud public_html
+if [ -e .htaccess-oud ]; then
+  mv .htaccess-oud .htaccess
+else rm -f .htaccess; fi</pre>
         </div>
       </div>
     </div>
@@ -292,12 +293,12 @@ cd ~/domains/steynpt.nl
 php steynpt/artisan steynpt:backup                                   <span class="c"># eerst een back-up</span>
 unzip -q steynpt-php-*.zip -d nieuw &amp;&amp; rm steynpt-php-*.zip
 cp steynpt/.env nieuw/steynpt/.env &amp;&amp; cp -a steynpt/storage/backups/. nieuw/steynpt/storage/backups/
-mv steynpt steynpt-vorige &amp;&amp; mv nieuw/steynpt steynpt &amp;&amp; rmdir nieuw
+rm -rf steynpt-vorige &amp;&amp; mv steynpt steynpt-vorige &amp;&amp; mv nieuw/steynpt steynpt &amp;&amp; rmdir nieuw
 cd steynpt &amp;&amp; php artisan migrate --force &amp;&amp; php artisan optimize</pre>
       </div>
       <div class="help">
         <div><strong>Lege pagina of PHP-melding</strong>Controleer stap 7 (de plek van <code>.htaccess</code>) en stap 8.</div>
-        <div><strong>Inloggen lukt niet</strong>Draait de site via https (stap 10) en begint <code>APP_URL</code> met https?</div>
+        <div><strong>Inloggen lukt niet</strong>Draait de site via https (stap 10)? Draai anders stap 4 opnieuw.</div>
         <div><strong>AI blijft "bezig"</strong>Controleer de cronjob (stap 5) met <code>schedule:list</code>.</div>
       </div>
     </div>

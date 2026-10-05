@@ -24,7 +24,7 @@ tar -C "$ROOT" -cf - \
   --exclude=./.git --exclude=./node_modules --exclude=./vendor --exclude=./dist --exclude=./tests --exclude=./.env \
   --exclude=./.phpunit.cache --exclude=./public/hot --exclude=./public/storage \
   --exclude='./storage/logs/*.log' --exclude='./storage/backups/steynpt-*' --exclude='./storage/framework/sessions/*' --exclude='./storage/framework/views/*.php' \
-  --exclude='./storage/framework/cache/data/*' --exclude='./bootstrap/cache/*.php' \
+  --exclude='./storage/framework/cache/data/*' --exclude='./bootstrap/cache/*.php' --exclude='./database/*.sqlite*' \
   . | tar -C "$WORK/steynpt" -xf -
 
 echo "3/4 PHP-pakketten installeren (zonder ontwikkelpakketten)…"
