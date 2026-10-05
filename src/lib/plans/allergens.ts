@@ -8,41 +8,41 @@ import type { NutritionPlan } from "./schema";
 type Rule = { label: string; prefixes?: string[]; words?: string[]; freeFrom?: string[]; except?: string[] };
 
 // Woorden die met een trefwoord beginnen maar er niets mee te maken hebben.
-const NOT_A_MATCH = ["speculaas", "speculoos", "nootmuskaat", "pitaya", "kippenvel", "lampion"];
+const NOT_A_MATCH = ["speculaas", "speculoos", "nootmuskaat", "pitaya", "kippenvel", "lampion", "butternut"];
 // "boterham" begint met "boter" maar is brood: geen zuivel (wel gluten).
 const NOT_DAIRY = ["boterham"];
 
-const DAIRY = ["melk", "yoghurt", "kwark", "kaas", "room", "boter", "skyr", "whey", "zuivel", "karnemelk", "hüttenkäse", "huttenkase", "cottage cheese", "mozzarella", "feta", "parmezaan", "ricotta", "mascarpone", "crème fraîche", "creme fraiche"];
-const EGG_WORDS = ["ei", "eieren", "omelet", "omelette", "roerei", "spiegelei", "eiersalade", "eidooier", "mayonaise", "frittata", "shakshuka"];
-const FISH = ["vis", "zalm", "tonijn", "kabeljauw", "makreel", "haring", "sardine", "sardines", "pangasius", "koolvis", "forel", "heilbot", "ansjovis", "tilapia", "schelvis", "kibbeling", "lekkerbekje"];
-const SHELLFISH = ["garnaal", "garnalen", "krab", "kreeft", "langoustine", "scampi", "gamba"];
-const MOLLUSCS = ["mossel", "mosselen", "oester", "oesters", "inktvis", "calamari", "sint-jakobsschelp", "kokkel"];
-const MEAT = ["kip", "kipfilet", "kippendij", "rund", "rundvlees", "gehakt", "varken", "ham", "spek", "kalkoen", "worst", "biefstuk", "vlees", "salami", "chorizo", "bacon", "lam", "lamsvlees", "kalfsvlees", "rookvlees", "filet americain", "shoarma", "hamburger", "frikandel", "kipshoarma", "carpaccio"];
-const PORK = ["varken", "varkensvlees", "ham", "spek", "bacon", "salami", "chorizo", "speklap", "procureur", "pancetta", "prosciutto", "rookworst", "gelatine"];
+const DAIRY = ["melk", "yoghurt", "kwark", "kaas", "room", "boter", "skyr", "whey", "zuivel", "karnemelk", "hüttenkäse", "huttenkase", "cottage cheese", "mozzarella", "feta", "parmezaan", "ricotta", "mascarpone", "crème fraîche", "creme fraiche", "milk", "yogurt", "cheese", "cream", "butter", "dairy", "quark", "parmesan", "ghee", "kefir", "custard"];
+const EGG_WORDS = ["ei", "eieren", "omelet", "omelette", "roerei", "spiegelei", "eiersalade", "eidooier", "mayonaise", "frittata", "shakshuka", "egg", "eggs", "mayonnaise", "mayo"];
+const FISH = ["vis", "zalm", "tonijn", "kabeljauw", "makreel", "haring", "sardine", "sardines", "pangasius", "koolvis", "forel", "heilbot", "ansjovis", "tilapia", "schelvis", "kibbeling", "lekkerbekje", "fish", "salmon", "tuna", "cod", "mackerel", "herring", "trout", "halibut", "anchovy", "anchovies", "haddock", "pollock", "sea bass", "seabass"];
+const SHELLFISH = ["garnaal", "garnalen", "krab", "kreeft", "langoustine", "scampi", "gamba", "shrimp", "prawn", "crab", "lobster", "crayfish"];
+const MOLLUSCS = ["mossel", "mosselen", "oester", "oesters", "inktvis", "calamari", "sint-jakobsschelp", "kokkel", "mussel", "oyster", "squid", "octopus", "clam", "scallop", "cockle"];
+const MEAT = ["kip", "kipfilet", "kippendij", "rund", "rundvlees", "gehakt", "varken", "ham", "spek", "kalkoen", "worst", "biefstuk", "vlees", "salami", "chorizo", "bacon", "lam", "lamsvlees", "kalfsvlees", "rookvlees", "filet americain", "shoarma", "hamburger", "frikandel", "kipshoarma", "carpaccio", "chicken", "beef", "pork", "turkey", "sausage", "steak", "meat", "mince", "veal", "duck", "burger", "pepperoni", "jerky"];
+const PORK = ["varken", "varkensvlees", "ham", "spek", "bacon", "salami", "chorizo", "speklap", "procureur", "pancetta", "prosciutto", "rookworst", "gelatine", "pork", "pepperoni", "gelatin"];
 
 const ALLERGY_RULES: Record<string, Rule> = {
-  gluten: { label: "gluten", prefixes: ["tarwe", "gluten", "rogge", "gerst", "spelt", "couscous", "bulgur", "pasta", "spaghetti", "brood", "boterham", "crackers", "beschuit", "wrap", "tortilla", "seitan", "paneermeel", "muesli", "granola", "pannenkoek", "bagel", "croissant", "pita"], words: ["havermout"], freeFrom: ["glutenvrij"] },
+  gluten: { label: "gluten", prefixes: ["tarwe", "gluten", "rogge", "gerst", "spelt", "couscous", "bulgur", "pasta", "spaghetti", "brood", "boterham", "crackers", "beschuit", "wrap", "tortilla", "seitan", "paneermeel", "muesli", "granola", "pannenkoek", "bagel", "croissant", "pita", "wheat", "rye", "barley", "bread", "breadcrumb", "pancake", "noodle", "flour", "pizza"], words: ["havermout", "oats", "oatmeal", "porridge"], freeFrom: ["glutenvrij", "gluten-free"] },
   melk: { label: "melk", prefixes: DAIRY, except: NOT_DAIRY },
-  lactose: { label: "lactose", prefixes: DAIRY, freeFrom: ["lactosevrij"], except: NOT_DAIRY },
+  lactose: { label: "lactose", prefixes: DAIRY, freeFrom: ["lactosevrij", "lactose-free", "dairy-free"], except: NOT_DAIRY },
   ei: { label: "ei", words: EGG_WORDS },
-  pinda: { label: "pinda", prefixes: ["pinda", "satésaus", "satesaus", "saté", "sate", "apenootjes"] },
-  noten: { label: "noten", prefixes: ["noten", "noot", "amandel", "walnoot", "walnoten", "cashew", "hazelnoot", "hazelnoten", "pecan", "pistache", "macadamia", "paranoot", "marsepein", "notenpasta"] },
-  soja: { label: "soja", prefixes: ["soja", "tofu", "tempeh", "edamame", "miso", "ketjap", "tamari"] },
+  pinda: { label: "pinda", prefixes: ["pinda", "satésaus", "satesaus", "saté", "sate", "apenootjes", "peanut", "satay"] },
+  noten: { label: "noten", prefixes: ["noten", "noot", "amandel", "walnoot", "walnoten", "cashew", "hazelnoot", "hazelnoten", "pecan", "pistache", "macadamia", "paranoot", "marsepein", "notenpasta", "almond", "walnut", "hazelnut", "pistachio", "brazil nut", "marzipan", "nut butter"], words: ["nut", "nuts"] },
+  soja: { label: "soja", prefixes: ["soja", "tofu", "tempeh", "edamame", "miso", "ketjap", "tamari", "soy"] },
   vis: { label: "vis", prefixes: FISH.filter((f) => f !== "vis"), words: ["vis"] },
   schaaldieren: { label: "schaaldieren", prefixes: SHELLFISH },
   weekdieren: { label: "weekdieren", prefixes: MOLLUSCS },
-  selderij: { label: "selderij", prefixes: ["selderij", "bleekselderij", "knolselderij", "selder"] },
-  mosterd: { label: "mosterd", prefixes: ["mosterd"] },
-  sesam: { label: "sesam", prefixes: ["sesam", "tahin", "tahini", "hummus", "humus"] },
-  lupine: { label: "lupine", prefixes: ["lupine"] },
-  sulfiet: { label: "sulfiet", prefixes: ["sulfiet", "wijn", "gedroogde abrikoos", "gedroogde abrikozen"] },
+  selderij: { label: "selderij", prefixes: ["selderij", "bleekselderij", "knolselderij", "selder", "celery", "celeriac"] },
+  mosterd: { label: "mosterd", prefixes: ["mosterd", "mustard"] },
+  sesam: { label: "sesam", prefixes: ["sesam", "tahin", "tahini", "hummus", "humus", "sesame"] },
+  lupine: { label: "lupine", prefixes: ["lupine", "lupin"] },
+  sulfiet: { label: "sulfiet", prefixes: ["sulfiet", "wijn", "gedroogde abrikoos", "gedroogde abrikozen", "sulphite", "sulfite", "wine", "dried apricot"] },
 };
 
 const DIET_RULES: Record<string, Rule> = {
   vegetarisch: { label: "vegetarisch", prefixes: [...MEAT, ...FISH.filter((f) => f !== "vis"), ...SHELLFISH, ...MOLLUSCS], words: ["vis"] },
   veganistisch: {
     label: "veganistisch",
-    prefixes: [...MEAT, ...FISH.filter((f) => f !== "vis"), ...SHELLFISH, ...MOLLUSCS, ...DAIRY, "honing"],
+    prefixes: [...MEAT, ...FISH.filter((f) => f !== "vis"), ...SHELLFISH, ...MOLLUSCS, ...DAIRY, "honing", "honey"],
     words: ["vis", ...EGG_WORDS],
     except: NOT_DAIRY,
   },
@@ -51,9 +51,9 @@ const DIET_RULES: Record<string, Rule> = {
 };
 
 // Woorden direct vóór een treffer die aangeven dat het ingrediënt er juist níet in zit.
-const ABSENT = ["zonder", "geen"];
+const ABSENT = ["zonder", "geen", "without"];
 // Bij eetstijlen: woorden die aangeven dat het om een plantaardige vervanger gaat.
-const SUBSTITUTE = ["vegetarisch", "vegan", "veganistisch", "plantaardig", "vega"];
+const SUBSTITUTE = ["vegetarisch", "vegan", "veganistisch", "plantaardig", "vega", "vegetarian", "plant-based", "veggie", "meatless"];
 
 export type AllergenWarning = { term: string; reason: string; where: string };
 
@@ -77,7 +77,7 @@ function findTerm(haystack: string, term: string, wholeWord: boolean) {
 function isNeutralized(haystack: string, index: number, word: string, rule: Rule, diet: boolean) {
   if (word.includes("vrij") || word.includes("vervanger")) return true;
   if ([...NOT_A_MATCH, ...(rule.except ?? [])].some((w) => word.startsWith(w))) return true;
-  if (/^\s*-?vervanger/.test(haystack.slice(index + word.length))) return true;
+  if (/^\s*-?(?:vervanger|free\b|substitute)/.test(haystack.slice(index + word.length))) return true;
   // Alleen de twee woorden direct ervoor tellen mee ("zonder noten", "lactosevrije kwark").
   const previous = haystack.slice(Math.max(0, index - 40), index).split(/[^\p{L}-]+/u).filter(Boolean).slice(-2);
   const markers = [...ABSENT, ...(rule.freeFrom ?? []), ...(diet ? SUBSTITUTE : [])];

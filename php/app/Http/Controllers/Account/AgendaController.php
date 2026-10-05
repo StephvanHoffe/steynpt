@@ -109,9 +109,18 @@ class AgendaController extends Controller
             return response(__('Niet gevonden'), 404);
         }
 
-        return response(Agenda::buildIcs([AgendaServer::toCalendarEvent($appointment, $user, 'klant')], 'SteynPT'), 200, [
+        $event = AgendaServer::toCalendarEvent($appointment, $user, 'klant');
+        // AgendaServer stelt de teksten in het Nederlands samen; hier in de taal van het lid (hele zinnen als sleutel).
+        foreach (['summary', 'location', 'description'] as $field) {
+            if (is_string($event[$field] ?? null) && $event[$field] !== '') {
+                $event[$field] = __($event[$field]);
+            }
+        }
+        $filename = __('steynpt-afspraak-:id.ics', ['id' => $appointment->id]);
+
+        return response(Agenda::buildIcs([$event], 'SteynPT'), 200, [
             'Content-Type' => 'text/calendar; charset=utf-8',
-            'Content-Disposition' => "attachment; filename=\"steynpt-afspraak-{$appointment->id}.ics\"",
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
             'Cache-Control' => 'private, no-store',
         ]);
     }

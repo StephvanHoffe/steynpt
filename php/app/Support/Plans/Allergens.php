@@ -16,51 +16,51 @@ use App\Support\Js;
 final class Allergens
 {
     /** Woorden die met een trefwoord beginnen maar er niets mee te maken hebben. */
-    private const NOT_A_MATCH = ['speculaas', 'speculoos', 'nootmuskaat', 'pitaya', 'kippenvel', 'lampion'];
+    private const NOT_A_MATCH = ['speculaas', 'speculoos', 'nootmuskaat', 'pitaya', 'kippenvel', 'lampion', 'butternut'];
 
     /** "boterham" begint met "boter" maar is brood: geen zuivel (wel gluten). */
     private const NOT_DAIRY = ['boterham'];
 
-    private const DAIRY = ['melk', 'yoghurt', 'kwark', 'kaas', 'room', 'boter', 'skyr', 'whey', 'zuivel', 'karnemelk', 'hüttenkäse', 'huttenkase', 'cottage cheese', 'mozzarella', 'feta', 'parmezaan', 'ricotta', 'mascarpone', 'crème fraîche', 'creme fraiche'];
+    private const DAIRY = ['melk', 'yoghurt', 'kwark', 'kaas', 'room', 'boter', 'skyr', 'whey', 'zuivel', 'karnemelk', 'hüttenkäse', 'huttenkase', 'cottage cheese', 'mozzarella', 'feta', 'parmezaan', 'ricotta', 'mascarpone', 'crème fraîche', 'creme fraiche', 'milk', 'yogurt', 'cheese', 'cream', 'butter', 'dairy', 'quark', 'parmesan', 'ghee', 'kefir', 'custard'];
 
-    private const EGG_WORDS = ['ei', 'eieren', 'omelet', 'omelette', 'roerei', 'spiegelei', 'eiersalade', 'eidooier', 'mayonaise', 'frittata', 'shakshuka'];
+    private const EGG_WORDS = ['ei', 'eieren', 'omelet', 'omelette', 'roerei', 'spiegelei', 'eiersalade', 'eidooier', 'mayonaise', 'frittata', 'shakshuka', 'egg', 'eggs', 'mayonnaise', 'mayo'];
 
-    private const FISH = ['vis', 'zalm', 'tonijn', 'kabeljauw', 'makreel', 'haring', 'sardine', 'sardines', 'pangasius', 'koolvis', 'forel', 'heilbot', 'ansjovis', 'tilapia', 'schelvis', 'kibbeling', 'lekkerbekje'];
+    private const FISH = ['vis', 'zalm', 'tonijn', 'kabeljauw', 'makreel', 'haring', 'sardine', 'sardines', 'pangasius', 'koolvis', 'forel', 'heilbot', 'ansjovis', 'tilapia', 'schelvis', 'kibbeling', 'lekkerbekje', 'fish', 'salmon', 'tuna', 'cod', 'mackerel', 'herring', 'trout', 'halibut', 'anchovy', 'anchovies', 'haddock', 'pollock', 'sea bass', 'seabass'];
 
     /** FISH zonder "vis" (dat woord telt alleen als los woord). */
-    private const FISH_PREFIXES = ['zalm', 'tonijn', 'kabeljauw', 'makreel', 'haring', 'sardine', 'sardines', 'pangasius', 'koolvis', 'forel', 'heilbot', 'ansjovis', 'tilapia', 'schelvis', 'kibbeling', 'lekkerbekje'];
+    private const FISH_PREFIXES = ['zalm', 'tonijn', 'kabeljauw', 'makreel', 'haring', 'sardine', 'sardines', 'pangasius', 'koolvis', 'forel', 'heilbot', 'ansjovis', 'tilapia', 'schelvis', 'kibbeling', 'lekkerbekje', 'fish', 'salmon', 'tuna', 'cod', 'mackerel', 'herring', 'trout', 'halibut', 'anchovy', 'anchovies', 'haddock', 'pollock', 'sea bass', 'seabass'];
 
-    private const SHELLFISH = ['garnaal', 'garnalen', 'krab', 'kreeft', 'langoustine', 'scampi', 'gamba'];
+    private const SHELLFISH = ['garnaal', 'garnalen', 'krab', 'kreeft', 'langoustine', 'scampi', 'gamba', 'shrimp', 'prawn', 'crab', 'lobster', 'crayfish'];
 
-    private const MOLLUSCS = ['mossel', 'mosselen', 'oester', 'oesters', 'inktvis', 'calamari', 'sint-jakobsschelp', 'kokkel'];
+    private const MOLLUSCS = ['mossel', 'mosselen', 'oester', 'oesters', 'inktvis', 'calamari', 'sint-jakobsschelp', 'kokkel', 'mussel', 'oyster', 'squid', 'octopus', 'clam', 'scallop', 'cockle'];
 
-    private const MEAT = ['kip', 'kipfilet', 'kippendij', 'rund', 'rundvlees', 'gehakt', 'varken', 'ham', 'spek', 'kalkoen', 'worst', 'biefstuk', 'vlees', 'salami', 'chorizo', 'bacon', 'lam', 'lamsvlees', 'kalfsvlees', 'rookvlees', 'filet americain', 'shoarma', 'hamburger', 'frikandel', 'kipshoarma', 'carpaccio'];
+    private const MEAT = ['kip', 'kipfilet', 'kippendij', 'rund', 'rundvlees', 'gehakt', 'varken', 'ham', 'spek', 'kalkoen', 'worst', 'biefstuk', 'vlees', 'salami', 'chorizo', 'bacon', 'lam', 'lamsvlees', 'kalfsvlees', 'rookvlees', 'filet americain', 'shoarma', 'hamburger', 'frikandel', 'kipshoarma', 'carpaccio', 'chicken', 'beef', 'pork', 'turkey', 'sausage', 'steak', 'meat', 'mince', 'veal', 'duck', 'burger', 'pepperoni', 'jerky'];
 
-    private const PORK = ['varken', 'varkensvlees', 'ham', 'spek', 'bacon', 'salami', 'chorizo', 'speklap', 'procureur', 'pancetta', 'prosciutto', 'rookworst', 'gelatine'];
+    private const PORK = ['varken', 'varkensvlees', 'ham', 'spek', 'bacon', 'salami', 'chorizo', 'speklap', 'procureur', 'pancetta', 'prosciutto', 'rookworst', 'gelatine', 'pork', 'pepperoni', 'gelatin'];
 
     public const ALLERGY_RULES = [
-        'gluten' => ['label' => 'gluten', 'prefixes' => ['tarwe', 'gluten', 'rogge', 'gerst', 'spelt', 'couscous', 'bulgur', 'pasta', 'spaghetti', 'brood', 'boterham', 'crackers', 'beschuit', 'wrap', 'tortilla', 'seitan', 'paneermeel', 'muesli', 'granola', 'pannenkoek', 'bagel', 'croissant', 'pita'], 'words' => ['havermout'], 'freeFrom' => ['glutenvrij']],
+        'gluten' => ['label' => 'gluten', 'prefixes' => ['tarwe', 'gluten', 'rogge', 'gerst', 'spelt', 'couscous', 'bulgur', 'pasta', 'spaghetti', 'brood', 'boterham', 'crackers', 'beschuit', 'wrap', 'tortilla', 'seitan', 'paneermeel', 'muesli', 'granola', 'pannenkoek', 'bagel', 'croissant', 'pita', 'wheat', 'rye', 'barley', 'bread', 'breadcrumb', 'pancake', 'noodle', 'flour', 'pizza'], 'words' => ['havermout', 'oats', 'oatmeal', 'porridge'], 'freeFrom' => ['glutenvrij', 'gluten-free']],
         'melk' => ['label' => 'melk', 'prefixes' => self::DAIRY, 'except' => self::NOT_DAIRY],
-        'lactose' => ['label' => 'lactose', 'prefixes' => self::DAIRY, 'freeFrom' => ['lactosevrij'], 'except' => self::NOT_DAIRY],
+        'lactose' => ['label' => 'lactose', 'prefixes' => self::DAIRY, 'freeFrom' => ['lactosevrij', 'lactose-free', 'dairy-free'], 'except' => self::NOT_DAIRY],
         'ei' => ['label' => 'ei', 'words' => self::EGG_WORDS],
-        'pinda' => ['label' => 'pinda', 'prefixes' => ['pinda', 'satésaus', 'satesaus', 'saté', 'sate', 'apenootjes']],
-        'noten' => ['label' => 'noten', 'prefixes' => ['noten', 'noot', 'amandel', 'walnoot', 'walnoten', 'cashew', 'hazelnoot', 'hazelnoten', 'pecan', 'pistache', 'macadamia', 'paranoot', 'marsepein', 'notenpasta']],
-        'soja' => ['label' => 'soja', 'prefixes' => ['soja', 'tofu', 'tempeh', 'edamame', 'miso', 'ketjap', 'tamari']],
+        'pinda' => ['label' => 'pinda', 'prefixes' => ['pinda', 'satésaus', 'satesaus', 'saté', 'sate', 'apenootjes', 'peanut', 'satay']],
+        'noten' => ['label' => 'noten', 'prefixes' => ['noten', 'noot', 'amandel', 'walnoot', 'walnoten', 'cashew', 'hazelnoot', 'hazelnoten', 'pecan', 'pistache', 'macadamia', 'paranoot', 'marsepein', 'notenpasta', 'almond', 'walnut', 'hazelnut', 'pistachio', 'brazil nut', 'marzipan', 'nut butter'], 'words' => ['nut', 'nuts']],
+        'soja' => ['label' => 'soja', 'prefixes' => ['soja', 'tofu', 'tempeh', 'edamame', 'miso', 'ketjap', 'tamari', 'soy']],
         'vis' => ['label' => 'vis', 'prefixes' => self::FISH_PREFIXES, 'words' => ['vis']],
         'schaaldieren' => ['label' => 'schaaldieren', 'prefixes' => self::SHELLFISH],
         'weekdieren' => ['label' => 'weekdieren', 'prefixes' => self::MOLLUSCS],
-        'selderij' => ['label' => 'selderij', 'prefixes' => ['selderij', 'bleekselderij', 'knolselderij', 'selder']],
-        'mosterd' => ['label' => 'mosterd', 'prefixes' => ['mosterd']],
-        'sesam' => ['label' => 'sesam', 'prefixes' => ['sesam', 'tahin', 'tahini', 'hummus', 'humus']],
-        'lupine' => ['label' => 'lupine', 'prefixes' => ['lupine']],
-        'sulfiet' => ['label' => 'sulfiet', 'prefixes' => ['sulfiet', 'wijn', 'gedroogde abrikoos', 'gedroogde abrikozen']],
+        'selderij' => ['label' => 'selderij', 'prefixes' => ['selderij', 'bleekselderij', 'knolselderij', 'selder', 'celery', 'celeriac']],
+        'mosterd' => ['label' => 'mosterd', 'prefixes' => ['mosterd', 'mustard']],
+        'sesam' => ['label' => 'sesam', 'prefixes' => ['sesam', 'tahin', 'tahini', 'hummus', 'humus', 'sesame']],
+        'lupine' => ['label' => 'lupine', 'prefixes' => ['lupine', 'lupin']],
+        'sulfiet' => ['label' => 'sulfiet', 'prefixes' => ['sulfiet', 'wijn', 'gedroogde abrikoos', 'gedroogde abrikozen', 'sulphite', 'sulfite', 'wine', 'dried apricot']],
     ];
 
     public const DIET_RULES = [
         'vegetarisch' => ['label' => 'vegetarisch', 'prefixes' => [...self::MEAT, ...self::FISH_PREFIXES, ...self::SHELLFISH, ...self::MOLLUSCS], 'words' => ['vis']],
         'veganistisch' => [
             'label' => 'veganistisch',
-            'prefixes' => [...self::MEAT, ...self::FISH_PREFIXES, ...self::SHELLFISH, ...self::MOLLUSCS, ...self::DAIRY, 'honing'],
+            'prefixes' => [...self::MEAT, ...self::FISH_PREFIXES, ...self::SHELLFISH, ...self::MOLLUSCS, ...self::DAIRY, 'honing', 'honey'],
             'words' => ['vis', ...self::EGG_WORDS],
             'except' => self::NOT_DAIRY,
         ],
@@ -69,10 +69,10 @@ final class Allergens
     ];
 
     /** Woorden direct vóór een treffer die aangeven dat het ingrediënt er juist níet in zit. */
-    private const ABSENT = ['zonder', 'geen'];
+    private const ABSENT = ['zonder', 'geen', 'without'];
 
     /** Bij eetstijlen: woorden die aangeven dat het om een plantaardige vervanger gaat. */
-    private const SUBSTITUTE = ['vegetarisch', 'vegan', 'veganistisch', 'plantaardig', 'vega'];
+    private const SUBSTITUTE = ['vegetarisch', 'vegan', 'veganistisch', 'plantaardig', 'vega', 'vegetarian', 'plant-based', 'veggie', 'meatless'];
 
     private const LETTER = '/\p{L}$/u';
 
@@ -117,7 +117,7 @@ final class Allergens
                 return true;
             }
         }
-        if (preg_match('/^['.Js::SPACE.']*-?vervanger/u', substr($haystack, $index + strlen($word)))) {
+        if (preg_match('/^['.Js::SPACE.']*-?(?:vervanger|free\b|substitute)/u', substr($haystack, $index + strlen($word)))) {
             return true;
         }
         // Alleen de twee woorden direct ervoor tellen mee ("zonder noten", "lactosevrije kwark").

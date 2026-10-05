@@ -86,4 +86,27 @@ class AllergensTest extends TestCase
             array_map(fn ($w) => "{$w['where']}|{$w['reason']}|{$w['term']}", $warnings),
         );
     }
+
+    public function test_allergenen_ook_in_een_engels_voedingsschema(): void
+    {
+        $warnings = Allergens::findAllergenWarnings(
+            self::plan(['Porridge with walnuts', 'Wholegrain bread with chicken breast', 'Greek yogurt with berries', 'Scrambled eggs on toast']),
+            ['allergies' => ['noten', 'lactose', 'ei'], 'diet' => 'vegetarisch'],
+        );
+        $this->assertSame(
+            ['Ontbijt › Optie 1|allergie: noten|walnuts', 'Ontbijt › Optie 2|eetstijl: vegetarisch|chicken', 'Ontbijt › Optie 3|allergie: lactose|yogurt', 'Ontbijt › Optie 4|allergie: ei|eggs'],
+            array_map(fn ($w) => "{$w['where']}|{$w['reason']}|{$w['term']}", $warnings),
+        );
+    }
+
+    public function test_allergenen_engels_zonder_valse_meldingen(): void
+    {
+        $warnings = Allergens::findAllergenWarnings(
+            self::plan(['Lactose-free yogurt with oats', 'Dairy-free cheese on rice cakes', 'Butternut squash soup without nuts', 'Plant-based chicken pieces with rice', 'Nutritional yeast on vegetables']),
+            ['allergies' => ['lactose', 'noten'], 'diet' => 'vegetarisch'],
+        );
+        $this->assertSame([], $warnings);
+        // Melkallergie: lactosevrij is nog steeds melk.
+        $this->assertCount(1, Allergens::findAllergenWarnings(self::plan(['Lactose-free yogurt']), ['allergies' => ['melk'], 'diet' => 'alles']));
+    }
 }

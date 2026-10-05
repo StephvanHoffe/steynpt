@@ -62,7 +62,7 @@ function findTerm(haystack, term, wholeWord) {
 function isNeutralized(check, haystack, index, word, rule, diet) {
     if (word.includes('vrij') || word.includes('vervanger')) return true;
     if ([...check.notAMatch, ...(rule.except ?? [])].some((w) => word.startsWith(w))) return true;
-    if (/^\s*-?vervanger/.test(haystack.slice(index + word.length))) return true;
+    if (/^\s*-?(?:vervanger|free\b|substitute)/.test(haystack.slice(index + word.length))) return true;
     // Alleen de twee woorden direct ervoor tellen mee ("zonder noten", "lactosevrije kwark").
     const previous = haystack
         .slice(Math.max(0, index - 40), index)

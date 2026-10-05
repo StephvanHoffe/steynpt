@@ -16,6 +16,9 @@
 @endphp
 <div class="grid gap-3">
   @if ($aiEnabled && $hasIntake)
+    @if (\App\Models\User::query()->whereKey($userId)->value('locale') === 'en')
+      <p class="flex items-center gap-2 rounded-lg bg-accent-tint px-3 py-2 text-xs font-medium text-ink"><x-icon name="Languages" class="size-3.5 shrink-0" /> Deze klant gebruikt de site in het Engels: het AI-concept wordt in het Engels geschreven.</p>
+    @endif
     <form action="{{ $action }}" method="post" class="grid gap-2">
       {{ $hidden('ai') }}
       <label class="block">
