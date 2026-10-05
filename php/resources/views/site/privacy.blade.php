@@ -10,6 +10,6 @@
         </section>
       @endforeach
     </div>
-    <p class="mt-12 text-sm text-muted">Vragen? <a href="/contact" class="font-semibold text-ink underline">Neem contact op</a>.</p>
+    <p class="mt-12 text-sm text-muted">{{ __('Vragen?') }} <a href="{{ \App\Site\Locale::path('/contact') }}" class="font-semibold text-ink underline">{{ __('Neem contact op') }}</a>.</p>
   </div>
 </x-layouts.site>

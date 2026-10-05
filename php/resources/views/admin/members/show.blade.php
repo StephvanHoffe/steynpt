@@ -24,6 +24,12 @@
             <a href="tel:{{ preg_replace('/\s/', '', $member->phone) }}" class="hover:text-ink hover:underline">{{ $member->phone }}</a>
           @endif
           <span>Doel: {{ Site::goalLabel($member->goal) ?? '–' }}</span>
+          {{-- Lid gebruikt de site in het Engels: feedback en berichten dan ook in het Engels. --}}
+          @if ($member->locale === 'en')
+            <span class="inline-flex items-center gap-1 rounded-full bg-accent-tint px-2.5 py-0.5 text-xs font-semibold text-accent" title="Schrijf feedback en berichten aan dit lid in het Engels">
+              <x-icon name="Languages" class="size-3.5" /> Taal: Engels
+            </span>
+          @endif
           <span>Lid sinds {{ AdminFormat::dayMonthYear($member->created_at) }}</span>
         </span>
       </x-slot:description>

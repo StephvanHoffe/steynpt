@@ -11,8 +11,8 @@
   <h3 class="display mt-2 text-2xl hyphens-auto">{{ $card['name'] }}</h3>
   <p class="mt-6 flex items-baseline gap-1">
     <span class="text-lg font-semibold">€</span>
-    <span class="display text-6xl">{{ $card['price'] }}</span>
-    <span class="text-lg font-semibold text-muted">,-</span>
+    <span class="display text-6xl">{{ \App\Site\Locale::price($card['price']) }}</span>
+    @unless (\App\Site\Locale::isEnglish())<span class="text-lg font-semibold text-muted">,-</span>@endunless
     @if (! empty($card['unit']))<span class="ml-1 text-sm text-muted">{{ $card['unit'] }}</span>@endif
   </p>
   <ul class="mt-6 flex-1 space-y-2.5 text-sm">
@@ -24,5 +24,5 @@
     @endforeach
   </ul>
   @if (! empty($card['note']))<p class="mt-5 text-xs text-muted">{{ $card['note'] }}</p>@endif
-  <a href="{{ $href }}" class="btn mt-7 w-full {{ $featured ? 'btn-primary' : 'btn-outline bg-white' }}">{{ $cta }}</a>
+  <a href="{{ \App\Site\Locale::path($href) }}" class="btn mt-7 w-full {{ $featured ? 'btn-primary' : 'btn-outline bg-white' }}">{{ $cta }}</a>
 </article>

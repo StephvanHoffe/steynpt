@@ -6,7 +6,7 @@
     <p class="mt-2 text-sm text-muted">{{ $t['street'] }}<br>{{ $t['city'] }}@if ($t['area'] !== '')<br>{{ $t['area'] }}@endif</p>
     @if ($t['directions'] !== '')<p class="mt-3 text-sm">{{ $t['directions'] }}</p>@endif
     <span class="mt-auto inline-flex items-center gap-1 pt-5 text-sm font-semibold">
-      Route <x-icon name="ArrowUpRight" class="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+      {{ __('Route') }} <x-icon name="ArrowUpRight" class="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
     </span>
   </a>
   <div class="card flex flex-col p-6">

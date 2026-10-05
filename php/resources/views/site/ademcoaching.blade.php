@@ -4,9 +4,9 @@
     $adem = \App\Site\Texts::get('pakketten')['adem'];
 @endphp
 <x-layouts.site :title="$t['seo']['title']" :description="$t['seo']['description']" :faq="$t['faq']['questions']">
-  <x-page-hero :eyebrow="$t['hero']['eyebrow']" :title="$t['hero']['title']" :intro="$t['hero']['intro']" image="/images/steyn-team-gym.jpg" image-alt="Steyn met sporters bij Gymbase in Amsterdam">
-    <x-button-link href="/contact?onderwerp=ademcoaching">{{ $t['hero']['primary'] }} <x-icon name="ArrowRight" class="size-4" /></x-button-link>
-    <x-button-link href="/contact?onderwerp=ademcoaching-groep" variant="outline">{{ $t['hero']['secondary'] }}</x-button-link>
+  <x-page-hero :eyebrow="$t['hero']['eyebrow']" :title="$t['hero']['title']" :intro="$t['hero']['intro']" image="/images/steyn-team-gym.jpg" :image-alt="__('Steyn met sporters bij Gymbase in Amsterdam')">
+    <x-button-link href="{{ \App\Site\Locale::path('/contact?onderwerp=ademcoaching') }}">{{ $t['hero']['primary'] }} <x-icon name="ArrowRight" class="size-4" /></x-button-link>
+    <x-button-link href="{{ \App\Site\Locale::path('/contact?onderwerp=ademcoaching-groep') }}" variant="outline">{{ $t['hero']['secondary'] }}</x-button-link>
   </x-page-hero>
 
   <section class="container-site py-20 lg:py-28">
@@ -31,13 +31,13 @@
           <h3 class="display mt-2 text-3xl">{{ $adem['name'] }}</h3>
           <p class="mt-6 flex items-baseline gap-1">
             <span class="text-lg font-semibold">€</span>
-            <span class="display text-6xl">{{ $adem['price'] }}</span>
-            <span class="text-lg font-semibold text-muted">,-</span>
+            <span class="display text-6xl">{{ \App\Site\Locale::price($adem['price']) }}</span>
+            @unless (\App\Site\Locale::isEnglish())<span class="text-lg font-semibold text-muted">,-</span>@endunless
             <span class="ml-1 text-sm text-muted">{{ $t['vormen']['perSession'] }}</span>
           </p>
           <p class="mt-2 flex items-center gap-2 text-sm font-medium"><x-icon name="Clock" class="size-4 text-accent" /> {{ $adem['duration'] }}</p>
           <div class="mt-6 flex-1"><x-check-list :items="$adem['features']" /></div>
-          <x-button-link href="/contact?onderwerp=ademcoaching" variant="ink" class="mt-8">{{ $t['vormen']['soloButton'] }}</x-button-link>
+          <x-button-link href="{{ \App\Site\Locale::path('/contact?onderwerp=ademcoaching') }}" variant="ink" class="mt-8">{{ $t['vormen']['soloButton'] }}</x-button-link>
         </article>
 
         <article class="flex flex-col rounded-xl border border-line bg-white p-7 sm:p-9">
@@ -56,7 +56,7 @@
               </li>
             @endforeach
           </ul>
-          <x-button-link href="/contact?onderwerp=ademcoaching-groep" variant="outline" class="mt-8">{{ $t['vormen']['groupButton'] }}</x-button-link>
+          <x-button-link href="{{ \App\Site\Locale::path('/contact?onderwerp=ademcoaching-groep') }}" variant="outline" class="mt-8">{{ $t['vormen']['groupButton'] }}</x-button-link>
         </article>
       </div>
 

@@ -20,6 +20,12 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Engelse vertalingen per onderdeel: lang/json/<onderdeel>/en.json, met de Nederlandse tekst als sleutel
+        // (__('Nederlandse tekst')). In het Nederlands geeft __() de tekst zelf terug.
+        foreach (glob(lang_path('json/*'), GLOB_ONLYDIR) ?: [] as $dir) {
+            $this->app['translator']->addJsonPath($dir);
+        }
+
         // Tijden zijn onveranderlijk (geen per ongeluk aangepaste datum verderop in de code).
         Date::use(CarbonImmutable::class);
 

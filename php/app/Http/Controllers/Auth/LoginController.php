@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Auth\Accounts;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Site\Locale;
 use App\Site\Site;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,8 +30,10 @@ class LoginController extends Controller
             return redirect($target);
         }
 
+        $melding = self::MELDING[(string) $request->query('melding')] ?? null;
+
         return view('auth.login', [
-            'melding' => self::MELDING[(string) $request->query('melding')] ?? null,
+            'melding' => $melding !== null ? __($melding) : null,
             // Zonder next kiest het inloggen zelf: beheer voor Steyn, Mijn omgeving voor klanten.
             'next' => is_string($next) ? $target : null,
         ]);
@@ -42,21 +45,21 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
         ], [
-            'email.required' => 'Vul een geldig e-mailadres in',
-            'email.email' => 'Vul een geldig e-mailadres in',
-            'password.required' => 'Vul je wachtwoord in',
+            'email.required' => __('Vul een geldig e-mailadres in'),
+            'email.email' => __('Vul een geldig e-mailadres in'),
+            'password.required' => __('Vul je wachtwoord in'),
         ]);
         $email = strtolower((string) $request->input('email'));
         $key = $email.'|'.$request->ip();
         if (Accounts::loginLimited($key)) {
-            return back()->withInput($request->except('password'))->with('error', 'Te veel inlogpogingen. Probeer het over een kwartier opnieuw.');
+            return back()->withInput($request->except('password'))->with('error', __('Te veel inlogpogingen. Probeer het over een kwartier opnieuw.'));
         }
 
         $user = User::query()->where('email', $email)->first();
         if (! $user || ! Hash::check((string) $request->input('password'), $user->password)) {
             Accounts::registerLoginFailure($key);
 
-            return back()->withInput($request->except('password'))->with('error', 'E-mailadres of wachtwoord klopt niet.');
+            return back()->withInput($request->except('password'))->with('error', __('E-mailadres of wachtwoord klopt niet.'));
         }
         Accounts::clearLoginFailures($key);
 
@@ -70,11 +73,11 @@ class LoginController extends Controller
         return redirect('/inloggen/verificatie');
     }
 
-    /** Uitloggen via een gewone POST (met CSRF-token). */
+    /** Uitloggen via een gewone POST (met CSRF-token). Daarna naar de homepage in de taal van het lid. */
     public function logout(): RedirectResponse
     {
         Accounts::logout();
 
-        return redirect('/');
+        return redirect(Locale::path('/'));
     }
 }

@@ -16,11 +16,11 @@
       <h2 class="display display-lg">{{ $title }}</h2>
       <p class="lead mt-5 text-white/75">{{ $text }}</p>
       <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-        <a href="{{ $primary['href'] }}" class="btn bg-white text-ink hover:bg-surface">
+        <a href="{{ \App\Site\Locale::path($primary['href']) }}" class="btn bg-white text-ink hover:bg-surface">
           {{ $primary['label'] }} <x-icon name="ArrowRight" class="size-4" />
         </a>
         @if ($secondary)
-          <a href="{{ $secondary['href'] }}" class="btn btn-on-dark">{{ $secondary['label'] }}</a>
+          <a href="{{ \App\Site\Locale::path($secondary['href']) }}" class="btn btn-on-dark">{{ $secondary['label'] }}</a>
         @endif
       </div>
     </div>

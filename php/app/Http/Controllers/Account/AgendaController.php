@@ -41,15 +41,15 @@ class AgendaController extends Controller
         $start = self::parseIso($request->input('start'));
         $note = trim((string) $request->input('note', ''));
         if (! $start || mb_strlen($note) > 500 || ! is_string($request->input('type')) || ! is_string($request->input('location'))) {
-            return back()->with('booking_error', 'Kies een tijd om te boeken.');
+            return back()->with('booking_error', __('Kies een tijd om te boeken.'));
         }
         $type = Agenda::getAppointmentType($request->input('type'));
         $location = $request->input('location');
         if (! $type || ! in_array($location, $type['locations'], true)) {
-            return back()->with('booking_error', 'Dit afspraaktype of deze locatie bestaat niet.');
+            return back()->with('booking_error', __('Dit afspraaktype of deze locatie bestaat niet.'));
         }
         if (($type['requiresCoaching'] ?? false) && $user->coaching_status !== 'actief') {
-            return back()->with('booking_error', 'Deze afspraak is alleen voor klanten met actieve online coaching.');
+            return back()->with('booking_error', __('Deze afspraak is alleen voor klanten met actieve online coaching.'));
         }
 
         $now = CarbonImmutable::now('UTC');
@@ -78,9 +78,9 @@ class AgendaController extends Controller
         });
 
         return match ($result) {
-            'max' => back()->with('booking_error', 'Je hebt al '.Agenda::BOOKING_RULES['maxUpcomingPerClient'].' afspraken staan. Neem contact op als je meer wilt plannen.'),
-            'type-max' => back()->with('booking_error', 'Je hebt al een '.mb_strtolower($type['label']).' gepland.'),
-            'taken' => back()->with('booking_error', 'Dit tijdstip is net niet meer beschikbaar. Kies een ander tijdstip.'),
+            'max' => back()->with('booking_error', __('Je hebt al :count afspraken staan. Neem contact op als je meer wilt plannen.', ['count' => Agenda::BOOKING_RULES['maxUpcomingPerClient']])),
+            'type-max' => back()->with('booking_error', __('Je hebt al een :type gepland.', ['type' => mb_strtolower(__($type['label']))])),
+            'taken' => back()->with('booking_error', __('Dit tijdstip is net niet meer beschikbaar. Kies een ander tijdstip.')),
             default => redirect("/account/agenda?geboekt={$result}"),
         };
     }
@@ -102,11 +102,11 @@ class AgendaController extends Controller
     {
         $user = $request->user();
         if (! $user) {
-            return response('Log eerst in', 401);
+            return response(__('Log eerst in'), 401);
         }
         $appointment = ctype_digit($id) ? Appointment::query()->where('id', (int) $id)->where('user_id', $user->id)->first() : null;
         if (! $appointment) {
-            return response('Niet gevonden', 404);
+            return response(__('Niet gevonden'), 404);
         }
 
         return response(Agenda::buildIcs([AgendaServer::toCalendarEvent($appointment, $user, 'klant')], 'SteynPT'), 200, [

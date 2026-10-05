@@ -5,9 +5,12 @@
   werkelijke breedte (resources/js/components/progress-chart.js), zodat tekst altijd op ware grootte blijft.
 --}}
 @php
+    use App\Site\Locale;
     use App\Support\Progress;
     use App\View\Fmt;
 
+    // $label komt al vertaald binnen (x-progress.overview); getallen en datums in de taal van de pagina.
+    $lang = Locale::current();
     $values = array_column($points, 'value');
     $first = $points[0];
     $last = $points[count($points) - 1];
@@ -15,13 +18,20 @@
         'points' => array_map(fn ($p) => [
             't' => $p['date']->getTimestamp() * 1000,
             'value' => (float) $p['value'],
-            'label' => Progress::formatNumber($p['value']),
+            'label' => Progress::formatNumber($p['value'], 1, $lang),
             'short' => Fmt::shortDate($p['date']),
             'long' => Fmt::date($p['date']),
         ], $points),
-        'ticks' => array_map(fn ($t) => ['value' => (float) $t, 'label' => Progress::formatNumber($t)], Progress::niceTicks(min($values), max($values))),
-        'desc' => "{$label}: ".count($points).' metingen, van '.Progress::formatNumber($first['value'])." {$unit} op ".Fmt::date($first['date'])
-            .' naar '.Progress::formatNumber($last['value'])." {$unit} op ".Fmt::date($last['date']).'. Gebruik de pijltjestoetsen om metingen te bekijken.',
+        'ticks' => array_map(fn ($t) => ['value' => (float) $t, 'label' => Progress::formatNumber($t, 1, $lang)], Progress::niceTicks(min($values), max($values))),
+        'desc' => __(':label: :count metingen, van :from :unit op :fromDate naar :to :unit op :toDate. Gebruik de pijltjestoetsen om metingen te bekijken.', [
+            'label' => $label,
+            'count' => count($points),
+            'from' => Progress::formatNumber($first['value'], 1, $lang),
+            'fromDate' => Fmt::date($first['date']),
+            'to' => Progress::formatNumber($last['value'], 1, $lang),
+            'toDate' => Fmt::date($last['date']),
+            'unit' => $unit,
+        ]),
     ];
     $id = 'grafiek-'.\Illuminate\Support\Str::random(8);
 @endphp

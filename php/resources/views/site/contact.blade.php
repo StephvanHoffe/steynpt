@@ -19,13 +19,13 @@
           @if ($locatie['directions'] !== '')
             <div class="card-soft p-5">
               <x-icon name="TramFront" class="size-5 text-accent" />
-              <p class="mt-3 font-semibold">Bereikbaarheid</p>
+              <p class="mt-3 font-semibold">{{ __('Bereikbaarheid') }}</p>
               <p class="mt-1 text-sm text-muted">{{ $locatie['directions'] }}</p>
             </div>
           @endif
           @if ($locatie['phone'] !== '' || $locatie['email'] !== '')
             <div class="card-soft p-5 sm:col-span-2">
-              <p class="font-semibold">Direct contact</p>
+              <p class="font-semibold">{{ __('Direct contact') }}</p>
               <ul class="mt-2 space-y-1.5 text-sm text-muted">
                 @if ($locatie['phone'] !== '')
                   <li><a href="tel:{{ \App\Site\Site::telHref($locatie['phone']) }}" class="inline-flex items-center gap-2 hover:text-ink"><x-icon name="Phone" class="size-4 text-accent" /> {{ $locatie['phone'] }}</a></li>
@@ -50,10 +50,10 @@
           @if (session('contact_success'))
             <div class="space-y-4">
               <x-form.alert :success="session('contact_success')" />
-              <p class="text-sm text-muted">Benieuwd naar online coaching? <a href="/registreren" class="font-semibold underline">Maak alvast je gratis account aan</a>, dan sta je direct klaar.</p>
+              <p class="text-sm text-muted">{{ __('Benieuwd naar online coaching?') }} <a href="/registreren" class="font-semibold underline">{{ __('Maak alvast je gratis account aan') }}</a>{{ __(', dan sta je direct klaar.') }}</p>
             </div>
           @else
-            <form method="post" action="/contact" class="grid gap-5" novalidate>
+            <form method="post" action="{{ \App\Site\Locale::path('/contact') }}" class="grid gap-5" novalidate>
               @csrf
               <x-form.field label="Volledige naam" name="name" autocomplete="name" required />
               <div class="grid gap-5 sm:grid-cols-2">
@@ -62,14 +62,14 @@
               </div>
               <x-form.select label="Waar heb je interesse in?" name="interest" :options="\App\Site\Site::INTERESTS" placeholder="Maak een keuze" :value="$defaultInterest" required />
               <div>
-                <label for="f-message" class="label">Bericht <span class="font-normal text-muted">(optioneel)</span></label>
-                <textarea id="f-message" name="message" class="input" placeholder="Vertel kort over je doel of vraag">{{ old('message') }}</textarea>
+                <label for="f-message" class="label">{{ __('Bericht') }} <span class="font-normal text-muted">{{ __('(optioneel)') }}</span></label>
+                <textarea id="f-message" name="message" class="input" placeholder="{{ __('Vertel kort over je doel of vraag') }}">{{ old('message') }}</textarea>
               </div>
               <div aria-hidden="true" class="absolute left-[-9999px]">
                 <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
               </div>
-              <x-form.submit pending-text="Versturen…">Verstuur aanvraag <x-icon name="Send" class="size-4" /></x-form.submit>
-              <p class="text-xs text-muted">We gebruiken je gegevens alleen om contact met je op te nemen. Zie onze <a href="/privacy" class="underline">privacyverklaring</a>.</p>
+              <x-form.submit pending-text="Versturen…">{{ __('Verstuur aanvraag') }} <x-icon name="Send" class="size-4" /></x-form.submit>
+              <p class="text-xs text-muted">{{ __('We gebruiken je gegevens alleen om contact met je op te nemen. Zie onze') }} <a href="{{ \App\Site\Locale::path('/privacy') }}" class="underline">{{ __('privacyverklaring') }}</a>.</p>
             </form>
           @endif
         </div>

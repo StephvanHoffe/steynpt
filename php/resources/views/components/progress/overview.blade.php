@@ -1,8 +1,13 @@
 @props(['rows', 'charts' => 'all', 'table' => false])
 {{-- Stat tiles + grafieken (en optioneel de volledige tabel) van de metingen van één klant. --}}
 @php
+    use App\Site\Locale;
     use App\Support\Progress;
     use App\View\Fmt;
+
+    // Namen van de meetwaarden staan in het Nederlands in App\Support\Progress; hier in de taal van de pagina.
+    $lang = Locale::current();
+    $num = fn ($n) => Progress::formatNumber($n, 1, $lang);
 
     $data = collect($rows)->map(fn ($m) => [
         'id' => $m->id,
@@ -28,13 +33,13 @@
     @foreach (array_slice($summary, 0, 4) as $s)
       @php $icon = $s['change'] === null || $s['change'] == 0 ? 'Minus' : ($s['change'] < 0 ? 'ArrowDownRight' : 'ArrowUpRight'); @endphp
       <div class="rounded-lg border border-line p-4">
-        <dt class="text-xs text-muted">{{ $s['label'] }}</dt>
-        <dd class="mt-1 text-2xl font-semibold tabular-nums">{{ Progress::formatNumber($s['latest']['value']) }} <span class="text-sm font-normal text-muted">{{ $s['unit'] }}</span></dd>
+        <dt class="text-xs text-muted">{{ __($s['label']) }}</dt>
+        <dd class="mt-1 text-2xl font-semibold tabular-nums">{{ $num($s['latest']['value']) }} <span class="text-sm font-normal text-muted">{{ $s['unit'] }}</span></dd>
         <dd class="mt-1 flex items-center gap-1 text-xs text-muted">
           @if ($s['change'] !== null)
-            <x-icon :name="$icon" class="size-3.5" />{{ $s['change'] > 0 ? '+' : '' }}{{ Progress::formatNumber($s['change']) }} {{ $s['unit'] }} sinds {{ Fmt::shortDateNear($s['since']) }}
+            <x-icon :name="$icon" class="size-3.5" />{{ __(':change :unit sinds :date', ['change' => ($s['change'] > 0 ? '+' : '').$num($s['change']), 'unit' => $s['unit'], 'date' => Fmt::shortDateNear($s['since'])]) }}
           @else
-            Gemeten op {{ Fmt::shortDateNear($s['latest']['date']) }}
+            {{ __('Gemeten op :date', ['date' => Fmt::shortDateNear($s['latest']['date'])]) }}
           @endif
         </dd>
       </div>
@@ -45,7 +50,7 @@
     <div class="grid gap-6 md:grid-cols-2">
       @foreach ($shown as $s)
         <div class="rounded-lg border border-line p-4">
-          <x-progress.chart :label="$s['label']" :unit="$s['unit']" :points="$s['points']" />
+          <x-progress.chart :label="__($s['label'])" :unit="$s['unit']" :points="$s['points']" />
         </div>
       @endforeach
     </div>
@@ -54,14 +59,14 @@
   @if ($table)
     <div class="relative overflow-x-auto rounded-lg border border-line">
       <table class="w-full min-w-[560px] text-left text-sm">
-        <caption class="sr-only">Alle metingen</caption>
+        <caption class="sr-only">{{ __('Alle metingen') }}</caption>
         <thead class="bg-surface text-xs uppercase tracking-wider text-muted">
           <tr>
-            <th class="px-4 py-2.5 font-semibold">Datum</th>
+            <th class="px-4 py-2.5 font-semibold">{{ __('Datum') }}</th>
             @foreach ($columns as $c)
-              <th class="px-4 py-2.5 font-semibold">{{ $c['label'] }} <span class="normal-case">({{ $c['unit'] }})</span></th>
+              <th class="px-4 py-2.5 font-semibold">{{ __($c['label']) }} <span class="normal-case">({{ $c['unit'] }})</span></th>
             @endforeach
-            <th class="px-4 py-2.5 font-semibold">Notitie</th>
+            <th class="px-4 py-2.5 font-semibold">{{ __('Notitie') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -69,7 +74,7 @@
             <tr class="border-t border-line align-top">
               <td class="whitespace-nowrap px-4 py-2.5 font-medium">{{ Fmt::shortDate($r['measuredAt'], true) }}</td>
               @foreach ($columns as $c)
-                <td class="px-4 py-2.5 tabular-nums">{{ $r[$c['key']] !== null ? Progress::formatNumber($r[$c['key']]) : '–' }}</td>
+                <td class="px-4 py-2.5 tabular-nums">{{ $r[$c['key']] !== null ? $num($r[$c['key']]) : '–' }}</td>
               @endforeach
               <td class="px-4 py-2.5 text-muted">{{ $r['note'] }}</td>
             </tr>

@@ -3,11 +3,11 @@
 @php
     $round = fn ($v) => \App\Support\Js::numberToString(\App\Support\Js::num(\App\Support\Js::round($v)));
     $targets = [
-        ['label' => 'Energie', 'value' => $round($plan['targets']['calories']).' kcal'],
-        ['label' => 'Eiwit', 'value' => $round($plan['targets']['protein']).' g'],
-        ['label' => 'Koolhydraten', 'value' => $round($plan['targets']['carbs']).' g'],
-        ['label' => 'Vet', 'value' => $round($plan['targets']['fat']).' g'],
-        ['label' => 'Water', 'value' => $plan['targets']['water']],
+        ['label' => __('Energie per dag'), 'value' => $round($plan['targets']['calories']).' kcal'],
+        ['label' => __('Eiwit per dag'), 'value' => $round($plan['targets']['protein']).' g'],
+        ['label' => __('Koolhydraten per dag'), 'value' => $round($plan['targets']['carbs']).' g'],
+        ['label' => __('Vet per dag'), 'value' => $round($plan['targets']['fat']).' g'],
+        ['label' => __('Water per dag'), 'value' => $plan['targets']['water']],
     ];
 @endphp
 <article class="space-y-6">
@@ -21,7 +21,7 @@
   <dl class="grid grid-cols-2 gap-3 sm:grid-cols-5">
     @foreach ($targets as $t)
       <div class="rounded-xl bg-accent-tint p-4">
-        <dt class="text-xs text-muted">{{ $t['label'] }} per dag</dt>
+        <dt class="text-xs text-muted">{{ $t['label'] }}</dt>
         <dd class="mt-1 font-semibold">{{ $t['value'] }}</dd>
       </div>
     @endforeach
@@ -31,7 +31,7 @@
     <section class="flex gap-3 rounded-xl border border-accent/30 bg-white p-5 break-inside-avoid">
       <x-icon name="Ban" class="size-5 shrink-0 text-accent" />
       <div>
-        <h3 class="font-semibold">Vermijden</h3>
+        <h3 class="font-semibold">{{ __('Vermijden') }}</h3>
         <ul class="mt-1 list-disc pl-5 text-sm">
           @foreach ($plan['avoid'] as $a)
             <li>{{ $a }}</li>
@@ -57,10 +57,10 @@
         @foreach ($meal['options'] as $j => $option)
           <li class="flex flex-col gap-1 px-5 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
             <div>
-              <p class="font-semibold">@if (count($meal['options']) > 1)<span class="mr-2 text-xs font-bold uppercase tracking-wider text-accent">Optie {{ $j + 1 }}</span>@endif{{ $option['title'] }}</p>
+              <p class="font-semibold">@if (count($meal['options']) > 1)<span class="mr-2 text-xs font-bold uppercase tracking-wider text-accent">{{ __('Optie :n', ['n' => $j + 1]) }}</span>@endif{{ $option['title'] }}</p>
               <p class="mt-1 text-sm text-muted">{{ $option['ingredients'] }}</p>
             </div>
-            <p class="shrink-0 text-sm font-semibold">± {{ $round($option['kcal']) }} kcal · {{ $round($option['protein']) }} g eiwit</p>
+            <p class="shrink-0 text-sm font-semibold">± {{ $round($option['kcal']) }} kcal · {{ __(':n g eiwit', ['n' => $round($option['protein'])]) }}</p>
           </li>
         @endforeach
       </ul>

@@ -1,9 +1,9 @@
 @props(['done'])
 @php
     $scales = [
-        ['name' => 'energy', 'label' => 'Energie', 'low' => 'Leeg', 'high' => 'Topfit'],
-        ['name' => 'sleep', 'label' => 'Slaap', 'low' => 'Slecht', 'high' => 'Uitstekend'],
-        ['name' => 'nutrition', 'label' => 'Voeding', 'low' => 'Lastig', 'high' => 'Volgens plan'],
+        ['name' => 'energy', 'label' => __('Energie'), 'low' => __('Leeg'), 'high' => __('Topfit')],
+        ['name' => 'sleep', 'label' => __('Slaap'), 'low' => __('Slecht'), 'high' => __('Uitstekend')],
+        ['name' => 'nutrition', 'label' => __('Voeding'), 'low' => __('Lastig'), 'high' => __('Volgens plan')],
     ];
     $e = $errors->checkin;
 @endphp
@@ -33,21 +33,21 @@
     @endforeach
     <div class="grid gap-5 sm:grid-cols-2">
       <div>
-        <label for="ci-workouts" class="label">Trainingen deze week</label>
+        <label for="ci-workouts" class="label">{{ __('Trainingen deze week') }}</label>
         <input id="ci-workouts" name="workouts" type="number" min="0" max="21" inputmode="numeric" value="{{ old('workouts', '3') }}" class="input" @if ($e->has('workouts')) aria-invalid="true" @endif>
         @if ($e->has('workouts'))<p class="field-error">{{ $e->first('workouts') }}</p>@endif
       </div>
       <div>
-        <label for="ci-weight" class="label">Gewicht in kg <span class="font-normal text-muted">(optioneel)</span></label>
-        <input id="ci-weight" name="weight" inputmode="decimal" placeholder="Bijv. 74,5" value="{{ old('weight') }}" class="input" @if ($e->has('weight')) aria-invalid="true" @endif>
+        <label for="ci-weight" class="label">{{ __('Gewicht in kg') }} <span class="font-normal text-muted">{{ __('(optioneel)') }}</span></label>
+        <input id="ci-weight" name="weight" inputmode="decimal" placeholder="{{ __('Bijv. 74,5') }}" value="{{ old('weight') }}" class="input" @if ($e->has('weight')) aria-invalid="true" @endif>
         @if ($e->has('weight'))<p class="field-error">{{ $e->first('weight') }}</p>@endif
       </div>
     </div>
     <div>
-      <label for="ci-note" class="label">Hoe ging je week? <span class="font-normal text-muted">(optioneel)</span></label>
-      <textarea id="ci-note" name="note" class="input min-h-24" placeholder="Wat ging goed, waar liep je tegenaan?">{{ old('note') }}</textarea>
+      <label for="ci-note" class="label">{{ __('Hoe ging je week?') }} <span class="font-normal text-muted">{{ __('(optioneel)') }}</span></label>
+      <textarea id="ci-note" name="note" class="input min-h-24" placeholder="{{ __('Wat ging goed, waar liep je tegenaan?') }}">{{ old('note') }}</textarea>
       @if ($e->has('note'))<p class="field-error">{{ $e->first('note') }}</p>@endif
     </div>
-    <x-form.submit pending-text="Opslaan…">Check-in versturen</x-form.submit>
+    <x-form.submit :pending-text="__('Opslaan…')">{{ __('Check-in versturen') }}</x-form.submit>
   </form>
 @endif

@@ -23,6 +23,8 @@ class TwoFactorController extends Controller
 {
     private const EXPIRED = 'Je inlogpoging is verlopen. Log opnieuw in.';
 
+    private const FAILED = 'Er ging iets mis. Log opnieuw in.';
+
     public function show(): View|RedirectResponse
     {
         $challenge = Accounts::challenge();
@@ -57,14 +59,14 @@ class TwoFactorController extends Controller
     {
         $challenge = Accounts::challenge();
         if (! $challenge) {
-            return back()->with('error', self::EXPIRED);
+            return self::relogin(self::EXPIRED);
         }
         $user = $challenge['user'];
         if (! $user->totp_enabled_at) {
-            return back()->with('error', 'Stel eerst de tweestapsverificatie in. Ververs de pagina.');
+            return back()->with('error', __('Stel eerst de tweestapsverificatie in. Ververs de pagina.'));
         }
         if (Accounts::codeLocked($user)) {
-            return back()->with('error', Accounts::LOCKED);
+            return back()->with('error', __(Accounts::LOCKED));
         }
 
         if (! Accounts::checkCode($user, (string) $request->input('code', ''))) {
@@ -78,7 +80,7 @@ class TwoFactorController extends Controller
             Accounts::updateChallenge(['attempts' => $attempts]);
 
             return back()->with('recovery', $request->boolean('recovery'))
-                ->withErrors(['code' => 'Deze code klopt niet. Kijk of de tijd op je telefoon goed staat en probeer de nieuwste code.']);
+                ->withErrors(['code' => __('Deze code klopt niet. Kijk of de tijd op je telefoon goed staat en probeer de nieuwste code.')]);
         }
 
         Accounts::clearCodeFailures($user);
@@ -92,21 +94,21 @@ class TwoFactorController extends Controller
     {
         $challenge = Accounts::challenge();
         if (! $challenge) {
-            return back()->with('error', self::EXPIRED);
+            return self::relogin(self::EXPIRED);
         }
         $user = $challenge['user'];
         if ($user->totp_enabled_at || ! $challenge['pending_secret']) {
-            return back()->with('error', 'Er ging iets mis. Log opnieuw in.');
+            return self::relogin(self::FAILED);
         }
         if (Accounts::codeLocked($user)) {
-            return back()->with('error', Accounts::LOCKED);
+            return back()->with('error', __(Accounts::LOCKED));
         }
 
         $step = Totp::verifyTotp($challenge['pending_secret'], (string) $request->input('code', ''));
         if ($step === null) {
             Accounts::registerCodeFailure($user);
 
-            return back()->withErrors(['code' => 'Deze code klopt niet. Scan de QR-code opnieuw en vul de code in die de app nu toont.']);
+            return back()->withErrors(['code' => __('Deze code klopt niet. Scan de QR-code opnieuw en vul de code in die de app nu toont.')]);
         }
 
         $enabled = User::query()->whereKey($user->id)->whereNull('totp_enabled_at')->update([
@@ -115,7 +117,7 @@ class TwoFactorController extends Controller
             'totp_last_step' => $step,
         ]);
         if (! $enabled) {
-            return back()->with('error', 'Er ging iets mis. Log opnieuw in.');
+            return self::relogin(self::FAILED);
         }
         $codes = Accounts::replaceRecoveryCodes($user);
         Accounts::clearCodeFailures($user);
@@ -138,6 +140,12 @@ class TwoFactorController extends Controller
         Accounts::login($challenge['user']);
 
         return redirect($challenge['next']);
+    }
+
+    /** Melding waarna alleen opnieuw inloggen helpt: de pagina toont dan de knop "Opnieuw inloggen" (ook in het Engels). */
+    private static function relogin(string $message): RedirectResponse
+    {
+        return back()->with('error', __($message))->with('relogin', true);
     }
 
     private function justSetUp(array $challenge): bool

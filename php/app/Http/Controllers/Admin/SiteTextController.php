@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Content\English;
 use App\Content\Fields;
 use App\Content\Registry;
 use App\Content\Values;
@@ -42,6 +43,7 @@ class SiteTextController extends Controller
         }
 
         return view('admin.texts.index', [
+            'englishPrefix' => English::PREFIX,
             'groups' => [
                 ['title' => "Pagina's", 'intro' => null, 'pages' => Registry::sitePages()],
                 ['title' => "Op meerdere pagina's", 'intro' => 'Pas je hier iets aan, dan verandert het overal waar het op de site staat.', 'pages' => Registry::sharedPages()],
@@ -50,9 +52,23 @@ class SiteTextController extends Controller
         ]);
     }
 
+    /** De pagina bij een adres: 'home' is de Nederlandse versie, 'en-home' de Engelse. */
+    private static function pageFor(string $pagina): ?array
+    {
+        if (str_starts_with($pagina, English::PREFIX)) {
+            $slug = substr($pagina, strlen(English::PREFIX));
+
+            return Registry::find($slug) ? Texts::englishPage($slug) : null;
+        }
+
+        return Registry::find($pagina);
+    }
+
     public function edit(string $pagina): View
     {
-        $page = Registry::find($pagina) ?? abort(404);
+        $page = self::pageFor($pagina) ?? abort(404);
+        $english = str_starts_with($page['slug'], English::PREFIX);
+        $slug = $english ? substr($page['slug'], strlen(English::PREFIX)) : $page['slug'];
 
         // Wanneer is elk aangepast veld voor het laatst opgeslagen (voor de tooltip in het bewerkscherm)?
         $prefix = $page['slug'].'.';
@@ -68,10 +84,14 @@ class SiteTextController extends Controller
             }
         }
 
+        $locale = $english ? 'en' : 'nl';
+
         return view('admin.texts.edit', [
             'page' => $page,
-            'values' => Texts::editable($page['slug']),
-            'shared' => ['algemeen' => Texts::editable('algemeen'), 'pakketten' => Texts::editable('pakketten')],
+            'locale' => $locale,
+            'slug' => $slug,
+            'values' => $english ? Texts::editableEnglish($slug) : Texts::editable($slug),
+            'shared' => ['algemeen' => Texts::resolved('algemeen', $locale), 'pakketten' => Texts::resolved('pakketten', $locale)],
             'changedAt' => $changedAt,
             'last' => $last ? self::stamp($last) : null,
             'state' => session('texts_state', []),
@@ -84,7 +104,7 @@ class SiteTextController extends Controller
      */
     public function update(Request $request, string $pagina): RedirectResponse
     {
-        $page = Registry::find($pagina);
+        $page = self::pageFor($pagina);
         if (! $page) {
             return back()->with('texts_state', ['error' => 'Deze pagina bestaat niet (meer).']);
         }

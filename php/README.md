@@ -4,6 +4,15 @@ Dezelfde website als de Next.js-versie in de hoofdmap, maar in PHP, zodat hij op
 
 **Live zetten:** volg [docs/live-zetten-vimexx-php.md](../docs/live-zetten-vimexx-php.md).
 
+## Nederlands en Engels
+
+De site is tweetalig (alleen in deze PHP-versie, niet in de Next.js-versie):
+
+- Openbare pagina's hebben een Nederlands en een Engels adres (`/tarieven` en `/en/pricing`, zie `App\Site\Locale::PATHS`), met hreflang-links en beide talen in de sitemap. De taalknop (NL/EN) staat rechtsboven en in de footer.
+- Inloggen, registreren en Mijn omgeving hebben één adres en volgen de taal van het lid (`users.locale`, ook te kiezen in het profiel) of, zonder account, de laatst gekozen taal (cookie `taal`). AI-schema's worden in de taal van het lid gemaakt. Het beheer is altijd Nederlands.
+- Teksten uit Website-teksten hebben een Engelse versie (`app/Content/English.php`) die Steyn in het beheer per pagina kan aanpassen (knop *English*). Prijzen, links, het adres en de contactgegevens zijn in beide talen gelijk en stel je in het Nederlands in.
+- Vaste teksten in de code staan in `__('Nederlandse tekst')`; de Engelse vertalingen staan in `lang/json/*/en.json` (zie `lang/json/README.md`).
+
 ## Techniek
 
 - Laravel 13, PHP 8.3, MySQL/MariaDB (lokaal kan ook SQLite).

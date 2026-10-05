@@ -10,6 +10,10 @@ use App\Support\Js;
 /**
  * Prompts voor het AI-concept. Steyn controleert elk concept voordat de klant het ziet;
  * de prompt vraagt daarom om een volledig, veilig en direct bruikbaar voorstel.
+ *
+ * Een klant die Mijn omgeving in het Engels gebruikt (users.locale = 'en') krijgt een Engelse prompt, zodat de AI
+ * het hele schema in het Engels schrijft. De intake (en een instructie van Steyn) blijft Nederlands; dat staat in
+ * de prompt. De Nederlandse prompt is ongewijzigd (zie tests/Unit/PromptTest.php).
  */
 final class Prompt
 {
@@ -43,19 +47,52 @@ final class Prompt
         - Vermijd producten die de klant niet lust.
         TXT;
 
+    private const SHARED_EN = <<<'TXT'
+        You are drafting a plan for a client of SteynPT, the personal training business of Steyn van Leeuwen in Amsterdam. Steyn is a personal trainer and orthomolecular nutritional therapist. He checks and refines every draft before the client gets to see it.
+
+        This client uses SteynPT in English. Write the whole plan in English (British spelling): every text field, including the title, summary, day names, focus, warm-up, exercise names, notes, meal names, times, meal options, ingredients, water target, things to avoid, progression and tips. The client's intake and any instruction from Steyn are written in Dutch, and the field descriptions in the output schema are in Dutch too: use them as information only and do not copy Dutch words into the plan (for example "Day 1 – Upper body", "Breakfast", "After training", "2-2.5 litres per day"). Use metric units.
+
+        Address the client directly as "you": personal, positive and concrete. SteynPT stands for a healthy, achievable lifestyle: no crash diets, no extreme methods and no promises you can't keep.
+
+        Safety comes first:
+        - Take injuries, limitations and medical considerations into account. When in doubt, choose the safer option and mention in the text that Steyn will discuss this point with the client.
+        - Do not make diagnoses or medical claims. For medical complaints, refer the client to their GP.
+        TXT;
+
+    private const TRAINING_EN = self::SHARED_EN."\n\n".<<<'TXT'
+        Create a training plan:
+        - Exactly as many training days as the client trains per week, fitting within the stated session length (including warm-up and cool-down).
+        - Only exercises that suit the location and the available equipment.
+        - Matched to experience: beginners get clear, basic exercises with straightforward technique tips; advanced clients get more volume and variety.
+        - For injuries: avoid exercises that load that area and give a safe alternative in the notes.
+        - For a sport or elite sport goal: sport-specific strength, explosiveness and injury prevention.
+        - Describe progression (for example building up weight or reps each week) and give a few practical tips.
+        TXT;
+
+    private const NUTRITION_EN = self::SHARED_EN."\n\n".<<<'TXT'
+        Create a nutrition plan:
+        - Allergies, intolerances and eating style are strict requirements. Do not use any ingredient that conflicts with them, not even as an option or garnish. List them under "avoid", together with a tip to check labels.
+        - Use the calculated targets for energy and macros as the targets. Only deviate if the intake gives a clear reason to, and then explain it in the summary.
+        - Create exactly as many meals as the client states, with 2 or 3 options per meal including amounts, so there is a choice. Take training into account (for example a meal after training).
+        - Use products that are available in Dutch supermarkets and dishes that are easy to prepare.
+        - Kcal and protein per option are realistic estimates; the options for each meal are close to each other.
+        - Avoid foods the client doesn't like.
+        TXT;
+
     /**
      * @param  'training'|'voeding'  $type
      * @param  array<string, mixed>  $intake  gevalideerde intake
      * @param  int|null  $year  huidig jaar (standaard: nu), voor leeftijd en richtwaarden
+     * @param  'nl'|'en'  $language  taal van het schema: de taal van de klant (users.locale)
      * @return array{system: string, user: string}
      */
-    public static function buildPlanPrompt(string $type, array $intake, ?string $instruction = null, ?int $year = null): array
+    public static function buildPlanPrompt(string $type, array $intake, ?string $instruction = null, ?int $year = null, string $language = 'nl'): array
     {
-        $rows = array_filter(
-            Intake::intakeSummary($intake, $year),
-            fn (array $r) => $r['section'] === 'algemeen' || ($type === 'training' ? $r['section'] === 'training' : $r['section'] === 'voeding'),
-        );
-        $summary = implode("\n", array_map(fn (array $r) => "- {$r['label']}: {$r['value']}", $rows));
+        if ($language === 'en') {
+            return self::buildEnglishPlanPrompt($type, $intake, $instruction, $year);
+        }
+
+        $summary = self::intakeLines($type, $intake, $year);
 
         $parts = ["Intake van de klant:\n{$summary}"];
 
@@ -73,5 +110,46 @@ final class Prompt
         $parts[] = $type === 'training' ? 'Maak nu het trainingsschema.' : 'Maak nu het voedingsschema.';
 
         return ['system' => $type === 'training' ? self::TRAINING : self::NUTRITION, 'user' => implode("\n\n", $parts)];
+    }
+
+    /**
+     * Zelfde opbouw in het Engels. De regels van de intake houden hun Nederlandse labels en waarden (de AI begrijpt
+     * ze); de prompt vraagt om een volledig Engels schema.
+     *
+     * @param  'training'|'voeding'  $type
+     * @param  array<string, mixed>  $intake  gevalideerde intake
+     * @return array{system: string, user: string}
+     */
+    private static function buildEnglishPlanPrompt(string $type, array $intake, ?string $instruction, ?int $year): array
+    {
+        $summary = self::intakeLines($type, $intake, $year);
+
+        $parts = ["Client intake (in Dutch):\n{$summary}"];
+
+        if ($type === 'voeding') {
+            $t = Intake::estimateTargets($intake, $year);
+            $parts[] = "Calculated targets (Mifflin-St Jeor with activity factor):\n- Resting metabolic rate: {$t['bmr']} kcal\n- Maintenance: {$t['maintenance']} kcal\n- Target energy: {$t['calories']} kcal\n- Protein: {$t['protein']} g\n- Carbohydrates: {$t['carbs']} g\n- Fat: {$t['fat']} g";
+            $parts[] = 'The client trains '.Js::numberToString($intake['trainingDays']).'× per week, '.Js::numberToString($intake['sessionMinutes']).' minutes per session.';
+        }
+
+        $instruction = Js::trim($instruction ?? '');
+        if ($instruction !== '') {
+            $parts[] = "Additional instruction from Steyn (takes precedence; may be written in Dutch):\n{$instruction}";
+        }
+
+        $parts[] = ($type === 'training' ? 'Now create the training plan.' : 'Now create the nutrition plan.').' Write all of it in English.';
+
+        return ['system' => $type === 'training' ? self::TRAINING_EN : self::NUTRITION_EN, 'user' => implode("\n\n", $parts)];
+    }
+
+    /** De intake als regels "- Label: waarde": algemeen plus de vragen bij dit schematype. */
+    private static function intakeLines(string $type, array $intake, ?int $year): string
+    {
+        $rows = array_filter(
+            Intake::intakeSummary($intake, $year),
+            fn (array $r) => $r['section'] === 'algemeen' || ($type === 'training' ? $r['section'] === 'training' : $r['section'] === 'voeding'),
+        );
+
+        return implode("\n", array_map(fn (array $r) => "- {$r['label']}: {$r['value']}", $rows));
     }
 }

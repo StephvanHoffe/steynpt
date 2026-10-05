@@ -5,5 +5,5 @@
   x-data="{ pending: false }" x-init="$el.form?.addEventListener('submit', () => setTimeout(() => pending = true))"
   :disabled="pending{{ $disabledWhen ? ' || ('.$disabledWhen.')' : '' }}" @if ($disabledWhen) disabled @endif>
   <span x-show="!pending" class="contents">{{ $slot }}</span>
-  <span x-show="pending" x-cloak class="contents"><x-icon name="LoaderCircle" class="size-4 animate-spin" /> {{ $pendingText }}</span>
+  <span x-show="pending" x-cloak class="contents"><x-icon name="LoaderCircle" class="size-4 animate-spin" /> {{ __($pendingText) }}</span>
 </button>

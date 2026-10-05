@@ -53,6 +53,8 @@ return [
     'LineChart' => ['lucide lucide-chart-line lucide-line-chart', '<path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="m19 9-5 5-4-4-3 3"></path>'],
     'LoaderCircle' => ['lucide lucide-loader-circle lucide-loader-2', '<path d="M21 12a9 9 0 1 1-6.219-8.56"></path>'],
     'LogOut' => ['lucide lucide-log-out', '<path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>'],
+    'Languages' => ['lucide lucide-languages', '<path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path>'],
+    'Globe' => ['lucide lucide-globe', '<circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path>'],
     'Mail' => ['lucide lucide-mail', '<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect>'],
     'MapPin' => ['lucide lucide-map-pin', '<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle>'],
     'Menu' => ['lucide lucide-menu', '<path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path>'],

@@ -6,6 +6,7 @@ use App\Auth\Accounts;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Site\Invitation;
+use App\Site\Locale;
 use App\Site\Site;
 use App\Site\Texts;
 use App\Support\ReferralProgram;
@@ -48,33 +49,33 @@ class RegisterController extends Controller
             'terms' => ['required', 'in:on'],
             'marketing' => ['nullable', 'in:on'],
         ], [
-            'firstName.required' => 'Vul je voornaam in',
-            'firstName.max' => 'Je voornaam mag maximaal 60 tekens hebben',
-            'lastName.required' => 'Vul je achternaam in',
-            'lastName.max' => 'Je achternaam mag maximaal 80 tekens hebben',
-            'email.required' => 'Vul een geldig e-mailadres in',
-            'email.email' => 'Vul een geldig e-mailadres in',
-            'email.max' => 'Vul een geldig e-mailadres in',
-            'phone.max' => 'Je telefoonnummer mag maximaal 30 tekens hebben',
-            'password.required' => 'Kies een wachtwoord van minimaal 8 tekens',
-            'password.min' => 'Kies een wachtwoord van minimaal 8 tekens',
-            'password.max' => 'Je wachtwoord mag maximaal 200 tekens hebben',
-            'goal.required' => 'Kies je belangrijkste doel',
-            'goal.in' => 'Kies je belangrijkste doel',
-            'terms.required' => 'Geef toestemming om je account aan te maken',
-            'terms.in' => 'Geef toestemming om je account aan te maken',
+            'firstName.required' => __('Vul je voornaam in'),
+            'firstName.max' => __('Je voornaam mag maximaal 60 tekens hebben'),
+            'lastName.required' => __('Vul je achternaam in'),
+            'lastName.max' => __('Je achternaam mag maximaal 80 tekens hebben'),
+            'email.required' => __('Vul een geldig e-mailadres in'),
+            'email.email' => __('Vul een geldig e-mailadres in'),
+            'email.max' => __('Vul een geldig e-mailadres in'),
+            'phone.max' => __('Je telefoonnummer mag maximaal 30 tekens hebben'),
+            'password.required' => __('Kies een wachtwoord van minimaal 8 tekens'),
+            'password.min' => __('Kies een wachtwoord van minimaal 8 tekens'),
+            'password.max' => __('Je wachtwoord mag maximaal 200 tekens hebben'),
+            'goal.required' => __('Kies je belangrijkste doel'),
+            'goal.in' => __('Kies je belangrijkste doel'),
+            'terms.required' => __('Geef toestemming om je account aan te maken'),
+            'terms.in' => __('Geef toestemming om je account aan te maken'),
         ]);
         $email = strtolower($data['email']);
         $back = fn (array $errors) => back()->withInput($request->except('password'))->withErrors($errors);
 
         if (User::query()->where('email', $email)->exists()) {
-            return $back(['email' => 'Er bestaat al een account met dit e-mailadres. Log in om verder te gaan.']);
+            return $back(['email' => __('Er bestaat al een account met dit e-mailadres. Log in om verder te gaan.')]);
         }
 
         $code = ReferralProgram::normalizeReferralCode($data['referralCode'] ?? null);
         $referrer = $code ? User::query()->where('referral_code', $code)->first() : null;
         if (trim((string) ($data['referralCode'] ?? '')) !== '' && ! $referrer) {
-            return $back(['referralCode' => 'Deze uitnodigingscode kennen we niet. Controleer de code of laat het veld leeg.']);
+            return $back(['referralCode' => __('Deze uitnodigingscode kennen we niet. Controleer de code of laat het veld leeg.')]);
         }
 
         $plan = Site::isOnlinePlan($data['plan'] ?? null) ? $data['plan'] : null;
@@ -89,6 +90,8 @@ class RegisterController extends Controller
                     'last_name' => $data['lastName'],
                     'phone' => ($data['phone'] ?? null) ?: null,
                     'goal' => $data['goal'],
+                    // Wie zich op de Engelse site aanmeldt, krijgt Mijn omgeving in het Engels.
+                    'locale' => Locale::current(),
                     'plan' => $plan,
                     'coaching_status' => $plan ? 'aangevraagd' : 'geen',
                     'referral_code' => ReferralProgram::makeReferralCode($data['firstName']),
@@ -100,12 +103,12 @@ class RegisterController extends Controller
             } catch (UniqueConstraintViolationException) {
                 // Botsing op e-mail (gelijktijdige registratie) of op de uitnodigingscode.
                 if (User::query()->where('email', $email)->exists()) {
-                    return $back(['email' => 'Er bestaat al een account met dit e-mailadres.']);
+                    return $back(['email' => __('Er bestaat al een account met dit e-mailadres.')]);
                 }
             }
         }
         if (! $user) {
-            return back()->withInput($request->except('password'))->with('error', 'Er ging iets mis bij het aanmaken van je account. Probeer het opnieuw.');
+            return back()->withInput($request->except('password'))->with('error', __('Er ging iets mis bij het aanmaken van je account. Probeer het opnieuw.'));
         }
 
         Cookie::queue(Cookie::forget(Invitation::COOKIE));

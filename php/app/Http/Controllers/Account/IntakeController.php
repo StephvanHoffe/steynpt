@@ -33,7 +33,7 @@ class IntakeController extends Controller
                 $errors['consent'] = 'Geef toestemming om je gegevens te gebruiken voor je schema';
             }
 
-            return back()->withErrors($errors, 'intake')->withInput()->with('intake_error', 'Controleer de gemarkeerde velden.');
+            return back()->withErrors(self::translateErrors($errors), 'intake')->withInput()->with('intake_error', __('Controleer de gemarkeerde velden.'));
         }
 
         $now = CarbonImmutable::now('UTC');
@@ -54,5 +54,22 @@ class IntakeController extends Controller
         }
 
         return redirect('/account?intake='.($generating ? 'gestart' : 'opgeslagen'));
+    }
+
+    /**
+     * De meldingen van App\Support\Intake zijn Nederlands; hier komen ze in de taal van het lid
+     * (lang/json/app/en.json). "Maximaal 600 tekens" heeft een getal en gaat via een placeholder.
+     *
+     * @param  array<string, string>  $errors
+     * @return array<string, string>
+     */
+    private static function translateErrors(array $errors): array
+    {
+        return array_map(
+            fn (string $message) => preg_match('/^Maximaal (\d+) tekens$/D', $message, $m) === 1
+                ? __('Maximaal :max tekens', ['max' => $m[1]])
+                : __($message),
+            $errors,
+        );
     }
 }

@@ -32,7 +32,7 @@ final class StructuredData
             'url' => $canonical,
             'name' => $title,
             'description' => $description,
-            'inLanguage' => 'nl-NL',
+            'inLanguage' => Locale::tag(),
             'isPartOf' => ['@id' => $ids['website']],
             'about' => ['@id' => $ids['business']],
         ];
@@ -52,7 +52,7 @@ final class StructuredData
                     '@id' => $ids['website'],
                     'url' => "{$base}/",
                     'name' => 'SteynPT',
-                    'inLanguage' => 'nl-NL',
+                    'inLanguage' => ['nl-NL', 'en'],
                     'publisher' => ['@id' => $ids['business']],
                 ],
                 self::business($base, $ids, $locatie),
@@ -79,7 +79,7 @@ final class StructuredData
             '@id' => $ids['business'],
             'name' => 'SteynPT',
             'description' => Texts::get('home')['seo']['description'],
-            'url' => "{$base}/",
+            'url' => $base.Locale::path('/'),
             'logo' => "{$base}/brand/steynpt-logo-black.png",
             'image' => ["{$base}/images/steyn-glimlach.jpg", "{$base}/images/steyn-headshot.jpg"],
             'address' => $address,
@@ -97,7 +97,7 @@ final class StructuredData
         $business['areaServed'] = [
             ['@type' => 'City', 'name' => 'Amsterdam'],
             ...array_map(fn (string $name) => ['@type' => 'Place', 'name' => "{$name}, Amsterdam"], self::NEARBY),
-            ['@type' => 'Country', 'name' => 'Nederland'],
+            ['@type' => 'Country', 'name' => __('Nederland')],
         ];
         $business['founder'] = ['@id' => $ids['person']];
         $business['employee'] = ['@id' => $ids['person']];
@@ -107,7 +107,7 @@ final class StructuredData
         }
         $business['hasOfferCatalog'] = [
             '@type' => 'OfferCatalog',
-            'name' => 'Diensten van SteynPT',
+            'name' => __('Diensten van SteynPT'),
             'itemListElement' => self::offers($base),
         ];
 
@@ -120,11 +120,12 @@ final class StructuredData
             '@type' => 'Person',
             '@id' => $ids['person'],
             'name' => 'Steyn van Leeuwen',
-            'jobTitle' => 'Personal trainer en orthomoleculair voedingstherapeut',
-            'url' => "{$base}/over-steyn",
+            'jobTitle' => __('Personal trainer en orthomoleculair voedingstherapeut'),
+            'url' => $base.Locale::path('/over-steyn'),
             'image' => "{$base}/images/steyn-headshot.jpg",
             'worksFor' => ['@id' => $ids['business']],
-            'knowsAbout' => ['Personal training', 'Krachttraining', 'Voedingscoaching', 'Orthomoleculaire voeding', 'Ademcoaching', 'Topsport'],
+            'knowsAbout' => array_map(fn (string $topic) => __($topic), ['Personal training', 'Krachttraining', 'Voedingscoaching', 'Orthomoleculaire voeding', 'Ademcoaching', 'Topsport']),
+            'knowsLanguage' => ['nl', 'en'],
         ];
         if (($locatie['instagramUrl'] ?? '') !== '') {
             $person['sameAs'] = [$locatie['instagramUrl']];
@@ -139,7 +140,7 @@ final class StructuredData
         $offer = function (string $name, string $path, string $description, ?string $price, ?string $unit) use ($base) {
             $item = [
                 '@type' => 'Offer',
-                'itemOffered' => ['@type' => 'Service', 'name' => $name, 'description' => $description, 'url' => $base.$path, 'provider' => ['@id' => "{$base}/#bedrijf"]],
+                'itemOffered' => ['@type' => 'Service', 'name' => $name, 'description' => $description, 'url' => $base.Locale::path($path), 'provider' => ['@id' => "{$base}/#bedrijf"]],
             ];
             $number = $price !== null ? Values::priceNumber($price) : NAN;
             if (! is_nan($number)) {
@@ -156,14 +157,14 @@ final class StructuredData
 
         $offers = [];
         foreach (Texts::ptPrices() as $card) {
-            $offers[] = $offer("Personal training – {$card['name']}", '/personal-training', '1-op-1 personal training bij Gymbase in Amsterdam Oud-West.', $card['price'], $card['unit']);
+            $offers[] = $offer("Personal training – {$card['name']}", '/personal-training', __('1-op-1 personal training bij Gymbase in Amsterdam Oud-West.'), $card['price'], $card['unit']);
         }
         foreach (Texts::onlinePlans() as $plan) {
-            $offers[] = $offer("Online coaching {$plan['name']}", '/online-coaching', $plan['tagline'] ?? 'Online coaching door Steyn van Leeuwen.', $plan['price'], 'per maand');
+            $offers[] = $offer("Online coaching {$plan['name']}", '/online-coaching', $plan['tagline'] ?? __('Online coaching door Steyn van Leeuwen.'), $plan['price'], __('per maand'));
         }
         $adem = Texts::breathworkPrice();
-        $offers[] = $offer('Ademcoaching 1-op-1', '/ademcoaching', 'Een 1-op-1 ademsessie in Amsterdam.', $adem['price'], $adem['unit']);
-        $offers[] = $offer('Voedingscoaching', '/voedingscoaching', 'Voedingscoaching door een orthomoleculair voedingstherapeut.', null, null);
+        $offers[] = $offer($adem['name'], '/ademcoaching', __('Een 1-op-1-ademsessie in Amsterdam.'), $adem['price'], $adem['unit']);
+        $offers[] = $offer(__('Voedingscoaching'), '/voedingscoaching', __('Voedingscoaching door een orthomoleculair voedingstherapeut.'), null, null);
 
         return $offers;
     }

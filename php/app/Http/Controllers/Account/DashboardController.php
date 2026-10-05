@@ -22,6 +22,7 @@ use Illuminate\View\View;
 /** Mijn omgeving: dashboard, wekelijkse check-in en online coaching aanvragen. */
 class DashboardController extends Controller
 {
+    // De labels staan in het Nederlands; de weergave vertaalt ze met __().
     public const STATUS = [
         'geen' => ['label' => 'Nog niet gestart', 'tone' => 'bg-surface text-ink'],
         'aangevraagd' => ['label' => 'Aanvraag ontvangen', 'tone' => 'bg-accent-tint text-accent'],
@@ -80,10 +81,10 @@ class DashboardController extends Controller
         $values = $request->only('energy', 'sleep', 'nutrition', 'workouts', 'weight', 'note');
         $errors = [];
         $data = [];
-        foreach (['energy' => 'energie', 'sleep' => 'slaap', 'nutrition' => 'voeding'] as $field => $label) {
+        foreach (['energy' => 'Geef een score voor energie', 'sleep' => 'Geef een score voor slaap', 'nutrition' => 'Geef een score voor voeding'] as $field => $message) {
             $v = trim((string) ($values[$field] ?? ''));
             if (! preg_match('/^\d+$/', $v) || (int) $v < 1 || (int) $v > 5) {
-                $errors[$field] = "Geef een score voor {$label}";
+                $errors[$field] = __($message);
             } else {
                 $data[$field] = (int) $v;
             }
@@ -91,7 +92,7 @@ class DashboardController extends Controller
         $workouts = trim((string) ($values['workouts'] ?? ''));
         $workouts = $workouts === '' ? '0' : $workouts;
         if (! preg_match('/^\d+$/', $workouts) || (int) $workouts > 21) {
-            $errors['workouts'] = 'Vul een aantal trainingen in tussen 0 en 21';
+            $errors['workouts'] = __('Vul een aantal trainingen in tussen 0 en 21');
         } else {
             $data['workouts'] = (int) $workouts;
         }
@@ -101,14 +102,14 @@ class DashboardController extends Controller
         } else {
             $kg = str_replace(',', '.', $weight);
             if (! is_numeric($kg) || (float) $kg <= 25 || (float) $kg >= 350) {
-                $errors['weight'] = 'Vul een geldig gewicht in (kg)';
+                $errors['weight'] = __('Vul een geldig gewicht in (kg)');
             } else {
                 $data['weight'] = (float) $kg;
             }
         }
         $note = trim((string) ($values['note'] ?? ''));
         if (mb_strlen($note) > 1000) {
-            $errors['note'] = 'Je bericht mag maximaal 1000 tekens hebben';
+            $errors['note'] = __('Je bericht mag maximaal 1000 tekens hebben');
         }
         if ($errors) {
             return back()->withErrors($errors, 'checkin')->withInput();
@@ -118,11 +119,13 @@ class DashboardController extends Controller
         $week = Weeks::isoWeekKey($now->setTimezone('Europe/Amsterdam'));
         $inserted = CheckIn::query()->insertOrIgnore([...$data, 'user_id' => $user->id, 'week' => $week, 'note' => $note !== '' ? $note : null, 'created_at' => $now]);
         if ($inserted === 0) {
-            return back()->with('checkin_error', 'Je hebt deze week al ingecheckt. Tot volgende week!');
+            return back()->with('checkin_error', __('Je hebt deze week al ingecheckt. Tot volgende week!'));
         }
         $streak = Weeks::checkInStreak(CheckIn::query()->where('user_id', $user->id)->pluck('week')->all(), $now->setTimezone('Europe/Amsterdam'));
 
-        return back()->with('checkin_success', $streak > 1 ? "Check-in opgeslagen. {$streak} weken op rij, goed bezig!" : 'Check-in opgeslagen. Steyn kijkt ernaar.');
+        return back()->with('checkin_success', $streak > 1
+            ? __('Check-in opgeslagen. :count weken op rij, goed bezig!', ['count' => $streak])
+            : __('Check-in opgeslagen. Steyn kijkt ernaar.'));
     }
 
     public function requestCoaching(Request $request): RedirectResponse
@@ -130,13 +133,13 @@ class DashboardController extends Controller
         $user = $request->user();
         $plan = collect(Texts::onlinePlans())->firstWhere('id', (string) $request->input('plan', ''));
         if (! $plan) {
-            return back()->with('coaching_error', 'Kies een pakket om te starten.');
+            return back()->with('coaching_error', __('Kies een pakket om te starten.'));
         }
         if ($user->coaching_status === 'actief') {
-            return back()->with('coaching_error', 'Je online coaching is al actief.');
+            return back()->with('coaching_error', __('Je online coaching is al actief.'));
         }
         $user->forceFill(['plan' => $plan['id'], 'coaching_status' => 'aangevraagd'])->save();
 
-        return back()->with('coaching_success', "Je aanvraag voor online coaching {$plan['name']} is ontvangen. Steyn neemt binnen 24 uur contact met je op.");
+        return back()->with('coaching_success', __('Je aanvraag voor online coaching :plan is ontvangen. Steyn neemt binnen 24 uur contact met je op.', ['plan' => $plan['name']]));
     }
 }

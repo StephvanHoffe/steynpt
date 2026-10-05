@@ -5,12 +5,12 @@
     $current = (string) old($name, $value);
 @endphp
 <div>
-  <label for="{{ $fieldId }}" class="label">{{ $label }}</label>
+  <label for="{{ $fieldId }}" class="label">{{ __($label) }}</label>
   <select id="{{ $fieldId }}" name="{{ $name }}" class="input" @if ($error) aria-invalid="true" aria-describedby="{{ $fieldId }}-error" @endif {{ $attributes }}>
-    @if ($placeholder)<option value="">{{ $placeholder }}</option>@endif
+    @if ($placeholder)<option value="">{{ __($placeholder) }}</option>@endif
     @foreach ($options as $o)
-      <option value="{{ $o['id'] }}" @selected($current === (string) $o['id'])>{{ $o['label'] }}</option>
+      <option value="{{ $o['id'] }}" @selected($current === (string) $o['id'])>{{ __($o['label']) }}</option>
     @endforeach
   </select>
-  @if ($error)<p id="{{ $fieldId }}-error" class="field-error">{{ $error }}</p>@endif
+  @if ($error)<p id="{{ $fieldId }}-error" class="field-error">{{ __($error) }}</p>@endif
 </div>

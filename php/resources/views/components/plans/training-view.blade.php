@@ -8,8 +8,8 @@
   <header>
     <h2 class="display text-3xl sm:text-4xl">{{ $plan['title'] }}</h2>
     <p class="mt-2 flex flex-wrap gap-2 text-sm">
-      <span class="rounded-full bg-accent-tint px-3 py-1 font-semibold">{{ count($plan['days']) }}× per week</span>
-      <span class="rounded-full bg-accent-tint px-3 py-1 font-semibold">{{ $n($plan['durationWeeks']) }} weken</span>
+      <span class="rounded-full bg-accent-tint px-3 py-1 font-semibold">{{ __(':n× per week', ['n' => count($plan['days'])]) }}</span>
+      <span class="rounded-full bg-accent-tint px-3 py-1 font-semibold">{{ __(':n weken', ['n' => $n($plan['durationWeeks'])]) }}</span>
     </p>
     @if ($filled($plan['summary']))
       <p class="mt-4 whitespace-pre-line leading-relaxed text-ink/85">{{ $plan['summary'] }}</p>
@@ -28,17 +28,17 @@
       </div>
       <div class="space-y-4 p-5">
         @if ($filled($day['warmup']))
-          <p class="text-sm"><strong>Warming-up:</strong> {{ $day['warmup'] }}</p>
+          <p class="text-sm"><strong>{{ __('Warming-up:') }}</strong> {{ $day['warmup'] }}</p>
         @endif
         <div class="relative overflow-x-auto">
           <table class="w-full min-w-[520px] text-left text-sm">
             <thead class="text-xs uppercase tracking-wider text-muted">
               <tr class="border-b border-line">
-                <th class="py-2 pr-3 font-semibold">Oefening</th>
-                <th class="py-2 pr-3 font-semibold">Sets</th>
-                <th class="py-2 pr-3 font-semibold">Herhalingen</th>
-                <th class="py-2 pr-3 font-semibold">Rust</th>
-                <th class="py-2 font-semibold">Toelichting</th>
+                <th class="py-2 pr-3 font-semibold">{{ __('Oefening') }}</th>
+                <th class="py-2 pr-3 font-semibold">{{ __('Sets') }}</th>
+                <th class="py-2 pr-3 font-semibold">{{ __('Herhalingen') }}</th>
+                <th class="py-2 pr-3 font-semibold">{{ __('Rust') }}</th>
+                <th class="py-2 font-semibold">{{ __('Toelichting') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -55,7 +55,7 @@
           </table>
         </div>
         @if ($filled($day['cooldown']))
-          <p class="text-sm"><strong>Cooling-down:</strong> {{ $day['cooldown'] }}</p>
+          <p class="text-sm"><strong>{{ __('Cooling-down:') }}</strong> {{ $day['cooldown'] }}</p>
         @endif
       </div>
     </section>
@@ -64,7 +64,7 @@
   @if ($filled($plan['progression']))
     <section class="card break-inside-avoid p-5">
       <h3 class="flex items-center gap-2 font-semibold">
-        <x-icon name="TrendingUp" class="size-5 text-accent" /> Progressie
+        <x-icon name="TrendingUp" class="size-5 text-accent" /> {{ __('Progressie') }}
       </h3>
       <p class="mt-2 whitespace-pre-line text-sm leading-relaxed">{{ $plan['progression'] }}</p>
     </section>

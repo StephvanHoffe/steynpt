@@ -90,7 +90,7 @@ final class Privacy
                             ],
                             [
                                 'title' => 'Cookies',
-                                'body' => 'We gebruiken alleen functionele cookies: om je ingelogd te houden en om bij te houden via wiens uitnodiging je binnenkomt. Er worden geen tracking- of advertentiecookies geplaatst.',
+                                'body' => 'We gebruiken alleen functionele cookies: om je ingelogd te houden, om je taalkeuze te onthouden en om bij te houden via wiens uitnodiging je binnenkomt. Er worden geen tracking- of advertentiecookies geplaatst.',
                             ],
                         ],
                         ['min' => 1, 'max' => 20],

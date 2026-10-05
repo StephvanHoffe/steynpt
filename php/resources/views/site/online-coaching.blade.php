@@ -58,14 +58,14 @@
     <div class="container-site">
       <x-section-heading align="center" :eyebrow="$t['pakketten']['eyebrow']" :title="$t['pakketten']['title']" :intro="$t['pakketten']['intro']" />
       <div class="mt-14"><x-online-plans :referral="$ref" /></div>
-      <p class="mt-8 text-center text-sm text-muted">{{ $t['pakketten']['note'] }} <a href="/contact" class="font-semibold text-ink underline decoration-accent underline-offset-4">{{ $t['pakketten']['noteLink'] }}</a></p>
+      <p class="mt-8 text-center text-sm text-muted">{{ $t['pakketten']['note'] }} <a href="{{ \App\Site\Locale::path('/contact') }}" class="font-semibold text-ink underline decoration-accent underline-offset-4">{{ $t['pakketten']['noteLink'] }}</a></p>
     </div>
   </section>
 
   <section class="container-site grid gap-14 py-20 lg:grid-cols-2 lg:items-center lg:py-28">
     <div>
       <x-section-heading :eyebrow="$t['vriendenactie']['eyebrow']" :title="$t['vriendenactie']['title']" :intro="$t['vriendenactie']['intro']" />
-      <x-button-link href="/vriend-uitnodigen" variant="outline" class="mt-8">{{ $t['vriendenactie']['button'] }}</x-button-link>
+      <x-button-link href="{{ \App\Site\Locale::path('/vriend-uitnodigen') }}" variant="outline" class="mt-8">{{ $t['vriendenactie']['button'] }}</x-button-link>
     </div>
     <x-referral-steps />
   </section>

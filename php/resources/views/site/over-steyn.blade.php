@@ -1,6 +1,6 @@
 <x-layouts.site :title="$t['seo']['title']" :description="$t['seo']['description']">
-  <x-page-hero :eyebrow="$t['hero']['eyebrow']" :title="$t['hero']['title']" :intro="$t['hero']['intro']" image="/images/steyn-headshot.jpg" image-alt="Portret van Steyn van Leeuwen">
-    <x-button-link href="/contact">{{ $t['hero']['primary'] }} <x-icon name="ArrowRight" class="size-4" /></x-button-link>
+  <x-page-hero :eyebrow="$t['hero']['eyebrow']" :title="$t['hero']['title']" :intro="$t['hero']['intro']" image="/images/steyn-headshot.jpg" :image-alt="__('Portret van Steyn van Leeuwen')">
+    <x-button-link href="{{ \App\Site\Locale::path('/contact') }}">{{ $t['hero']['primary'] }} <x-icon name="ArrowRight" class="size-4" /></x-button-link>
   </x-page-hero>
 
   <section class="container-site grid gap-14 py-20 lg:grid-cols-[1.4fr_1fr] lg:py-28">
@@ -9,7 +9,7 @@
       <div class="prose-site lead mt-6 text-muted">{{ \App\View\Rich::paragraphs($t['verhaal']['body']) }}</div>
     </div>
     <div class="space-y-5">
-      <x-photo src="/images/steyn-deadlift.jpg" alt="Steyn coacht een sporter bij de deadlift" width="500" height="500" sizes="(min-width: 1024px) 500px, 90vw" class="aspect-square w-full rounded-xl object-cover" />
+      <x-photo src="/images/steyn-deadlift.jpg" :alt="__('Steyn coacht een sporter bij de deadlift')" width="500" height="500" sizes="(min-width: 1024px) 500px, 90vw" class="aspect-square w-full rounded-xl object-cover" />
       <div class="card p-7">
         <h3 class="display text-2xl">{{ $t['verhaal']['expertisesTitle'] }}</h3>
         <ul class="mt-5 flex flex-wrap gap-2">

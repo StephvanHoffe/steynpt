@@ -1,16 +1,24 @@
 <?php
 
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\SiteController;
+use App\Site\Locale;
 use Illuminate\Support\Facades\Route;
 
 // --- Website ---
-Route::get('/', [SiteController::class, 'home']);
-Route::get('/online-coaching', [SiteController::class, 'onlineCoaching']);
-foreach (['personal-training', 'ademcoaching', 'voedingscoaching', 'tarieven', 'over-steyn', 'vriend-uitnodigen', 'privacy'] as $slug) {
-    Route::get("/{$slug}", [SiteController::class, 'page'])->defaults('slug', $slug);
+// Elke openbare pagina heeft ook een Engels adres (/en/…, zie App\Site\Locale::PATHS); de taal volgt uit het adres.
+foreach (['nl', 'en'] as $taal) {
+    $at = fn (string $path) => Locale::path($path, $taal);
+    Route::get($at('/'), [SiteController::class, 'home']);
+    Route::get($at('/online-coaching'), [SiteController::class, 'onlineCoaching']);
+    foreach (['personal-training', 'ademcoaching', 'voedingscoaching', 'tarieven', 'over-steyn', 'vriend-uitnodigen', 'privacy'] as $slug) {
+        Route::get($at("/{$slug}"), [SiteController::class, 'page'])->defaults('slug', $slug);
+    }
+    Route::get($at('/contact'), [SiteController::class, 'contact']);
+    Route::post($at('/contact'), [SiteController::class, 'storeContact'])->middleware('throttle:contact');
 }
-Route::get('/contact', [SiteController::class, 'contact']);
-Route::post('/contact', [SiteController::class, 'storeContact'])->middleware('throttle:contact');
+// Taalknop op pagina's zonder Engels adres (inloggen, Mijn omgeving): onthoudt de keuze en gaat terug.
+Route::get('/taal/{taal}', [LocaleController::class, 'switch'])->whereIn('taal', Locale::SUPPORTED);
 Route::get('/r/{code}', [SiteController::class, 'referral']);
 Route::get('/robots.txt', [SiteController::class, 'robots']);
 Route::get('/sitemap.xml', [SiteController::class, 'sitemap']);

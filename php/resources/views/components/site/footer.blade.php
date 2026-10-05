@@ -24,6 +24,11 @@
             ['href' => '/account/agenda', 'label' => 'Afspraak maken'],
         ]],
     ];
+    // In de taal van de pagina (zie App\Site\Locale).
+    $columns = array_map(fn (array $col) => [
+        'title' => __($col['title']),
+        'links' => array_map(fn (array $l) => ['href' => \App\Site\Locale::path($l['href']), 'label' => __($l['label'])], $col['links']),
+    ], $columns);
 @endphp
 <footer class="bg-ink text-white print:hidden">
   <div class="container-site grid gap-12 py-16 lg:grid-cols-[1fr_2.3fr] lg:py-20">
@@ -32,7 +37,7 @@
       <p class="mt-6 max-w-sm text-sm leading-relaxed text-white/65">{{ $footer['intro'] }}</p>
       <a href="{{ $locatie['instagramUrl'] }}" target="_blank" rel="noopener noreferrer"
         class="mt-6 inline-flex items-center gap-2 rounded-lg border border-white/20 px-4 py-2 text-sm font-medium transition-colors hover:border-white">
-        <x-instagram-icon class="size-4" /> Volg {{ $locatie['instagramHandle'] }}
+        <x-instagram-icon class="size-4" /> {{ __('Volg :handle', ['handle' => $locatie['instagramHandle']]) }}
       </a>
     </div>
 
@@ -48,7 +53,7 @@
         </div>
       @endforeach
       <div>
-        <h2 class="text-xs font-semibold uppercase tracking-[0.14em] text-white/50">Locaties</h2>
+        <h2 class="text-xs font-semibold uppercase tracking-[0.14em] text-white/50">{{ __('Locaties') }}</h2>
         <ul class="mt-4 space-y-4 text-sm">
           <li>
             <a href="{{ \App\Site\Site::mapsUrl($locatie['street'], $locatie['city']) }}" target="_blank" rel="noopener noreferrer" class="group block">
@@ -77,8 +82,9 @@
     <div class="container-site flex flex-col gap-3 py-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between">
       <p>© {{ now('Europe/Amsterdam')->year }} {{ $footer['copyright'] }}</p>
       <div class="flex gap-5">
-        <a href="/privacy" class="hover:text-white">Privacyverklaring</a>
-        <a href="/vriend-uitnodigen#voorwaarden" class="hover:text-white">Voorwaarden vriendenactie</a>
+        <a href="{{ \App\Site\Locale::path('/privacy') }}" class="hover:text-white">{{ __('Privacyverklaring') }}</a>
+        <a href="{{ \App\Site\Locale::path('/vriend-uitnodigen#voorwaarden') }}" class="hover:text-white">{{ __('Voorwaarden vriendenactie') }}</a>
+        <x-site.language-switch :dark="true" />
       </div>
     </div>
   </div>

@@ -33,6 +33,13 @@
                       </a>
                     @endif
                   </p>
+                  @php $enStat = $stats[$englishPrefix.$page['slug']] ?? null; @endphp
+                  <p class="mt-2 text-xs">
+                    <a href="/admin/teksten/{{ $englishPrefix.$page['slug'] }}" class="relative z-10 inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-2.5 py-1 font-semibold text-ink hover:border-ink/40">
+                      <x-icon name="Languages" class="size-3.5" /> Engelse versie
+                      <span class="font-normal text-muted">{{ $enStat ? ($enStat['count'] === 1 ? '· 1 tekst aangepast' : '· '.$enStat['count'].' teksten aangepast') : '· standaard' }}</span>
+                    </a>
+                  </p>
                 </div>
                 <x-icon name="ChevronRight" class="size-5 shrink-0 text-muted" />
               </li>

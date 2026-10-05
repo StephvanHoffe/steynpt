@@ -1,18 +1,19 @@
 @props(['title' => null])
-{{-- Mijn omgeving: de gewone site met een balk voor de onderdelen van het account. --}}
+{{-- Mijn omgeving: de gewone site met een balk voor de onderdelen van het account. De titel mag in het Nederlands
+     worden meegegeven; hij wordt hier vertaald. --}}
 @php
     $user = auth()->user();
     $links = [
-        ['href' => '/account', 'icon' => 'LayoutDashboard', 'label' => 'Dashboard'],
-        ['href' => '/account/agenda', 'icon' => 'CalendarDays', 'label' => 'Agenda'],
-        ['href' => '/account/voortgang', 'icon' => 'LineChart', 'label' => 'Voortgang'],
-        ['href' => '/account/profiel', 'icon' => 'UserRound', 'label' => 'Profiel'],
+        ['href' => '/account', 'icon' => 'LayoutDashboard', 'label' => __('Dashboard')],
+        ['href' => '/account/agenda', 'icon' => 'CalendarDays', 'label' => __('Agenda')],
+        ['href' => '/account/voortgang', 'icon' => 'LineChart', 'label' => __('Voortgang')],
+        ['href' => '/account/profiel', 'icon' => 'UserRound', 'label' => __('Profiel')],
     ];
     if ($user->isAdmin()) {
-        $links[] = ['href' => '/admin', 'icon' => 'Shield', 'label' => 'Beheer'];
+        $links[] = ['href' => '/admin', 'icon' => 'Shield', 'label' => __('Beheer')];
     }
 @endphp
-<x-layouts.site :title="$title ?? 'Mijn omgeving'" :noindex="true">
+<x-layouts.site :title="__($title ?? 'Mijn omgeving')" :noindex="true">
   <div class="bg-paper">
     <div class="border-b border-line bg-white print:hidden">
       <div class="container-site flex items-center justify-between gap-4 overflow-x-auto py-2">
@@ -26,7 +27,7 @@
         <form action="/uitloggen" method="post">
           @csrf
           <button type="submit" class="inline-flex items-center gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-muted hover:bg-surface hover:text-ink">
-            <x-icon name="LogOut" class="size-4" /> Uitloggen
+            <x-icon name="LogOut" class="size-4" /> {{ __('Uitloggen') }}
           </button>
         </form>
       </div>

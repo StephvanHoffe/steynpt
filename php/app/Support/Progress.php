@@ -122,8 +122,11 @@ final class Progress
         return $errors === [] ? [$data, []] : [null, $errors];
     }
 
-    /** Getal in Nederlandse notatie ("1.234,5"), zoals toLocaleString("nl-NL", { maximumFractionDigits }). */
-    public static function formatNumber(int|float $n, int $digits = 1): string
+    /**
+     * Getal in Nederlandse notatie ("1.234,5"), zoals toLocaleString("nl-NL", { maximumFractionDigits }).
+     * Met $locale 'en' in Engelse notatie ("1,234.5").
+     */
+    public static function formatNumber(int|float $n, int $digits = 1, string $locale = 'nl'): string
     {
         if (is_float($n) && is_nan($n)) {
             return 'NaN';
@@ -169,9 +172,10 @@ final class Progress
         }
         $int = ltrim($int, '0') ?: '0';
         $frac = rtrim($frac, '0');
-        $grouped = strrev(implode('.', str_split(strrev($int), 3)));
+        [$thousands, $point] = $locale === 'en' ? [',', '.'] : ['.', ','];
+        $grouped = strrev(implode($thousands, str_split(strrev($int), 3)));
 
-        return ($negative ? '-' : '').$grouped.($frac !== '' ? ','.$frac : '');
+        return ($negative ? '-' : '').$grouped.($frac !== '' ? $point.$frac : '');
     }
 
     /**

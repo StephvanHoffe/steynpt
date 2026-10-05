@@ -17,8 +17,8 @@
       <p class="mt-2 text-sm {{ $featured ? 'text-ink/80' : 'text-muted' }}">{{ $plan['tagline'] }}</p>
       <p class="mt-6 flex items-baseline gap-1">
         <span class="text-lg font-semibold">€</span>
-        <span class="display text-6xl">{{ $plan['price'] }}</span>
-        <span class="ml-1 text-sm {{ $featured ? 'text-ink/80' : 'text-muted' }}">per maand</span>
+        <span class="display text-6xl">{{ \App\Site\Locale::price($plan['price']) }}</span>
+        <span class="ml-1 text-sm {{ $featured ? 'text-ink/80' : 'text-muted' }}">{{ __('per maand') }}</span>
       </p>
       <ul class="mt-6 flex-1 space-y-2.5 text-sm">
         @foreach ($plan['features'] as $f)
@@ -28,7 +28,7 @@
           </li>
         @endforeach
       </ul>
-      <a href="{{ $href }}" class="btn mt-7 w-full {{ $featured ? 'btn-primary' : 'btn-outline bg-white' }}">Kies {{ $plan['name'] }}</a>
+      <a href="{{ $href }}" class="btn mt-7 w-full {{ $featured ? 'btn-primary' : 'btn-outline bg-white' }}">{{ __('Kies :plan', ['plan' => $plan['name']]) }}</a>
     </article>
   @endforeach
 </div>

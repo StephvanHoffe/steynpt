@@ -172,10 +172,10 @@ De site werkt alleen via https: inloggen gebruikt beveiligde cookies.
 
 ## Stap 11. Controleren en inrichten
 
-1. Open **https://www.steynpt.nl** en klik een paar pagina's door. Een oud adres zoals `/over-steynpt` of `/kennismaking` moet doorsturen naar de nieuwe pagina.
+1. Open **https://www.steynpt.nl** en klik een paar pagina's door. Een oud adres zoals `/over-steynpt` of `/kennismaking` moet doorsturen naar de nieuwe pagina. Wissel met de taalknop **NL/EN** rechtsboven naar de Engelse versie (onder `/en`).
 2. Steyn maakt via **Account aanmaken** het account `steyn@steynpt.nl` aan (dat wordt automatisch beheerder) en koppelt de authenticator-app. **Bewaar de herstelcodes** op een veilige plek.
 3. In **Beheer → Instellingen**: stel de beschikbaarheid voor de agenda in en zet de **iCal-link** in de agenda-app van Steyn.
-4. In **Beheer → Website-teksten**: loop de teksten en prijzen na.
+4. In **Beheer → Website-teksten**: loop de teksten en prijzen na, en via *Engelse versie* ook de Engelse teksten. Prijzen, links en het adres stel je alleen in het Nederlands in; het Engels neemt ze over.
 5. Doe zelf een proef als klant: maak een tweede account aan, boek een afspraak en zeg hem weer af.
 6. Ga verder met *Na de livegang: beter gevonden worden* hieronder.
 
@@ -197,7 +197,7 @@ Haal ook de regels uit stap 7 weer uit `domains/steynpt.nl/.htaccess` als de oud
 
 ## Na de livegang: beter gevonden worden
 
-De site zelf is klaar voor zoekmachines: titels, omschrijvingen en de hoofdkop (H1) van elke pagina noemen de zoekterm (zoals "Personal training in Amsterdam Oud-West"), elke pagina heeft een vaste URL (canonical), de sitemap geeft per pagina de datum van de laatste wijziging, foto's worden in een lichte versie (WebP) geladen en Google krijgt gestructureerde gegevens mee (bedrijf met adres en ligging, Steyn, diensten met prijzen, veelgestelde vragen bij personal training, online coaching, voeding en ademcoaching). Oude WordPress-adressen sturen door; de demopagina's van het oude thema melden "bestaat niet meer", zodat Google ze opruimt. Voor lokaal gevonden worden ("personal trainer Amsterdam West", "personal trainer Oud-West") telt daarnaast vooral wat er buiten de site gebeurt:
+De site zelf is klaar voor zoekmachines: titels, omschrijvingen en de hoofdkop (H1) van elke pagina noemen de zoekterm (zoals "Personal training in Amsterdam Oud-West"), elke pagina heeft een vaste URL (canonical), de sitemap geeft per pagina de datum van de laatste wijziging, foto's worden in een lichte versie (WebP) geladen en Google krijgt gestructureerde gegevens mee (bedrijf met adres en ligging, Steyn, diensten met prijzen, veelgestelde vragen bij personal training, online coaching, voeding en ademcoaching). Elke pagina heeft ook een Engelse versie (`/en/...`), met hreflang-links en in de sitemap, zodat Google Engelstalige zoekers ("English speaking personal trainer Amsterdam") de Engelse pagina laat zien. Oude WordPress-adressen sturen door; de demopagina's van het oude thema melden "bestaat niet meer", zodat Google ze opruimt. Voor lokaal gevonden worden ("personal trainer Amsterdam West", "personal trainer Oud-West") telt daarnaast vooral wat er buiten de site gebeurt:
 
 1. **Google Search Console** ([search.google.com/search-console](https://search.google.com/search-console)): voeg het domein `steynpt.nl` toe en bevestig het met de TXT-regel in **Mijn Vimexx → Mijn domeinen → steynpt.nl → DNS**. Meld daarna `https://www.steynpt.nl/sitemap.xml` aan, en vraag bij **URL-inspectie** voor de homepage en de pagina's Personal training en Online coaching om **indexering**: dan neemt Google de nieuwe site sneller over. Hier zie je ook op welke zoekwoorden de site gevonden wordt.
 2. **Google Bedrijfsprofiel** ([business.google.com](https://business.google.com)): het belangrijkste voor Google Maps en het kaartje in de zoekresultaten. Maak (of claim) het profiel *SteynPT*, categorie **Personal trainer**, adres **Overtoom 371-w, 1054 JN Amsterdam**, website `https://www.steynpt.nl`, en zet er foto's van de trainingen bij Gymbase in. Werk je alleen op afspraak, kies dan "Geen openingstijden" of "Op afspraak".

@@ -143,7 +143,7 @@ class SeoTest extends TestCase
     {
         SiteText::query()->create(['key' => 'privacy.intro.title', 'value' => json_encode('Privacy'), 'updated_at' => '2030-01-02 10:00:00']);
         $xml = $this->get('/sitemap.xml')->assertOk()->getContent();
-        $this->assertSame(10, substr_count($xml, '<lastmod>'));
+        $this->assertSame(20, substr_count($xml, '<lastmod>')); // elke pagina in het Nederlands en het Engels
         $this->assertStringContainsString("<loc>https://www.steynpt.nl/privacy</loc>\n<lastmod>2030-01-02</lastmod>", $xml);
         $this->assertStringNotContainsString("<loc>https://www.steynpt.nl/contact</loc>\n<lastmod>2030-01-02</lastmod>", $xml);
     }

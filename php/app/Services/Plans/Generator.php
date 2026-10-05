@@ -121,7 +121,9 @@ final class Generator
                 $content = $plan->type === 'training' ? Mock::mockTrainingPlan($intake) : Mock::mockNutritionPlan($intake);
                 $model = self::MOCK_MODEL;
             } else {
-                ['content' => $content, 'model' => $model] = ClaudeClient::generatePlan($plan->type, Prompt::buildPlanPrompt($plan->type, $intake, $plan->instruction));
+                // Het schema in de taal van de klant: Engels als die Mijn omgeving in het Engels gebruikt.
+                $language = User::query()->whereKey($plan->user_id)->value('locale') === 'en' ? 'en' : 'nl';
+                ['content' => $content, 'model' => $model] = ClaudeClient::generatePlan($plan->type, Prompt::buildPlanPrompt($plan->type, $intake, $plan->instruction, null, $language));
             }
 
             // Alleen opslaan als het plan intussen niet vervangen is.

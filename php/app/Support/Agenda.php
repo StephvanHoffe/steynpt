@@ -74,6 +74,15 @@ final class Agenda
 
     private const MONTHS_SHORT = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
 
+    // Engelse namen voor Mijn omgeving in het Engels (de $locale-parameter van de formatteerfuncties).
+    private const WEEKDAYS_EN = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+    private const WEEKDAYS_SHORT_EN = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+    private const MONTHS_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    private const MONTHS_SHORT_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
     /** @return array{id: string, label: string, minutes: int, locations: list<string>, description: string, maxUpcoming?: int, requiresCoaching?: bool}|null */
     public static function getAppointmentType(?string $id): ?array
     {
@@ -291,20 +300,22 @@ final class Agenda
         return CarbonImmutable::instance($date)->setTimezone(self::TIME_ZONE);
     }
 
-    /** "maandag 5 oktober" */
-    public static function formatDayLong(CarbonInterface $date): string
+    /** "maandag 5 oktober"; met $locale 'en': "Monday 5 October" */
+    public static function formatDayLong(CarbonInterface $date, string $locale = 'nl'): string
     {
         $d = self::local($date);
+        [$weekdays, $months] = $locale === 'en' ? [self::WEEKDAYS_EN, self::MONTHS_EN] : [self::WEEKDAYS, self::MONTHS];
 
-        return self::WEEKDAYS[$d->dayOfWeekIso - 1].' '.$d->day.' '.self::MONTHS[$d->month - 1];
+        return $weekdays[$d->dayOfWeekIso - 1].' '.$d->day.' '.$months[$d->month - 1];
     }
 
-    /** "ma 5 okt" */
-    public static function formatDayShort(CarbonInterface $date): string
+    /** "ma 5 okt"; met $locale 'en': "Mon 5 Oct" */
+    public static function formatDayShort(CarbonInterface $date, string $locale = 'nl'): string
     {
         $d = self::local($date);
+        [$weekdays, $months] = $locale === 'en' ? [self::WEEKDAYS_SHORT_EN, self::MONTHS_SHORT_EN] : [self::WEEKDAYS_SHORT, self::MONTHS_SHORT];
 
-        return self::WEEKDAYS_SHORT[$d->dayOfWeekIso - 1].' '.$d->day.' '.self::MONTHS_SHORT[$d->month - 1];
+        return $weekdays[$d->dayOfWeekIso - 1].' '.$d->day.' '.$months[$d->month - 1];
     }
 
     /** "07:30" */

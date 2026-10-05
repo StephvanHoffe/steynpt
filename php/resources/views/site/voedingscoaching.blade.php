@@ -1,6 +1,6 @@
 <x-layouts.site :title="$t['seo']['title']" :description="$t['seo']['description']" :faq="$t['faq']['questions']">
-  <x-page-hero :eyebrow="$t['hero']['eyebrow']" :title="$t['hero']['title']" :intro="$t['hero']['intro']" image="/images/steyn-intake.jpg" image-alt="Steyn tijdens een voedingsgesprek">
-    <x-button-link href="/contact">{{ $t['hero']['primary'] }} <x-icon name="ArrowRight" class="size-4" /></x-button-link>
+  <x-page-hero :eyebrow="$t['hero']['eyebrow']" :title="$t['hero']['title']" :intro="$t['hero']['intro']" image="/images/steyn-intake.jpg" :image-alt="__('Steyn tijdens een voedingsgesprek')">
+    <x-button-link href="{{ \App\Site\Locale::path('/contact') }}">{{ $t['hero']['primary'] }} <x-icon name="ArrowRight" class="size-4" /></x-button-link>
   </x-page-hero>
 
   <section class="container-site grid gap-14 py-20 lg:grid-cols-2 lg:py-28">
@@ -16,7 +16,7 @@
 
   <section class="bg-surface">
     <div class="grid lg:grid-cols-2">
-      <x-photo src="/images/meting-huidplooi.jpg" alt="Huidplooimeting met een caliper" width="1400" height="933" sizes="(min-width: 1024px) 50vw, 100vw"
+      <x-photo src="/images/meting-huidplooi.jpg" :alt="__('Huidplooimeting met een caliper')" width="1400" height="933" sizes="(min-width: 1024px) 50vw, 100vw"
         class="h-full max-h-[560px] w-full object-cover" />
       <div class="px-4 py-16 sm:px-10 lg:px-16 lg:py-24">
         <x-section-heading :eyebrow="$t['meten']['eyebrow']" :title="$t['meten']['title']" :intro="$t['meten']['intro']" />

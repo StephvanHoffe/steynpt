@@ -1,7 +1,7 @@
 @php $topsportIcons = ['Target', 'Activity', 'ShieldCheck', 'HeartPulse', 'Video', 'CalendarRange']; @endphp
 <x-layouts.site :title="$t['seo']['title']" :description="$t['seo']['description']" :faq="$t['faq']['questions']">
-  <x-page-hero :eyebrow="$t['hero']['eyebrow']" :title="$t['hero']['title']" :intro="$t['hero']['intro']" image="/images/steyn-deadlift-portret.jpg" image-alt="Steyn coacht een sporter tijdens de deadlift">
-    <x-button-link href="/contact">{{ $t['hero']['primary'] }} <x-icon name="ArrowRight" class="size-4" /></x-button-link>
+  <x-page-hero :eyebrow="$t['hero']['eyebrow']" :title="$t['hero']['title']" :intro="$t['hero']['intro']" image="/images/steyn-deadlift-portret.jpg" :image-alt="__('Steyn coacht een sporter tijdens de deadlift')">
+    <x-button-link href="{{ \App\Site\Locale::path('/contact') }}">{{ $t['hero']['primary'] }} <x-icon name="ArrowRight" class="size-4" /></x-button-link>
     <x-button-link href="#tarieven" variant="outline">{{ $t['hero']['secondary'] }}</x-button-link>
   </x-page-hero>
 
@@ -20,7 +20,7 @@
     <div class="container-site">
       <div class="grid items-end gap-10 lg:grid-cols-[1.3fr_1fr]">
         <x-section-heading :eyebrow="$t['topsport']['eyebrow']" :title="$t['topsport']['title']" :intro="$t['topsport']['intro']" />
-        <x-photo src="/images/steyn-roeien.jpg" alt="Steyn coacht een sporter op de roeimachine" width="1400" height="1014" sizes="448px"
+        <x-photo src="/images/steyn-roeien.jpg" :alt="__('Steyn coacht een sporter op de roeimachine')" width="1400" height="1014" sizes="448px"
           class="hidden aspect-[4/3] w-full max-w-md justify-self-end rounded-xl object-cover lg:block" />
       </div>
       <div class="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -33,8 +33,8 @@
         @endforeach
       </div>
       <div class="mt-10 flex flex-col gap-3 sm:flex-row">
-        <x-button-link href="/contact">{{ $t['topsport']['primary'] }}</x-button-link>
-        <x-button-link href="/online-coaching" variant="outline">{{ $t['topsport']['secondary'] }}</x-button-link>
+        <x-button-link href="{{ \App\Site\Locale::path('/contact') }}">{{ $t['topsport']['primary'] }}</x-button-link>
+        <x-button-link href="{{ \App\Site\Locale::path('/online-coaching') }}" variant="outline">{{ $t['topsport']['secondary'] }}</x-button-link>
       </div>
     </div>
   </section>
@@ -43,7 +43,7 @@
     <x-section-heading :eyebrow="$t['tarieven']['eyebrow']" :title="$t['tarieven']['title']" :intro="$t['tarieven']['intro']" />
     <div class="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
       @foreach (\App\Site\Texts::ptPrices() as $card)
-        <x-price-card :card="$card" :cta="$t['tarieven']['button']" href="/contact?onderwerp=personal-training" />
+        <x-price-card :card="$card" :cta="$t['tarieven']['button']" href="{{ \App\Site\Locale::path('/contact?onderwerp=personal-training') }}" />
       @endforeach
     </div>
   </section>

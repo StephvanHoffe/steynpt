@@ -10,10 +10,10 @@
         <label class="flex cursor-pointer flex-col rounded-xl border-[1.5px] border-line bg-white p-4 transition-colors has-[:checked]:border-ink has-[:checked]:bg-surface">
           <input type="radio" name="plan" value="{{ $plan['id'] }}" @checked(($currentPlan ?? 'online-pro') === $plan['id']) class="sr-only">
           <span class="font-semibold">{{ $plan['name'] }}</span>
-          <span class="text-sm text-muted">€ {{ $plan['price'] }} per maand</span>
+          <span class="text-sm text-muted">{{ __('€ :price per maand', ['price' => \App\Site\Locale::price($plan['price'])]) }}</span>
         </label>
       @endforeach
     </div>
-    <x-form.submit class="btn btn-primary w-full sm:w-auto" pending-text="Aanvragen…">Start online coaching</x-form.submit>
+    <x-form.submit class="btn btn-primary w-full sm:w-auto" :pending-text="__('Aanvragen…')">{{ __('Start online coaching') }}</x-form.submit>
   </form>
 @endif
