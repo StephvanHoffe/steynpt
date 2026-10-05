@@ -129,6 +129,8 @@ cd /home/GEBRUIKER/domains/steynpt.nl/steynpt && /opt/alt/php83/usr/bin/php arti
 
 Vink **Prevent Email** aan.
 
+Alles draait binnen dit ene PHP-proces; de hosting hoeft dus geen andere programma's te kunnen starten. Voor de AI-concepten moet de server wel naar `api.anthropic.com` kunnen (een gewone https-verbinding). Blijft een concept op "AI is bezig" staan terwijl de cronjob wel draait, vraag Vimexx dan of uitgaande verbindingen naar dat adres zijn toegestaan.
+
 ## Stap 8. Controleren en Steyn als beheerder
 
 1. Open **https://www.steynpt.nl**. Zie je een melding over de PHP-versie, controleer dan stap 1.

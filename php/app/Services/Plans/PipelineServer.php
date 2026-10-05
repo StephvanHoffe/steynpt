@@ -9,6 +9,7 @@ use App\Support\Agenda;
 use App\Support\Plans\Pipeline;
 use App\View\PlanLabels;
 use Carbon\CarbonImmutable;
+use WeakMap;
 
 /** Overzicht van de schema's per klant en type, voor het beheer (zijbalk, overzicht, schema-pagina's en ledendetail). */
 final class PipelineServer
@@ -21,17 +22,27 @@ final class PipelineServer
      */
     public static function load(?string $userId = null): array
     {
-        return self::$cache[$userId ?? '*'] ??= self::compute($userId);
+        // Per applicatie-instantie onthouden: in de tests draait elke test in een nieuwe instantie binnen hetzelfde proces.
+        self::$cache ??= new WeakMap;
+        $app = app();
+        $entries = self::$cache[$app] ?? [];
+        $key = $userId ?? '*';
+        if (! array_key_exists($key, $entries)) {
+            $entries[$key] = self::compute($userId);
+            self::$cache[$app] = $entries;
+        }
+
+        return $entries[$key];
     }
 
     /** Na een wijziging aan schema's binnen hetzelfde verzoek opnieuw laten berekenen. */
     public static function flush(): void
     {
-        self::$cache = [];
+        self::$cache = null;
     }
 
-    /** @var array<string, array> */
-    private static array $cache = [];
+    /** @var WeakMap<object, array<string, array>>|null */
+    private static ?WeakMap $cache = null;
 
     private static function compute(?string $userId): array
     {

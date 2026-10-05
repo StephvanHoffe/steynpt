@@ -18,7 +18,7 @@ use RuntimeException;
  * adaptive thinking, effort high, 32.000 max_tokens en de server-side fallback bij een weigering.
  * Het antwoord wordt gestreamd (server-sent events), zodat een lang antwoord niet op een time-out stukloopt.
  *
- * Het model staat niet in de code: AI_MODEL in de omgeving, of anders het nieuwste Opus-model
+ * Het model staat niet in de code: AI_MODEL in de omgeving, of anders het nieuwste model met "opus" in de id
  * dat de API-sleutel kan gebruiken (opgevraagd bij de Models API en een dag onthouden).
  */
 final class ClaudeClient
@@ -83,7 +83,7 @@ final class ClaudeClient
         return ['content' => $content, 'model' => $message['model'] !== '' ? $message['model'] : $model];
     }
 
-    /** Het model voor de concepten: AI_MODEL, of het nieuwste Opus-model van de Models API (een dag onthouden). */
+    /** Het model voor de concepten: AI_MODEL, of het nieuwste model met "opus" in de id volgens de Models API (een dag onthouden). */
     public static function model(): string
     {
         $configured = trim((string) config('steynpt.ai_model'));
@@ -91,10 +91,10 @@ final class ClaudeClient
             return $configured;
         }
 
-        return Cache::remember(self::MODEL_CACHE_KEY, now()->addDay(), fn () => self::latestOpusModel());
+        return Cache::remember(self::MODEL_CACHE_KEY, now()->addDay(), fn () => self::latestModel());
     }
 
-    private static function latestOpusModel(): string
+    private static function latestModel(): string
     {
         $response = self::send(fn () => self::client()->timeout(30)->get(self::BASE_URL.'/models', ['limit' => 1000]));
         $models = collect($response->json('data') ?? [])

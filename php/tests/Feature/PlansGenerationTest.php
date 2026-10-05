@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Jobs\GeneratePlan;
+use App\Models\Intake;
 use App\Models\Plan;
+use App\Models\User;
 use App\Services\Plans\ClaudeClient;
 use App\Services\Plans\Generator;
 use App\Support\Plans\Mock;
@@ -13,6 +15,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Sleep;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -280,8 +283,27 @@ class PlansGenerationTest extends TestCase
     public function test_cronjob_maakt_de_queue_leeg_en_publiceert_ingeplande_schemas(): void
     {
         $this->artisan('schedule:list')
-            ->expectsOutputToContain('queue:work --stop-when-empty --tries=1 --timeout='.GeneratePlan::TIMEOUT)
             ->expectsOutputToContain('schemas-publiceren')
+            ->expectsOutputToContain('back-up')
+            ->expectsOutputToContain('wachtrij')
             ->assertSuccessful();
+    }
+
+    public function test_cronjob_verwerkt_de_queue_zonder_apart_proces(): void
+    {
+        // De wachtrij draait binnen schedule:run (geen proc_open nodig op gedeelde hosting).
+        Http::fake([
+            'api.anthropic.com/v1/models*' => Http::response(self::MODELS),
+            'api.anthropic.com/v1/messages' => Http::response($this->messageStream($this->trainingJson()), 200, ['Content-Type' => 'text/event-stream']),
+        ]);
+        config(['queue.default' => 'database', 'steynpt.ai_mock' => false]);
+        $user = User::factory()->create(['coaching_status' => 'actief']);
+        Intake::query()->create(['user_id' => $user->id, 'data' => $this->intakeData()]);
+        $id = Generator::createPlanJob($user->id, 'training');
+        $this->assertSame(1, DB::table('jobs')->count());
+
+        $this->artisan('schedule:run')->assertSuccessful();
+        $this->assertSame(0, DB::table('jobs')->count());
+        $this->assertSame('concept', Plan::query()->find($id)->status);
     }
 }

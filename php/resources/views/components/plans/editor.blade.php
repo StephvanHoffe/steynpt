@@ -94,7 +94,9 @@
     @endforeach
   </div>
 
-  <div x-show="tab === 'bewerken'">
+  {{-- Alleen in de pagina zolang je bewerkt (zoals in het origineel); de inhoud zelf staat in de Alpine-gegevens. --}}
+  <template x-if="tab === 'bewerken'">
+  <div>
     @if ($isTraining)
       <div class="grid gap-6">
         <div class="grid gap-4 sm:grid-cols-[1fr_10rem]">
@@ -231,6 +233,7 @@
       </div>
     @endif
   </div>
+  </template>
 
   <div x-show="tab === 'voorbeeld'" style="display: none" class="rounded-xl border border-line bg-paper p-5 sm:p-8">
     <p x-show="preview.loading" class="flex items-center gap-2 text-sm text-muted"><x-icon name="LoaderCircle" class="size-4 animate-spin" /> Voorbeeld laden…</p>
