@@ -1,4 +1,4 @@
-@props(['userId', 'type', 'today', 'defaultStart', 'currentEndsOn' => null, 'ai', 'hasCurrent'])
+@props(['userId', 'type', 'today', 'defaultStart', 'currentEndsOn' => null, 'ai', 'hasCurrent', 'english' => false])
 {{-- Eén formulier voor een nieuw schema: startdatum en hoe je wilt beginnen.
      ai: ['available' => true] of ['available' => false, 'reason' => …] --}}
 @php
@@ -86,6 +86,7 @@
       <textarea name="instruction" rows="3" maxlength="1500" class="input min-h-0 py-2 text-sm" :disabled="method !== 'ai'"
         placeholder="{{ $type === 'training' ? "Bijv. 'volgende fase: meer kracht, 4 dagen, geen squats vanwege de knie'" : "Bijv. 'calorieën 100 kcal omlaag, meer warme lunches'" }}"></textarea>
     </label>
+    <x-plans.language-choice :english="$english" :client-english="$english" class="mt-3" x-show="method === 'ai'" :style="$defaultMethod !== 'ai' ? 'display: none' : null" />
   </fieldset>
 
   <div class="flex flex-wrap items-center gap-3 border-t border-line pt-5">

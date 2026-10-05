@@ -79,7 +79,7 @@
           </section>
 
           <x-plans.new-plan-form :user-id="$member->id" :type="$type" :today="$today" :default-start="$details['defaultStart']"
-            :current-ends-on="$row['currentDueOn'] ?? null" :has-current="$details['hasCurrent']" :ai="$details['ai']" />
+            :current-ends-on="$row['currentDueOn'] ?? null" :has-current="$details['hasCurrent']" :ai="$details['ai']" :english="$member->locale === 'en'" />
         </div>
 
         <aside class="card self-start p-6 xl:sticky xl:top-20" aria-labelledby="intake">

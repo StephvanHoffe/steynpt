@@ -131,7 +131,7 @@ class PlansController extends Controller
         $section = AdminLabels::PLAN_SECTION[$type];
         $lid = is_string($request->query('lid')) ? $request->query('lid') : null;
         $members = User::query()->where('role', 'member')->orderBy('first_name')->orderBy('last_name')
-            ->get(['id', 'first_name', 'last_name', 'plan', 'coaching_status']);
+            ->get(['id', 'first_name', 'last_name', 'plan', 'coaching_status', 'locale']);
         $pipeline = PipelineServer::load();
         $member = $lid !== null ? $members->firstWhere('id', $lid) : null;
 
@@ -195,9 +195,11 @@ class PlansController extends Controller
         $planType = $request->input('type');
         $method = $request->input('method') ?? 'leeg';
         $instruction = $request->input('instruction');
+        $language = $request->input('language');
         $valid = is_string($userId) && $userId !== '' && in_array($planType, Plan::TYPES, true)
             && in_array($method, ['ai', 'huidig', 'leeg'], true)
             && ($instruction === null || (is_string($instruction) && mb_strlen($instruction) <= 1500))
+            && ($language === null || in_array($language, ['nl', 'en'], true))
             && User::query()->whereKey($userId)->exists();
         if (! $valid) {
             return back();
@@ -206,7 +208,7 @@ class PlansController extends Controller
         $startsOn = self::futureDay($request->input('startsOn'), $today);
 
         if ($method === 'ai') {
-            $id = Generator::createPlanJob($userId, $planType, $instruction, $startsOn);
+            $id = Generator::createPlanJob($userId, $planType, $instruction, $startsOn, $language);
 
             return redirect(AdminLabels::planHref($planType, $id));
         }

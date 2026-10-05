@@ -1,5 +1,6 @@
-@props(['userId', 'type', 'aiEnabled', 'hasIntake', 'regenerate' => false, 'startsOn' => null])
-{{-- Knoppen om een AI-concept te laten maken (met optionele instructie) of zelf te beginnen. De startdatum gaat mee naar het nieuwe concept. --}}
+@props(['userId', 'type', 'aiEnabled', 'hasIntake', 'regenerate' => false, 'startsOn' => null, 'english' => null])
+{{-- Knoppen om een AI-concept te laten maken (met optionele instructie) of zelf te beginnen. De startdatum gaat mee naar het nieuwe concept.
+     english: vinkje "in het Engels" vooraf aan of uit; zonder waarde volgt het de taal van de klant. --}}
 @php
     $action = \App\Services\AdminLabels::PLAN_SECTION[$type]['href'].'/nieuw';
     $hidden = function (string $method) use ($userId, $type, $startsOn) {
@@ -16,9 +17,6 @@
 @endphp
 <div class="grid gap-3">
   @if ($aiEnabled && $hasIntake)
-    @if (\App\Models\User::query()->whereKey($userId)->value('locale') === 'en')
-      <p class="flex items-center gap-2 rounded-lg bg-accent-tint px-3 py-2 text-xs font-medium text-ink"><x-icon name="Languages" class="size-3.5 shrink-0" /> Deze klant gebruikt de site in het Engels: het AI-concept wordt in het Engels geschreven.</p>
-    @endif
     <form action="{{ $action }}" method="post" class="grid gap-2">
       {{ $hidden('ai') }}
       <label class="block">
@@ -26,6 +24,8 @@
         <textarea name="instruction" rows="2" maxlength="1500" class="input min-h-0 py-2 text-sm"
           placeholder="{{ $type === 'training' ? "Bijv. 'geen squats vanwege de knie, meer focus op core'" : "Bijv. 'meer warme lunches, minder zuivel'" }}"></textarea>
       </label>
+      @php($clientEnglish = \App\Services\Plans\Generator::clientLanguage($userId) === 'en')
+      <x-plans.language-choice :english="$english ?? $clientEnglish" :client-english="$clientEnglish" />
       <button type="submit" class="btn btn-sm btn-primary justify-self-start">
         <x-icon name="Sparkles" class="size-4" /> {{ $regenerate ? 'Nieuw AI-concept' : \App\View\PlanLabels::TYPE_LABEL[$type].' laten maken' }}
       </button>

@@ -9,7 +9,8 @@ Dezelfde website als de Next.js-versie in de hoofdmap, maar in PHP, zodat hij op
 De site is tweetalig (alleen in deze PHP-versie, niet in de Next.js-versie):
 
 - Openbare pagina's hebben een Nederlands en een Engels adres (`/tarieven` en `/en/pricing`, zie `App\Site\Locale::PATHS`), met hreflang-links en beide talen in de sitemap. De taalknop (NL/EN) staat rechtsboven en in de footer.
-- Inloggen, registreren en Mijn omgeving hebben één adres en volgen de taal van het lid (`users.locale`, ook te kiezen in het profiel) of, zonder account, de laatst gekozen taal (cookie `taal`). AI-schema's worden in de taal van het lid gemaakt. Het beheer is altijd Nederlands.
+- Inloggen, registreren en Mijn omgeving hebben één adres en volgen de taal van het lid (`users.locale`, ook te kiezen in het profiel) of, zonder account, de laatst gekozen taal (cookie `taal`). Het beheer is altijd Nederlands.
+- AI-schema's: bij het laten maken van een trainings- of voedingsschema kiest Steyn met het vinkje *Schema in het Engels maken* de taal (`plans.language`). Het vinkje staat vooraf aan als het lid de site in het Engels gebruikt; schema's die na de intake vanzelf worden gemaakt volgen de taal van het lid. De testmodus (`AI_MOCK=1`) maakt altijd het Nederlandse voorbeeld.
 - Teksten uit Website-teksten hebben een Engelse versie (`app/Content/English.php`) die Steyn in het beheer per pagina kan aanpassen (knop *English*). Prijzen, links, het adres en de contactgegevens zijn in beide talen gelijk en stel je in het Nederlands in.
 - Vaste teksten in de code staan in `__('Nederlandse tekst')`; de Engelse vertalingen staan in `lang/json/*/en.json` (zie `lang/json/README.md`).
 

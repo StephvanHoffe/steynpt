@@ -396,6 +396,77 @@ class AppEnglishTest extends TestCase
         Http::assertSent(fn (Request $request) => str_ends_with($request->url(), '/v1/messages'));
     }
 
+    public function test_vinkje_in_het_engels_bij_het_aanmaken(): void
+    {
+        // Steyn kiest de taal per concept: Engels voor een Nederlandstalige klant, of juist Nederlands voor een Engelstalige.
+        config(['steynpt.anthropic_api_key' => 'test-sleutel', 'steynpt.ai_mock' => false, 'steynpt.ai_model' => 'model-opus-2']);
+        Sleep::fake();
+        Http::fake(['api.anthropic.com/v1/messages' => Http::sequence()
+            ->push($this->messageStream(json_encode($this->englishNutrition())), 200, ['Content-Type' => 'text/event-stream'])
+            ->push($this->messageStream(json_encode(Mock::mockTrainingPlan($this->intakeData()))), 200, ['Content-Type' => 'text/event-stream'])]);
+
+        $dutch = $this->client();
+        $english = $this->englishClient();
+        $steyn = $this->steyn();
+
+        // Formulier stuurt 'nl' (verborgen veld) en bij een vinkje daarna 'en'.
+        $this->actingAs($steyn)->post('/admin/voedingsschemas/nieuw', ['userId' => $dutch->id, 'type' => 'voeding', 'method' => 'ai', 'instruction' => 'Meer warme lunches', 'language' => 'en']);
+        $englishPlan = Plan::query()->where('user_id', $dutch->id)->latest('id')->firstOrFail();
+        $this->assertSame('en', $englishPlan->language);
+        $this->assertSame('concept', $englishPlan->status);
+        $this->assertSame('Your nutrition plan', $englishPlan->content['title']);
+
+        $this->freshRequest();
+        $this->actingAs($steyn)->post('/admin/trainingsschemas/nieuw', ['userId' => $english->id, 'type' => 'training', 'method' => 'ai', 'language' => 'nl']);
+        $dutchPlan = Plan::query()->where('user_id', $english->id)->latest('id')->firstOrFail();
+        $this->assertSame('nl', $dutchPlan->language);
+        $this->assertSame('concept', $dutchPlan->status);
+
+        $sent = Http::recorded()->map(fn ($pair) => $pair[0]->data())->values();
+        $this->assertCount(2, $sent);
+        $this->assertStringContainsString('Write the whole plan in English', $sent[0]['system']);
+        $this->assertStringContainsString("Additional instruction from Steyn (takes precedence; may be written in Dutch):\nMeer warme lunches", $sent[0]['messages'][0]['content']);
+        $this->assertStringEndsWith('Now create the nutrition plan. Write all of it in English.', $sent[0]['messages'][0]['content']);
+        $this->assertStringContainsString('Schrijf in het Nederlands', $sent[1]['system']);
+        $this->assertStringEndsWith('Maak nu het trainingsschema.', $sent[1]['messages'][0]['content']);
+
+        // Zonder taal (automatisch na de intake) volgt het concept de taal van de klant.
+        $this->assertSame('en', Plan::query()->findOrFail(Generator::createPlanJob($english->id, 'voeding'))->language);
+
+        // Een onbekende taal wordt geweigerd.
+        $this->freshRequest();
+        $before = Plan::query()->count();
+        $this->actingAs($steyn)->post('/admin/trainingsschemas/nieuw', ['userId' => $dutch->id, 'type' => 'training', 'method' => 'ai', 'language' => 'de']);
+        $this->assertSame($before, Plan::query()->count());
+    }
+
+    public function test_vinkje_staat_vooraf_goed(): void
+    {
+        config(['steynpt.anthropic_api_key' => 'test-sleutel', 'steynpt.ai_mock' => false]);
+        $dutch = $this->client();
+        $english = $this->englishClient();
+        $steyn = $this->steyn();
+        $checked = 'name="language" value="en" checked';
+
+        // Nieuw schema: aangevinkt als de klant de site in het Engels gebruikt.
+        $this->actingAs($steyn)->get("/admin/trainingsschemas/nieuw?lid={$english->id}")->assertOk()
+            ->assertSee('Schema in het Engels maken')->assertSee($checked, false)->assertSee('Deze klant gebruikt de site in het Engels.');
+        $this->freshRequest();
+        $this->actingAs($steyn)->get("/admin/voedingsschemas/nieuw?lid={$dutch->id}")->assertOk()
+            ->assertSee('Schema in het Engels maken')->assertDontSee($checked, false)->assertDontSee('Deze klant gebruikt de site in het Engels.');
+
+        // Een nieuw concept start in de taal van het huidige AI-concept, ook als die afwijkt van de klant.
+        $plan = $this->plan($dutch, 'training', 'concept', ['source' => 'ai', 'language' => 'en']);
+        $this->freshRequest();
+        $this->actingAs($steyn)->get("/admin/trainingsschemas/{$plan->id}")->assertOk()
+            ->assertSee('In het Engels')->assertSee($checked, false);
+
+        $manual = $this->plan($english, 'voeding', 'concept', ['source' => 'handmatig']);
+        $this->freshRequest();
+        $this->actingAs($steyn)->get("/admin/voedingsschemas/{$manual->id}")->assertOk()
+            ->assertDontSee('In het Engels')->assertSee($checked, false);
+    }
+
     public function test_testmodus_blijft_een_nederlands_voorbeeld(): void
     {
         // De testmodus (AI_MOCK=1) is alleen voor lokaal testen en maakt altijd het Nederlandse voorbeeld.

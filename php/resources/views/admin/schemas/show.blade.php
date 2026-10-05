@@ -6,6 +6,8 @@
     use App\View\PlanLabels;
 
     $hasIntake = $intake !== null;
+    // Een nieuw concept start in dezelfde taal als dit AI-concept, anders in de taal van de klant.
+    $english = in_array($plan->language, ['nl', 'en'], true) ? $plan->language === 'en' : null;
 @endphp
 <x-layouts.admin :title="PlanLabels::TYPE_LABEL[$type]">
   <x-admin.page>
@@ -21,6 +23,9 @@
             <span class="rounded-full bg-surface px-2.5 py-0.5 text-xs font-semibold text-ink">Aangepast door Steyn</span>
           @endif
           <span>Versie #{{ $plan->id }} · {{ $plan->source === 'ai' ? 'AI-concept ('.($plan->model ?? 'AI').')' : 'handmatig' }} · gemaakt {{ PlanView::dateTime($plan->created_at) }}{{ $plan->published_at ? ' · gepubliceerd '.PlanView::dateTime($plan->published_at) : '' }}{{ ! $live && $futureStart ? ' · start '.PlanLabels::formatPlanDay($futureStart) : '' }}</span>
+          @if ($plan->source === 'ai' && $plan->language === 'en')
+            <span class="rounded-full bg-surface px-2.5 py-0.5 text-xs font-semibold text-ink">In het Engels</span>
+          @endif
           @if ($plan->instruction)
             <span>Instructie: &ldquo;{{ $plan->instruction }}&rdquo;</span>
           @endif
@@ -70,7 +75,7 @@
             </p>
             <p class="mt-1 text-sm text-muted">{{ $stuck ? 'De generatie is niet afgerond (mogelijk door een herstart van de server).' : $plan->error }}</p>
             <div class="mt-5">
-              <x-plans.generate-forms :user-id="$member->id" :type="$plan->type" :ai-enabled="$aiEnabled" :has-intake="$hasIntake" :starts-on="$futureStart" />
+              <x-plans.generate-forms :user-id="$member->id" :type="$plan->type" :ai-enabled="$aiEnabled" :has-intake="$hasIntake" :starts-on="$futureStart" :english="$english" />
             </div>
           </div>
         @endif
@@ -95,7 +100,7 @@
           <details class="card p-6">
             <summary class="cursor-pointer font-semibold">Nieuw concept laten maken</summary>
             <div class="mt-4">
-              <x-plans.generate-forms :user-id="$member->id" :type="$plan->type" :ai-enabled="$aiEnabled" :has-intake="$hasIntake" :starts-on="$live ? null : $futureStart" :regenerate="true" />
+              <x-plans.generate-forms :user-id="$member->id" :type="$plan->type" :ai-enabled="$aiEnabled" :has-intake="$hasIntake" :starts-on="$live ? null : $futureStart" :regenerate="true" :english="$english" />
             </div>
           </details>
         @endif
