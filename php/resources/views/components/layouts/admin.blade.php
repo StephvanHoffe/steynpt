@@ -1,6 +1,6 @@
-@props(['title' => null])
+@props(['title' => null, 'titleTemplate' => '%s · Beheer SteynPT'])
 {{-- Eigen opmaak voor het beheer: bovenbalk en zijbalk in plaats van de websitekop. --}}
-<x-layouts.base :title="$title ?? 'Beheer'" :title-template="$title ? '%s · Beheer SteynPT' : '%s · SteynPT'" :noindex="true">
+<x-layouts.base :title="$title ?? 'Beheer'" :title-template="$title ? $titleTemplate : '%s · SteynPT'" :noindex="true">
   <div class="flex flex-1 flex-col bg-surface">
     <header class="sticky top-0 z-40 flex h-14 items-center justify-between gap-4 border-b border-line bg-white px-4 sm:px-6 print:hidden">
       <a href="/admin" class="flex items-center gap-2.5">

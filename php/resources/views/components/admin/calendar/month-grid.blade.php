@@ -40,7 +40,7 @@
         <ul class="mt-1 hidden space-y-0.5 sm:block">
           @foreach (array_slice($dayEvents, 0, $max) as $e)
             <li>
-              <a href="{{ $e['href'] }}" title="{{ AdminCalendar::hhmm($e['start']) }} {{ $e['typeLabel'] }} · {{ $e['client'] }}"
+              <a href="{{ $e['href'] }}" data-keep-scroll title="{{ AdminCalendar::hhmm($e['start']) }} {{ $e['typeLabel'] }} · {{ $e['client'] }}"
                 class="flex items-center gap-1.5 rounded px-1 py-0.5 text-xs hover:bg-surface {{ $e['cancelled'] ? 'text-muted line-through' : '' }}">
                 <span class="size-2 shrink-0 rounded-full" style="background: {{ AdminCalendar::typeColor($e['type']) }}" aria-hidden="true"></span>
                 <span class="tabular-nums text-muted">{{ AdminCalendar::hhmm($e['start']) }}</span>

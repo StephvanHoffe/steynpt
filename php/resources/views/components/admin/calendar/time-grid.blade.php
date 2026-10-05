@@ -18,7 +18,7 @@
     // Getallen in een style-attribuut zoals React ze schrijft (geen 12.000000001).
     $n = fn (int|float $v) => rtrim(rtrim(number_format((float) $v, 4, '.', ''), '0'), '.');
 @endphp
-<div class="overflow-auto rounded-xl border border-line bg-white" style="max-height: calc(100dvh - 15rem); min-height: 26rem">
+<div class="overflow-auto rounded-xl border border-line bg-white" data-time-grid style="max-height: calc(100dvh - 15rem); min-height: 26rem">
   <div class="grid" style="grid-template-columns: {{ $columns }};{{ $single ? '' : ' min-width: 52rem' }}">
     {{-- Kop met dagen --}}
     <div class="sticky left-0 top-0 z-40 border-b border-line bg-white"></div>
@@ -109,7 +109,7 @@
               $color = AdminCalendar::typeColor($ev['type']);
               $compact = $h < 40;
           @endphp
-          <a href="{{ $ev['href'] }}"
+          <a href="{{ $ev['href'] }}" data-keep-scroll
             class="absolute z-10 overflow-hidden rounded-md border-l-[3px] px-1.5 py-1 text-xs leading-tight shadow-sm ring-1 ring-black/5 transition hover:z-20 hover:shadow-md focus-visible:z-20 {{ $ev['cancelled'] ? 'border-dashed opacity-60' : '' }}"
             style="top: {{ $n($top + 1) }}px; height: {{ $n($h) }}px; left: calc({{ $n($lane['lane'] / $lane['lanes'] * 100) }}% + 2px); width: calc({{ $n(100 / $lane['lanes']) }}% - 4px); border-left-color: {{ $color }}; background: {{ $ev['cancelled'] ? '#fff' : "color-mix(in srgb, {$color} 9%, white)" }}">
             <span class="block truncate font-semibold {{ $ev['cancelled'] ? 'line-through' : '' }}">{{ $compact ? AdminCalendar::hhmm($ev['start']).' '.$ev['client'] : $ev['client'] }}</span>

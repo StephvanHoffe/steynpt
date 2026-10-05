@@ -3,6 +3,7 @@
 /* Tailwind zoekt de gebruikte klassen in de Blade-sjablonen en de PHP-code (bijvoorbeeld kleuren per status). */
 @source "../views";
 @source "../../app";
+@source "../js";
 
 /*
  * Ontwerpsysteem SteynPT: zakelijk zwart/wit met één accentkleur (petrol).

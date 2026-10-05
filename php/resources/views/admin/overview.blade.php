@@ -30,7 +30,8 @@
     $typeLabel = fn ($type) => Agenda::getAppointmentType($type)['label'] ?? $type;
     $locationLabel = fn ($location) => Agenda::getAgendaLocation($location)['label'] ?? $location;
 @endphp
-<x-layouts.admin title="Overzicht">
+{{-- Zoals in het origineel: de overzichtspagina valt niet onder het titelsjabloon van het beheer. --}}
+<x-layouts.admin title="Overzicht" title-template="%s · SteynPT">
   <x-admin.page>
     <x-admin.page-header :title="$greeting.', '.$admin->first_name">
       <x-slot:description><span class="first-letter:uppercase">{{ Agenda::formatDayLong($now) }}</span></x-slot:description>

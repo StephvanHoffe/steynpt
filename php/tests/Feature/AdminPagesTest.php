@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Content\Registry;
 use App\Models\Appointment;
 use App\Models\Availability;
 use App\Models\BlockedPeriod;
@@ -191,7 +192,7 @@ class AdminPagesTest extends TestCase
         $admin = $this->admin();
         $this->actingAs($admin)->get('/admin/teksten')->assertOk()
             ->assertSee('Homepage')->assertSee('Standaardteksten')->assertSee('Prijzen en pakketten');
-        foreach (\App\Content\Registry::all() as $page) {
+        foreach (Registry::all() as $page) {
             $this->actingAs($admin)->get('/admin/teksten/'.$page['slug'])->assertOk()
                 ->assertSee('name="values"', false)
                 ->assertSee('Nog niets aangepast: alles is de standaardtekst.');

@@ -14,8 +14,8 @@
     $minutes = $type['minutes'] ?? (int) round(($a->ends_at->getTimestamp() - $a->starts_at->getTimestamp()) / 60);
 @endphp
 <div class="fixed inset-0 z-50 flex items-end justify-end sm:items-stretch" role="dialog" aria-modal="true" aria-labelledby="afspraak-titel"
-  x-data="{ close: @js($closeHref) }" @keydown.escape.window="window.location.assign(close)">
-  <a href="{{ $closeHref }}" class="absolute inset-0 bg-ink/30" aria-label="Sluiten" tabindex="-1"></a>
+  x-data @keydown.escape.window="$refs.close.click()">
+  <a href="{{ $closeHref }}" data-keep-scroll x-ref="close" class="absolute inset-0 bg-ink/30" aria-label="Sluiten" tabindex="-1"></a>
   <div class="relative flex max-h-[88dvh] w-full flex-col overflow-y-auto rounded-t-2xl bg-white shadow-2xl sm:max-h-none sm:max-w-md sm:rounded-none">
     <div class="h-1.5 shrink-0" style="background: {{ $color }}" aria-hidden="true"></div>
     <div class="flex items-start justify-between gap-3 border-b border-line px-6 py-5">
@@ -26,7 +26,7 @@
           <p class="mt-2 inline-flex rounded-full bg-danger/10 px-2.5 py-0.5 text-xs font-semibold text-danger">Geannuleerd door {{ $a->cancelled_by === 'klant' ? 'de klant' : 'jou' }}</p>
         @endif
       </div>
-      <a href="{{ $closeHref }}" class="grid size-9 shrink-0 place-items-center rounded-lg text-muted hover:bg-surface hover:text-ink" aria-label="Sluiten">
+      <a href="{{ $closeHref }}" data-keep-scroll class="grid size-9 shrink-0 place-items-center rounded-lg text-muted hover:bg-surface hover:text-ink" aria-label="Sluiten">
         <x-icon name="X" class="size-5" />
       </a>
     </div>

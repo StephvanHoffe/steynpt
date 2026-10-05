@@ -40,3 +40,35 @@ Alpine.data('adminAppointmentForm', ({ types, locations, typeId, locationId }) =
         select.value = this.location;
     },
 }));
+
+// Afspraak openen of het paneel sluiten laadt de agenda opnieuw: blijf op dezelfde plek staan
+// (zoals scroll={false} in de Next.js-versie), ook binnen het tijdrooster.
+const SCROLL_KEY = 'beheer-agenda-scroll';
+
+document.addEventListener('click', (e) => {
+    const link = e.target?.closest?.('a[data-keep-scroll]');
+    if (!link || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    const grid = document.querySelector('[data-time-grid]');
+    try {
+        window.sessionStorage.setItem(SCROLL_KEY, JSON.stringify({ x: window.scrollX, y: window.scrollY, top: grid?.scrollTop ?? 0, left: grid?.scrollLeft ?? 0 }));
+    } catch {
+        // Geen opslag: dan begint de pagina gewoon bovenaan.
+    }
+});
+
+(() => {
+    let saved = null;
+    try {
+        saved = JSON.parse(window.sessionStorage.getItem(SCROLL_KEY) ?? 'null');
+        window.sessionStorage.removeItem(SCROLL_KEY);
+    } catch {
+        return;
+    }
+    if (!saved || !location.pathname.startsWith('/admin/agenda')) return;
+    const grid = document.querySelector('[data-time-grid]');
+    if (grid) {
+        grid.scrollTop = saved.top;
+        grid.scrollLeft = saved.left;
+    }
+    window.scrollTo({ left: saved.x, top: saved.y, behavior: 'instant' });
+})();

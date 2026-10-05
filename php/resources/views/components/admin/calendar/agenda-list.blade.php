@@ -23,7 +23,7 @@
           <ul class="divide-y divide-line">
             @foreach ($dayEvents as $e)
               <li>
-                <a href="{{ $e['href'] }}" class="flex items-center gap-4 px-4 py-3 hover:bg-surface {{ $e['cancelled'] ? 'opacity-60' : '' }}">
+                <a href="{{ $e['href'] }}" data-keep-scroll class="flex items-center gap-4 px-4 py-3 hover:bg-surface {{ $e['cancelled'] ? 'opacity-60' : '' }}">
                   <span class="w-24 shrink-0 text-sm font-semibold tabular-nums">{{ AdminCalendar::hhmm($e['start']) }}–{{ AdminCalendar::hhmm($e['end']) }}</span>
                   <span class="h-9 w-1 shrink-0 rounded-full" style="background: {{ AdminCalendar::typeColor($e['type']) }}" aria-hidden="true"></span>
                   <span class="min-w-0 flex-1">
