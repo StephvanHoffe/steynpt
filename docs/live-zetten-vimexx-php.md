@@ -1,11 +1,16 @@
 # De website live zetten bij Vimexx (webhosting, PHP)
 
-Dit stappenplan zet de SteynPT-site online op **www.steynpt.nl** met een gewoon **Vimexx-webhostingpakket** (bijvoorbeeld *Webhosting Basic*). Daarvoor is de site in PHP gebouwd (map `php/`, Laravel). Je hebt dus géén VPS nodig. Reken voor de eerste keer op een uur of twee.
+Dit stappenplan zet de nieuwe SteynPT-site online op **www.steynpt.nl** met een gewoon **Vimexx-webhostingpakket** (bijvoorbeeld *Webhosting Basic*). Daarvoor is de site in PHP gebouwd (map `php/`, Laravel). Je hebt dus géén VPS nodig.
+
+Het plan bestaat uit twee fases:
+
+- **Fase 1 – Klaarzetten** (± 1 uur). De huidige website blijft al die tijd gewoon online.
+- **Fase 2 – Overstappen** (± 15 minuten). De nieuwe site gaat live. Gaat er iets mis, dan staat de oude site met één commando terug.
 
 ```
 bezoeker ──▶ www.steynpt.nl ──▶ Vimexx-webhosting (DirectAdmin)
                                 ├─ public_html  →  koppeling naar steynpt/public
-                                ├─ steynpt/     de site (PHP 8.3)
+                                ├─ steynpt/     de nieuwe site (PHP 8.3)
                                 ├─ MySQL-database
                                 └─ cronjob: elke minuut (AI-concepten, ingeplande schema's, nachtelijke back-up)
 ```
@@ -14,60 +19,52 @@ bezoeker ──▶ www.steynpt.nl ──▶ Vimexx-webhosting (DirectAdmin)
 
 | | |
 | --- | --- |
-| **Hostingpakket** | Vimexx webhosting met DirectAdmin, PHP 8.3, een MySQL-database, SSH en cronjobs (zit allemaal in *Webhosting Basic*). |
-| **Het pakket** | Het bestand `steynpt-php-<datum>.zip`. Maak het op je eigen computer met `bash deploy/maak-pakket.sh` in de map `php/` (daarvoor zijn PHP 8.3, Composer en Node.js nodig), of vraag het aan degene die de site bouwt. Er zit alles in; op de hosting is alleen PHP nodig. |
+| **Hostingpakket** | Vimexx-webhosting met DirectAdmin, PHP 8.3, een MySQL-database, SSH en cronjobs (zit allemaal in *Webhosting Basic*), plus je inloggegevens voor DirectAdmin en Mijn Vimexx. |
+| **Het pakket** | Het bestand `steynpt-php-<datum>.zip` (27 MB). Daar zit alles in; op de hosting is alleen PHP nodig. Een nieuw pakket maak je met `bash deploy/maak-pakket.sh` in de map `php/` (daarvoor zijn PHP 8.3, Composer en Node.js nodig). |
 | **Terminal** | Voor SSH. Op Mac: *Terminal*. Op Windows: *PowerShell* of *Windows Terminal* (of PuTTY). |
-| **API-sleutel** | Voor de AI-schema's: Steyn maakt zelf een sleutel aan op [platform.claude.com](https://platform.claude.com) en zet daar een maandlimiet. Zonder sleutel werkt alles, alleen maakt Steyn de schema's dan zelf. |
 | **Authenticator-app** | Voor Steyn, bijvoorbeeld Google Authenticator, Microsoft Authenticator of 1Password. Inloggen gaat met tweestapsverificatie. |
+| **API-sleutel** (mag later) | Voor de AI-schema's: Steyn maakt zelf een sleutel aan op [platform.claude.com](https://platform.claude.com) en zet daar een maandlimiet. Zonder sleutel werkt alles, alleen maakt Steyn de schema's dan zelf. |
 
-In de voorbeelden staat `GEBRUIKER` voor je DirectAdmin-gebruikersnaam en `steynpt.nl` voor het domein. Regels die met `#` beginnen zijn uitleg.
+In de voorbeelden staat `GEBRUIKER` voor je DirectAdmin-gebruikersnaam en `steynpt.nl` voor het domein. Tekst na een `#` is uitleg en hoef je niet over te nemen.
+
+**Waar staat de huidige site?** Draait de huidige (WordPress-)site op ditzelfde Vimexx-pakket, dan hoef je aan het domein niets te veranderen: in stap 8 wissel je alleen de map. Staat de huidige site ergens anders, of heb je een nieuw pakket? Dan zet je in stap 9 ook het domein om.
 
 ---
 
-## Stap 1. PHP 8.3 instellen
+# Fase 1 – Klaarzetten
 
-Vimexx kiest de PHP-versie per domein met een `.htaccess`-bestand ([uitleg van Vimexx](https://www.vimexx.com/help/hoe-stel-ik-de-php-versie-per-domeinnaam-in)).
+Niets in deze fase raakt de huidige website.
 
-1. Log in op DirectAdmin en open **Bestandsbeheer** (*File Manager*).
-2. Ga naar `domains/steynpt.nl/` (de map *boven* `public_html`).
-3. Maak daar een bestand `.htaccess` met deze inhoud:
+## Stap 1. SSH aanzetten en inloggen
 
-   ```apache
-   <FilesMatch "\.(php|phtml)$">
-       SetHandler application/x-lsphp83
-   </FilesMatch>
-   ```
-
-## Stap 2. SSH aanzetten
-
-1. In DirectAdmin: **Geavanceerde functies** (*Advanced Features*) **→ SSH-Keys**, en zet rechtsboven **SSH aan** ([uitleg](https://www.vimexx.nl/help/ssh-toegang-inschakelen)).
-2. Verbind vanaf je computer (wachtwoord = je DirectAdmin-wachtwoord):
+1. In DirectAdmin: **Geavanceerde functies** (*Advanced Features*) **→ SSH-Keys**, en zet rechtsboven **SSH aan** ([uitleg van Vimexx](https://www.vimexx.nl/help/ssh-toegang-inschakelen)).
+2. Verbind vanaf je computer. Het wachtwoord is je DirectAdmin-wachtwoord; wijst het domein nog niet naar Vimexx, gebruik dan het IP-adres van het pakket in plaats van `steynpt.nl`.
 
    ```bash
    ssh GEBRUIKER@steynpt.nl -p 7685
    ```
 
-3. Controleer PHP voor de commandoregel. Bij Vimexx staat elke versie op een eigen plek; gebruik in alle commando's hieronder het volledige pad:
+3. Controleer PHP 8.3 voor de commandoregel. Bij Vimexx staat elke versie op een eigen plek:
 
    ```bash
    /opt/alt/php83/usr/bin/php -v          # moet "PHP 8.3" tonen
    /opt/alt/php83/usr/bin/php -m | grep -i -E "pdo_mysql|mbstring|openssl|fileinfo"   # vier regels
+   alias php=/opt/alt/php83/usr/bin/php   # zodat "php" in deze sessie PHP 8.3 is
    ```
 
-   Om het jezelf makkelijk te maken in deze SSH-sessie:
+   Log je later opnieuw in via SSH, typ dan eerst weer die `alias`-regel.
 
-   ```bash
-   alias php=/opt/alt/php83/usr/bin/php
-   ```
-
-## Stap 3. Database aanmaken
+## Stap 2. Database aanmaken
 
 1. In DirectAdmin: **MySQL-beheer** (*MySQL Management*) **→ Nieuwe database maken**.
-2. Kies een naam (bijv. `steynpt`) en laat DirectAdmin een sterk wachtwoord maken. Noteer de **databasenaam**, **gebruikersnaam** en **wachtwoord** (de namen beginnen met `GEBRUIKER_`).
+2. Kies een naam (bijv. `steynpt`) en laat DirectAdmin een sterk wachtwoord maken.
+3. Noteer de **databasenaam**, **gebruikersnaam** en **wachtwoord** (de namen beginnen met `GEBRUIKER_`).
 
-## Stap 4. Het pakket uploaden en uitpakken
+Laat een eventuele WordPress-database staan; die is je terugvaloptie.
 
-1. In **Bestandsbeheer**: ga naar `domains/steynpt.nl/` en upload `steynpt-php-<datum>.zip`.
+## Stap 3. Het pakket uploaden en uitpakken
+
+1. In DirectAdmin: **Bestandsbeheer** (*File Manager*) → ga naar `domains/steynpt.nl/` (de map waar ook `public_html` in staat) en upload `steynpt-php-<datum>.zip`.
 2. Pak het uit via SSH (of met *Uitpakken* in Bestandsbeheer):
 
    ```bash
@@ -76,14 +73,9 @@ Vimexx kiest de PHP-versie per domein met een `.htaccess`-bestand ([uitleg van V
    rm steynpt-php-*.zip
    ```
 
-3. Laat `public_html` naar de site wijzen (dit is ook hoe [Vimexx Laravel installeert](https://www.vimexx.nl/help/hoe-installeer-ik-het-laravel-framework-op-mijn-website)). Staat er nog een oude site in `public_html`? Bewaar die eerst:
+`public_html` (de huidige site) blijft nog ongemoeid.
 
-   ```bash
-   mv public_html public_html-oud     # of: rm -rf public_html als hij leeg is
-   ln -s steynpt/public public_html
-   ```
-
-## Stap 5. Instellingen (.env)
+## Stap 4. Instellingen (.env)
 
 ```bash
 cd ~/domains/steynpt.nl/steynpt
@@ -96,59 +88,108 @@ Vul in (de rest kan blijven staan):
 | Instelling | Waarde |
 | --- | --- |
 | `APP_URL` | `https://www.steynpt.nl` |
-| `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` | uit stap 3 (`DB_HOST=localhost`) |
+| `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` | uit stap 2 (`DB_HOST=localhost` laten staan) |
 | `ADMIN_EMAILS` | `steyn@steynpt.nl` (dit adres wordt automatisch beheerder) |
-| `ANTHROPIC_API_KEY` | de sleutel van platform.claude.com (mag later) |
+| `ANTHROPIC_API_KEY` | de sleutel van platform.claude.com (mag ook later) |
 
 Opslaan in nano: `Ctrl+O`, `Enter`, `Ctrl+X`. Daarna:
 
 ```bash
 php artisan key:generate --force     # geheime sleutel voor sessies en versleuteling
-php artisan migrate --force          # tabellen aanmaken
-php artisan optimize                 # instellingen, routes en pagina's voorbereiden (sneller)
+php artisan migrate --force          # tabellen aanmaken (typ niets, dit gaat vanzelf)
+php artisan optimize                 # instellingen, routes en pagina's voorbereiden
 ```
 
 > Pas je later iets aan in `.env`, draai dan opnieuw `php artisan optimize`. Anders blijft de oude instelling actief.
 
-## Stap 6. HTTPS
+## Stap 5. Cronjob
 
-1. In DirectAdmin: **SSL-certificaten** (*SSL Certificates*) → kies **Let's Encrypt** voor `steynpt.nl` en `www.steynpt.nl`.
-2. Zet bij **Domeinbeheer** (*Domain Setup*) **→ steynpt.nl** het vinkje **Forceer SSL met https-omleiding** (*Force SSL with https redirect*) aan.
+Eén cronjob doet alles wat op de achtergrond moet: AI-concepten maken, ingeplande schema's op hun startdag zichtbaar maken en elke nacht een back-up van de database.
 
-De site werkt alleen via https: inloggen gebruikt beveiligde cookies (`SESSION_SECURE_COOKIE=true`).
-
-## Stap 7. Cronjob
-
-Eén cronjob doet alles wat op de achtergrond moet: de AI-concepten maken, ingeplande schema's op hun startdag zichtbaar maken en elke nacht een back-up van de database.
-
-In DirectAdmin: **Geavanceerde functies** (*Advanced Features*) **→ Cronjobs** ([uitleg](https://www.vimexx.nl/help/hoe-maak-ik-een-cronjob-aan)). Vul bij alle tijdvelden `*` in (= elke minuut) en als commando:
+In DirectAdmin: **Geavanceerde functies** (*Advanced Features*) **→ Cronjobs** ([uitleg van Vimexx](https://www.vimexx.nl/help/hoe-maak-ik-een-cronjob-aan)). Vul bij alle tijdvelden `*` in (= elke minuut), vink **Prevent Email** aan, en gebruik als commando:
 
 ```
 cd /home/GEBRUIKER/domains/steynpt.nl/steynpt && /opt/alt/php83/usr/bin/php artisan schedule:run >/dev/null 2>&1
 ```
 
-Vink **Prevent Email** aan.
+Alles draait binnen dit ene PHP-proces; de hosting hoeft geen andere programma's te kunnen starten. Voor de AI-concepten moet de server wel naar `api.anthropic.com` kunnen (een gewone https-verbinding).
 
-Alles draait binnen dit ene PHP-proces; de hosting hoeft dus geen andere programma's te kunnen starten. Voor de AI-concepten moet de server wel naar `api.anthropic.com` kunnen (een gewone https-verbinding). Blijft een concept op "AI is bezig" staan terwijl de cronjob wel draait, vraag Vimexx dan of uitgaande verbindingen naar dat adres zijn toegestaan.
+Controle (na een minuut of twee, via SSH):
 
-## Stap 8. Controleren en Steyn als beheerder
+```bash
+cd ~/domains/steynpt.nl/steynpt && php artisan schedule:list   # drie taken: schemas-publiceren, back-up en wachtrij
+php artisan steynpt:backup                                     # maakt nu meteen een back-up; moet "Back-up gemaakt" melden
+```
 
-1. Open **https://www.steynpt.nl**. Zie je een melding over de PHP-versie, controleer dan stap 1.
-2. Maak via **Account aanmaken** het account `steyn@steynpt.nl` aan (dat wordt beheerder) en koppel de authenticator-app. **Bewaar de herstelcodes** op een veilige plek.
-3. Ga naar **Beheer → Instellingen** en stel de beschikbaarheid voor de agenda in.
-4. Kopieer daar de **iCal-link** naar de agenda-app van Steyn.
-5. Controleer na een paar minuten via SSH of de cronjob draait:
+---
 
-   ```bash
-   cd ~/domains/steynpt.nl/steynpt && php artisan schedule:list
-   ls storage/backups      # na de eerste nacht staat hier een back-up
-   ```
+# Fase 2 – Overstappen
 
-## Stap 9. Domein (DNS)
+Kies hiervoor een rustig moment. De site is hooguit een paar minuten niet bereikbaar.
 
-Staat het domein bij Vimexx en is het gekoppeld aan dit hostingpakket, dan hoef je niets te doen. Wijst het domein nog naar de oude website (bijvoorbeeld een andere hosting), zet dan in **Mijn Vimexx → Mijn domeinen → steynpt.nl → DNS** de A-records van `steynpt.nl` en `www` op het IP-adres van het hostingpakket (te vinden in DirectAdmin, rechts bij *Accountinformatie*). Wijzigingen zijn meestal binnen een uur zichtbaar. Laat de MX-records (e-mail) ongemoeid.
+## Stap 6. Een kopie van de huidige site
 
-De oude WordPress-adressen (zoals `/over-steynpt` en `/kennismaking`) sturen automatisch door naar de nieuwe pagina's.
+Maak in DirectAdmin een back-up van het account (**Back-up maken / herstellen** → *Back-up maken*), of download in elk geval de map `public_html`. De oude site blijft daarnaast als map `public_html-oud` op de hosting staan (stap 8).
+
+## Stap 7. PHP 8.3 aanzetten
+
+Vimexx kiest de PHP-versie per domein met een `.htaccess`-bestand ([uitleg van Vimexx](https://www.vimexx.com/help/hoe-stel-ik-de-php-versie-per-domeinnaam-in)). Maak in **Bestandsbeheer** in `domains/steynpt.nl/` (naast `public_html`, niet erin) een bestand `.htaccess` met:
+
+```apache
+<FilesMatch "\.(php|phtml)$">
+    SetHandler application/x-lsphp83
+</FilesMatch>
+```
+
+Staat daar al een `.htaccess`? Zet deze regels dan bovenaan en laat de rest staan.
+
+## Stap 8. De nieuwe site aanzetten
+
+Laat `public_html` naar de nieuwe site wijzen (zo installeert [Vimexx zelf Laravel](https://www.vimexx.nl/help/hoe-installeer-ik-het-laravel-framework-op-mijn-website)). Via SSH:
+
+```bash
+cd ~/domains/steynpt.nl
+mv public_html public_html-oud           # de oude site bewaren
+ln -s steynpt/public public_html          # de nieuwe site aanzetten
+```
+
+Wees precies: bij een typfout in de tweede regel verschijnt de site niet. Controleer met `ls -l public_html`; je ziet dan `public_html -> steynpt/public`.
+
+## Stap 9. Domein (alleen als dat nodig is)
+
+Draaide de oude site al op dit pakket, sla deze stap dan over: www.steynpt.nl toont nu de nieuwe site.
+
+Stond de oude site ergens anders, zet dan in **Mijn Vimexx → Mijn domeinen → steynpt.nl → DNS** de A-records van `steynpt.nl` en `www` op het IP-adres van het hostingpakket (in DirectAdmin te vinden bij de *Accountinformatie*). Laat de MX-records (e-mail) ongemoeid. Meestal is de wijziging binnen een uur zichtbaar; ga daarna verder met stap 10.
+
+## Stap 10. HTTPS
+
+De site werkt alleen via https: inloggen gebruikt beveiligde cookies.
+
+1. In DirectAdmin: **SSL-certificaten** (*SSL Certificates*). Is er al een geldig certificaat voor `steynpt.nl` en `www.steynpt.nl` (bijvoorbeeld van de oude site), dan is dat genoeg. Anders: kies **Let's Encrypt** voor beide namen.
+2. Zet bij **Domeinbeheer** (*Domain Setup*) **→ steynpt.nl** het vinkje **Forceer SSL met https-omleiding** (*Force SSL with https redirect*) aan.
+
+## Stap 11. Controleren en inrichten
+
+1. Open **https://www.steynpt.nl** en klik een paar pagina's door. Een oud adres zoals `/over-steynpt` of `/kennismaking` moet doorsturen naar de nieuwe pagina.
+2. Steyn maakt via **Account aanmaken** het account `steyn@steynpt.nl` aan (dat wordt automatisch beheerder) en koppelt de authenticator-app. **Bewaar de herstelcodes** op een veilige plek.
+3. In **Beheer → Instellingen**: stel de beschikbaarheid voor de agenda in en zet de **iCal-link** in de agenda-app van Steyn.
+4. In **Beheer → Website-teksten**: loop de teksten en prijzen na.
+5. Doe zelf een proef als klant: maak een tweede account aan, boek een afspraak en zeg hem weer af.
+6. Optioneel: meld `https://www.steynpt.nl/sitemap.xml` aan bij Google Search Console.
+
+Werkt alles, dan kun je na een paar weken `public_html-oud` en de oude WordPress-database verwijderen.
+
+### Terug naar de oude site
+
+Gaat er bij het overstappen iets mis, zet dan via SSH de oude site terug:
+
+```bash
+cd ~/domains/steynpt.nl
+rm public_html                       # verwijdert alleen de koppeling, niet de nieuwe site
+mv public_html-oud public_html
+```
+
+Haal ook de regels uit stap 7 weer uit `domains/steynpt.nl/.htaccess` als de oude site een andere PHP-versie nodig had.
 
 ---
 
@@ -188,7 +229,8 @@ De oude WordPress-adressen (zoals `/over-steynpt` en `/kennismaking`) sturen aut
 
 | Probleem | Oplossing |
 | --- | --- |
-| Steyn is zijn telefoon én herstelcodes kwijt | Via SSH: `php artisan steynpt:reset-2fa steyn@steynpt.nl`. Bij de volgende keer inloggen koppelt hij een nieuwe telefoon. |
+| Een melding over de PHP-versie, of een lege pagina | Controleer stap 7 (`.htaccess` naast `public_html`) en stap 8 (`ls -l public_html`). |
 | Foutmelding "Er ging iets mis" (500) | Kijk in `steynpt/storage/logs/` (laatste bestand). Zet nooit `APP_DEBUG=true` op de live site. |
-| AI-concepten blijven op "AI is bezig" staan | De cronjob draait niet: controleer stap 7 en `php artisan schedule:list`. Na tien minuten kan Steyn opnieuw laten genereren. |
-| Inloggen lukt niet (pagina verlopen) | Controleer of de site via https draait (stap 6) en of `APP_URL` met `https://` begint. |
+| Inloggen lukt niet (pagina verlopen) | Controleer of de site via https draait (stap 10) en of `APP_URL` met `https://` begint; draai daarna `php artisan optimize`. |
+| AI-concepten blijven op "AI is bezig" staan | Controleer de cronjob (stap 5) met `php artisan schedule:list`. Draait die wel, vraag Vimexx dan of uitgaande verbindingen naar `api.anthropic.com` zijn toegestaan. Na tien minuten kan Steyn opnieuw laten genereren. |
+| Steyn is zijn telefoon én herstelcodes kwijt | Via SSH: `php artisan steynpt:reset-2fa steyn@steynpt.nl`. Bij de volgende keer inloggen koppelt hij een nieuwe telefoon. |
