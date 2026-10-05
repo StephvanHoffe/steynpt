@@ -50,8 +50,8 @@ final class Contact
                     'intro' => F::text('Introductie', 'Vul je gegevens in, dan nemen we contact met je op om een moment te plannen.', ['max' => 300]),
                 ]),
                 'seo' => F::seoSection(
-                    'Contact & gratis kennismaking',
-                    'Vraag een gratis kennismaking aan bij SteynPT. We nodigen je graag uit bij Gymbase aan de Overtoom in Amsterdam.',
+                    'Contact en gratis kennismaking bij Gymbase in Amsterdam',
+                    'Vraag een gratis kennismaking aan. Je bent welkom bij Gymbase, Overtoom 371-w in Amsterdam Oud-West: vlak bij het Vondelpark, tram 1 om de hoek.',
                 ),
             ],
         ];

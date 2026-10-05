@@ -106,6 +106,11 @@ export const algemeen = definePage({
         name: line("Naam van de locatie", LOCATIONS[0].name, { max: 60 }),
         street: line("Straat en huisnummer", LOCATIONS[0].street, { max: 80, hint: "De routeknop naar Google Maps gebruikt dit adres." }),
         city: line("Postcode en plaats", LOCATIONS[0].city, { max: 80 }),
+        area: line("Buurt", "Amsterdam Oud-West", { max: 60, hint: "Onder het adres, en voor Google." }),
+        directions: text("Bereikbaarheid", "Op 3 minuten lopen van het Vondelpark. Tram 1 stopt om de hoek, bij de halte Rhijnvis Feithstraat.", {
+          max: 200,
+          hint: "Op de homepage en de contactpagina.",
+        }),
         onLocationTitle: line("Kop 'op locatie'", "Op locatie", { max: 40 }),
         onLocation: text(
           "Tekst 'op locatie'",
@@ -123,7 +128,7 @@ export const algemeen = definePage({
     footer: section(
       "Footer",
       {
-        intro: text("Tekst onder het logo", "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam.", { max: 200 }),
+        intro: text("Tekst onder het logo", "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam Oud-West en online.", { max: 200 }),
         extra: line("Regel onder de locatie", "Op locatie & online", { max: 60, optional: true }),
         copyright: line("Onderste regel", "SteynPT · Personal Training Amsterdam", { max: 80, hint: "Het © en het jaartal komen er automatisch voor." }),
       },

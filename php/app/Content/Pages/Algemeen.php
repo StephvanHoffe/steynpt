@@ -129,6 +129,11 @@ final class Algemeen
                         'name' => F::line('Naam van de locatie', Defaults::LOCATIONS[0]['name'], ['max' => 60]),
                         'street' => F::line('Straat en huisnummer', Defaults::LOCATIONS[0]['street'], ['max' => 80, 'hint' => 'De routeknop naar Google Maps gebruikt dit adres.']),
                         'city' => F::line('Postcode en plaats', Defaults::LOCATIONS[0]['city'], ['max' => 80]),
+                        'area' => F::line('Buurt', 'Amsterdam Oud-West', ['max' => 60, 'hint' => 'Onder het adres, en voor Google.']),
+                        'directions' => F::text('Bereikbaarheid', 'Op 3 minuten lopen van het Vondelpark. Tram 1 stopt om de hoek, bij de halte Rhijnvis Feithstraat.', [
+                            'max' => 200,
+                            'hint' => 'Op de homepage en de contactpagina.',
+                        ]),
                         'onLocationTitle' => F::line("Kop 'op locatie'", 'Op locatie', ['max' => 40]),
                         'onLocation' => F::text(
                             "Tekst 'op locatie'",
@@ -146,7 +151,7 @@ final class Algemeen
                 'footer' => F::section(
                     'Footer',
                     [
-                        'intro' => F::text('Tekst onder het logo', 'Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam.', ['max' => 200]),
+                        'intro' => F::text('Tekst onder het logo', 'Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam Oud-West en online.', ['max' => 200]),
                         'extra' => F::line('Regel onder de locatie', 'Op locatie & online', ['max' => 60, 'optional' => true]),
                         'copyright' => F::line('Onderste regel', 'SteynPT · Personal Training Amsterdam', ['max' => 80, 'hint' => 'Het © en het jaartal komen er automatisch voor.']),
                     ],

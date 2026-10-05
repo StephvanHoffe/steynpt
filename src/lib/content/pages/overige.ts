@@ -48,8 +48,8 @@ export const voedingscoaching = definePage({
       secondary: "Gratis kennismaking",
     }),
     seo: seoSection(
-      "Voedingscoaching",
-      "Voedingscoaching door orthomoleculair voedingstherapeut Steyn van Leeuwen. Bij afvallen, aankomen, darmklachten, energie en meer. Een gericht voedingsplan op maat.",
+      "Voedingscoach in Amsterdam Oud-West",
+      "Voedingscoaching door orthomoleculair voedingstherapeut Steyn van Leeuwen, in Amsterdam Oud-West of online. Bij afvallen, aankomen, energie en darmklachten.",
     ),
   },
 });
@@ -120,8 +120,8 @@ export const tarieven = definePage({
       title: title("Titel", "Wat sporters zeggen", { max: 100 }),
     }),
     seo: seoSection(
-      "Tarieven",
-      "Alle tarieven van SteynPT: 1-op-1 personal training, online coaching en ademcoaching (1-op-1 en in groepsverband) in Amsterdam.",
+      "Tarieven personal training en coaching in Amsterdam",
+      "Alle tarieven van SteynPT: 1-op-1 personal training bij Gymbase in Amsterdam Oud-West, online coaching en ademcoaching (1-op-1 en in groepsverband).",
     ),
   },
 });
@@ -177,7 +177,7 @@ export const overSteyn = definePage({
       secondary: "Start online coaching",
     }),
     seo: seoSection(
-      "Over Steyn",
+      "Over Steyn van Leeuwen, personal trainer in Amsterdam",
       "Maak kennis met Steyn van Leeuwen: full-time personal trainer, voedingscoach en orthomoleculair voedingstherapeut in Amsterdam.",
     ),
   },
@@ -264,8 +264,8 @@ export const contact = definePage({
       intro: text("Introductie", "Vul je gegevens in, dan nemen we contact met je op om een moment te plannen.", { max: 300 }),
     }),
     seo: seoSection(
-      "Contact & gratis kennismaking",
-      "Vraag een gratis kennismaking aan bij SteynPT. We nodigen je graag uit bij Gymbase aan de Overtoom in Amsterdam.",
+      "Contact en gratis kennismaking bij Gymbase in Amsterdam",
+      "Vraag een gratis kennismaking aan. Je bent welkom bij Gymbase, Overtoom 371-w in Amsterdam Oud-West: vlak bij het Vondelpark, tram 1 om de hoek.",
     ),
   },
 });

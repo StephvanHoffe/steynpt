@@ -15,8 +15,15 @@
           <a href="{{ \App\Site\Site::mapsUrl($locatie['street'], $locatie['city']) }}" target="_blank" rel="noopener noreferrer" class="card-soft block p-5 transition-colors hover:border-accent/60">
             <x-icon name="MapPin" class="size-5 text-accent" />
             <p class="mt-3 font-semibold">{{ $locatie['name'] }}</p>
-            <p class="mt-1 text-sm text-muted">{{ $locatie['street'] }}<br>{{ $locatie['city'] }}</p>
+            <p class="mt-1 text-sm text-muted">{{ $locatie['street'] }}<br>{{ $locatie['city'] }}@if ($locatie['area'] !== '')<br>{{ $locatie['area'] }}@endif</p>
           </a>
+          @if ($locatie['directions'] !== '')
+            <div class="card-soft p-5">
+              <x-icon name="TramFront" class="size-5 text-accent" />
+              <p class="mt-3 font-semibold">Bereikbaarheid</p>
+              <p class="mt-1 text-sm text-muted">{{ $locatie['directions'] }}</p>
+            </div>
+          @endif
         </div>
         <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted"><strong class="text-ink">{{ $t['hero']['tipTitle'] }}</strong> {{ $t['hero']['tipText'] }} {{ $locatie['onLocation'] }}</p>
         <a href="{{ $locatie['instagramUrl'] }}" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-ink hover:text-accent">

@@ -12,7 +12,7 @@
             "eyebrow": {
               "kind": "line",
               "label": "Kleine kop",
-              "default": "Personal training · Amsterdam & online",
+              "default": "Personal training · Amsterdam Oud-West & online",
               "max": 80
             },
             "title": {
@@ -425,7 +425,7 @@
             "intro": {
               "kind": "text",
               "label": "Introductie",
-              "default": "Bij Gymbase in Amsterdam, op jouw favoriete plek of volledig online.",
+              "default": "Bij Gymbase aan de Overtoom in Amsterdam Oud-West, op jouw favoriete plek of volledig online.",
               "max": 400
             }
           }
@@ -437,14 +437,14 @@
             "title": {
               "kind": "line",
               "label": "Paginatitel",
-              "default": "SteynPT · Personal training, online coaching & ademcoaching in Amsterdam",
+              "default": "SteynPT · Personal trainer in Amsterdam Oud-West & online coaching",
               "max": 90,
               "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
             },
             "description": {
               "kind": "text",
               "label": "Omschrijving",
-              "default": "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam. 1-op-1 begeleiding voor een gezondere leefstijl, specifieke doelen en topsporters.",
+              "default": "Personal trainer bij Gymbase aan de Overtoom in Amsterdam Oud-West, vlak bij het Vondelpark. 1-op-1 training, online coaching, voedingscoaching en ademcoaching.",
               "max": 300,
               "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
             }
@@ -812,7 +812,7 @@
             "eyebrow": {
               "kind": "line",
               "label": "Kleine kop",
-              "default": "Alles over personal training",
+              "default": "Personal training in Amsterdam Oud-West",
               "max": 60
             },
             "title": {
@@ -825,7 +825,7 @@
             "intro": {
               "kind": "text",
               "label": "Introductie",
-              "default": "Ongeacht jouw doel of sport: SteynPT gaat er 100% voor. Met een persoonlijk trainingsplan werken we zo efficiënt mogelijk naar jouw doel toe, met veel energie, aandacht voor de juiste uitvoering en een fijne sfeer.",
+              "default": "Ongeacht jouw doel of sport: SteynPT gaat er 100% voor. Met een persoonlijk trainingsplan werken we zo efficiënt mogelijk naar jouw doel toe, met veel energie, aandacht voor de juiste uitvoering en een fijne sfeer. Je traint bij Gymbase aan de Overtoom, op een paar minuten van het Vondelpark, of op een plek die jou uitkomt.",
               "max": 500
             },
             "primary": {
@@ -880,7 +880,7 @@
                 "Persoonlijk trainingsschema",
                 "Voedingsadvies op basis van jouw doel",
                 "Contactmomenten ook buiten de trainingen",
-                "Trainen bij Gymbase of op locatie"
+                "Trainen bij Gymbase (Overtoom, Oud-West) of op locatie"
               ],
               "max": 10,
               "hint": "Eén punt per regel."
@@ -1055,14 +1055,14 @@
             "title": {
               "kind": "line",
               "label": "Paginatitel",
-              "default": "Personal training",
+              "default": "Personal trainer in Amsterdam Oud-West",
               "max": 90,
               "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
             },
             "description": {
               "kind": "text",
               "label": "Omschrijving",
-              "default": "1-op-1 personal training in Amsterdam met Steyn van Leeuwen. Voor een gezondere leefstijl, specifieke doelen en topsporters. Bij Gymbase of op locatie.",
+              "default": "1-op-1 personal training bij Gymbase, Overtoom 371-w in Amsterdam Oud-West. Voor een gezondere leefstijl, specifieke doelen en topsport. Ook op locatie.",
               "max": 300,
               "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
             }
@@ -1082,7 +1082,7 @@
             "eyebrow": {
               "kind": "line",
               "label": "Kleine kop",
-              "default": "Ademcoaching 1-op-1 en in groepsverband",
+              "default": "Ademcoaching in Amsterdam, 1-op-1 en in groepsverband",
               "max": 60
             },
             "title": {
@@ -1605,14 +1605,14 @@
             "title": {
               "kind": "line",
               "label": "Paginatitel",
-              "default": "Voedingscoaching",
+              "default": "Voedingscoach in Amsterdam Oud-West",
               "max": 90,
               "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
             },
             "description": {
               "kind": "text",
               "label": "Omschrijving",
-              "default": "Voedingscoaching door orthomoleculair voedingstherapeut Steyn van Leeuwen. Bij afvallen, aankomen, darmklachten, energie en meer. Een gericht voedingsplan op maat.",
+              "default": "Voedingscoaching door orthomoleculair voedingstherapeut Steyn van Leeuwen, in Amsterdam Oud-West of online. Bij afvallen, aankomen, energie en darmklachten.",
               "max": 300,
               "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
             }
@@ -1832,14 +1832,14 @@
             "title": {
               "kind": "line",
               "label": "Paginatitel",
-              "default": "Tarieven",
+              "default": "Tarieven personal training en coaching in Amsterdam",
               "max": 90,
               "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
             },
             "description": {
               "kind": "text",
               "label": "Omschrijving",
-              "default": "Alle tarieven van SteynPT: 1-op-1 personal training, online coaching en ademcoaching (1-op-1 en in groepsverband) in Amsterdam.",
+              "default": "Alle tarieven van SteynPT: 1-op-1 personal training bij Gymbase in Amsterdam Oud-West, online coaching en ademcoaching (1-op-1 en in groepsverband).",
               "max": 300,
               "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
             }
@@ -1977,7 +1977,7 @@
             "title": {
               "kind": "line",
               "label": "Paginatitel",
-              "default": "Over Steyn",
+              "default": "Over Steyn van Leeuwen, personal trainer in Amsterdam",
               "max": 90,
               "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
             },
@@ -2206,14 +2206,14 @@
             "title": {
               "kind": "line",
               "label": "Paginatitel",
-              "default": "Contact & gratis kennismaking",
+              "default": "Contact en gratis kennismaking bij Gymbase in Amsterdam",
               "max": 90,
               "hint": "Staat in het tabblad van de browser en als kop in Google. Houd hem kort."
             },
             "description": {
               "kind": "text",
               "label": "Omschrijving",
-              "default": "Vraag een gratis kennismaking aan bij SteynPT. We nodigen je graag uit bij Gymbase aan de Overtoom in Amsterdam.",
+              "default": "Vraag een gratis kennismaking aan. Je bent welkom bij Gymbase, Overtoom 371-w in Amsterdam Oud-West: vlak bij het Vondelpark, tram 1 om de hoek.",
               "max": 300,
               "hint": "De korte tekst onder de titel in Google. Ongeveer 150 tekens werkt het best."
             }
@@ -2598,6 +2598,20 @@
               "default": "1054 JN Amsterdam",
               "max": 80
             },
+            "area": {
+              "kind": "line",
+              "label": "Buurt",
+              "default": "Amsterdam Oud-West",
+              "max": 60,
+              "hint": "Onder het adres, en voor Google."
+            },
+            "directions": {
+              "kind": "text",
+              "label": "Bereikbaarheid",
+              "default": "Op 3 minuten lopen van het Vondelpark. Tram 1 stopt om de hoek, bij de halte Rhijnvis Feithstraat.",
+              "max": 200,
+              "hint": "Op de homepage en de contactpagina."
+            },
             "onLocationTitle": {
               "kind": "line",
               "label": "Kop 'op locatie'",
@@ -2649,7 +2663,7 @@
             "intro": {
               "kind": "text",
               "label": "Tekst onder het logo",
-              "default": "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam.",
+              "default": "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam Oud-West en online.",
               "max": 200
             },
             "extra": {
@@ -4320,7 +4334,7 @@
         },
         "output": {
           "hero": {
-            "eyebrow": "Personal training · Amsterdam & online",
+            "eyebrow": "Personal training · Amsterdam Oud-West & online",
             "title": "Eigen *titel*",
             "intro": "Ik ben Steyn van Leeuwen, personal trainer en orthomoleculair voedingscoach. Ik help je aan een gezondere leefstijl, begeleid je 1-op-1 naar je specifieke doel en coach sporters naar hun beste prestatie. Vanaf nu ook online, waar je ook bent.",
             "primary": "Start online coaching",
@@ -4442,11 +4456,11 @@
           "locaties": {
             "eyebrow": "Bezoek ons",
             "title": "Trainen waar het jou uitkomt",
-            "intro": "Bij Gymbase in Amsterdam, op jouw favoriete plek of volledig online."
+            "intro": "Bij Gymbase aan de Overtoom in Amsterdam Oud-West, op jouw favoriete plek of volledig online."
           },
           "seo": {
-            "title": "SteynPT · Personal training, online coaching & ademcoaching in Amsterdam",
-            "description": "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam. 1-op-1 begeleiding voor een gezondere leefstijl, specifieke doelen en topsporters."
+            "title": "SteynPT · Personal trainer in Amsterdam Oud-West & online coaching",
+            "description": "Personal trainer bij Gymbase aan de Overtoom in Amsterdam Oud-West, vlak bij het Vondelpark. 1-op-1 training, online coaching, voedingscoaching en ademcoaching."
           }
         }
       },
@@ -4645,6 +4659,8 @@
             "name": "Gymbase",
             "street": "Overtoom 371-w",
             "city": "1054 JN Amsterdam",
+            "area": "Amsterdam Oud-West",
+            "directions": "Op 3 minuten lopen van het Vondelpark. Tram 1 stopt om de hoek, bij de halte Rhijnvis Feithstraat.",
             "onLocationTitle": "Op locatie",
             "onLocation": "Naast onze vaste locatie Gymbase komen we ook op locatie: in jouw favoriete park of in de kantine van je werk.",
             "onlineTitle": "Online",
@@ -4654,7 +4670,7 @@
             "instagramUrl": "https://www.instagram.com/bigtimesteyn/"
           },
           "footer": {
-            "intro": "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam.",
+            "intro": "Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam Oud-West en online.",
             "extra": "Op locatie & online",
             "copyright": "SteynPT · Personal Training Amsterdam"
           }

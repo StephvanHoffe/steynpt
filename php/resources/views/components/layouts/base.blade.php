@@ -5,12 +5,17 @@
     'titleTemplate' => '%s · SteynPT',
     'description' => null,
     'noindex' => false,
+    // Veelgestelde vragen op de pagina (voor de gestructureerde gegevens).
+    'faq' => null,
 ])
 @php
-    $defaultTitle = 'SteynPT · Personal training, online coaching & ademcoaching in Amsterdam';
+    $defaultTitle = 'SteynPT · Personal trainer in Amsterdam Oud-West & online coaching';
     $fullTitle = $title === null ? $defaultTitle : ($absoluteTitle ? $title : str_replace('%s', $title, $titleTemplate));
     $description ??= \App\Content\Defaults::SITE['description'];
     $siteUrl = rtrim(config('app.url'), '/');
+    // Vaste URL van deze pagina, zonder ?-parameters (bijv. /contact?onderwerp=…), voor zoekmachines.
+    $path = trim(request()->path(), '/');
+    $canonical = \App\Site\Site::url().'/'.$path;
 @endphp
 <!DOCTYPE html>
 <html lang="nl" data-scroll-behavior="smooth">
@@ -28,7 +33,16 @@
     <meta property="og:site_name" content="SteynPT">
     <meta property="og:locale" content="nl_NL">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="{{ $siteUrl }}/images/steyn-glimlach.jpg">
+    <meta property="og:image" content="{{ $siteUrl }}/images/og-steynpt.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="SteynPT, personal trainer bij Gymbase in Amsterdam Oud-West">
+    @unless ($noindex)
+        <link rel="canonical" href="{{ $canonical }}">
+        <meta property="og:url" content="{{ $canonical }}">
+        <meta name="twitter:card" content="summary_large_image">
+        <script type="application/ld+json">{!! \App\Site\StructuredData::json(\App\Site\StructuredData::graph($canonical, $fullTitle, $description, $faq)) !!}</script>
+    @endunless
     <link rel="icon" href="{{ asset('icon.jpg') }}" type="image/jpeg">
     <link rel="apple-touch-icon" href="{{ asset('apple-icon.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])

@@ -90,8 +90,8 @@ final class Tarieven
                     'title' => F::title('Titel', 'Wat sporters zeggen', ['max' => 100]),
                 ]),
                 'seo' => F::seoSection(
-                    'Tarieven',
-                    'Alle tarieven van SteynPT: 1-op-1 personal training, online coaching en ademcoaching (1-op-1 en in groepsverband) in Amsterdam.',
+                    'Tarieven personal training en coaching in Amsterdam',
+                    'Alle tarieven van SteynPT: 1-op-1 personal training bij Gymbase in Amsterdam Oud-West, online coaching en ademcoaching (1-op-1 en in groepsverband).',
                 ),
             ],
         ];

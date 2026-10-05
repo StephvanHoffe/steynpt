@@ -7,11 +7,11 @@ export const personalTraining = definePage({
   description: "1-op-1 training, topsport en de PT-pakketten.",
   sections: {
     hero: section("Bovenaan", {
-      eyebrow: line("Kleine kop", "Alles over personal training", { max: 60 }),
+      eyebrow: line("Kleine kop", "Personal training in Amsterdam Oud-West", { max: 60 }),
       title: title("Titel", "1-op-1. *100%* voor jouw doel.", { max: 80 }),
       intro: text(
         "Introductie",
-        "Ongeacht jouw doel of sport: SteynPT gaat er 100% voor. Met een persoonlijk trainingsplan werken we zo efficiënt mogelijk naar jouw doel toe, met veel energie, aandacht voor de juiste uitvoering en een fijne sfeer.",
+        "Ongeacht jouw doel of sport: SteynPT gaat er 100% voor. Met een persoonlijk trainingsplan werken we zo efficiënt mogelijk naar jouw doel toe, met veel energie, aandacht voor de juiste uitvoering en een fijne sfeer. Je traint bij Gymbase aan de Overtoom, op een paar minuten van het Vondelpark, of op een plek die jou uitkomt.",
         { max: 500 },
       ),
       primary: line("Eerste knop", "Vraag een gratis proefles aan", { max: 40 }),
@@ -34,7 +34,7 @@ export const personalTraining = definePage({
           "Persoonlijk trainingsschema",
           "Voedingsadvies op basis van jouw doel",
           "Contactmomenten ook buiten de trainingen",
-          "Trainen bij Gymbase of op locatie",
+          "Trainen bij Gymbase (Overtoom, Oud-West) of op locatie",
         ],
         { max: 10, hint: "Eén punt per regel." },
       ),
@@ -89,8 +89,8 @@ export const personalTraining = definePage({
       secondary: "Of start online",
     }),
     seo: seoSection(
-      "Personal training",
-      "1-op-1 personal training in Amsterdam met Steyn van Leeuwen. Voor een gezondere leefstijl, specifieke doelen en topsporters. Bij Gymbase of op locatie.",
+      "Personal trainer in Amsterdam Oud-West",
+      "1-op-1 personal training bij Gymbase, Overtoom 371-w in Amsterdam Oud-West. Voor een gezondere leefstijl, specifieke doelen en topsport. Ook op locatie.",
     ),
   },
 });

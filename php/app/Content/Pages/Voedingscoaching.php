@@ -71,8 +71,8 @@ final class Voedingscoaching
                     'secondary' => 'Gratis kennismaking',
                 ]),
                 'seo' => F::seoSection(
-                    'Voedingscoaching',
-                    'Voedingscoaching door orthomoleculair voedingstherapeut Steyn van Leeuwen. Bij afvallen, aankomen, darmklachten, energie en meer. Een gericht voedingsplan op maat.',
+                    'Voedingscoach in Amsterdam Oud-West',
+                    'Voedingscoaching door orthomoleculair voedingstherapeut Steyn van Leeuwen, in Amsterdam Oud-West of online. Bij afvallen, aankomen, energie en darmklachten.',
                 ),
             ],
         ];

@@ -19,7 +19,14 @@ export async function Locations() {
           {t.street}
           <br />
           {t.city}
+          {t.area && (
+            <>
+              <br />
+              {t.area}
+            </>
+          )}
         </p>
+        {t.directions && <p className="mt-3 text-sm">{t.directions}</p>}
         <span className="mt-auto inline-flex items-center gap-1 pt-5 text-sm font-semibold">
           Route <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
         </span>

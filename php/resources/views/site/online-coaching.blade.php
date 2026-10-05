@@ -3,7 +3,7 @@
     $ref = $invitation['code'] ?? null;
     $registerHref = '/registreren'.($ref ? '?ref='.$ref : '');
 @endphp
-<x-layouts.site :title="$t['seo']['title']" :description="$t['seo']['description']">
+<x-layouts.site :title="$t['seo']['title']" :description="$t['seo']['description']" :faq="$t['faq']['questions']">
   <section class="hero-soft relative overflow-hidden">
     <div class="container-site grid items-center gap-14 py-16 lg:grid-cols-[1.2fr_1fr] lg:py-24">
       <div class="animate-rise">

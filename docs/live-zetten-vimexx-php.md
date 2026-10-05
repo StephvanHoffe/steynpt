@@ -177,7 +177,7 @@ De site werkt alleen via https: inloggen gebruikt beveiligde cookies.
 3. In **Beheer → Instellingen**: stel de beschikbaarheid voor de agenda in en zet de **iCal-link** in de agenda-app van Steyn.
 4. In **Beheer → Website-teksten**: loop de teksten en prijzen na.
 5. Doe zelf een proef als klant: maak een tweede account aan, boek een afspraak en zeg hem weer af.
-6. Optioneel: meld `https://www.steynpt.nl/sitemap.xml` aan bij Google Search Console.
+6. Ga verder met *Na de livegang: beter gevonden worden* hieronder.
 
 Werkt alles, dan kun je na een paar weken `public_html-oud` en de oude WordPress-database verwijderen.
 
@@ -194,6 +194,16 @@ mv public_html-oud public_html
 Haal ook de regels uit stap 7 weer uit `domains/steynpt.nl/.htaccess` als de oude site een andere PHP-versie nodig had.
 
 ---
+
+## Na de livegang: beter gevonden worden
+
+De site zelf is klaar voor zoekmachines: titels en omschrijvingen noemen Amsterdam Oud-West en Gymbase, elke pagina heeft een vaste URL (canonical), en Google krijgt gestructureerde gegevens mee (bedrijf met adres en ligging, Steyn, diensten met prijzen, veelgestelde vragen). Oude WordPress-adressen sturen door; de demopagina's van het oude thema melden "bestaat niet meer", zodat Google ze opruimt. Voor lokaal gevonden worden ("personal trainer Amsterdam West", "personal trainer Oud-West") telt daarnaast vooral wat er buiten de site gebeurt:
+
+1. **Google Search Console** ([search.google.com/search-console](https://search.google.com/search-console)): voeg het domein `steynpt.nl` toe en bevestig het met de TXT-regel in **Mijn Vimexx → Mijn domeinen → steynpt.nl → DNS**. Meld daarna `https://www.steynpt.nl/sitemap.xml` aan. Hier zie je ook op welke zoekwoorden de site gevonden wordt.
+2. **Google Bedrijfsprofiel** ([business.google.com](https://business.google.com)): het belangrijkste voor Google Maps en het kaartje in de zoekresultaten. Maak (of claim) het profiel *SteynPT*, categorie **Personal trainer**, adres **Overtoom 371-w, 1054 JN Amsterdam**, website `https://www.steynpt.nl`, en zet er foto's van de trainingen bij Gymbase in. Werk je alleen op afspraak, kies dan "Geen openingstijden" of "Op afspraak".
+3. **Reviews**: vraag tevreden klanten om een review op het Google Bedrijfsprofiel. Reageer op elke review.
+4. **Overal hetzelfde adres**: gebruik op Instagram, Facebook, Gymbase-pagina's en andere vermeldingen dezelfde naam, hetzelfde adres en de link naar www.steynpt.nl.
+5. **Bing Webmaster Tools** ([bing.com/webmasters](https://www.bing.com/webmasters)): kan in één keer de gegevens uit Google Search Console overnemen.
 
 ## Een nieuwe versie zetten
 

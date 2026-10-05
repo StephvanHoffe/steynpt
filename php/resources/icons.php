@@ -92,4 +92,5 @@ return [
     'Video' => ['lucide lucide-video', '<path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path><rect x="2" y="6" width="14" height="12" rx="2"></rect>'],
     'Wind' => ['lucide lucide-wind', '<path d="M12.8 19.6A2 2 0 1 0 14 16H2"></path><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"></path><path d="M9.8 4.4A2 2 0 1 1 11 8H2"></path>'],
     'X' => ['lucide lucide-x', '<path d="M18 6 6 18"></path><path d="m6 6 12 12"></path>'],
+    'TramFront' => ['lucide lucide-tram-front lucide-train', '<rect width="16" height="16" x="4" y="3" rx="2"></rect><path d="M4 11h16"></path><path d="M12 3v8"></path><path d="m8 19-2 3"></path><path d="m18 22-2-3"></path><path d="M8 15h.01"></path><path d="M16 15h.01"></path>'],
 ];

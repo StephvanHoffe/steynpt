@@ -3,7 +3,7 @@
     $groupIcons = ['Building2', 'Trophy', 'Users'];
     $adem = \App\Site\Texts::get('pakketten')['adem'];
 @endphp
-<x-layouts.site :title="$t['seo']['title']" :description="$t['seo']['description']">
+<x-layouts.site :title="$t['seo']['title']" :description="$t['seo']['description']" :faq="$t['faq']['questions']">
   <x-page-hero :eyebrow="$t['hero']['eyebrow']" :title="$t['hero']['title']" :intro="$t['hero']['intro']" image="/images/steyn-team-gym.jpg" image-alt="Steyn met sporters in de studio">
     <x-button-link href="/contact?onderwerp=ademcoaching">{{ $t['hero']['primary'] }} <x-icon name="ArrowRight" class="size-4" /></x-button-link>
     <x-button-link href="/contact?onderwerp=ademcoaching-groep" variant="outline">{{ $t['hero']['secondary'] }}</x-button-link>

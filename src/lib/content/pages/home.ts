@@ -10,7 +10,7 @@ export const home = definePage({
   description: "De eerste pagina van de site.",
   sections: {
     hero: section("Bovenaan", {
-      eyebrow: line("Kleine kop", "Personal training · Amsterdam & online", { max: 80 }),
+      eyebrow: line("Kleine kop", "Personal training · Amsterdam Oud-West & online", { max: 80 }),
       title: title("Titel", "Sterker lichaam.\n*Gezonder* leven.", { max: 80 }),
       intro: text(
         "Introductie",
@@ -127,8 +127,8 @@ export const home = definePage({
     locaties: section("Locaties", {
       eyebrow: line("Kleine kop", "Bezoek ons", { max: 60 }),
       title: title("Titel", "Trainen waar het jou uitkomt", { max: 100 }),
-      intro: text("Introductie", "Bij Gymbase in Amsterdam, op jouw favoriete plek of volledig online.", { max: 400 }),
+      intro: text("Introductie", "Bij Gymbase aan de Overtoom in Amsterdam Oud-West, op jouw favoriete plek of volledig online.", { max: 400 }),
     }),
-    seo: seoSection("SteynPT · Personal training, online coaching & ademcoaching in Amsterdam", SITE.description),
+    seo: seoSection("SteynPT · Personal trainer in Amsterdam Oud-West & online coaching", SITE.description),
   },
 });

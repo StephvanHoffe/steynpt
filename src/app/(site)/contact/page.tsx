@@ -1,4 +1,4 @@
-import { Clock, MapPin } from "lucide-react";
+import { Clock, MapPin, TramFront } from "lucide-react";
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { Rich } from "@/components/content/Rich";
@@ -39,8 +39,21 @@ export default async function ContactPage({ searchParams }: PageProps<"/contact"
                 {locatie.street}
                 <br />
                 {locatie.city}
+                {locatie.area && (
+                  <>
+                    <br />
+                    {locatie.area}
+                  </>
+                )}
               </p>
             </a>
+            {locatie.directions && (
+              <div className="card-soft p-5">
+                <TramFront className="size-5 text-accent" aria-hidden="true" />
+                <p className="mt-3 font-semibold">Bereikbaarheid</p>
+                <p className="mt-1 text-sm text-muted">{locatie.directions}</p>
+              </div>
+            )}
           </div>
           <p className="mt-6 max-w-xl text-sm leading-relaxed text-muted">
             <strong className="text-ink">{t.hero.tipTitle}</strong> {t.hero.tipText} {locatie.onLocation}

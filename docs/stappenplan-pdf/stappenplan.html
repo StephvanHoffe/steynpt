@@ -77,11 +77,11 @@
   /* Inhoud */
   h2.section { font-size: 20pt; margin: 0 0 4mm; }
   .intro { font-size: 10.5pt; line-height: 1.6; color: var(--muted); margin-bottom: 6mm; max-width: 160mm; }
-  .block { margin-top: 8mm; }
+  .block { margin-top: 6.5mm; }
   .block > .display { font-size: 13pt; margin-bottom: 3mm; }
 
   table { width: 100%; border-collapse: collapse; font-size: 9pt; }
-  th, td { text-align: left; vertical-align: top; padding: 2.4mm 3mm; border-bottom: 0.3mm solid var(--line); }
+  th, td { text-align: left; vertical-align: top; padding: 1.9mm 3mm; border-bottom: 0.3mm solid var(--line); }
   th { font-size: 7pt; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 650; background: var(--surface); border-bottom: 0; }
   td:first-child { font-weight: 650; white-space: nowrap; width: 1%; }
   td.code { font-family: var(--mono); font-size: 8pt; font-weight: 400; }
@@ -220,6 +220,16 @@
       <p>Draait de huidige (WordPress-)site op ditzelfde Vimexx-pakket, dan verander je niets aan het domein: in stap 8 wissel je alleen de map.</p>
       <p>Staat de huidige site ergens anders, of heb je een nieuw pakket? Dan zet je in stap 9 ook het domein om.</p>
     </div>
+  </div>
+
+  <div class="block">
+    <h3 class="display" style="font-size:11pt">Handleidingen van Vimexx</h3>
+    <ul class="sources">
+      <li>SSH-toegang inschakelen: vimexx.nl/help/ssh-toegang-inschakelen</li>
+      <li>PHP-versie per domeinnaam: vimexx.com/help/hoe-stel-ik-de-php-versie-per-domeinnaam-in</li>
+      <li>Cronjob aanmaken: vimexx.nl/help/hoe-maak-ik-een-cronjob-aan</li>
+      <li>Laravel installeren: vimexx.nl/help/hoe-installeer-ik-het-laravel-framework-op-mijn-website</li>
+    </ul>
   </div>
 </section>
 
@@ -393,7 +403,7 @@ ls -l public_html                  <span class="c"># toont: public_html -&gt; st
         <li><span class="menu">Beheer → Instellingen</span>: beschikbaarheid voor de agenda instellen en de iCal-link in de agenda-app van Steyn zetten.</li>
         <li><span class="menu">Beheer → Website-teksten</span>: teksten en prijzen nalopen.</li>
         <li>Proef als klant: maak een tweede account aan, boek een afspraak en zeg hem weer af.</li>
-        <li>Optioneel: meld <code>https://www.steynpt.nl/sitemap.xml</code> aan bij Google Search Console.</li>
+        <li>Zorg daarna dat Google de site goed vindt: zie <strong>Beter gevonden worden</strong> achterin.</li>
       </ul>
     </div>
   </div>
@@ -413,7 +423,19 @@ mv public_html-oud public_html</pre>
   <p class="eyebrow">Daarna</p>
   <h2 class="display section" style="margin-top:3mm">Bijhouden</h2>
 
-  <div class="block long" style="margin-top:4mm">
+  <div class="block" style="margin-top:4mm">
+    <h3 class="display">Beter gevonden worden</h3>
+    <p>De site is klaar voor zoekmachines: titels en omschrijvingen noemen Amsterdam Oud-West en Gymbase, en Google krijgt het adres, de ligging, de diensten en de veelgestelde vragen mee. Oude WordPress-adressen sturen door. Voor lokaal gevonden worden (&ldquo;personal trainer Amsterdam West&rdquo;) telt daarnaast vooral wat er buiten de site gebeurt:</p>
+    <ol class="sub">
+      <li><strong>Google Search Console</strong> (search.google.com/search-console): voeg <code>steynpt.nl</code> toe, bevestig met de TXT-regel in Mijn Vimexx → Mijn domeinen → DNS, en meld <code>https://www.steynpt.nl/sitemap.xml</code> aan.</li>
+      <li><strong>Google Bedrijfsprofiel</strong> (business.google.com): het belangrijkste voor Google Maps. Profiel <em>SteynPT</em>, categorie <strong>Personal trainer</strong>, adres Overtoom 371-w, 1054 JN Amsterdam, website www.steynpt.nl, met foto's van de trainingen. Werk je op afspraak, kies dan &ldquo;Op afspraak&rdquo;.</li>
+      <li><strong>Reviews</strong>: vraag tevreden klanten om een review op het Bedrijfsprofiel en reageer erop.</li>
+      <li><strong>Overal hetzelfde adres</strong>: dezelfde naam, hetzelfde adres en de link naar www.steynpt.nl op Instagram, Facebook en bij Gymbase.</li>
+      <li><strong>Bing Webmaster Tools</strong> (bing.com/webmasters): neemt de gegevens uit Search Console in één keer over.</li>
+    </ol>
+  </div>
+
+  <div class="block long">
     <h3 class="display">Een nieuwe versie zetten</h3>
     <p>Upload het nieuwe <code>steynpt-php-&lt;datum&gt;.zip</code> naar <code>domains/steynpt.nl/</code> en voer via SSH uit:</p>
 <pre>alias php=/opt/alt/php83/usr/bin/php
@@ -449,15 +471,6 @@ cd steynpt &amp;&amp; php artisan migrate --force &amp;&amp; php artisan optimiz
     </table>
   </div>
 
-  <div class="block">
-    <h3 class="display" style="font-size:11pt">Handleidingen van Vimexx</h3>
-    <ul class="sources">
-      <li>SSH-toegang inschakelen: vimexx.nl/help/ssh-toegang-inschakelen</li>
-      <li>PHP-versie per domeinnaam: vimexx.com/help/hoe-stel-ik-de-php-versie-per-domeinnaam-in</li>
-      <li>Cronjob aanmaken: vimexx.nl/help/hoe-maak-ik-een-cronjob-aan</li>
-      <li>Laravel installeren: vimexx.nl/help/hoe-installeer-ik-het-laravel-framework-op-mijn-website</li>
-    </ul>
-  </div>
 </section>
 
 </body>

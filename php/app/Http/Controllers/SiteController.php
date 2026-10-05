@@ -107,10 +107,13 @@ class SiteController extends Controller
     public function sitemap(): Response
     {
         $url = Site::url();
-        $pages = ['', '/online-coaching', '/personal-training', '/ademcoaching', '/voedingscoaching', '/tarieven', '/vriend-uitnodigen', '/over-steyn', '/contact', '/registreren', '/privacy'];
+        // Zelfde adressen als de canonical-links op de pagina's; inloggen en registreren staan op noindex.
+        $pages = [
+            '/' => '1', '/personal-training' => '0.9', '/online-coaching' => '0.9', '/contact' => '0.8', '/ademcoaching' => '0.8',
+            '/voedingscoaching' => '0.8', '/tarieven' => '0.7', '/over-steyn' => '0.7', '/vriend-uitnodigen' => '0.5', '/privacy' => '0.3',
+        ];
         $xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n".'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'."\n";
-        foreach ($pages as $path) {
-            $priority = $path === '' ? '1' : ($path === '/online-coaching' ? '0.9' : '0.7');
+        foreach ($pages as $path => $priority) {
             $xml .= "<url>\n<loc>{$url}{$path}</loc>\n<changefreq>monthly</changefreq>\n<priority>{$priority}</priority>\n</url>\n";
         }
         $xml .= '</urlset>';

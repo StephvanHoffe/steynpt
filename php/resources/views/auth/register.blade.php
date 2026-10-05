@@ -2,7 +2,7 @@
     $selectedPlan = (string) old('plan', $plan);
     $options = [...array_map(fn ($p) => ['id' => $p['id'], 'title' => $p['name'], 'sub' => "€ {$p['price']} per maand"], $plans), ['id' => '', 'title' => 'Nog niet', 'sub' => 'Eerst rondkijken']];
 @endphp
-<x-layouts.site title="Account aanmaken" description="Maak je gratis SteynPT-account aan voor online coaching, je schema's, voortgang en afspraken.">
+<x-layouts.site title="Account aanmaken" :noindex="true" description="Maak je gratis SteynPT-account aan voor online coaching, je schema's, voortgang en afspraken.">
   <x-auth-shell title="Maak je account aan" :aside="['title' => 'Alles voor jouw doel op één plek', 'items' => [
       'Je online coaching, schema en feedback van Steyn',
       'Je metingen en voortgang in één overzicht',

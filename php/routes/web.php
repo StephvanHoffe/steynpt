@@ -22,6 +22,19 @@ Route::permanentRedirect('/kennismaking', '/contact');
 Route::permanentRedirect('/rewards', '/vriend-uitnodigen');
 Route::permanentRedirect('/small-group-training', '/personal-training');
 Route::permanentRedirect('/feed', '/');
+Route::permanentRedirect('/10-weken-programma', '/tarieven');
+Route::permanentRedirect('/our-team', '/over-steyn');
+Route::permanentRedirect('/my-account', '/account');
+
+// Demopagina's van het oude WordPress-thema (shop, producten, events, portfolio, blog, demo-homepages) en
+// WordPress-bestanden: 410 "bestaat niet meer", zodat zoekmachines ze snel uit de resultaten halen.
+Route::any('{oud}', fn () => abort(410))->where('oud', '(?:'.implode('|', [
+    'shop(?:-2|-page|-home)?', 'cart(?:-2)?', 'checkout(?:-2)?', 'my-account-2', 'product', 'product-category', 'product-tag',
+    'events', 'events-category', 'portfolio', 'blog', 'testimonials-category', 'author',
+    'home-1', 'parallax-home', 'martial-arts-home', 'fitness-home', 'fullscreen-home', 'landing',
+    'sample-page(?:-2)?', 'about-the-class', 'class-timetable', 'timetable', 'bmi-calculator',
+    'wp-content', 'wp-includes', 'wp-json', 'wp-admin', 'wp-login\\.php', 'xmlrpc\\.php', 'wp-sitemap[^/]*\\.xml', 'sitemap_index\\.xml',
+]).')(?:/.*)?');
 
 require __DIR__.'/account.php';
 require __DIR__.'/admin.php';

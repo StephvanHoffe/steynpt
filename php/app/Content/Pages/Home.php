@@ -34,7 +34,7 @@ final class Home
             'description' => 'De eerste pagina van de site.',
             'sections' => [
                 'hero' => F::section('Bovenaan', [
-                    'eyebrow' => F::line('Kleine kop', 'Personal training · Amsterdam & online', ['max' => 80]),
+                    'eyebrow' => F::line('Kleine kop', 'Personal training · Amsterdam Oud-West & online', ['max' => 80]),
                     'title' => F::title('Titel', "Sterker lichaam.\n*Gezonder* leven.", ['max' => 80]),
                     'intro' => F::text(
                         'Introductie',
@@ -151,9 +151,9 @@ final class Home
                 'locaties' => F::section('Locaties', [
                     'eyebrow' => F::line('Kleine kop', 'Bezoek ons', ['max' => 60]),
                     'title' => F::title('Titel', 'Trainen waar het jou uitkomt', ['max' => 100]),
-                    'intro' => F::text('Introductie', 'Bij Gymbase in Amsterdam, op jouw favoriete plek of volledig online.', ['max' => 400]),
+                    'intro' => F::text('Introductie', 'Bij Gymbase aan de Overtoom in Amsterdam Oud-West, op jouw favoriete plek of volledig online.', ['max' => 400]),
                 ]),
-                'seo' => F::seoSection('SteynPT · Personal training, online coaching & ademcoaching in Amsterdam', Defaults::SITE['description']),
+                'seo' => F::seoSection('SteynPT · Personal trainer in Amsterdam Oud-West & online coaching', Defaults::SITE['description']),
             ],
         ];
     }

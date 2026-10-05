@@ -1,4 +1,4 @@
-<x-layouts.site title="Pagina verlopen">
+<x-layouts.site title="Pagina verlopen" :noindex="true">
   <section class="hero-soft">
     <div class="container-site py-28 text-center lg:py-40">
       <p class="eyebrow justify-center text-accent">Even opnieuw</p>

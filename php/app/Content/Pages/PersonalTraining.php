@@ -31,11 +31,11 @@ final class PersonalTraining
             'description' => '1-op-1 training, topsport en de PT-pakketten.',
             'sections' => [
                 'hero' => F::section('Bovenaan', [
-                    'eyebrow' => F::line('Kleine kop', 'Alles over personal training', ['max' => 60]),
+                    'eyebrow' => F::line('Kleine kop', 'Personal training in Amsterdam Oud-West', ['max' => 60]),
                     'title' => F::title('Titel', '1-op-1. *100%* voor jouw doel.', ['max' => 80]),
                     'intro' => F::text(
                         'Introductie',
-                        'Ongeacht jouw doel of sport: SteynPT gaat er 100% voor. Met een persoonlijk trainingsplan werken we zo efficiënt mogelijk naar jouw doel toe, met veel energie, aandacht voor de juiste uitvoering en een fijne sfeer.',
+                        'Ongeacht jouw doel of sport: SteynPT gaat er 100% voor. Met een persoonlijk trainingsplan werken we zo efficiënt mogelijk naar jouw doel toe, met veel energie, aandacht voor de juiste uitvoering en een fijne sfeer. Je traint bij Gymbase aan de Overtoom, op een paar minuten van het Vondelpark, of op een plek die jou uitkomt.',
                         ['max' => 500],
                     ),
                     'primary' => F::line('Eerste knop', 'Vraag een gratis proefles aan', ['max' => 40]),
@@ -58,7 +58,7 @@ final class PersonalTraining
                             'Persoonlijk trainingsschema',
                             'Voedingsadvies op basis van jouw doel',
                             'Contactmomenten ook buiten de trainingen',
-                            'Trainen bij Gymbase of op locatie',
+                            'Trainen bij Gymbase (Overtoom, Oud-West) of op locatie',
                         ],
                         ['max' => 10, 'hint' => 'Eén punt per regel.'],
                     ),
@@ -113,8 +113,8 @@ final class PersonalTraining
                     'secondary' => 'Of start online',
                 ]),
                 'seo' => F::seoSection(
-                    'Personal training',
-                    '1-op-1 personal training in Amsterdam met Steyn van Leeuwen. Voor een gezondere leefstijl, specifieke doelen en topsporters. Bij Gymbase of op locatie.',
+                    'Personal trainer in Amsterdam Oud-West',
+                    '1-op-1 personal training bij Gymbase, Overtoom 371-w in Amsterdam Oud-West. Voor een gezondere leefstijl, specifieke doelen en topsport. Ook op locatie.',
                 ),
             ],
         ];

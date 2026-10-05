@@ -9,7 +9,7 @@ export const ademcoaching = definePage({
   description: "De ademsessie 1-op-1, groepssessies op aanvraag en veelgestelde vragen.",
   sections: {
     hero: section("Bovenaan", {
-      eyebrow: line("Kleine kop", "Ademcoaching 1-op-1 en in groepsverband", { max: 60 }),
+      eyebrow: line("Kleine kop", "Ademcoaching in Amsterdam, 1-op-1 en in groepsverband", { max: 60 }),
       title: title("Titel", "Adem in. *Kom tot rust.* Presteer beter.", { max: 80 }),
       intro: text(
         "Introductie",

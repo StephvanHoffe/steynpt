@@ -75,7 +75,7 @@ final class OverSteyn
                     'secondary' => 'Start online coaching',
                 ]),
                 'seo' => F::seoSection(
-                    'Over Steyn',
+                    'Over Steyn van Leeuwen, personal trainer in Amsterdam',
                     'Maak kennis met Steyn van Leeuwen: full-time personal trainer, voedingscoach en orthomoleculair voedingstherapeut in Amsterdam.',
                 ),
             ],

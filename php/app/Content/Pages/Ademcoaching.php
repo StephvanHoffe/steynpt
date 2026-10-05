@@ -33,7 +33,7 @@ final class Ademcoaching
             'description' => 'De ademsessie 1-op-1, groepssessies op aanvraag en veelgestelde vragen.',
             'sections' => [
                 'hero' => F::section('Bovenaan', [
-                    'eyebrow' => F::line('Kleine kop', 'Ademcoaching 1-op-1 en in groepsverband', ['max' => 60]),
+                    'eyebrow' => F::line('Kleine kop', 'Ademcoaching in Amsterdam, 1-op-1 en in groepsverband', ['max' => 60]),
                     'title' => F::title('Titel', 'Adem in. *Kom tot rust.* Presteer beter.', ['max' => 80]),
                     'intro' => F::text(
                         'Introductie',

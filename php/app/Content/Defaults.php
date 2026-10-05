@@ -16,7 +16,7 @@ final class Defaults
     public const SITE = [
         'name' => 'SteynPT',
         'url' => 'https://www.steynpt.nl',
-        'description' => 'Personal training, online coaching, voedingscoaching en ademcoaching in Amsterdam. 1-op-1 begeleiding voor een gezondere leefstijl, specifieke doelen en topsporters.',
+        'description' => 'Personal trainer bij Gymbase aan de Overtoom in Amsterdam Oud-West, vlak bij het Vondelpark. 1-op-1 training, online coaching, voedingscoaching en ademcoaching.',
         'instagram' => ['url' => 'https://www.instagram.com/bigtimesteyn/', 'handle' => '@bigtimesteyn'],
     ];
 
