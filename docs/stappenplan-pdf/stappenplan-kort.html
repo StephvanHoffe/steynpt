@@ -224,7 +224,8 @@
       <div>
         <div class="cmd">
           <div class="cmd-head"><div class="num">1</div><h3>Inloggen via SSH</h3></div>
-<pre>ssh <span class="ph">GEBRUIKER</span>@steynpt.nl -p 7685
+<pre>ssh -o HostKeyAlgorithms=+ssh-rsa \
+  <span class="ph">GEBRUIKER</span>@steynpt.nl -p 7685
 alias php=/opt/alt/php83/usr/bin/php</pre>
           <p class="note">Typ de <code>alias</code>-regel na elke keer inloggen opnieuw.</p>
         </div>

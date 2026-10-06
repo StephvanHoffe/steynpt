@@ -252,7 +252,7 @@
         <li>In DirectAdmin: <span class="menu">Geavanceerde functies → SSH-Keys</span> <span class="en">(Advanced Features)</span> en zet rechtsboven <strong>SSH aan</strong>. Staat er "Je kan verbinden via de poort 7685"? Dan staat SSH al aan. Een key invullen is niet nodig.</li>
         <li>Verbind vanaf je computer. Het wachtwoord is je DirectAdmin-wachtwoord. Wijst het domein nog niet naar Vimexx, gebruik dan het IP-adres van het pakket in plaats van <code>steynpt.nl</code>.</li>
       </ol>
-<pre>ssh <span class="ph">GEBRUIKER</span>@steynpt.nl -p 7685</pre>
+<pre>ssh -o HostKeyAlgorithms=+ssh-rsa <span class="ph">GEBRUIKER</span>@steynpt.nl -p 7685</pre>
       <ol class="sub" start="3">
         <li>Zorg dat <code>php</code> PHP 8.3 is, ook als je later opnieuw inlogt:</li>
       </ol>

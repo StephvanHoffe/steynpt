@@ -43,8 +43,10 @@ Niets in deze fase raakt de huidige website.
 2. Verbind vanaf je computer. Het wachtwoord is je DirectAdmin-wachtwoord; wijst het domein nog niet naar Vimexx, gebruik dan het IP-adres van het pakket in plaats van `steynpt.nl`.
 
    ```bash
-   ssh GEBRUIKER@steynpt.nl -p 7685
+   ssh -o HostKeyAlgorithms=+ssh-rsa GEBRUIKER@steynpt.nl -p 7685
    ```
+
+   De hosting biedt alleen het oudere `ssh-rsa` aan als sleuteltype van de server; nieuwe versies van OpenSSH (zoals op een Mac) weigeren dat standaard met "no matching host key type found". `-o HostKeyAlgorithms=+ssh-rsa` staat het voor deze verbinding toe.
 
 3. Zorg dat `php` op de commandoregel PHP 8.3 is. Bij Vimexx staat elke versie op een eigen plek; de eerste regel onthoudt dat ook voor later (in `~/.bashrc`):
 
@@ -278,7 +280,7 @@ De site zelf is klaar voor zoekmachines: titels, omschrijvingen en de hoofdkop (
 ## Back-ups
 
 - Elke nacht om 03:15 maakt de cronjob een back-up van de database in `steynpt/storage/backups/` (30 dagen bewaard). Handmatig: `php artisan steynpt:backup`.
-- Download af en toe een back-up naar je eigen computer (Bestandsbeheer of `scp -P 7685`).
+- Download af en toe een back-up naar je eigen computer (Bestandsbeheer, of `scp -o HostKeyAlgorithms=+ssh-rsa -P 7685`).
 - Terugzetten: `gunzip -c storage/backups/steynpt-<datum>.sql.gz | mysql -u DB_GEBRUIKER -p DB_NAAM`.
 
 ## Noodgevallen
