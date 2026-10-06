@@ -2,7 +2,7 @@
 
 Dit stappenplan zet de nieuwe SteynPT-site online op **www.steynpt.nl** met een gewoon **Vimexx-webhostingpakket** (bijvoorbeeld *Webhosting Basic*). Daarvoor is de site in PHP gebouwd (map `php/`, Laravel). Je hebt dus géén VPS nodig.
 
-Er is ook een **klikbare versie** voor wie geen ervaring met servers heeft: één stap per scherm, met kopieerknoppen, je gebruikersnaam al ingevuld in de commando's en hulp per stap (bron: [`docs/online-zetten/index.html`](online-zetten/index.html)). Om uit te printen of door te sturen staat hetzelfde plan in de huisstijl in [SteynPT - Stappenplan website online.pdf](SteynPT%20-%20Stappenplan%20website%20online.pdf). Op één vel (alle stappen om af te vinken, met de commando's op de achterkant): [SteynPT - Stappenplan in het kort.pdf](SteynPT%20-%20Stappenplan%20in%20het%20kort.pdf). De bronnen staan in `docs/stappenplan-pdf/`.
+Er is ook een **afvinklijst** voor wie geen ervaring met servers heeft: alle stappen van boven naar beneden in gewone taal, elk klein klusje een vinkje, met kopieerknoppen, je gebruikersnaam al ingevuld in de commando's, hulp per stap en downloadknoppen (bron: [`docs/online-zetten/index.html`](online-zetten/index.html)). Het pakket om te downloaden staat in [`downloads/steynpt-php-website.zip`](../downloads/steynpt-php-website.zip); `deploy/maak-pakket.sh` zet daar steeds de nieuwste versie neer. Om uit te printen of door te sturen staat hetzelfde plan in de huisstijl in [SteynPT - Stappenplan website online.pdf](SteynPT%20-%20Stappenplan%20website%20online.pdf). Op één vel (alle stappen om af te vinken, met de commando's op de achterkant): [SteynPT - Stappenplan in het kort.pdf](SteynPT%20-%20Stappenplan%20in%20het%20kort.pdf). De bronnen staan in `docs/stappenplan-pdf/`.
 
 Het plan bestaat uit twee fases:
 
@@ -22,7 +22,7 @@ bezoeker ──▶ www.steynpt.nl ──▶ Vimexx-webhosting (DirectAdmin)
 | | |
 | --- | --- |
 | **Hostingpakket** | Vimexx-webhosting met DirectAdmin, PHP 8.3, een MySQL-database, SSH en cronjobs (zit allemaal in *Webhosting Basic*), plus je inloggegevens voor DirectAdmin en Mijn Vimexx. |
-| **Het pakket** | Het bestand `steynpt-php-<datum>.zip` (28 MB). Daar zit alles in; op de hosting is alleen PHP nodig. Een nieuw pakket maak je met `bash deploy/maak-pakket.sh` in de map `php/` (daarvoor zijn PHP 8.3, Composer en Node.js nodig). |
+| **Het pakket** | Het bestand `steynpt-php-<datum>.zip` (12 MB). Daar zit alles in; op de hosting is alleen PHP nodig. Een nieuw pakket maak je met `bash deploy/maak-pakket.sh` in de map `php/` (daarvoor zijn PHP 8.3, Composer en Node.js nodig). |
 | **Terminal** | Voor SSH. Op Mac: *Terminal*. Op Windows: *PowerShell* of *Windows Terminal* (of PuTTY). |
 | **Authenticator-app** | Voor Steyn, bijvoorbeeld Google Authenticator, Microsoft Authenticator of 1Password. Inloggen gaat met tweestapsverificatie. |
 | **API-sleutel** (mag later) | Voor de AI-schema's: Steyn maakt zelf een sleutel aan op [platform.claude.com](https://platform.claude.com) en zet daar een maandlimiet. Zonder sleutel werkt alles, alleen maakt Steyn de schema's dan zelf. |

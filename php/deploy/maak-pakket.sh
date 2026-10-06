@@ -31,8 +31,16 @@ echo "3/4 PHP-pakketten installeren (zonder ontwikkelpakketten)…"
 (cd "$WORK/steynpt" && composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction --no-progress --quiet)
 # Geen git-geschiedenis of testbestanden van pakketten meesturen.
 find "$WORK/steynpt" -name .git -type d -prune -exec rm -rf {} +
+# Ook geen testsuites, documentatie, voorbeeldplaatjes en hulpprogramma's van pakketten (alleen wat de site gebruikt),
+# zodat het pakket klein genoeg blijft om vanaf de handleiding te downloaden.
+find "$WORK/steynpt/vendor" -mindepth 3 -maxdepth 3 \( -type d \( -name tests -o -name Tests -o -name test -o -name docs -o -name doc -o -name art -o -name .github \) -o -type f -name '*.png' \) -prune -exec rm -rf {} +
+rm -rf "$WORK/steynpt/vendor/laravel/framework/bin"
+(cd "$WORK/steynpt" && composer dump-autoload --no-dev --optimize --no-interaction --quiet)
 
 echo "4/4 Zip maken…"
 mkdir -p "$ROOT/dist"
-(cd "$WORK" && zip -qr "$OUT" steynpt)
+(cd "$WORK" && zip -qr -9 "$OUT" steynpt)
+# De nieuwste versie ook onder een vaste naam in downloads/ (in git), zodat de downloadknop in de handleiding
+# (docs/online-zetten) altijd naar het nieuwste pakket wijst.
+mkdir -p "$ROOT/../downloads" && cp "$OUT" "$ROOT/../downloads/steynpt-php-website.zip"
 echo "Klaar: $OUT ($(du -h "$OUT" | cut -f1))"
