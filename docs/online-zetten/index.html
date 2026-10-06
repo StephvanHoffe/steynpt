@@ -228,6 +228,13 @@
     <div class="row-actions"><button class="btn btn-primary" type="button" id="resume">Ga verder waar ik was <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg></button></div>
   </section>
 
+  <section class="card stack" id="waar-ben-ik" aria-labelledby="waar">
+    <h2 id="waar">Waar ben ik gebleven?</h2>
+    <p>Weet je niet meer zeker wat al gelukt is? Laat de hosting het controleren. Verbind eerst de terminal (stap 5.1, 5.3 en 5.5). Kopieer dan deze regel, plak hem en druk op <kbd>Enter</kbd>.</p>
+    <div class="cmd"><div class="cmd-bar"><span>Plakken in de terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>curl -fsSL https://github.com/StephvanHoffe/steynpt/raw/claude/dreamy-brown-cauqyb/downloads/controle.sh | bash</code></pre></div>
+    <p class="hint">Je ziet per deel een groen vinkje (klaar) of een rood kruisje (nog doen), en onderaan bij welke stap je verder moet. De controle verandert niets aan je website.</p>
+  </section>
+
   <section class="card" aria-labelledby="downloads">
     <h2 id="downloads">Downloads</h2>
     <p class="hint" style="margin-top:0.3rem">Klik op een knop. Vraagt je computer of je het bestand wilt bewaren? Klik dan op <strong>Opslaan</strong>. Het bestand komt in de map <em>Downloads</em> op je computer.</p>
@@ -555,6 +562,7 @@ ls</code></pre></div>
   <section class="card stack">
     <h3>Wat zie je?</h3>
     <div class="table-wrap"><table><thead><tr><th>Wat je ziet</th><th>Wat je doet</th></tr></thead><tbody>
+      <tr><td>Je weet niet meer wat al gelukt is</td><td>Gebruik de controle bij <a href="#waar-ben-ik">Waar ben ik gebleven?</a> bovenaan.</td></tr>
       <tr><td>De terminal is dicht, of reageert niet meer</td><td>Open hem opnieuw en verbind: stap 5.1, 5.3 en 5.5.</td></tr>
       <tr><td>Een lege pagina, of een melding over "PHP"</td><td>Doe stap 11.2 nog een keer. Dat kan geen kwaad.</td></tr>
       <tr><td>"Er ging iets mis" of "500"</td><td>Doe deel 8 nog een keer, vanaf stap 8.2.</td></tr>
