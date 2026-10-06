@@ -79,7 +79,7 @@ class InstallTest extends TestCase
             ->expectsQuestion(self::Q_KEY, 'sk-ant-test-123')
             ->expectsOutputToContain('Instellingen opgeslagen')
             ->expectsOutputToContain('De tabellen staan klaar')
-            ->expectsOutputToContain('cd '.base_path().' && '.PHP_BINARY.' artisan schedule:run >/dev/null 2>&1')
+            ->expectsOutputToContain(PHP_BINARY.' '.base_path('artisan').' schedule:run >/dev/null 2>&1')
             ->assertSuccessful();
 
         $env = $this->env();

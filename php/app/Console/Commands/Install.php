@@ -155,10 +155,10 @@ class Install extends Command
         };
     }
 
-    /** De regel voor de cronjob, met het pad van deze site en deze PHP-versie. */
+    /** De regel voor de cronjob, met het pad van deze site en deze PHP-versie. Vimexx keurt regels af die met cd beginnen. */
     protected function cronCommand(): string
     {
-        return 'cd '.base_path().' && '.PHP_BINARY.' artisan schedule:run >/dev/null 2>&1';
+        return PHP_BINARY.' '.base_path('artisan').' schedule:run >/dev/null 2>&1';
     }
 
     /**

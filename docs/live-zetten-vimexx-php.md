@@ -131,10 +131,10 @@ php artisan optimize                 # instellingen, routes en pagina's voorbere
 
 Eén cronjob doet alles wat op de achtergrond moet: AI-concepten maken, ingeplande schema's op hun startdag zichtbaar maken, elke nacht een back-up van de database en contactaanvragen ouder dan 12 maanden opruimen (zoals de privacyverklaring belooft).
 
-In DirectAdmin: **Geavanceerde functies** (*Advanced Features*) **→ Cronjobs** ([uitleg van Vimexx](https://www.vimexx.nl/help/hoe-maak-ik-een-cronjob-aan)). Vul bij alle tijdvelden `*` in (= elke minuut), vink **Prevent Email** aan, en gebruik als commando (het installatieprogramma uit stap 4 toont dezelfde regel, al met jouw gebruikersnaam):
+In DirectAdmin: **Geavanceerde functies** (*Advanced Features*) **→ Cronjobs** ([uitleg van Vimexx](https://www.vimexx.nl/help/hoe-maak-ik-een-cronjob-aan)). Vul bij alle tijdvelden `*` in (= elke minuut), vink **Prevent Email** aan, en gebruik als commando (het installatieprogramma uit stap 4 toont dezelfde regel, al met jouw gebruikersnaam). Begin precies met het pad naar PHP: Vimexx keurt een regel die met `cd` begint (of met een spatie ervoor) af met "Error Creating Cron Job".
 
 ```
-cd /home/GEBRUIKER/domains/steynpt.nl/steynpt && /opt/alt/php83/usr/bin/php artisan schedule:run >/dev/null 2>&1
+/opt/alt/php83/usr/bin/php /home/GEBRUIKER/domains/steynpt.nl/steynpt/artisan schedule:run >/dev/null 2>&1
 ```
 
 Alles draait binnen dit ene PHP-proces; de hosting hoeft geen andere programma's te kunnen starten. Voor de AI-concepten moet de server wel naar `api.anthropic.com` kunnen (een gewone https-verbinding).

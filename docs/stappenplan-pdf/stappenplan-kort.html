@@ -255,7 +255,7 @@ php artisan steynpt:installeren &amp;&amp; php artisan optimize</pre>
       <div>
         <div class="cmd">
           <div class="cmd-head"><div class="num">5</div><h3>Cronjob <em>· alle tijdvelden *, als één regel</em></h3></div>
-<pre>cd /home/<span class="ph">GEBRUIKER</span>/domains/steynpt.nl/steynpt &amp;&amp; /opt/alt/php83/usr/bin/php artisan schedule:run &gt;/dev/null 2&gt;&amp;1</pre>
+<pre>/opt/alt/php83/usr/bin/php /home/<span class="ph">GEBRUIKER</span>/domains/steynpt.nl/steynpt/artisan schedule:run &gt;/dev/null 2&gt;&amp;1</pre>
           <p class="note">Controle via SSH: <code>php artisan schedule:list</code> toont vier taken.</p>
         </div>
 

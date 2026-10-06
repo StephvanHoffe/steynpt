@@ -319,8 +319,8 @@ php artisan steynpt:installeren &amp;&amp; php artisan optimize</pre>
         <li>Vul bij alle tijdvelden <code>*</code> in (= elke minuut) en vink <strong>Prevent Email</strong> aan.</li>
         <li>Gebruik als commando:</li>
       </ol>
-<pre>cd /home/<span class="ph">GEBRUIKER</span>/domains/steynpt.nl/steynpt &amp;&amp; /opt/alt/php83/usr/bin/php artisan schedule:run &gt;/dev/null 2&gt;&amp;1</pre>
-      <div class="note"><strong>Eén regel:</strong> dit commando past hier niet op één regel, maar moet in DirectAdmin wel als één regel, met spaties ertussen.</div>
+<pre><span class="url">/opt/alt/php83/usr/bin/php /home/<span class="ph">GEBRUIKER</span>/domains/steynpt.nl/steynpt/artisan schedule:run &gt;/dev/null 2&gt;&amp;1</span></pre>
+      <div class="note"><strong>Precies zo:</strong> begin met <code>/opt/alt</code>, zonder spatie ervoor. Vimexx keurt een regel die met <code>cd</code> begint af ("Error Creating Cron Job").</div>
       <p style="margin-top:2.6mm">Controleer na een minuut of twee via SSH:</p>
 <pre>cd ~/domains/steynpt.nl/steynpt
 php artisan schedule:list    <span class="c"># vier taken, o.a. back-up en wachtrij</span>
