@@ -39,7 +39,7 @@ Niets in deze fase raakt de huidige website.
 
 ## Stap 1. SSH aanzetten en inloggen
 
-1. In DirectAdmin: **Geavanceerde functies** (*Advanced Features*) **→ SSH-Keys**, en zet rechtsboven **SSH aan** ([uitleg van Vimexx](https://www.vimexx.nl/help/ssh-toegang-inschakelen)).
+1. In DirectAdmin: **Geavanceerde functies** (*Advanced Features*) **→ SSH-Keys**, en zet rechtsboven **SSH aan** ([uitleg van Vimexx](https://www.vimexx.nl/help/ssh-toegang-inschakelen)). In de oudere vormgeving van DirectAdmin staat er geen schakelaar maar "Je kan verbinden via de poort 7685": dan staat SSH al aan. Een SSH-key toevoegen is niet nodig; je logt in met het DirectAdmin-wachtwoord.
 2. Verbind vanaf je computer. Het wachtwoord is je DirectAdmin-wachtwoord; wijst het domein nog niet naar Vimexx, gebruik dan het IP-adres van het pakket in plaats van `steynpt.nl`.
 
    ```bash
