@@ -232,7 +232,7 @@
     <h2 id="downloads">Downloads</h2>
     <p class="hint" style="margin-top:0.3rem">Klik op een knop. Vraagt je computer of je het bestand wilt bewaren? Klik dan op <strong>Opslaan</strong>. Het bestand komt in de map <em>Downloads</em> op je computer.</p>
     <div class="downloads">
-      <div class="dl"><div><strong>Het websitepakket</strong><span>De hele nieuwe website in één bestand (zip, 12 MB). Nodig in deel 1.</span></div><a class="btn btn-primary" href="https://github.com/StephvanHoffe/steynpt/raw/claude/dreamy-brown-cauqyb/downloads/steynpt-php-website.zip" target="_blank" rel="noopener">Download</a></div>
+      <div class="dl"><div><strong>Het websitepakket</strong><span>De hele nieuwe website in één bestand (zip, 12 MB). Niet nodig om de site online te zetten: de hosting haalt het zelf op in deel 6.</span></div><a class="btn btn-primary" href="https://github.com/StephvanHoffe/steynpt/raw/claude/dreamy-brown-cauqyb/downloads/steynpt-php-website.zip" target="_blank" rel="noopener">Download</a></div>
       <div class="dl"><div><strong>Het uitgebreide stappenplan</strong><span>Dezelfde stappen met meer uitleg, om te printen (PDF, 9 pagina's).</span></div><button class="btn btn-ghost" type="button" data-download="lang">Download</button><p class="dl-status" data-dl-status="lang" hidden></p></div>
       <div class="dl"><div><strong>Het stappenplan op één vel</strong><span>Een korte versie om naast je computer te leggen (PDF, 2 pagina's).</span></div><button class="btn btn-ghost" type="button" data-download="kort">Download</button><p class="dl-status" data-dl-status="kort" hidden></p></div>
     </div>
@@ -244,9 +244,7 @@
     <p class="why"><strong>Wat ga je doen?</strong> Je legt alles klaar wat je nodig hebt: een computer, een paar gegevens en het bestand met de nieuwe website.</p>
     <ol class="tasks">
       <li class="task"><input type="checkbox" id="t1-1"><div class="task-body"><label for="t1-1"><span class="task-num">1.1</span>Ga zitten achter een computer (een laptop of pc).</label><p class="hint">Met een telefoon of tablet lukt het niet. Mac of Windows maakt niet uit.</p></div></li>
-      <li class="task"><input type="checkbox" id="t1-2"><div class="task-body"><label for="t1-2"><span class="task-num">1.2</span>Download het websitepakket.</label><p>Klik op de knop. Klik daarna in het venstertje op <strong>Opslaan</strong>.</p><div><a class="btn btn-primary" href="https://github.com/StephvanHoffe/steynpt/raw/claude/dreamy-brown-cauqyb/downloads/steynpt-php-website.zip" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>Download het websitepakket</a></div><p class="hint">Het bestand komt in de map <em>Downloads</em> en heet <span class="code">steynpt-php-website.zip</span>. Vraagt je browser of je het wilt bewaren? Klik dan op <strong>Opslaan</strong>.</p></div></li>
-      <li class="task"><input type="checkbox" id="t1-3"><div class="task-body"><label for="t1-3"><span class="task-num">1.3</span>Laat het bestand dicht. Niet openen, niet uitpakken.</label><p class="hint">Het blijft gewoon in de map Downloads staan. Je stuurt het straks zo naar de hosting.</p>
-        <details class="oops"><summary>Ik zie een map in plaats van een zip-bestand</summary><div><p>Op een Mac pakt Safari zip-bestanden soms vanzelf uit. Gooi de map dan weg. Klik in Safari bovenaan op <strong>Safari › Instellingen › Algemeen</strong> en haal het vinkje weg bij <strong>Open 'veilige' bestanden na downloaden</strong>. Download het pakket daarna opnieuw.</p></div></details></div></li>
+      <li class="task"><input type="checkbox" id="t1-2"><div class="task-body"><label for="t1-2"><span class="task-num">1.2</span>Het websitepakket hoef je niet te downloaden.</label><p class="hint">De hosting haalt het in deel 6 zelf op van internet. Wil je toch een kopie op je computer? Dan kan dat met deze knop.</p><div><a class="btn btn-primary" href="https://github.com/StephvanHoffe/steynpt/raw/claude/dreamy-brown-cauqyb/downloads/steynpt-php-website.zip" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>Download het websitepakket</a></div></div></li>
       <li class="task"><input type="checkbox" id="t1-4"><div class="task-body"><label for="t1-4"><span class="task-num">1.4</span>Zoek je inloggegevens van Vimexx op.</label><p class="hint">Het e-mailadres en wachtwoord waarmee je inlogt op my.vimexx.nl. Houd ook de welkomstmail van Vimexx bij de hand, als je die nog hebt.</p></div></li>
       <li class="task"><input type="checkbox" id="t1-5"><div class="task-body"><label for="t1-5"><span class="task-num">1.5</span>Pak pen en papier, of open een notitie op je computer.</label><p class="hint">Straks moet je drie dingen opschrijven.</p></div></li>
       <li class="task"><input type="checkbox" id="t1-6"><div class="task-body"><label for="t1-6"><span class="task-num">1.6</span>Vraag Steyn om een "authenticator-app" op zijn telefoon te zetten.</label><p class="hint">Dat is een gratis app die inlogcodes maakt, bijvoorbeeld <em>Google Authenticator</em> of <em>Microsoft Authenticator</em> uit de App Store of Google Play. Pas nodig in deel 15.</p></div></li>
@@ -270,7 +268,7 @@
 
   <!-- ===== Deel 3 ===== -->
   <section class="part" id="deel-3" data-part>
-    <div class="part-head"><div class="part-num">3</div><div><h2>Eén schakelaar aanzetten (SSH)</h2><p class="time">± 2 minuten</p></div><span class="part-count" data-part-count></span></div>
+    <div class="part-head"><div class="part-num">3</div><div><h2>Kijken of SSH aan staat</h2><p class="time">± 2 minuten</p></div><span class="part-count" data-part-count></span></div>
     <p class="why"><strong>Wat ga je doen?</strong> Straks plak je tekst in een venster op je computer. Dat venster praat dan rechtstreeks met de hosting. Dat heet <strong>SSH</strong>. Je kijkt nu of dat aan staat.</p>
     <ol class="tasks">
       <li class="task"><input type="checkbox" id="t3-1"><div class="task-body"><label for="t3-1"><span class="task-num">3.1</span>Klik in DirectAdmin op <span class="btnname">SSH Keys</span>.</label><p class="hint">Niet te zien? Klik bovenaan op <strong>Home</strong> en zoek <em>SSH</em> in de lijst. Soms staat het onder <span class="btnname">Geavanceerde functies</span> (Advanced Features).</p></div></li>
@@ -302,46 +300,54 @@
 
   <!-- ===== Deel 5 ===== -->
   <section class="part" id="deel-5" data-part>
-    <div class="part-head"><div class="part-num">5</div><div><h2>Het pakket naar de hosting sturen</h2><p class="time">± 10 minuten</p></div><span class="part-count" data-part-count></span></div>
-    <p class="why"><strong>Wat ga je doen?</strong> Je stuurt het bestand uit deel 1 van je computer naar de hosting. Dat heet <em>uploaden</em>.</p>
+    <div class="part-head"><div class="part-num">5</div><div><h2>Het tekstvenster openen en verbinden</h2><p class="time">± 10 minuten</p></div><span class="part-count" data-part-count></span></div>
+    <p class="why"><strong>Wat ga je doen?</strong> Nu gebruik je de <strong>terminal</strong>. Dat is een programma dat al op je computer staat. Je plakt er tekst in, en dan doet de hosting wat er staat. Je hoeft niets zelf te bedenken: je kopieert de tekst hier en plakt hem daar.</p>
     <ol class="tasks">
-      <li class="task"><input type="checkbox" id="t5-1"><div class="task-body"><label for="t5-1"><span class="task-num">5.1</span>Klik in DirectAdmin op <span class="btnname">Bestandsbeheer</span>.</label><p class="en">Engels: File Manager. In sommige versies heet het <strong>Files</strong>, bovenaan in de balk.</p></div></li>
-      <li class="task"><input type="checkbox" id="t5-2"><div class="task-body"><label for="t5-2"><span class="task-num">5.2</span>Klik op de map <strong>domains</strong>.</label></div></li>
-      <li class="task"><input type="checkbox" id="t5-3"><div class="task-body"><label for="t5-3"><span class="task-num">5.3</span>Klik op de map <strong>steynpt.nl</strong>.</label><p class="note">Je ziet hier een map <strong>public_html</strong>. Daarin staat de website die nu online is. <strong>Klik daar niet op.</strong></p></div></li>
-      <li class="task"><input type="checkbox" id="t5-4"><div class="task-body"><label for="t5-4"><span class="task-num">5.4</span>Klik op <span class="btnname">Uploaden</span>.</label><p class="en">Engels: Upload files, of Upload to this folder.</p></div></li>
-      <li class="task"><input type="checkbox" id="t5-5"><div class="task-body"><label for="t5-5"><span class="task-num">5.5</span>Kies het bestand <span class="code">steynpt-php-website.zip</span> uit je map Downloads.</label><p class="hint">Wacht tot het balkje helemaal vol is. Dat kan een paar minuten duren.</p></div></li>
-      <li class="task"><input type="checkbox" id="t5-6"><div class="task-body"><label for="t5-6"><span class="task-num">5.6</span>Kijk of het zip-bestand nu in de map steynpt.nl staat, naast public_html.</label><p class="seen"><strong>Gelukt als</strong> je het bestand daar ziet staan.</p></div></li>
+      <li class="task"><input type="checkbox" id="t6-1"><div class="task-body"><label for="t6-1"><span class="task-num">5.1</span>Open de terminal.</label>
+        <ul><li><strong>Mac:</strong> druk tegelijk op <kbd>⌘</kbd> en de <kbd>spatiebalk</kbd>. Typ <em>Terminal</em> en druk op <kbd>Enter</kbd>.</li><li><strong>Windows:</strong> klik op <em>Start</em> (het Windows-logo). Typ <em>PowerShell</em> en druk op <kbd>Enter</kbd>.</li></ul>
+        <p class="hint">Er opent een venster met een paar regels tekst.</p></div></li>
+      <li class="task"><input type="checkbox" id="t6-2"><div class="task-body"><label for="t6-2"><span class="task-num">5.2</span>Leer hoe je plakt.</label>
+        <ul><li><strong>Mac:</strong> klik in het venster en druk op <kbd>⌘</kbd> + <kbd>V</kbd>.</li><li><strong>Windows:</strong> klik met de rechtermuisknop in het venster (of druk op <kbd>Ctrl</kbd> + <kbd>V</kbd>).</li></ul>
+        <p>Na het plakken druk je <strong>altijd op <kbd>Enter</kbd></strong>. Dat is de verstuurknop.</p></div></li>
+      <li class="task"><input type="checkbox" id="t6-3"><div class="task-body"><label for="t6-3"><span class="task-num">5.3</span>Kopieer deze regel, plak hem in de terminal en druk op <kbd>Enter</kbd>.</label>
+        <div class="cmd"><div class="cmd-bar"><span>Plakken in de terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>ssh <span class="user-slot" data-user>GEBRUIKER</span>@steynpt.nl -p 7685</code></pre></div>
+        <p class="hint">Hiermee maak je verbinding met de hosting.</p></div></li>
+      <li class="task"><input type="checkbox" id="t6-4"><div class="task-body"><label for="t6-4"><span class="task-num">5.4</span>Vraagt de terminal iets in het Engels met <span class="code">(yes/no)</span> erin? Typ <strong>yes</strong> en druk op <kbd>Enter</kbd>.</label><p class="hint">Dat betekent: "ja, ik vertrouw deze verbinding". Die vraag komt alleen de eerste keer. Kwam hij niet? Zet dan ook een vinkje.</p></div></li>
+      <li class="task"><input type="checkbox" id="t6-5"><div class="task-body"><label for="t6-5"><span class="task-num">5.5</span>Er staat nu <span class="code">password:</span> (wachtwoord). Typ je DirectAdmin-wachtwoord en druk op <kbd>Enter</kbd>.</label><p class="note"><strong>Je ziet niets terwijl je typt.</strong> Geen letters, geen puntjes. Dat is normaal. Typ gewoon door en druk op Enter. Plakken mag ook.</p>
+        <details class="oops"><summary>Lukt het niet?</summary><div>
+          <p><strong>Er staat "Permission denied".</strong> Het wachtwoord was niet goed. Je krijgt meestal nog een kans; typ het opnieuw.</p>
+          <p><strong>Er staat "Permission denied (publickey)".</strong> Dan wil de hosting toch een sleutel. Doe dit in een nieuw terminalvenster: plak <span class="code">ssh-keygen -t ed25519</span> en druk drie keer op <kbd>Enter</kbd>. Plak daarna op een Mac <span class="code">cat ~/.ssh/id_ed25519.pub</span>, op Windows <span class="code">type $HOME\.ssh\id_ed25519.pub</span>, en druk op <kbd>Enter</kbd>. Kopieer de regel die begint met <em>ssh-ed25519</em>, plak die in DirectAdmin bij <em>SSH Keys</em> in het vak <em>public key</em> en klik op <em>Add key</em>. Doe dan stap 5.3 opnieuw. (Die regel mag je gerust delen; het is het openbare deel van de sleutel.)</p>
+          <p><strong>Er staat "Connection refused" of "timed out".</strong> Staat de schakelaar uit deel 3 aan? En stond de oude website bij een ander bedrijf dan Vimexx? Gebruik dan in de regel van 5.3 het IP-adres van je hosting in plaats van <em>steynpt.nl</em>. Dat nummer staat in de welkomstmail van Vimexx.</p>
+        </div></details></div></li>
+      <li class="task"><input type="checkbox" id="t6-6"><div class="task-body"><label for="t6-6"><span class="task-num">5.6</span>Kijk of de onderste regel eindigt op een dollarteken: <span class="code">$</span></label><p class="seen"><strong>Gelukt!</strong> Je bent nu verbonden met de hosting.</p></div></li>
+      <li class="task"><input type="checkbox" id="t6-7"><div class="task-body"><label for="t6-7"><span class="task-num">5.7</span>Kopieer deze drie regels, plak ze en druk op <kbd>Enter</kbd>.</label>
+        <div class="cmd"><div class="cmd-bar"><span>Plakken in de terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>grep -qs "alias php=" ~/.bashrc || echo "alias php=/opt/alt/php83/usr/bin/php" &gt;&gt; ~/.bashrc
+alias php=/opt/alt/php83/usr/bin/php
+php -v</code></pre></div>
+        <p class="hint">Hiermee zeg je tegen de hosting: gebruik de nieuwste versie van PHP. PHP is de computertaal waarin de website is gemaakt. Dit hoeft maar één keer.</p></div></li>
+      <li class="task"><input type="checkbox" id="t6-8"><div class="task-body"><label for="t6-8"><span class="task-num">5.8</span>Kijk of er een regel staat die begint met <span class="code">PHP 8.3</span>.</label><p class="hint">Staat er een ander getal? Vraag de klantenservice van Vimexx of PHP 8.3 op je pakket kan.</p></div></li>
     </ol>
   </section>
 
   <!-- ===== Deel 6 ===== -->
   <section class="part" id="deel-6" data-part>
-    <div class="part-head"><div class="part-num">6</div><div><h2>Het tekstvenster openen en verbinden</h2><p class="time">± 10 minuten</p></div><span class="part-count" data-part-count></span></div>
-    <p class="why"><strong>Wat ga je doen?</strong> Nu gebruik je de <strong>terminal</strong>. Dat is een programma dat al op je computer staat. Je plakt er tekst in, en dan doet de hosting wat er staat. Je hoeft niets zelf te bedenken: je kopieert de tekst hier en plakt hem daar.</p>
+    <div class="part-head"><div class="part-num">6</div><div><h2>De hosting het pakket laten ophalen</h2><p class="time">± 2 minuten</p></div><span class="part-count" data-part-count></span></div>
+    <p class="why"><strong>Wat ga je doen?</strong> Het pakket met de nieuwe website staat klaar op internet. Je laat de hosting het zelf ophalen. Zo hoef je niets te uploaden. (Uploaden via Files lukt niet: dat mag bij Vimexx maar tot 10 MB, en het pakket is groter.)</p>
     <ol class="tasks">
-      <li class="task"><input type="checkbox" id="t6-1"><div class="task-body"><label for="t6-1"><span class="task-num">6.1</span>Open de terminal.</label>
-        <ul><li><strong>Mac:</strong> druk tegelijk op <kbd>⌘</kbd> en de <kbd>spatiebalk</kbd>. Typ <em>Terminal</em> en druk op <kbd>Enter</kbd>.</li><li><strong>Windows:</strong> klik op <em>Start</em> (het Windows-logo). Typ <em>PowerShell</em> en druk op <kbd>Enter</kbd>.</li></ul>
-        <p class="hint">Er opent een venster met een paar regels tekst.</p></div></li>
-      <li class="task"><input type="checkbox" id="t6-2"><div class="task-body"><label for="t6-2"><span class="task-num">6.2</span>Leer hoe je plakt.</label>
-        <ul><li><strong>Mac:</strong> klik in het venster en druk op <kbd>⌘</kbd> + <kbd>V</kbd>.</li><li><strong>Windows:</strong> klik met de rechtermuisknop in het venster (of druk op <kbd>Ctrl</kbd> + <kbd>V</kbd>).</li></ul>
-        <p>Na het plakken druk je <strong>altijd op <kbd>Enter</kbd></strong>. Dat is de verstuurknop.</p></div></li>
-      <li class="task"><input type="checkbox" id="t6-3"><div class="task-body"><label for="t6-3"><span class="task-num">6.3</span>Kopieer deze regel, plak hem in de terminal en druk op <kbd>Enter</kbd>.</label>
-        <div class="cmd"><div class="cmd-bar"><span>Plakken in de terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>ssh <span class="user-slot" data-user>GEBRUIKER</span>@steynpt.nl -p 7685</code></pre></div>
-        <p class="hint">Hiermee maak je verbinding met de hosting.</p></div></li>
-      <li class="task"><input type="checkbox" id="t6-4"><div class="task-body"><label for="t6-4"><span class="task-num">6.4</span>Vraagt de terminal iets in het Engels met <span class="code">(yes/no)</span> erin? Typ <strong>yes</strong> en druk op <kbd>Enter</kbd>.</label><p class="hint">Dat betekent: "ja, ik vertrouw deze verbinding". Die vraag komt alleen de eerste keer. Kwam hij niet? Zet dan ook een vinkje.</p></div></li>
-      <li class="task"><input type="checkbox" id="t6-5"><div class="task-body"><label for="t6-5"><span class="task-num">6.5</span>Er staat nu <span class="code">password:</span> (wachtwoord). Typ je DirectAdmin-wachtwoord en druk op <kbd>Enter</kbd>.</label><p class="note"><strong>Je ziet niets terwijl je typt.</strong> Geen letters, geen puntjes. Dat is normaal. Typ gewoon door en druk op Enter. Plakken mag ook.</p>
+      <li class="task"><input type="checkbox" id="tq-1"><div class="task-body"><label for="tq-1"><span class="task-num">6.1</span>Kopieer deze regels, plak ze in de terminal en druk op <kbd>Enter</kbd>.</label>
+        <div class="cmd"><div class="cmd-bar"><span>Plakken in de terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd ~/domains/steynpt.nl
+rm -f steynpt-php-*.zip
+curl -fL -o steynpt-php-website.zip https://github.com/StephvanHoffe/steynpt/raw/claude/dreamy-brown-cauqyb/downloads/steynpt-php-website.zip
+ls -l steynpt-php-website.zip</code></pre></div>
+        <p class="hint">Je ziet even wat cijfers voorbij komen. Dat is het ophalen; het duurt een paar seconden.</p></div></li>
+      <li class="task"><input type="checkbox" id="tq-2"><div class="task-body"><label for="tq-2"><span class="task-num">6.2</span>Kijk of de laatste regel eindigt op <span class="code">steynpt-php-website.zip</span>.</label><p class="seen"><strong>Gelukt als</strong> je die regel ziet, met een groot getal erin (ongeveer 12 miljoen: zo groot is het pakket).</p>
         <details class="oops"><summary>Lukt het niet?</summary><div>
-          <p><strong>Er staat "Permission denied".</strong> Het wachtwoord was niet goed. Je krijgt meestal nog een kans; typ het opnieuw.</p>
-          <p><strong>Er staat "Permission denied (publickey)".</strong> Dan wil de hosting toch een sleutel. Doe dit in een nieuw terminalvenster: plak <span class="code">ssh-keygen -t ed25519</span> en druk drie keer op <kbd>Enter</kbd>. Plak daarna op een Mac <span class="code">cat ~/.ssh/id_ed25519.pub</span>, op Windows <span class="code">type $HOME\.ssh\id_ed25519.pub</span>, en druk op <kbd>Enter</kbd>. Kopieer de regel die begint met <em>ssh-ed25519</em>, plak die in DirectAdmin bij <em>SSH Keys</em> in het vak <em>public key</em> en klik op <em>Add key</em>. Doe dan stap 6.3 opnieuw. (Die regel mag je gerust delen; het is het openbare deel van de sleutel.)</p>
-          <p><strong>Er staat "Connection refused" of "timed out".</strong> Staat de schakelaar uit deel 3 aan? En stond de oude website bij een ander bedrijf dan Vimexx? Gebruik dan in de regel van 6.3 het IP-adres van je hosting in plaats van <em>steynpt.nl</em>. Dat nummer staat in de welkomstmail van Vimexx.</p>
+          <p><strong>Er staat "curl: command not found".</strong> Plak dan deze regels en druk op <kbd>Enter</kbd>:</p>
+          <div class="cmd"><div class="cmd-bar"><span>Plakken in de terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd ~/domains/steynpt.nl
+wget -O steynpt-php-website.zip https://github.com/StephvanHoffe/steynpt/raw/claude/dreamy-brown-cauqyb/downloads/steynpt-php-website.zip
+ls -l steynpt-php-website.zip</code></pre></div>
+          <p><strong>Er staat "Could not resolve host" of "Failed to connect".</strong> Dan mag de hosting geen bestanden van internet ophalen. Vraag de klantenservice van Vimexx of dat aan kan, of vraag om het pakket in kleinere delen.</p>
         </div></details></div></li>
-      <li class="task"><input type="checkbox" id="t6-6"><div class="task-body"><label for="t6-6"><span class="task-num">6.6</span>Kijk of de onderste regel eindigt op een dollarteken: <span class="code">$</span></label><p class="seen"><strong>Gelukt!</strong> Je bent nu verbonden met de hosting.</p></div></li>
-      <li class="task"><input type="checkbox" id="t6-7"><div class="task-body"><label for="t6-7"><span class="task-num">6.7</span>Kopieer deze drie regels, plak ze en druk op <kbd>Enter</kbd>.</label>
-        <div class="cmd"><div class="cmd-bar"><span>Plakken in de terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>grep -qs "alias php=" ~/.bashrc || echo "alias php=/opt/alt/php83/usr/bin/php" &gt;&gt; ~/.bashrc
-alias php=/opt/alt/php83/usr/bin/php
-php -v</code></pre></div>
-        <p class="hint">Hiermee zeg je tegen de hosting: gebruik de nieuwste versie van PHP. PHP is de computertaal waarin de website is gemaakt. Dit hoeft maar één keer.</p></div></li>
-      <li class="task"><input type="checkbox" id="t6-8"><div class="task-body"><label for="t6-8"><span class="task-num">6.8</span>Kijk of er een regel staat die begint met <span class="code">PHP 8.3</span>.</label><p class="hint">Staat er een ander getal? Vraag de klantenservice van Vimexx of PHP 8.3 op je pakket kan.</p></div></li>
     </ol>
   </section>
 
@@ -356,7 +362,7 @@ unzip -q steynpt-php-*.zip
 rm steynpt-php-*.zip
 ls</code></pre></div></div></li>
       <li class="task"><input type="checkbox" id="t7-2"><div class="task-body"><label for="t7-2"><span class="task-num">7.2</span>Kijk of in het rijtje namen <span class="code">public_html</span> en <span class="code">steynpt</span> staan.</label><p class="seen"><strong>Gelukt als</strong> je ze allebei ziet. De map <em>steynpt</em> is de nieuwe website.</p>
-        <details class="oops"><summary>Lukt het niet?</summary><div><p><strong>Er staat "No such file" of "cannot find".</strong> Het zip-bestand staat niet in de goede map. Kijk in Bestandsbeheer of het in <em>domains › steynpt.nl</em> staat (naast public_html, niet erin).</p></div></details></div></li>
+        <details class="oops"><summary>Lukt het niet?</summary><div><p><strong>Er staat "No such file" of "cannot find".</strong> Het pakket is niet goed opgehaald. Doe deel 6 nog een keer.</p></div></details></div></li>
     </ol>
   </section>
 
@@ -403,7 +409,7 @@ php artisan steynpt:backup</code></pre></div>
   <section class="milestone">
     <span class="k">Halverwege</span>
     <h2>De nieuwe site staat klaar</h2>
-    <p>Bezoekers zien nog de oude site. Wil je pauzeren? Dat kan nu. Ga je later verder? Open dan eerst de terminal en verbind opnieuw: doe stap 6.1, 6.3 en 6.5 nog een keer.</p>
+    <p>Bezoekers zien nog de oude site. Wil je pauzeren? Dat kan nu. Ga je later verder? Open dan eerst de terminal en verbind opnieuw: doe stap 5.1, 5.3 en 5.5 nog een keer.</p>
   </section>
 
   <!-- ===== Deel 10 ===== -->
@@ -422,7 +428,7 @@ php artisan steynpt:backup</code></pre></div>
     <div class="part-head"><div class="part-num">11</div><div><h2>Overstappen naar de nieuwe site</h2><p class="time">± 5 minuten</p></div><span class="part-count" data-part-count></span></div>
     <p class="why"><strong>Wat ga je doen?</strong> Nu zet je de nieuwe website aan. De oude gooi je niet weg: die bewaar je als reserve. Gaat er iets mis, dan zet je hem met één keer plakken terug (zie <a href="#hulp">Hulp</a>).</p>
     <ol class="tasks">
-      <li class="task"><input type="checkbox" id="t11-1"><div class="task-body"><label for="t11-1"><span class="task-num">11.1</span>Is de terminal nog verbonden? Zo niet: doe stap 6.1, 6.3 en 6.5 opnieuw.</label><p class="hint">Verbonden betekent: de onderste regel eindigt op <span class="code">$</span>.</p></div></li>
+      <li class="task"><input type="checkbox" id="t11-1"><div class="task-body"><label for="t11-1"><span class="task-num">11.1</span>Is de terminal nog verbonden? Zo niet: doe stap 5.1, 5.3 en 5.5 opnieuw.</label><p class="hint">Verbonden betekent: de onderste regel eindigt op <span class="code">$</span>.</p></div></li>
       <li class="task"><input type="checkbox" id="t11-2"><div class="task-body"><label for="t11-2"><span class="task-num">11.2</span>Kopieer deze regels, plak ze in de terminal en druk op <kbd>Enter</kbd>.</label>
         <div class="cmd"><div class="cmd-bar"><span>Plakken in de terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd ~/domains/steynpt.nl
 if grep -qs "x-lsphp83" .htaccess; then
@@ -525,7 +531,7 @@ ls -l public_html</code></pre></div>
       <li class="task"><input type="checkbox" id="t16-1"><div class="task-body"><label for="t16-1"><span class="task-num">16.1</span>Meld de site aan bij Google Search Console.</label><p class="hint">Ga naar <a href="https://search.google.com/search-console" target="_blank" rel="noopener">search.google.com/search-console</a> en voeg <em>steynpt.nl</em> toe. Google geeft je een regel tekst. Die zet je in Mijn Vimexx bij DNS (net als in deel 12, maar dan als type <strong>TXT</strong>). Meld daarna dit adres aan bij <em>Sitemaps</em>: <span class="code">https://www.steynpt.nl/sitemap.xml</span></p></div></li>
       <li class="task"><input type="checkbox" id="t16-2"><div class="task-body"><label for="t16-2"><span class="task-num">16.2</span>Maak een Google Bedrijfsprofiel.</label><p class="hint">Op <a href="https://business.google.com" target="_blank" rel="noopener">business.google.com</a>: naam SteynPT, categorie <em>Personal trainer</em>, adres Overtoom 371-w, 1054 JN Amsterdam, website www.steynpt.nl, met foto's van de trainingen. Dan staat Steyn ook op Google Maps.</p></div></li>
       <li class="task"><input type="checkbox" id="t16-3"><div class="task-body"><label for="t16-3"><span class="task-num">16.3</span>Vraag tevreden klanten om een review op dat profiel.</label></div></li>
-      <li class="task"><input type="checkbox" id="t16-4"><div class="task-body"><label for="t16-4"><span class="task-num">16.4</span>Na een paar weken, als alles goed werkt: ruim de oude site op.</label><p class="hint">Verwijder in DirectAdmin › Bestandsbeheer › domains › steynpt.nl de map <em>public_html-oud</em>, en in MySQL-beheer de oude database van WordPress. Weet je niet zeker welke dat is? Laat hem dan gewoon staan.</p></div></li>
+      <li class="task"><input type="checkbox" id="t16-4"><div class="task-body"><label for="t16-4"><span class="task-num">16.4</span>Na een paar weken, als alles goed werkt: ruim de oude site op.</label><p class="hint">Verwijder in DirectAdmin › Bestandsbeheer (Files) › domains › steynpt.nl de map <em>public_html-oud</em>, en in MySQL-beheer de oude database van WordPress. Weet je niet zeker welke dat is? Laat hem dan gewoon staan.</p></div></li>
     </ol>
   </section>
 
@@ -538,7 +544,7 @@ ls -l public_html</code></pre></div>
 
   <section class="card stack">
     <h3>Terug naar de oude site</h3>
-    <p>Verbind de terminal (stap 6.1, 6.3 en 6.5). Kopieer dan deze regels, plak ze en druk op <kbd>Enter</kbd>. De nieuwe site blijft bewaard; je kunt het later nog eens proberen vanaf deel 11.</p>
+    <p>Verbind de terminal (stap 5.1, 5.3 en 5.5). Kopieer dan deze regels, plak ze en druk op <kbd>Enter</kbd>. De nieuwe site blijft bewaard; je kunt het later nog eens proberen vanaf deel 11.</p>
     <div class="cmd"><div class="cmd-bar"><span>Plakken in de terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd ~/domains/steynpt.nl
 [ -L public_html ] &amp;&amp; rm public_html &amp;&amp; mv public_html-oud public_html
 if [ -e .htaccess-oud ]; then mv .htaccess-oud .htaccess; else rm -f .htaccess; fi
@@ -548,7 +554,7 @@ ls</code></pre></div>
   <section class="card stack">
     <h3>Wat zie je?</h3>
     <div class="table-wrap"><table><thead><tr><th>Wat je ziet</th><th>Wat je doet</th></tr></thead><tbody>
-      <tr><td>De terminal is dicht, of reageert niet meer</td><td>Open hem opnieuw en verbind: stap 6.1, 6.3 en 6.5.</td></tr>
+      <tr><td>De terminal is dicht, of reageert niet meer</td><td>Open hem opnieuw en verbind: stap 5.1, 5.3 en 5.5.</td></tr>
       <tr><td>Een lege pagina, of een melding over "PHP"</td><td>Doe stap 11.2 nog een keer. Dat kan geen kwaad.</td></tr>
       <tr><td>"Er ging iets mis" of "500"</td><td>Doe deel 8 nog een keer, vanaf stap 8.2.</td></tr>
       <tr><td>Inloggen op de site lukt niet ("pagina verlopen")</td><td>Kijk of het slotje er is (deel 13).</td></tr>
@@ -562,7 +568,7 @@ ls</code></pre></div>
   <section class="section-title" id="later">
     <p class="eyebrow">Later</p>
     <h2>Handig voor later</h2>
-    <p class="lead">Dingen die je af en toe nodig hebt. Verbind steeds eerst de terminal (stap 6.1, 6.3 en 6.5).</p>
+    <p class="lead">Dingen die je af en toe nodig hebt. Verbind steeds eerst de terminal (stap 5.1, 5.3 en 5.5).</p>
   </section>
 
   <section class="card stack">
@@ -572,8 +578,10 @@ ls</code></pre></div>
 
   <section class="card stack">
     <h3>Een nieuwe versie van de website zetten</h3>
-    <p>Download het nieuwste pakket bovenaan bij <a href="#downloads">Downloads</a> en upload het zoals in deel 5. Kopieer daarna deze regels, plak ze en druk op <kbd>Enter</kbd>. Eerst wordt er een reservekopie gemaakt; je instellingen gaan mee.</p>
+    <p>Kopieer deze regels, plak ze en druk op <kbd>Enter</kbd>. De hosting haalt de nieuwste versie zelf op. Eerst wordt er een reservekopie gemaakt; je instellingen gaan mee.</p>
     <div class="cmd"><div class="cmd-bar"><span>Plakken in de terminal</span><button class="copy" type="button" data-copy>Kopieer</button></div><pre><code>cd ~/domains/steynpt.nl
+rm -f steynpt-php-*.zip
+curl -fL -o steynpt-php-website.zip https://github.com/StephvanHoffe/steynpt/raw/claude/dreamy-brown-cauqyb/downloads/steynpt-php-website.zip
 php steynpt/artisan steynpt:backup
 unzip -q steynpt-php-*.zip -d nieuw &amp;&amp; rm steynpt-php-*.zip
 cp steynpt/.env nieuw/steynpt/.env
@@ -587,7 +595,7 @@ cd steynpt &amp;&amp; php artisan migrate --force &amp;&amp; php artisan optimiz
 
   <section class="card stack">
     <h3>Reservekopieën</h3>
-    <p>Elke nacht maakt de website vanzelf een reservekopie van de database. Die worden 30 dagen bewaard in de map <em>steynpt › storage › backups</em>. Download er af en toe een naar je eigen computer via Bestandsbeheer.</p>
+    <p>Elke nacht maakt de website vanzelf een reservekopie van de database. Die worden 30 dagen bewaard in de map <em>steynpt › storage › backups</em>. Download er af en toe een naar je eigen computer via Bestandsbeheer (Files).</p>
   </section>
 
   <section class="card stack">

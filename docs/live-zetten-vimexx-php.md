@@ -64,16 +64,19 @@ Niets in deze fase raakt de huidige website.
 
 Laat een eventuele WordPress-database staan; die is je terugvaloptie.
 
-## Stap 3. Het pakket uploaden en uitpakken
+## Stap 3. Het pakket ophalen en uitpakken
 
-1. In DirectAdmin: **Bestandsbeheer** (*File Manager*) → ga naar `domains/steynpt.nl/` (de map waar ook `public_html` in staat) en upload `steynpt-php-<datum>.zip`.
-2. Pak het uit via SSH (of met *Uitpakken* in Bestandsbeheer):
+Uploaden via Bestandsbeheer lukt niet: Vimexx staat daar bestanden tot 10 MB toe ("Requested filesize … exceeds the maxfilesize value (10485760)"), en het pakket is 12 MB. Laat de hosting het daarom zelf ophalen; de nieuwste versie staat in [`downloads/`](../downloads/) in deze repository. Via SSH:
 
-   ```bash
-   cd ~/domains/steynpt.nl
-   unzip -q steynpt-php-*.zip      # maakt de map steynpt/
-   rm steynpt-php-*.zip
-   ```
+```bash
+cd ~/domains/steynpt.nl
+rm -f steynpt-php-*.zip
+curl -fL -o steynpt-php-website.zip https://github.com/StephvanHoffe/steynpt/raw/claude/dreamy-brown-cauqyb/downloads/steynpt-php-website.zip
+unzip -q steynpt-php-*.zip      # maakt de map steynpt/
+rm steynpt-php-*.zip
+```
+
+Geen `curl`? Gebruik `wget -O steynpt-php-website.zip <dezelfde link>`. Kan de hosting niets van internet ophalen, upload het pakket dan met een FTP-programma (zoals FileZilla); daar geldt die grens niet.
 
 `public_html` (de huidige site) blijft nog ongemoeid.
 
@@ -245,12 +248,14 @@ De site zelf is klaar voor zoekmachines: titels, omschrijvingen en de hoofdkop (
 
 ## Een nieuwe versie zetten
 
-1. Upload het nieuwe `steynpt-php-<datum>.zip` naar `domains/steynpt.nl/`.
-2. Via SSH:
+1. Zet het nieuwe pakket in `downloads/` (dat doet `deploy/maak-pakket.sh`) en push het.
+2. Via SSH (de hosting haalt het pakket zelf op):
 
    ```bash
    alias php=/opt/alt/php83/usr/bin/php
    cd ~/domains/steynpt.nl
+   rm -f steynpt-php-*.zip
+   curl -fL -o steynpt-php-website.zip https://github.com/StephvanHoffe/steynpt/raw/claude/dreamy-brown-cauqyb/downloads/steynpt-php-website.zip
    php steynpt/artisan steynpt:backup              # eerst een back-up
    unzip -q steynpt-php-*.zip -d nieuw && rm steynpt-php-*.zip
    cp steynpt/.env nieuw/steynpt/.env

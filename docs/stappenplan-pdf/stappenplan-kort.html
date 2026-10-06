@@ -165,7 +165,7 @@
         <ol class="steps">
           <li class="step"><div class="num">1</div><div><h3>SSH aanzetten en inloggen</h3><p class="d"><span class="tool">DirectAdmin</span>Geavanceerde functies › SSH-Keys, dan inloggen</p></div><div class="tick"></div></li>
           <li class="step"><div class="num">2</div><div><h3>Database aanmaken</h3><p class="d"><span class="tool">DirectAdmin</span>MySQL-beheer. <b>Noteer</b> naam, gebruiker en wachtwoord.</p></div><div class="tick"></div></li>
-          <li class="step"><div class="num">3</div><div><h3>Pakket uploaden en uitpakken</h3><p class="d"><span class="tool">DirectAdmin</span>Bestandsbeheer › <code>domains/steynpt.nl</code></p></div><div class="tick"></div></li>
+          <li class="step"><div class="num">3</div><div><h3>Pakket ophalen en uitpakken</h3><p class="d"><span class="tool ssh">SSH</span>De hosting haalt het zelf op (uploaden kan maar tot 10 MB)</p></div><div class="tick"></div></li>
           <li class="step"><div class="num">4</div><div><h3>Instellingen invullen</h3><p class="d"><span class="tool ssh">SSH</span>Een programma stelt de vragen en zet alles klaar</p></div><div class="tick"></div></li>
           <li class="step"><div class="num">5</div><div><h3>Cronjob instellen</h3><p class="d"><span class="tool">DirectAdmin</span>Geavanceerde functies › Cronjobs, elke minuut</p></div><div class="tick"></div></li>
         </ol>
@@ -230,9 +230,10 @@ alias php=/opt/alt/php83/usr/bin/php</pre>
         </div>
 
         <div class="cmd">
-          <div class="cmd-head"><div class="num">3</div><h3>Uitpakken</h3></div>
+          <div class="cmd-head"><div class="num">3</div><h3>Ophalen en uitpakken</h3></div>
+<p class="note" style="margin-top:2mm">De regel die het pakket ophaalt is te lang voor dit vel. Kopieer hem uit de afvinklijst (deel 6) of het uitgebreide stappenplan. Daarna:</p>
 <pre>cd ~/domains/steynpt.nl
-unzip -q steynpt-php-*.zip   <span class="c"># maakt de map steynpt/</span>
+unzip -q steynpt-php-*.zip
 rm steynpt-php-*.zip</pre>
         </div>
 
@@ -287,7 +288,7 @@ else rm -f .htaccess; fi</pre>
 
     <div class="update">
       <div class="cmd">
-        <div class="cmd-head"><div class="num">+</div><h3>Later: een nieuwe versie zetten <em>· upload eerst de nieuwe zip naar domains/steynpt.nl</em></h3></div>
+        <div class="cmd-head"><div class="num">+</div><h3>Later: een nieuwe versie zetten <em>· haal eerst het nieuwe pakket op (zie stap 3)</em></h3></div>
 <pre>alias php=/opt/alt/php83/usr/bin/php
 cd ~/domains/steynpt.nl
 php steynpt/artisan steynpt:backup                                   <span class="c"># eerst een back-up</span>

@@ -110,6 +110,8 @@
 
   pre { font-family: var(--mono); font-size: 8pt; line-height: 1.55; background: var(--surface); border: 0.3mm solid var(--line); border-radius: 2mm; padding: 3mm 3.5mm; margin: 2.6mm 0 0; white-space: pre-wrap; word-break: break-word; break-inside: avoid; }
   pre .c { color: var(--muted); }
+  pre .url { font-size: 6.9pt; }
+  .step pre .url { font-size: 6.2pt; }
   .ph { color: var(--accent); font-weight: 700; }
   code { font-family: var(--mono); font-size: 8.2pt; background: var(--surface); border: 0.3mm solid var(--line); border-radius: 1mm; padding: 0.1mm 1mm; }
 
@@ -277,12 +279,12 @@ php -v                               <span class="c"># moet "PHP 8.3" tonen</spa
   <div class="step">
     <div class="num">3</div>
     <div>
-      <h3>Het pakket uploaden en uitpakken</h3>
-      <ol class="sub">
-        <li>In DirectAdmin: <span class="menu">Bestandsbeheer</span> <span class="en">(File Manager)</span> → ga naar <code>domains/steynpt.nl/</code> (de map waar ook <code>public_html</code> in staat) en upload het zip-bestand.</li>
-        <li>Pak het uit via SSH (of met <em>Uitpakken</em> in Bestandsbeheer):</li>
-      </ol>
+      <h3>Het pakket ophalen en uitpakken</h3>
+      <p>Uploaden via Bestandsbeheer lukt niet: Vimexx staat daar bestanden tot 10 MB toe, en het pakket is 12 MB. Laat de hosting het zelf ophalen. Via SSH:</p>
 <pre>cd ~/domains/steynpt.nl
+rm -f steynpt-php-*.zip
+curl -fL -o steynpt-php-website.zip \
+  <span class="url">https://github.com/StephvanHoffe/steynpt/raw/claude/dreamy-brown-cauqyb/downloads/steynpt-php-website.zip</span>
 unzip -q steynpt-php-*.zip   <span class="c"># maakt de map steynpt/</span>
 rm steynpt-php-*.zip</pre>
       <p style="margin-top:2.4mm" class="muted">De map <code>public_html</code> (de huidige site) blijft nog ongemoeid.</p>
@@ -444,9 +446,12 @@ if [ -e .htaccess-oud ]; then mv .htaccess-oud .htaccess; else rm -f .htaccess; 
 
   <div class="block long">
     <h3 class="display">Een nieuwe versie zetten</h3>
-    <p>Upload het nieuwe <code>steynpt-php-&lt;datum&gt;.zip</code> naar <code>domains/steynpt.nl/</code> en voer via SSH uit:</p>
+    <p>Voer via SSH uit; de hosting haalt de nieuwste versie zelf op:</p>
 <pre>alias php=/opt/alt/php83/usr/bin/php
 cd ~/domains/steynpt.nl
+rm -f steynpt-php-*.zip
+curl -fL -o steynpt-php-website.zip \
+  <span class="url">https://github.com/StephvanHoffe/steynpt/raw/claude/dreamy-brown-cauqyb/downloads/steynpt-php-website.zip</span>
 php steynpt/artisan steynpt:backup                   <span class="c"># eerst een back-up</span>
 unzip -q steynpt-php-*.zip -d nieuw &amp;&amp; rm steynpt-php-*.zip
 cp steynpt/.env nieuw/steynpt/.env
